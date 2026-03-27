@@ -3,10 +3,10 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>404 Test</title>
+  <title>Shortlink Router</title>
 </head>
 <body style="font-family: sans-serif; padding: 40px; line-height: 1.6;">
-  <h2 id="title">404</h2>
+  <h2 id="title">Routing...</h2>
   <p id="message">Checking route...</p>
   <pre id="details"></pre>
 
@@ -16,31 +16,90 @@
     const message = document.getElementById("message");
     const details = document.getElementById("details");
 
-    const shortlinkMap = {
-      "123": "https://www.google.com/",
-      "demo": "https://force.formosa-ai.com"
-    };
-
-    if (path.startsWith("/go/")) {
-      const parts = path.split("/").filter(Boolean);
-      const slug = parts[1] || "";
-      const targetUrl = shortlinkMap[slug];
-
-      if (targetUrl) {
-        title.textContent = "Redirecting...";
-        message.textContent = "Shortlink found. Redirecting now.";
-        details.textContent = "Slug: " + slug + "\nTarget: " + targetUrl;
-        window.location.replace(targetUrl);
-      } else {
-        title.textContent = "Shortlink not found";
-        message.textContent = "This /go/ shortlink was not found.";
-        details.textContent = "Path: " + path + "\nSlug: " + (slug || "(none)");
-      }
-    } else {
-      title.textContent = "404 Not Found";
-      message.textContent = "This route is not handled by the shortlink router.";
-      details.textContent = "Path: " + path;
+    function showState(nextTitle, nextMessage, nextDetails) {
+      title.textContent = nextTitle;
+      message.textContent = nextMessage;
+      details.textContent = nextDetails;
     }
+
+    function isValidTargetUrl(url) {
+      try {
+        const parsed = new URL(url);
+        return parsed.protocol === "http:" || parsed.protocol === "https:";
+      } catch (error) {
+        return false;
+      }
+    }
+
+    async function routeShortlink() {
+      const parts = path.split("/").filter(Boolean);
+
+      if (parts[0] !== "go") {
+        showState(
+          "404 Not Found",
+          "This route is not handled by the shortlink router.",
+          "Path: " + path
+        );
+        return;
+      }
+
+      const slug = parts[1] || "";
+
+      if (!slug) {
+        showState(
+          "Shortlink not found",
+          "This /go/ shortlink was not found.",
+          "Path: " + path + "\nSlug: (none)"
+        );
+        return;
+      }
+
+      showState(
+        "Checking shortlink...",
+        "Looking up the slug in /links.json.",
+        "Path: " + path + "\nSlug: " + slug
+      );
+
+      try {
+        const response = await fetch("/links.json", { cache: "no-store" });
+
+        if (!response.ok) {
+          throw new Error("Unable to load /links.json (HTTP " + response.status + ")");
+        }
+
+        const data = await response.json();
+
+        if (!data || typeof data !== "object" || Array.isArray(data)) {
+          throw new Error("/links.json must be a JSON object.");
+        }
+
+        const targetUrl = data[slug];
+
+        if (typeof targetUrl !== "string" || !isValidTargetUrl(targetUrl)) {
+          showState(
+            "Shortlink not found",
+            "This /go/ shortlink was not found.",
+            "Path: " + path + "\nSlug: " + slug
+          );
+          return;
+        }
+
+        showState(
+          "Redirecting...",
+          "Shortlink found. Redirecting now.",
+          "Slug: " + slug + "\nTarget: " + targetUrl
+        );
+        window.location.replace(targetUrl);
+      } catch (error) {
+        showState(
+          "Shortlink lookup failed",
+          "The router could not load /links.json.",
+          "Path: " + path + "\nSlug: " + slug + "\nError: " + error.message
+        );
+      }
+    }
+
+    routeShortlink();
   </script>
 </body>
 </html>
