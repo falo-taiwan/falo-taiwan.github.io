@@ -1,0 +1,42 @@
+{
+  "123": {
+    "target_url": "https://www.google.com/",
+    "status": "active",
+    "created_at": "2026-03-27t18:07:04+08:00",
+    "created_by": "force",
+    "updated_at": "2026-03-27t18:07:04+08:00",
+    "updated_by": "force"
+  },
+  "demo": {
+    "target_url": "https://force.formosa-ai.com",
+    "status": "active",
+    "created_at": "2026-03-27t18:07:04+08:00",
+    "created_by": "force",
+    "updated_at": "2026-03-27t18:07:04+08:00",
+    "updated_by": "force"
+  },
+  "force": {
+    "target_url": "https://force.formosa-ai.com/about/",
+    "status": "active",
+    "created_at": "2026-03-27t18:07:04+08:00",
+    "created_by": "force",
+    "updated_at": "2026-03-27t18:07:04+08:00",
+    "updated_by": "force"
+  },
+  "qrcode": {
+    "target_url": "https://falo-taiwan.github.io/tools/qrcode/falo-qrcode-v102.html",
+    "status": "active",
+    "created_at": "2026-03-27t18:07:04+08:00",
+    "created_by": "force",
+    "updated_at": "2026-03-27t18:07:04+08:00",
+    "updated_by": "force"
+  },
+  "shortlink": {
+    "target_url": "https://falo-taiwan.github.io/tools/shortlink/falo-shortlink-json-editor-v104.html",
+    "status": "active",
+    "created_at": "2026-03-27t18:07:04+08:00",
+    "created_by": "force",
+    "updated_at": "2026-03-27t18:07:04+08:00",
+    "updated_by": "force"
+  }
+}
