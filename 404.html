@@ -8,16 +8,21 @@
 <body style="font-family: sans-serif; padding: 40px; line-height: 1.6;">
   <h2 id="title">Routing...</h2>
   <p id="message">Checking route...</p>
+  <p id="version" style="color:#666; font-size:12px; margin-top:0;">Router Updated: 2026-03-27 19:36 TPE</p>
   <pre id="details"></pre>
 
   <script>
     const GAS_LOOKUP_URL = "https://script.google.com/macros/s/AKfycbylx91OxTOiYUicQcGNxIUWarbswCg0yBcHj5vzMfJRE2fFKStd4USdNuN8dWoM2x1qJA/exec";
     const FALLBACK_JSON_URL = "/links.json";
     const LOOKUP_TIMEOUT_MS = 3000;
+    const ROUTER_UPDATED_AT_TPE = "2026-03-27 19:36";
     const path = window.location.pathname;
     const title = document.getElementById("title");
     const message = document.getElementById("message");
+    const version = document.getElementById("version");
     const details = document.getElementById("details");
+
+    version.textContent = "Router Updated: " + ROUTER_UPDATED_AT_TPE + " TPE";
 
     function showState(nextTitle, nextMessage, nextDetails) {
       title.textContent = nextTitle;
@@ -51,7 +56,82 @@
       return "";
     }
 
-    async function lookupViaGas(slug) {
+    function lookupViaGasJsonp(slug) {
+      return new Promise(function(resolve) {
+        const callbackName = "__faloShortlinkLookup_" + Date.now() + "_" + Math.floor(Math.random() * 10000);
+        const script = document.createElement("script");
+        let done = false;
+
+        function finish(result) {
+          if (done) {
+            return;
+          }
+          done = true;
+          window.clearTimeout(timeoutId);
+          try {
+            delete window[callbackName];
+          } catch (error) {
+            window[callbackName] = undefined;
+          }
+          if (script.parentNode) {
+            script.parentNode.removeChild(script);
+          }
+          resolve(result);
+        }
+
+        window[callbackName] = function(data) {
+          if (!data || typeof data !== "object" || Array.isArray(data)) {
+            finish({
+              found: false,
+              source: "gas-jsonp",
+              reason: "invalid_response"
+            });
+            return;
+          }
+
+          if (String(data.status || "").toLowerCase() === "ok" && isValidTargetUrl(data.target)) {
+            finish({
+              found: true,
+              targetUrl: String(data.target).trim(),
+              source: "gas-jsonp"
+            });
+            return;
+          }
+
+          finish({
+            found: false,
+            source: "gas-jsonp",
+            reason: String(data.status || "invalid_response")
+          });
+        };
+
+        script.onerror = function() {
+          finish({
+            found: false,
+            source: "gas-jsonp",
+            reason: "script_error"
+          });
+        };
+
+        const timeoutId = window.setTimeout(function() {
+          finish({
+            found: false,
+            source: "gas-jsonp",
+            reason: "timeout"
+          });
+        }, LOOKUP_TIMEOUT_MS);
+
+        const url = new URL(GAS_LOOKUP_URL);
+        url.searchParams.set("action", "lookup");
+        url.searchParams.set("slug", slug);
+        url.searchParams.set("callback", callbackName);
+        url.searchParams.set("_", Date.now());
+        script.src = url.toString();
+        document.head.appendChild(script);
+      });
+    }
+
+    async function lookupViaGasFetch(slug) {
       const controller = new AbortController();
       const timeoutId = window.setTimeout(() => controller.abort(), LOOKUP_TIMEOUT_MS);
 
@@ -82,19 +162,19 @@
           return {
             found: true,
             targetUrl: String(data.target).trim(),
-            source: "gas"
+            source: "gas-fetch"
           };
         }
 
         return {
           found: false,
-          source: "gas",
+          source: "gas-fetch",
           reason: String(data.status || "invalid_response")
         };
       } catch (error) {
         return {
           found: false,
-          source: "gas",
+          source: "gas-fetch",
           reason: error.name === "AbortError" ? "timeout" : error.message
         };
       } finally {
@@ -164,13 +244,17 @@
 
       try {
         const lookupKey = String(slug).toLowerCase();
-        const gasResult = await lookupViaGas(lookupKey);
+        let gasResult = await lookupViaGasJsonp(lookupKey);
+
+        if (!gasResult.found && gasResult.reason !== "not_found") {
+          gasResult = await lookupViaGasFetch(lookupKey);
+        }
 
         if (gasResult.found) {
           showState(
             "Redirecting...",
             "Shortlink found from GAS. Redirecting now.",
-            "Slug: " + lookupKey + "\nSource: GAS\nTarget: " + gasResult.targetUrl
+            "Slug: " + lookupKey + "\nSource: " + gasResult.source + "\nTarget: " + gasResult.targetUrl + "\nRouter Updated: " + ROUTER_UPDATED_AT_TPE + " TPE"
           );
           window.location.replace(gasResult.targetUrl);
           return;
@@ -182,7 +266,7 @@
           showState(
             "Redirecting...",
             "GAS did not return a usable result. Using fallback JSON.",
-            "Slug: " + lookupKey + "\nSource: fallback JSON\nGAS result: " + gasResult.reason + "\nTarget: " + fallbackResult.targetUrl
+            "Slug: " + lookupKey + "\nSource: fallback JSON\nGAS result: " + gasResult.reason + "\nTarget: " + fallbackResult.targetUrl + "\nRouter Updated: " + ROUTER_UPDATED_AT_TPE + " TPE"
           );
           window.location.replace(fallbackResult.targetUrl);
           return;
@@ -191,13 +275,13 @@
         showState(
           "Shortlink not found",
           "This /go/ shortlink was not found in GAS or fallback JSON.",
-          "Path: " + path + "\nSlug: " + lookupKey + "\nGAS result: " + gasResult.reason
+          "Path: " + path + "\nSlug: " + lookupKey + "\nGAS result: " + gasResult.reason + "\nRouter Updated: " + ROUTER_UPDATED_AT_TPE + " TPE"
         );
       } catch (error) {
         showState(
           "Shortlink lookup failed",
           "The router could not complete the shortlink lookup.",
-          "Path: " + path + "\nSlug: " + slug + "\nError: " + error.message
+          "Path: " + path + "\nSlug: " + slug + "\nError: " + error.message + "\nRouter Updated: " + ROUTER_UPDATED_AT_TPE + " TPE"
         );
       }
     }
