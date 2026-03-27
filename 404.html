@@ -1,15 +1,26 @@
-<!doctype html>
-<html>
-<head>
-  <meta charset="utf-8">
-  <title>404 Test</title>
-</head>
-<body style="font-family:sans-serif;padding:40px;">
-  <h2>404 OK</h2>
-  <p id="path"></p>
+<script>
+const path = location.pathname;
 
-  <script>
-    document.getElementById("path").textContent = location.pathname;
-  </script>
-</body>
-</html>
+// 只處理 /go/
+if (path.startsWith("/go/")) {
+
+  const parts = path.split("/").filter(Boolean);
+  const slug = parts[1]; // /go/123 → 123
+
+  const map = {
+    "123": "https://google.com",
+    "demo": "https://force.formosa-ai.com"
+  };
+
+  if (map[slug]) {
+    location.replace(map[slug]);
+  } else {
+    document.body.innerHTML = "<h2>Shortlink not found</h2>";
+  }
+
+} else {
+
+  document.body.innerHTML = "<h2>404 Not Found</h2>";
+
+}
+</script>
