@@ -1,26 +1,46 @@
-<script>
-const path = location.pathname;
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>404 Test</title>
+</head>
+<body style="font-family: sans-serif; padding: 40px; line-height: 1.6;">
+  <h2 id="title">404</h2>
+  <p id="message">Checking route...</p>
+  <pre id="details"></pre>
 
-// 只處理 /go/
-if (path.startsWith("/go/")) {
+  <script>
+    const path = window.location.pathname;
+    const title = document.getElementById("title");
+    const message = document.getElementById("message");
+    const details = document.getElementById("details");
 
-  const parts = path.split("/").filter(Boolean);
-  const slug = parts[1]; // /go/123 → 123
+    const shortlinkMap = {
+      "123": "https://www.google.com/",
+      "demo": "https://force.formosa-ai.com"
+    };
 
-  const map = {
-    "123": "https://google.com",
-    "demo": "https://force.formosa-ai.com"
-  };
+    if (path.startsWith("/go/")) {
+      const parts = path.split("/").filter(Boolean);
+      const slug = parts[1] || "";
+      const targetUrl = shortlinkMap[slug];
 
-  if (map[slug]) {
-    location.replace(map[slug]);
-  } else {
-    document.body.innerHTML = "<h2>Shortlink not found</h2>";
-  }
-
-} else {
-
-  document.body.innerHTML = "<h2>404 Not Found</h2>";
-
-}
-</script>
+      if (targetUrl) {
+        title.textContent = "Redirecting...";
+        message.textContent = "Shortlink found. Redirecting now.";
+        details.textContent = "Slug: " + slug + "\nTarget: " + targetUrl;
+        window.location.replace(targetUrl);
+      } else {
+        title.textContent = "Shortlink not found";
+        message.textContent = "This /go/ shortlink was not found.";
+        details.textContent = "Path: " + path + "\nSlug: " + (slug || "(none)");
+      }
+    } else {
+      title.textContent = "404 Not Found";
+      message.textContent = "This route is not handled by the shortlink router.";
+      details.textContent = "Path: " + path;
+    }
+  </script>
+</body>
+</html>
