@@ -11,6 +11,9 @@
   <pre id="details"></pre>
 
   <script>
+    const GAS_LOOKUP_URL = "https://script.google.com/macros/s/AKfycbylx91OxTOiYUicQcGNxIUWarbswCg0yBcHj5vzMfJRE2fFKStd4USdNuN8dWoM2x1qJA/exec";
+    const FALLBACK_JSON_URL = "/links.json";
+    const LOOKUP_TIMEOUT_MS = 1500;
     const path = window.location.pathname;
     const title = document.getElementById("title");
     const message = document.getElementById("message");
@@ -29,6 +32,103 @@
       } catch (error) {
         return false;
       }
+    }
+
+    function extractTargetUrl(record) {
+      if (typeof record === "string") {
+        return record.trim();
+      }
+
+      if (record && typeof record === "object" && !Array.isArray(record)) {
+        const status = String(record.status || "active").toLowerCase();
+        const candidateUrl = String(record.target_url || "").trim();
+
+        if (status === "active") {
+          return candidateUrl;
+        }
+      }
+
+      return "";
+    }
+
+    async function lookupViaGas(slug) {
+      const controller = new AbortController();
+      const timeoutId = window.setTimeout(() => controller.abort(), LOOKUP_TIMEOUT_MS);
+
+      try {
+        const url = new URL(GAS_LOOKUP_URL);
+        url.searchParams.set("action", "lookup");
+        url.searchParams.set("slug", slug);
+
+        const response = await fetch(url.toString(), {
+          cache: "no-store",
+          redirect: "follow",
+          signal: controller.signal
+        });
+
+        if (!response.ok) {
+          throw new Error("GAS lookup HTTP " + response.status);
+        }
+
+        const data = await response.json();
+
+        if (!data || typeof data !== "object" || Array.isArray(data)) {
+          throw new Error("GAS lookup must return a JSON object.");
+        }
+
+        if (String(data.status || "").toLowerCase() === "ok" && isValidTargetUrl(data.target)) {
+          return {
+            found: true,
+            targetUrl: String(data.target).trim(),
+            source: "gas"
+          };
+        }
+
+        return {
+          found: false,
+          source: "gas",
+          reason: String(data.status || "invalid_response")
+        };
+      } catch (error) {
+        return {
+          found: false,
+          source: "gas",
+          reason: error.name === "AbortError" ? "timeout" : error.message
+        };
+      } finally {
+        window.clearTimeout(timeoutId);
+      }
+    }
+
+    async function lookupViaFallbackJson(slug) {
+      const response = await fetch(FALLBACK_JSON_URL, { cache: "no-store" });
+
+      if (!response.ok) {
+        throw new Error("Unable to load " + FALLBACK_JSON_URL + " (HTTP " + response.status + ")");
+      }
+
+      const data = await response.json();
+
+      if (!data || typeof data !== "object" || Array.isArray(data)) {
+        throw new Error(FALLBACK_JSON_URL + " must be a JSON object.");
+      }
+
+      const record = data[String(slug).toLowerCase()];
+      const targetUrl = extractTargetUrl(record);
+
+      if (!isValidTargetUrl(targetUrl)) {
+        return {
+          found: false,
+          source: "fallback",
+          reason: "not_found"
+        };
+      }
+
+      return {
+        found: true,
+        targetUrl,
+        source: "fallback"
+      };
     }
 
     async function routeShortlink() {
@@ -56,44 +156,45 @@
 
       showState(
         "Checking shortlink...",
-        "Looking up the slug in /links.json.",
+        "Looking up the slug in GAS first, then fallback JSON if needed.",
         "Path: " + path + "\nSlug: " + slug
       );
 
       try {
-        const response = await fetch("/links.json", { cache: "no-store" });
+        const lookupKey = String(slug).toLowerCase();
+        const gasResult = await lookupViaGas(lookupKey);
 
-        if (!response.ok) {
-          throw new Error("Unable to load /links.json (HTTP " + response.status + ")");
-        }
-
-        const data = await response.json();
-
-        if (!data || typeof data !== "object" || Array.isArray(data)) {
-          throw new Error("/links.json must be a JSON object.");
-        }
-
-        const targetUrl = data[slug];
-
-        if (typeof targetUrl !== "string" || !isValidTargetUrl(targetUrl)) {
+        if (gasResult.found) {
           showState(
-            "Shortlink not found",
-            "This /go/ shortlink was not found.",
-            "Path: " + path + "\nSlug: " + slug
+            "Redirecting...",
+            "Shortlink found from GAS. Redirecting now.",
+            "Slug: " + lookupKey + "\nSource: GAS\nTarget: " + gasResult.targetUrl
           );
+          window.location.replace(gasResult.targetUrl);
+          return;
+        }
+
+        const fallbackResult = await lookupViaFallbackJson(lookupKey);
+
+        if (fallbackResult.found) {
+          showState(
+            "Redirecting...",
+            "GAS did not return a usable result. Using fallback JSON.",
+            "Slug: " + lookupKey + "\nSource: fallback JSON\nGAS result: " + gasResult.reason + "\nTarget: " + fallbackResult.targetUrl
+          );
+          window.location.replace(fallbackResult.targetUrl);
           return;
         }
 
         showState(
-          "Redirecting...",
-          "Shortlink found. Redirecting now.",
-          "Slug: " + slug + "\nTarget: " + targetUrl
+          "Shortlink not found",
+          "This /go/ shortlink was not found in GAS or fallback JSON.",
+          "Path: " + path + "\nSlug: " + lookupKey + "\nGAS result: " + gasResult.reason
         );
-        window.location.replace(targetUrl);
       } catch (error) {
         showState(
           "Shortlink lookup failed",
-          "The router could not load /links.json.",
+          "The router could not complete the shortlink lookup.",
           "Path: " + path + "\nSlug: " + slug + "\nError: " + error.message
         );
       }
