@@ -2,8 +2,8 @@
 <!--
 Project: Force Cheng × FALO Tools
 Tool: Shortlink Router
-Version: router-v20260327-2001
-Last Updated: 2026-03-27 20:01 TPE
+Version: router-v20260327-2008
+Last Updated: 2026-03-27 20:08 TPE
 Copyright: © 2026 Force Cheng × FALO. All rights reserved.
 Website: https://force.formosa-ai.com
 
@@ -19,15 +19,15 @@ Notes:
 </head>
 <body style="font-family: sans-serif; padding: 40px; line-height: 1.6;">
   <h2 id="title">Routing...</h2>
-  <p id="message">Checking route...</p>
-  <p id="version" style="color:#666; font-size:12px; margin-top:0;">Router Updated: 2026-03-27 20:01 TPE</p>
+  <p id="message">Checking this link...</p>
+  <p id="version" style="color:#666; font-size:12px; margin-top:0;">Router Updated: 2026-03-27 20:08 TPE</p>
   <pre id="details"></pre>
 
   <script>
     const GAS_LOOKUP_URL = "https://script.google.com/macros/s/AKfycbylx91OxTOiYUicQcGNxIUWarbswCg0yBcHj5vzMfJRE2fFKStd4USdNuN8dWoM2x1qJA/exec";
     const FALLBACK_JSON_URL = "/links.json";
-    const LOOKUP_TIMEOUT_MS = 3000;
-    const ROUTER_UPDATED_AT_TPE = "2026-03-27 20:01";
+    const LOOKUP_TIMEOUT_MS = 9100;
+    const ROUTER_UPDATED_AT_TPE = "2026-03-27 20:08";
     const path = window.location.pathname;
     const title = document.getElementById("title");
     const message = document.getElementById("message");
@@ -292,7 +292,7 @@ Notes:
       if (parts[0] !== "go") {
         showState(
           "404 Not Found",
-          "This route is not handled by the shortlink router.",
+          "This page is not handled by the shortlink router.",
           "Path: " + path
         );
         return;
@@ -303,7 +303,7 @@ Notes:
       if (!slug) {
         showState(
           "Shortlink not found",
-          "This /go/ shortlink was not found.",
+          "This shortlink is missing its code.",
           "Error Code: GO_SLUG_MISSING\nPath: " + path + "\nSlug: (none)"
         );
         return;
@@ -311,7 +311,7 @@ Notes:
 
       showState(
         "Checking shortlink...",
-        "Looking up the slug in GAS first, then fallback JSON if needed.",
+        "Trying the shortlink service first. If it is slow or unavailable, I will try the backup list.",
         "Path: " + path + "\nSlug: " + slug
       );
 
@@ -326,7 +326,7 @@ Notes:
         if (gasResult.found) {
           showState(
             "Redirecting...",
-            "Shortlink found from GAS. Redirecting now.",
+            "Found it in the shortlink service. Redirecting now.",
             "Slug: " + lookupKey + "\nSource: " + gasResult.source + "\nTarget: " + gasResult.targetUrl + "\nResult Code: LOOKUP_OK_GAS\nRouter Updated: " + ROUTER_UPDATED_AT_TPE + " TPE"
           );
           redirectToTarget(gasResult.targetUrl);
@@ -339,7 +339,7 @@ Notes:
           const gasCode = getReasonCode(gasResult.source, gasResult.reason);
           showState(
             "Redirecting...",
-            "GAS did not return a usable result. Using fallback JSON.",
+            "The shortlink service did not return a usable result. Using the backup list instead.",
             "Slug: " + lookupKey + "\nSource: fallback JSON\nGAS result: " + gasResult.reason + "\nGAS error code: " + gasCode + "\nTarget: " + fallbackResult.targetUrl + "\nResult Code: LOOKUP_OK_FALLBACK\nRouter Updated: " + ROUTER_UPDATED_AT_TPE + " TPE"
           );
           redirectToTarget(fallbackResult.targetUrl);
@@ -350,14 +350,14 @@ Notes:
         const fallbackCode = getReasonCode(fallbackResult.source, fallbackResult.reason);
         showState(
           "Shortlink not found",
-          "This /go/ shortlink was not found in GAS or fallback JSON.",
+          "I could not find this shortlink in the main service or the backup list.",
           "Path: " + path + "\nSlug: " + lookupKey + "\nError Code: SHORTLINK_NOT_FOUND\nGAS result: " + gasResult.reason + "\nGAS error code: " + gasCode + "\nFallback error code: " + fallbackCode + "\nRouter Updated: " + ROUTER_UPDATED_AT_TPE + " TPE"
         );
       } catch (error) {
         const runtimeCode = getErrorCodeFromMessage(error.message);
         showState(
           "Shortlink lookup failed",
-          "The router could not complete the shortlink lookup.",
+          "The router could not finish checking this shortlink.",
           "Path: " + path + "\nSlug: " + slug + "\nError Code: " + runtimeCode + "\nError: " + error.message + "\nRouter Updated: " + ROUTER_UPDATED_AT_TPE + " TPE"
         );
       }
