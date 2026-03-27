@@ -13,7 +13,7 @@
   <script>
     const GAS_LOOKUP_URL = "https://script.google.com/macros/s/AKfycbylx91OxTOiYUicQcGNxIUWarbswCg0yBcHj5vzMfJRE2fFKStd4USdNuN8dWoM2x1qJA/exec";
     const FALLBACK_JSON_URL = "/links.json";
-    const LOOKUP_TIMEOUT_MS = 1500;
+    const LOOKUP_TIMEOUT_MS = 3000;
     const path = window.location.pathname;
     const title = document.getElementById("title");
     const message = document.getElementById("message");
@@ -62,6 +62,8 @@
 
         const response = await fetch(url.toString(), {
           cache: "no-store",
+          credentials: "omit",
+          mode: "cors",
           redirect: "follow",
           signal: controller.signal
         });
