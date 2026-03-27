@@ -1,4 +1,16 @@
 <!doctype html>
+<!--
+Project: Force Cheng × FALO Tools
+Tool: Shortlink Router
+Version: router-v20260327-2001
+Last Updated: 2026-03-27 20:01 TPE
+Copyright: © 2026 Force Cheng × FALO. All rights reserved.
+Website: https://force.formosa-ai.com
+
+Notes:
+- This file is the maintenance source for the shortlink router.
+- Deploy this file manually to your website root as /404.html for GitHub Pages fallback routing.
+-->
 <html lang="en">
 <head>
   <meta charset="utf-8">
@@ -8,14 +20,14 @@
 <body style="font-family: sans-serif; padding: 40px; line-height: 1.6;">
   <h2 id="title">Routing...</h2>
   <p id="message">Checking route...</p>
-  <p id="version" style="color:#666; font-size:12px; margin-top:0;">Router Updated: 2026-03-27 19:45 TPE</p>
+  <p id="version" style="color:#666; font-size:12px; margin-top:0;">Router Updated: 2026-03-27 20:01 TPE</p>
   <pre id="details"></pre>
 
   <script>
     const GAS_LOOKUP_URL = "https://script.google.com/macros/s/AKfycbylx91OxTOiYUicQcGNxIUWarbswCg0yBcHj5vzMfJRE2fFKStd4USdNuN8dWoM2x1qJA/exec";
     const FALLBACK_JSON_URL = "/links.json";
     const LOOKUP_TIMEOUT_MS = 3000;
-    const ROUTER_UPDATED_AT_TPE = "2026-03-27 19:45";
+    const ROUTER_UPDATED_AT_TPE = "2026-03-27 20:01";
     const path = window.location.pathname;
     const title = document.getElementById("title");
     const message = document.getElementById("message");
@@ -28,6 +40,66 @@
       title.textContent = nextTitle;
       message.textContent = nextMessage;
       details.textContent = nextDetails;
+    }
+
+    function getReasonCode(source, reason) {
+      const normalizedSource = String(source || "router").toLowerCase();
+      const normalizedReason = String(reason || "unknown").toLowerCase();
+
+      if (normalizedSource === "gas-jsonp") {
+        if (normalizedReason === "timeout") return "GAS_JSONP_TIMEOUT";
+        if (normalizedReason === "script_error") return "GAS_JSONP_SCRIPT_ERROR";
+        if (normalizedReason === "invalid_response") return "GAS_JSONP_INVALID_RESPONSE";
+        if (normalizedReason === "not_found") return "GAS_JSONP_NOT_FOUND";
+        return "GAS_JSONP_ERROR";
+      }
+
+      if (normalizedSource === "gas-fetch") {
+        if (normalizedReason === "timeout") return "GAS_FETCH_TIMEOUT";
+        if (normalizedReason.indexOf("http ") === 0) {
+          return "GAS_FETCH_" + normalizedReason.replace(/[^0-9]/g, "");
+        }
+        if (normalizedReason === "invalid_response") return "GAS_FETCH_INVALID_RESPONSE";
+        if (normalizedReason === "not_found") return "GAS_FETCH_NOT_FOUND";
+        return "GAS_FETCH_ERROR";
+      }
+
+      if (normalizedSource === "fallback") {
+        if (normalizedReason === "not_found") return "FALLBACK_NOT_FOUND";
+        return "FALLBACK_ERROR";
+      }
+
+      return "ROUTER_ERROR";
+    }
+
+    function getErrorCodeFromMessage(message) {
+      const normalizedMessage = String(message || "").toLowerCase();
+      if (normalizedMessage.indexOf("/links.json") !== -1) {
+        return "FALLBACK_LOAD_ERROR";
+      }
+      if (normalizedMessage.indexOf("json object") !== -1) {
+        return "ROUTER_INVALID_JSON";
+      }
+      return "ROUTER_RUNTIME_ERROR";
+    }
+
+    function redirectToTarget(targetUrl) {
+      // Some in-app browsers accept assign/href more reliably than replace.
+      try {
+        window.location.replace(targetUrl);
+      } catch (error) {
+        // Ignore and continue to compatibility fallback.
+      }
+
+      window.setTimeout(function() {
+        if (window.location.href !== targetUrl) {
+          try {
+            window.location.assign(targetUrl);
+          } catch (error) {
+            window.location.href = targetUrl;
+          }
+        }
+      }, 80);
     }
 
     function isValidTargetUrl(url) {
@@ -232,7 +304,7 @@
         showState(
           "Shortlink not found",
           "This /go/ shortlink was not found.",
-          "Path: " + path + "\nSlug: (none)"
+          "Error Code: GO_SLUG_MISSING\nPath: " + path + "\nSlug: (none)"
         );
         return;
       }
@@ -255,34 +327,38 @@
           showState(
             "Redirecting...",
             "Shortlink found from GAS. Redirecting now.",
-            "Slug: " + lookupKey + "\nSource: " + gasResult.source + "\nTarget: " + gasResult.targetUrl + "\nRouter Updated: " + ROUTER_UPDATED_AT_TPE + " TPE"
+            "Slug: " + lookupKey + "\nSource: " + gasResult.source + "\nTarget: " + gasResult.targetUrl + "\nResult Code: LOOKUP_OK_GAS\nRouter Updated: " + ROUTER_UPDATED_AT_TPE + " TPE"
           );
-          window.location.replace(gasResult.targetUrl);
+          redirectToTarget(gasResult.targetUrl);
           return;
         }
 
         const fallbackResult = await lookupViaFallbackJson(lookupKey);
 
         if (fallbackResult.found) {
+          const gasCode = getReasonCode(gasResult.source, gasResult.reason);
           showState(
             "Redirecting...",
             "GAS did not return a usable result. Using fallback JSON.",
-            "Slug: " + lookupKey + "\nSource: fallback JSON\nGAS result: " + gasResult.reason + "\nTarget: " + fallbackResult.targetUrl + "\nRouter Updated: " + ROUTER_UPDATED_AT_TPE + " TPE"
+            "Slug: " + lookupKey + "\nSource: fallback JSON\nGAS result: " + gasResult.reason + "\nGAS error code: " + gasCode + "\nTarget: " + fallbackResult.targetUrl + "\nResult Code: LOOKUP_OK_FALLBACK\nRouter Updated: " + ROUTER_UPDATED_AT_TPE + " TPE"
           );
-          window.location.replace(fallbackResult.targetUrl);
+          redirectToTarget(fallbackResult.targetUrl);
           return;
         }
 
+        const gasCode = getReasonCode(gasResult.source, gasResult.reason);
+        const fallbackCode = getReasonCode(fallbackResult.source, fallbackResult.reason);
         showState(
           "Shortlink not found",
           "This /go/ shortlink was not found in GAS or fallback JSON.",
-          "Path: " + path + "\nSlug: " + lookupKey + "\nGAS result: " + gasResult.reason + "\nRouter Updated: " + ROUTER_UPDATED_AT_TPE + " TPE"
+          "Path: " + path + "\nSlug: " + lookupKey + "\nError Code: SHORTLINK_NOT_FOUND\nGAS result: " + gasResult.reason + "\nGAS error code: " + gasCode + "\nFallback error code: " + fallbackCode + "\nRouter Updated: " + ROUTER_UPDATED_AT_TPE + " TPE"
         );
       } catch (error) {
+        const runtimeCode = getErrorCodeFromMessage(error.message);
         showState(
           "Shortlink lookup failed",
           "The router could not complete the shortlink lookup.",
-          "Path: " + path + "\nSlug: " + slug + "\nError: " + error.message + "\nRouter Updated: " + ROUTER_UPDATED_AT_TPE + " TPE"
+          "Path: " + path + "\nSlug: " + slug + "\nError Code: " + runtimeCode + "\nError: " + error.message + "\nRouter Updated: " + ROUTER_UPDATED_AT_TPE + " TPE"
         );
       }
     }
