@@ -8,14 +8,14 @@
 <body style="font-family: sans-serif; padding: 40px; line-height: 1.6;">
   <h2 id="title">Routing...</h2>
   <p id="message">Checking route...</p>
-  <p id="version" style="color:#666; font-size:12px; margin-top:0;">Router Updated: 2026-03-27 19:36 TPE</p>
+  <p id="version" style="color:#666; font-size:12px; margin-top:0;">Router Updated: 2026-03-27 19:45 TPE</p>
   <pre id="details"></pre>
 
   <script>
     const GAS_LOOKUP_URL = "https://script.google.com/macros/s/AKfycbylx91OxTOiYUicQcGNxIUWarbswCg0yBcHj5vzMfJRE2fFKStd4USdNuN8dWoM2x1qJA/exec";
     const FALLBACK_JSON_URL = "/links.json";
     const LOOKUP_TIMEOUT_MS = 3000;
-    const ROUTER_UPDATED_AT_TPE = "2026-03-27 19:36";
+    const ROUTER_UPDATED_AT_TPE = "2026-03-27 19:45";
     const path = window.location.pathname;
     const title = document.getElementById("title");
     const message = document.getElementById("message");
@@ -58,7 +58,8 @@
 
     function lookupViaGasJsonp(slug) {
       return new Promise(function(resolve) {
-        const callbackName = "__faloShortlinkLookup_" + Date.now() + "_" + Math.floor(Math.random() * 10000);
+        const callbackToken = "__faloShortlinkLookup_" + Date.now() + "_" + Math.floor(Math.random() * 10000);
+        const callbackName = "window." + callbackToken;
         const script = document.createElement("script");
         let done = false;
 
@@ -69,9 +70,9 @@
           done = true;
           window.clearTimeout(timeoutId);
           try {
-            delete window[callbackName];
+            delete window[callbackToken];
           } catch (error) {
-            window[callbackName] = undefined;
+            window[callbackToken] = undefined;
           }
           if (script.parentNode) {
             script.parentNode.removeChild(script);
@@ -79,7 +80,7 @@
           resolve(result);
         }
 
-        window[callbackName] = function(data) {
+        window[callbackToken] = function(data) {
           if (!data || typeof data !== "object" || Array.isArray(data)) {
             finish({
               found: false,
