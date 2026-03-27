@@ -15,6 +15,25 @@
 - 先問 GAS
 - 不行再 fallback `links.json`
 
+## 0. 這次版本的重要發現
+
+這一版最重要的實務發現是：
+
+- shortlink 失敗，不一定代表資料不存在
+- 很多時候，真正原因是 `timeout`
+
+這次實測發現：
+
+- GAS 其實有資料
+- 但如果 router 等待時間太短
+- 使用者仍然會看到找不到或 fallback 失敗
+
+所以目前的設計原則是：
+
+- 只有 `/go/<slug>` 這類 shortlink 路徑才放寬等待時間
+- 其他非 shortlink 路徑仍保持快速反應
+- 若仍失敗，就用更明確的 error code 告訴使用者發生了什麼
+
 ## 1. 這個 404.html 是做什麼的
 
 這份 [404.html](/Users/force/AI-CodeX/tools/shortlink/404.html) 不是單純顯示「找不到頁面」。
@@ -181,7 +200,7 @@ GitHub Pages 不是完整後端系統，不能像一般 web app 那樣自由做 
 
 例如：
 
-- `Router Updated: 2026-03-27 20:01 TPE`
+- `Router Updated: 2026-03-27 20:13 TPE`
 
 這個時間不是裝飾，而是部署確認點。
 
@@ -197,10 +216,12 @@ GitHub Pages 不是完整後端系統，不能像一般 web app 那樣自由做 
 
 1. 在本機維護：
    - [404.html](/Users/force/AI-CodeX/tools/shortlink/404.html)
-2. 確認版本時間與邏輯正確
-3. 手動上傳到網站 root：
+2. 同步更新：
+   - [404-readme.md](/Users/force/AI-CodeX/tools/shortlink/404-readme.md)
+3. 確認版本時間與邏輯正確
+4. 手動上傳到網站 root：
    - `/404.html`
-4. 線上重新測試
+5. 線上重新測試
 
 ## 10. 建議測試網址
 
@@ -251,14 +272,18 @@ GitHub Pages 不是完整後端系統，不能像一般 web app 那樣自由做 
 
 1. 只維護 shortlink 專案內這一份來源檔
 2. 每次修改都更新版本時間
-3. 每次部署後都實測 `/go/<slug>`
-4. 不把商業邏輯拆太散，先保留 single-file 可維護性
-5. 優先讓錯誤可判讀，再追求更複雜功能
+3. 每次修改 `404.html`，同步更新 `404-readme.md`
+4. 每次部署後都實測 `/go/<slug>`
+5. 不把商業邏輯拆太散，先保留 single-file 可維護性
+6. 優先讓錯誤可判讀，再追求更複雜功能
+7. 每次修改 router timeout、lookup 流程或錯誤文案時，都同步更新這份說明
 
 ## 13. 目前檔案位置
 
 - Router source：
   - [404.html](/Users/force/AI-CodeX/tools/shortlink/404.html)
+- Router README：
+  - [404-readme.md](/Users/force/AI-CodeX/tools/shortlink/404-readme.md)
 - Shortlink project README：
   - [README.md](/Users/force/AI-CodeX/tools/shortlink/README.md)
 - GAS template：
