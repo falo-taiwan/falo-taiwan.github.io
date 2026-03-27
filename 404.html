@@ -1,15 +1,18 @@
 <!doctype html>
 <!--
-Project: Force Cheng × FALO Tools
+Project: FALO x Force Cheng Tools
 Tool: Shortlink Router
-Version: router-v20260327-2008
-Last Updated: 2026-03-27 20:08 TPE
-Copyright: © 2026 Force Cheng × FALO. All rights reserved.
+Version: router-v20260327-2013
+Last Updated: 2026-03-27 20:13 TPE
+Copyright: © 2026 FALO x Force Cheng. All rights reserved.
 Website: https://force.formosa-ai.com
 
 Notes:
 - This file is the maintenance source for the shortlink router.
 - Deploy this file manually to your website root as /404.html for GitHub Pages fallback routing.
+- Recent testing showed that timeout was the main cause of false failures on valid shortlinks.
+- Only `/go/<slug>` routes wait longer. Other routes still respond quickly.
+- If lookup still fails, show detailed error codes and then fallback to JSON when available.
 -->
 <html lang="en">
 <head>
@@ -20,14 +23,14 @@ Notes:
 <body style="font-family: sans-serif; padding: 40px; line-height: 1.6;">
   <h2 id="title">Routing...</h2>
   <p id="message">Checking this link...</p>
-  <p id="version" style="color:#666; font-size:12px; margin-top:0;">Router Updated: 2026-03-27 20:08 TPE</p>
+  <p id="version" style="color:#666; font-size:12px; margin-top:0;">Router Updated: 2026-03-27 20:13 TPE</p>
   <pre id="details"></pre>
 
   <script>
     const GAS_LOOKUP_URL = "https://script.google.com/macros/s/AKfycbylx91OxTOiYUicQcGNxIUWarbswCg0yBcHj5vzMfJRE2fFKStd4USdNuN8dWoM2x1qJA/exec";
     const FALLBACK_JSON_URL = "/links.json";
     const LOOKUP_TIMEOUT_MS = 9100;
-    const ROUTER_UPDATED_AT_TPE = "2026-03-27 20:08";
+    const ROUTER_UPDATED_AT_TPE = "2026-03-27 20:13";
     const path = window.location.pathname;
     const title = document.getElementById("title");
     const message = document.getElementById("message");
