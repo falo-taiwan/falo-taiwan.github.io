@@ -12,10 +12,24 @@
 
 - 使用者打短網址
 - `404.html` 接手判斷
-- 先問 GAS
-- 不行再 fallback `links.json`
+- 先查 `links.json`
+- 沒有再問 GAS
 
-## 0. 這次版本的重要發現
+## 0. 版本策略
+
+目前這個專案保留兩種 router 策略：
+
+- [404_gas_first_v101.htm](/Users/force/AI-CodeX/tools/shortlink/404_gas_first_v101.htm)
+  - 舊版保留
+  - 先查 GAS，再 fallback JSON
+- [404_js_first_v101.htm](/Users/force/AI-CodeX/tools/shortlink/404_js_first_v101.htm)
+  - 新版保留
+  - 先查 JSON，再查 GAS
+- [404.html](/Users/force/AI-CodeX/tools/shortlink/404.html)
+  - 目前維護中的主線版本
+  - 內容與 `404_js_first_v101.htm` 相同
+
+## 0.1 這次版本的重要發現
 
 這一版最重要的實務發現是：
 
@@ -42,8 +56,8 @@
 
 1. 接管 GitHub Pages 上未知路徑
 2. 專門處理 `/go/<slug>`
-3. 先查 GAS lookup API
-4. 若 GAS 沒在時限內回傳可用結果，再 fallback 到 `links.json`
+3. 先查網站 root 的 `links.json`
+4. 若 `links.json` 沒有，再查 GAS lookup API
 5. 找到目標網址後，立即 redirect
 
 所以它其實是：
@@ -59,18 +73,21 @@
 1. 使用者打開 `https://your-site/go/demo`
 2. GitHub Pages 把這個未知路徑交給網站 root 的 `404.html`
 3. `404.html` 解析 slug，也就是 `demo`
-4. 先呼叫 GAS lookup
-5. 若 GAS 回傳 `status=ok` 且 `target` 合法
+4. 先查網站 root 的 `links.json`
+5. 若 JSON 找到
    - 直接跳轉
-6. 若 GAS timeout、格式錯誤、找不到、或回傳不可用
-   - 改查網站 root 的 `links.json`
-7. 若 `links.json` 也找不到
+6. 若 JSON 沒有
+   - 顯示提示，說明要改查 GAS，而且會比較慢
+7. 再查 GAS lookup
+8. 若 GAS 回傳 `status=ok` 且 `target` 合法
+   - 直接跳轉
+9. 若 GAS 也找不到或 timeout
    - 顯示 `Shortlink not found`
 
 一句話版：
 
-- GAS 是主資料源
-- `links.json` 是 published snapshot / fallback
+- `links.json` 是第一層已發布快照
+- GAS 是第二層即時補查
 - `404.html` 是中間的決策層
 
 ## 3. 專案中的定位
@@ -110,17 +127,19 @@ GitHub Pages 不是完整後端系統，不能像一般 web app 那樣自由做 
 
 ## 5. 目前支援的 lookup 順序
 
-目前 router 依序做三層判斷：
+目前主線 router 依序做三層判斷：
 
-1. GAS JSONP lookup
-2. GAS fetch lookup
-3. fallback `links.json`
+1. `links.json`
+2. GAS JSONP lookup
+3. GAS fetch lookup
 
 這樣做的原因是：
 
+- 同站的 `links.json` 讀取通常更穩、更快
+- 若資料已發布，就不必先等 GAS
+- 只有 JSON 沒有時，才值得花更長時間查 GAS
 - 某些瀏覽器或 App 內建瀏覽器，對跨網域 fetch 比較嚴格
 - JSONP 在某些情況下反而更穩
-- 若 GAS 仍失敗，還可以退回 published snapshot
 
 ## 6. 目前支援的結果畫面
 
@@ -200,7 +219,7 @@ GitHub Pages 不是完整後端系統，不能像一般 web app 那樣自由做 
 
 例如：
 
-- `Router Updated: 2026-03-27 20:13 TPE`
+- `Router Updated: 2026-03-27 20:27 TPE`
 
 這個時間不是裝飾，而是部署確認點。
 

@@ -2,19 +2,18 @@
 <!--
 Project: FALO x Force Cheng Tools
 Tool: Shortlink Router
-Strategy: JSON first
-Version: 404_js_first_v101
+Strategy: GAS first
+Version: 404_gas_first_v101
 Last Updated: 2026-03-27 20:27 TPE
 Copyright: © 2026 FALO x Force Cheng. All rights reserved.
 Website: https://force.formosa-ai.com
 
 Notes:
-- This file is the maintenance source for the shortlink router.
-- Deploy this file manually to your website root as /404.html for GitHub Pages fallback routing.
+- This file preserves the previous GAS-first router strategy.
+- Keep it as an archived comparison version.
 - Recent testing showed that timeout was the main cause of false failures on valid shortlinks.
-- This version now checks published JSON first, then queries GAS only when JSON has no match.
 - Only `/go/<slug>` routes wait longer. Other routes still respond quickly.
-- If lookup still fails, show detailed error codes so the user knows whether JSON or GAS caused the miss.
+- If lookup still fails, show detailed error codes and then fallback to JSON when available.
 -->
 <html lang="en">
 <head>
@@ -25,14 +24,14 @@ Notes:
 <body style="font-family: sans-serif; padding: 40px; line-height: 1.6;">
   <h2 id="title">Routing...</h2>
   <p id="message">Checking this link...</p>
-  <p id="version" style="color:#666; font-size:12px; margin-top:0;">Router Updated: 2026-03-27 20:27 TPE</p>
+  <p id="version" style="color:#666; font-size:12px; margin-top:0;">Router Updated: 2026-03-27 20:13 TPE</p>
   <pre id="details"></pre>
 
   <script>
     const GAS_LOOKUP_URL = "https://script.google.com/macros/s/AKfycbylx91OxTOiYUicQcGNxIUWarbswCg0yBcHj5vzMfJRE2fFKStd4USdNuN8dWoM2x1qJA/exec";
     const FALLBACK_JSON_URL = "/links.json";
     const LOOKUP_TIMEOUT_MS = 9100;
-    const ROUTER_UPDATED_AT_TPE = "2026-03-27 20:27";
+    const ROUTER_UPDATED_AT_TPE = "2026-03-27 20:13";
     const path = window.location.pathname;
     const title = document.getElementById("title");
     const message = document.getElementById("message");
@@ -316,30 +315,12 @@ Notes:
 
       showState(
         "Checking shortlink...",
-        "Checking the published list first. If it is not there, I will try the live shortlink service. That second step can take longer.",
+        "Trying the shortlink service first. If it is slow or unavailable, I will try the backup list.",
         "Path: " + path + "\nSlug: " + slug
       );
 
       try {
         const lookupKey = String(slug).toLowerCase();
-        const fallbackResult = await lookupViaFallbackJson(lookupKey);
-
-        if (fallbackResult.found) {
-          showState(
-            "Redirecting...",
-            "Found it in the published list. Redirecting now.",
-            "Slug: " + lookupKey + "\nSource: fallback JSON\nTarget: " + fallbackResult.targetUrl + "\nResult Code: LOOKUP_OK_JSON_FIRST\nRouter Updated: " + ROUTER_UPDATED_AT_TPE + " TPE"
-          );
-          redirectToTarget(fallbackResult.targetUrl);
-          return;
-        }
-
-        showState(
-          "Checking live service...",
-          "This shortlink is not in the published list. Trying the live shortlink service now. This can take a bit longer.",
-          "Path: " + path + "\nSlug: " + lookupKey + "\nJSON result: not_found\nJSON error code: FALLBACK_NOT_FOUND\nRouter Updated: " + ROUTER_UPDATED_AT_TPE + " TPE"
-        );
-
         let gasResult = await lookupViaGasJsonp(lookupKey);
 
         if (!gasResult.found && gasResult.reason !== "not_found") {
@@ -349,18 +330,32 @@ Notes:
         if (gasResult.found) {
           showState(
             "Redirecting...",
-            "The published list did not have this shortlink, but the live service found it. Redirecting now.",
-            "Slug: " + lookupKey + "\nSource: " + gasResult.source + "\nJSON error code: FALLBACK_NOT_FOUND\nTarget: " + gasResult.targetUrl + "\nResult Code: LOOKUP_OK_GAS_AFTER_JSON_MISS\nRouter Updated: " + ROUTER_UPDATED_AT_TPE + " TPE"
+            "Found it in the shortlink service. Redirecting now.",
+            "Slug: " + lookupKey + "\nSource: " + gasResult.source + "\nTarget: " + gasResult.targetUrl + "\nResult Code: LOOKUP_OK_GAS\nRouter Updated: " + ROUTER_UPDATED_AT_TPE + " TPE"
           );
           redirectToTarget(gasResult.targetUrl);
           return;
         }
 
+        const fallbackResult = await lookupViaFallbackJson(lookupKey);
+
+        if (fallbackResult.found) {
+          const gasCode = getReasonCode(gasResult.source, gasResult.reason);
+          showState(
+            "Redirecting...",
+            "The shortlink service did not return a usable result. Using the backup list instead.",
+            "Slug: " + lookupKey + "\nSource: fallback JSON\nGAS result: " + gasResult.reason + "\nGAS error code: " + gasCode + "\nTarget: " + fallbackResult.targetUrl + "\nResult Code: LOOKUP_OK_FALLBACK\nRouter Updated: " + ROUTER_UPDATED_AT_TPE + " TPE"
+          );
+          redirectToTarget(fallbackResult.targetUrl);
+          return;
+        }
+
         const gasCode = getReasonCode(gasResult.source, gasResult.reason);
+        const fallbackCode = getReasonCode(fallbackResult.source, fallbackResult.reason);
         showState(
           "Shortlink not found",
-          "I could not find this shortlink in the published list or the live shortlink service.",
-          "Path: " + path + "\nSlug: " + lookupKey + "\nError Code: SHORTLINK_NOT_FOUND\nJSON error code: FALLBACK_NOT_FOUND\nGAS result: " + gasResult.reason + "\nGAS error code: " + gasCode + "\nRouter Updated: " + ROUTER_UPDATED_AT_TPE + " TPE"
+          "I could not find this shortlink in the main service or the backup list.",
+          "Path: " + path + "\nSlug: " + lookupKey + "\nError Code: SHORTLINK_NOT_FOUND\nGAS result: " + gasResult.reason + "\nGAS error code: " + gasCode + "\nFallback error code: " + fallbackCode + "\nRouter Updated: " + ROUTER_UPDATED_AT_TPE + " TPE"
         );
       } catch (error) {
         const runtimeCode = getErrorCodeFromMessage(error.message);
