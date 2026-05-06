@@ -2,10 +2,17 @@
 
 版本：v102 (v1.02)  
 標注：Falo x Force Cheng｜2026/5/6
+聯繫作者：falo.force@m2k.com.tw
 
 ## 專案定位
 
 這份 PWA Lite 是 Voice-to-Prompt 的最小可安裝版本。
+
+公開標題：
+
+```text
+Falo 完全免費輕量級語音轉文字 PWA
+```
 
 它的核心功能只有一個：
 
@@ -70,3 +77,6 @@ voice-to-prompt/
 - DevTools Application 可看到 service worker。
 - 可從 Chrome / Edge 安裝成 App。
 
+## 聯繫作者
+
+- Email：<falo.force@m2k.com.tw>

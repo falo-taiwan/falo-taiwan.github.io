@@ -89,10 +89,44 @@
     }
 
     .actions {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .link-group {
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+    }
+
+    .link-group h2 {
+      margin: 0 0 6px;
+      font-size: 20px;
+      line-height: 1.25;
+    }
+
+    .link-group p {
+      margin: 0 0 12px;
+      color: var(--muted);
+    }
+
+    .link-row {
       display: flex;
       flex-wrap: wrap;
       gap: 10px;
-      margin-top: 18px;
+    }
+
+    .link-group.pwa-group {
+      border-color: #bdd3ff;
+      background: #eff6ff;
+    }
+
+    .link-group.workbench-group {
+      border-color: #bfe4df;
+      background: #ecfdf8;
     }
 
     a.button {
@@ -115,6 +149,10 @@
 
     a.button.pwa {
       background: #2563eb;
+    }
+
+    a.button.workbench {
+      background: var(--teal);
     }
 
     button {
@@ -212,6 +250,10 @@
         grid-template-columns: 1fr;
       }
 
+      .actions {
+        grid-template-columns: 1fr;
+      }
+
       a.button {
         width: 100%;
         justify-content: center;
@@ -252,12 +294,24 @@
       <textarea id="speechOutput" placeholder="即時轉錄文字會出現在這裡。"></textarea>
     </section>
 
-    <div class="actions">
-      <a class="button pwa" href="pwa/">PWA 範例｜安裝成本地 App</a>
-      <a class="button" href="content/dish-assets/html/voice-to-prompt-mvp.html">開啟 Voice-to-Prompt MVP</a>
-      <a class="button secondary" href="content/dish-assets/html/voice-to-prompt-browser-workbench-note.html">閱讀專案說明頁</a>
-      <a class="button secondary" href="pwa/deployment-note.html">PWA 部署案例文件</a>
-      <a class="button secondary" href="docs/mvp/voice-to-prompt-browser-workbench.md">查看 Markdown 說明</a>
+    <div class="actions" aria-label="project entry groups">
+      <section class="link-group pwa-group" aria-label="pwa lite group">
+        <h2>PWA Lite</h2>
+        <p>完全免費、輕量級、可安裝成本地 App 的即時語音轉文字範例。</p>
+        <div class="link-row">
+          <a class="button pwa" href="pwa/" target="_blank" rel="noopener">PWA 範例｜安裝成本地 App</a>
+          <a class="button secondary" href="pwa/deployment-note.html" target="_blank" rel="noopener">PWA 部署案例文件</a>
+        </div>
+      </section>
+
+      <section class="link-group workbench-group" aria-label="voice to prompt workbench group">
+        <h2>Voice-to-Prompt 工作平台</h2>
+        <p>完整展示轉錄、模型檢測、後處理與 Prompt Template 的教學工作流。</p>
+        <div class="link-row">
+          <a class="button workbench" href="content/dish-assets/html/voice-to-prompt-mvp.html" target="_blank" rel="noopener">開啟 Voice-to-Prompt MVP</a>
+          <a class="button secondary" href="content/dish-assets/html/voice-to-prompt-browser-workbench-note.html" target="_blank" rel="noopener">閱讀專案說明頁</a>
+        </div>
+      </section>
     </div>
 
     <section class="card">

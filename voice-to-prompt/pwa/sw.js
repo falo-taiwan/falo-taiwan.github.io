@@ -1,4 +1,4 @@
-const CACHE_NAME = "voice-to-prompt-pwa-lite-v102-2";
+const CACHE_NAME = "voice-to-prompt-pwa-lite-v102-3";
 const ASSETS = [
   "./",
   "./index.html",
