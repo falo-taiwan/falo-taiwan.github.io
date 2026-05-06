@@ -3,29 +3,12 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Falo ModelBox｜Voice-to-Prompt Browser Workbench</title>
-  <meta name="description" content="Falo x Force Cheng 的 Voice-to-Prompt GitHub Pages 主頁，內建最小 Web Speech API 即時轉錄展示，並連到完整工作台與專案說明。">
-  <meta name="keywords" content="Falo, Force Cheng, Falo ModelBox, Voice-to-Prompt, Web Speech API, Transformers.js Whisper, Chrome Built-in AI, Ollama, Prompt Template, AI 教學">
+  <title>Voice-to-Prompt PWA Lite｜Falo x Force Cheng</title>
+  <meta name="description" content="Falo x Force Cheng 的 Voice-to-Prompt PWA Lite，示範可安裝成本地 App 的 Web Speech API 即時轉錄小工具。">
   <meta name="author" content="Falo x Force Cheng">
-  <meta name="creator" content="Force Cheng">
-  <meta name="publisher" content="Falo">
-  <meta name="robots" content="index, follow">
-  <meta name="theme-color" content="#0f766e">
-  <meta name="geo.region" content="TW">
-  <meta name="geo.placename" content="Taiwan">
-  <meta name="geo.position" content="25.0330;121.5654">
-  <meta name="ICBM" content="25.0330, 121.5654">
-  <meta property="og:type" content="website">
-  <meta property="og:site_name" content="Falo ModelBox">
-  <meta property="og:title" content="Falo ModelBox｜Voice-to-Prompt Browser Workbench">
-  <meta property="og:description" content="Voice-to-Prompt Workflow MVP：瀏覽器內轉錄、模型暖身、AI 後處理與 Prompt 輸出展示。">
-  <meta property="og:url" content="https://falo-taiwan.github.io/voice-to-prompt/">
-  <meta property="og:locale" content="zh_TW">
-  <meta property="article:published_time" content="2026-05-06">
-  <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="Falo ModelBox｜Voice-to-Prompt Browser Workbench">
-  <meta name="twitter:description" content="Falo x Force Cheng 的 Voice-to-Prompt Workflow MVP GitHub Pages 入口。">
-  <link rel="canonical" href="https://falo-taiwan.github.io/voice-to-prompt/">
+  <meta name="theme-color" content="#2563eb">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="canonical" href="https://falo-taiwan.github.io/voice-to-prompt/pwa/">
   <style>
     :root {
       --bg: #f3fbf9;
@@ -35,6 +18,8 @@
       --line: #cfe3df;
       --teal: #0f766e;
       --teal-dark: #115e59;
+      --blue: #2563eb;
+      --blue-dark: #1e40af;
       --soft: #e8f7f4;
       font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     }
@@ -46,75 +31,80 @@
     body {
       margin: 0;
       background:
-        linear-gradient(180deg, #e9fbf7 0, rgba(233, 251, 247, 0) 320px),
+        linear-gradient(180deg, #e8f0ff 0, rgba(232, 240, 255, 0) 300px),
         var(--bg);
       color: var(--ink);
       line-height: 1.6;
     }
 
     main {
-      width: min(980px, calc(100% - 32px));
+      width: min(920px, calc(100% - 32px));
       margin: 0 auto;
-      padding: 54px 0;
+      padding: 42px 0;
+    }
+
+    .home-link {
+      display: inline-flex;
+      align-items: center;
+      min-height: 38px;
+      margin-bottom: 18px;
+      padding: 8px 12px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      color: var(--teal-dark);
+      font-weight: 800;
+      text-decoration: none;
+    }
+
+    .top-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 18px;
     }
 
     .eyebrow {
       margin: 0 0 8px;
-      color: var(--teal-dark);
+      color: var(--blue-dark);
       font-size: 14px;
       font-weight: 800;
     }
 
     h1 {
       margin: 0;
-      max-width: 820px;
       font-size: clamp(34px, 5vw, 58px);
-      line-height: 1.05;
+      line-height: 1.06;
       letter-spacing: 0;
     }
 
+    h2 {
+      margin: 0 0 8px;
+      font-size: 24px;
+    }
+
     .lead {
-      max-width: 820px;
+      max-width: 760px;
       color: var(--muted);
       font-size: 18px;
     }
 
     .card {
-      margin-top: 24px;
+      margin-top: 20px;
       padding: 18px;
       border: 1px solid var(--line);
       border-radius: 8px;
       background: var(--panel);
-      box-shadow: 0 16px 36px rgba(15, 118, 110, 0.11);
+      box-shadow: 0 16px 36px rgba(37, 99, 235, 0.1);
     }
 
-    .actions {
+    .toolbar,
+    .lang-row,
+    .install-row {
       display: flex;
       flex-wrap: wrap;
       gap: 10px;
-      margin-top: 18px;
-    }
-
-    a.button {
-      display: inline-flex;
       align-items: center;
-      min-height: 42px;
-      padding: 10px 14px;
-      border-radius: 8px;
-      background: var(--teal);
-      color: #fff;
-      font-weight: 800;
-      text-decoration: none;
-    }
-
-    a.button.secondary {
-      border: 1px solid var(--line);
-      background: #fff;
-      color: var(--ink);
-    }
-
-    a.button.pwa {
-      background: #2563eb;
     }
 
     button {
@@ -129,6 +119,10 @@
       cursor: pointer;
     }
 
+    button.blue {
+      background: var(--blue);
+    }
+
     button.secondary {
       background: #334155;
     }
@@ -139,84 +133,49 @@
       color: var(--ink);
     }
 
+    button.active {
+      background: var(--blue);
+      color: #fff;
+    }
+
     button:disabled {
       cursor: not-allowed;
       opacity: 0.55;
     }
 
-    .speech-demo {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 14px;
-    }
-
-    .toolbar {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      align-items: center;
-    }
-
-    .lang-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-    }
-
-    .lang-row button.active {
-      background: var(--teal-dark);
-      color: #fff;
-    }
-
     .status {
       padding: 10px 12px;
-      border: 1px solid var(--line);
+      border: 1px solid #b9d7ff;
       border-radius: 8px;
-      background: var(--soft);
-      color: var(--teal-dark);
-      font-weight: 700;
+      background: #eff6ff;
+      color: var(--blue-dark);
+      font-weight: 800;
     }
 
     textarea {
       width: 100%;
-      min-height: 220px;
+      min-height: 260px;
       padding: 14px;
       border: 1px solid var(--line);
       border-radius: 8px;
       resize: vertical;
       color: var(--ink);
       font: inherit;
-      font-size: 18px;
+      font-size: 20px;
       line-height: 1.65;
     }
 
-    dl {
-      display: grid;
-      grid-template-columns: 130px 1fr;
-      gap: 8px 14px;
-      margin: 0;
+    ol {
+      margin: 10px 0 0;
+      padding-left: 22px;
+      color: var(--muted);
     }
 
-    dt {
-      color: var(--teal-dark);
-      font-weight: 800;
-    }
-
-    dd {
-      margin: 0;
+    .note {
       color: var(--muted);
     }
 
     @media (max-width: 640px) {
-      dl {
-        grid-template-columns: 1fr;
-      }
-
-      a.button {
-        width: 100%;
-        justify-content: center;
-      }
-
       button {
         width: 100%;
       }
@@ -225,18 +184,33 @@
 </head>
 <body>
   <main>
-    <p class="eyebrow">Falo x Force Cheng｜2026/5/6｜GitHub Pages Test Entry</p>
-    <h1>Voice-to-Prompt Browser Workbench</h1>
+    <div class="top-links">
+      <a class="home-link" href="../">回到 Voice-to-Prompt 主頁</a>
+      <a class="home-link" href="../content/dish-assets/html/voice-to-prompt-pwa-deployment-note.html">閱讀 PWA 部署案例文件</a>
+    </div>
+    <p class="eyebrow">Falo x Force Cheng｜PWA Lite｜2026/5/6</p>
+    <h1>即時錄音轉文字 PWA</h1>
     <p class="lead">
-      這是 Falo ModelBox 的教學型 MVP 入口。主頁先放最小可用的 Web Speech API 即時轉錄；完整工作台再展示音檔、Whisper、AI 後處理與 Prompt Template。
+      這是最小的 Voice-to-Prompt PWA 範例：開啟麥克風，用 Web Speech API 即時轉錄，並可安裝成桌面或手機上的本地 App。
     </p>
 
-    <section class="card speech-demo" aria-label="web speech api realtime transcription">
-      <div>
-        <p class="eyebrow">最小展示｜Web Speech API 即時轉錄</p>
-        <h2>對著麥克風說話，文字會即時進入文字框</h2>
-        <p class="lead">Chrome / Edge 支援度較好。這個區塊只示範即時聽寫，不處理上傳音檔。</p>
+    <section class="card" aria-label="pwa install">
+      <h2>安裝成 App</h2>
+      <p class="note">Chrome / Edge 若支援安裝，會出現安裝提示。也可以從網址列右側或瀏覽器選單選「安裝」。</p>
+      <div class="install-row">
+        <button id="installApp" class="blue" type="button" disabled>安裝此 PWA</button>
+        <span id="installStatus" class="status">等待瀏覽器提供安裝提示。</span>
       </div>
+      <ol>
+        <li>用 Chrome 或 Edge 開啟此頁。</li>
+        <li>看到安裝提示時，按「安裝此 PWA」。</li>
+        <li>安裝後會以獨立視窗開啟，像一個輕量本地 App。</li>
+      </ol>
+    </section>
+
+    <section class="card" aria-label="web speech pwa app">
+      <h2>即時轉錄</h2>
+      <p class="note">這個 PWA 只做即時聽寫，不處理上傳音檔。第一次使用時請允許麥克風權限。</p>
       <div class="lang-row" id="speechLangGroup" aria-label="speech language">
         <button class="light active" type="button" data-lang="zh-TW">繁中</button>
         <button class="light" type="button" data-lang="en-US">English</button>
@@ -252,31 +226,9 @@
       <textarea id="speechOutput" placeholder="即時轉錄文字會出現在這裡。"></textarea>
     </section>
 
-    <div class="actions">
-      <a class="button pwa" href="pwa/">PWA 範例｜安裝成本地 App</a>
-      <a class="button" href="content/dish-assets/html/voice-to-prompt-mvp.html">開啟 Voice-to-Prompt MVP</a>
-      <a class="button secondary" href="content/dish-assets/html/voice-to-prompt-browser-workbench-note.html">閱讀專案說明頁</a>
-      <a class="button secondary" href="content/dish-assets/html/voice-to-prompt-pwa-deployment-note.html">PWA 部署案例文件</a>
-      <a class="button secondary" href="docs/mvp/voice-to-prompt-browser-workbench.md">查看 Markdown 說明</a>
-    </div>
-
     <section class="card">
-      <dl>
-        <dt>Project</dt>
-        <dd>Falo ModelBox</dd>
-        <dt>Demo</dt>
-        <dd>Voice-to-Prompt Browser Workbench</dd>
-        <dt>Version</dt>
-        <dd>v102 (v1.02)</dd>
-        <dt>Author</dt>
-        <dd>Force Cheng</dd>
-        <dt>Brand</dt>
-        <dd>Falo</dd>
-        <dt>Date</dt>
-        <dd>2026/5/6</dd>
-        <dt>Region</dt>
-        <dd>Taiwan / zh-Hant</dd>
-      </dl>
+      <h2>教學邊界</h2>
+      <p class="note">PWA 是可安裝的網頁 App，不是 Chrome Extension，也不會自動解鎖 Chrome Built-in AI 的 Prompt API / Rewriter API。這頁的核心是 Web Speech API 即時轉錄。</p>
     </section>
   </main>
 
@@ -289,10 +241,13 @@
     const speechOutput = document.querySelector("#speechOutput");
     const speechStatus = document.querySelector("#speechStatus");
     const speechLangGroup = document.querySelector("#speechLangGroup");
+    const installApp = document.querySelector("#installApp");
+    const installStatus = document.querySelector("#installStatus");
 
     let speechRecognition = null;
     let speechLang = "zh-TW";
     let finalTranscript = "";
+    let installPromptEvent = null;
 
     function setSpeechStatus(message) {
       speechStatus.textContent = message;
@@ -389,6 +344,40 @@
         setSpeechStatus("已嘗試複製到剪貼簿。");
       }
     });
+
+    window.addEventListener("beforeinstallprompt", (event) => {
+      event.preventDefault();
+      installPromptEvent = event;
+      installApp.disabled = false;
+      installStatus.textContent = "可以安裝成 PWA。";
+    });
+
+    installApp.addEventListener("click", async () => {
+      if (!installPromptEvent) {
+        installStatus.textContent = "目前瀏覽器尚未提供安裝提示，可從網址列或選單安裝。";
+        return;
+      }
+      installPromptEvent.prompt();
+      const choice = await installPromptEvent.userChoice;
+      installStatus.textContent = choice.outcome === "accepted" ? "已送出安裝。" : "已取消安裝。";
+      installPromptEvent = null;
+      installApp.disabled = true;
+    });
+
+    window.addEventListener("appinstalled", () => {
+      installStatus.textContent = "PWA 已安裝。";
+      installApp.disabled = true;
+    });
+
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.register("./sw.js").then(() => {
+        if (!installPromptEvent) installStatus.textContent = "PWA 快取已啟用。若未出現安裝按鈕，請用瀏覽器選單安裝。";
+      }).catch((error) => {
+        installStatus.textContent = `Service Worker 註冊失敗：${error.message}`;
+      });
+    } else {
+      installStatus.textContent = "此瀏覽器未支援 Service Worker，無法安裝成標準 PWA。";
+    }
 
     if (!SpeechRecognitionApi) {
       setSpeechStatus("此瀏覽器未提供 Web Speech API。建議用 Chrome 或 Edge 測試。");

@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Voice Prompt icon">
+  <rect width="512" height="512" rx="96" fill="#2563eb"/>
+  <circle cx="256" cy="256" r="176" fill="#e8f7f4"/>
+  <path d="M256 136c-35 0-64 29-64 64v76c0 35 29 64 64 64s64-29 64-64v-76c0-35-29-64-64-64z" fill="#0f766e"/>
+  <path d="M156 252c0 55 45 100 100 100s100-45 100-100" fill="none" stroke="#16302e" stroke-width="28" stroke-linecap="round"/>
+  <path d="M256 352v48M208 400h96" fill="none" stroke="#16302e" stroke-width="28" stroke-linecap="round"/>
+  <path d="M356 150h42M356 202h68M356 254h42" fill="none" stroke="#2563eb" stroke-width="22" stroke-linecap="round"/>
+</svg>

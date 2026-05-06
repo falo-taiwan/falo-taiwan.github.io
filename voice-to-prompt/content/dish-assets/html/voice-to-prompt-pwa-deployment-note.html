@@ -1,0 +1,290 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Voice-to-Prompt PWA 部署案例｜Falo x Force Cheng</title>
+  <meta name="description" content="以 Voice-to-Prompt PWA Lite 作為案例，說明 PWA 部署原理、manifest、service worker、GitHub Pages 路徑與 Web Speech API 教學邊界。">
+  <meta name="keywords" content="Falo, Force Cheng, PWA, Progressive Web App, Web Speech API, GitHub Pages, Service Worker, Manifest, Voice-to-Prompt">
+  <meta name="author" content="Falo x Force Cheng">
+  <meta name="creator" content="Force Cheng">
+  <meta name="publisher" content="Falo">
+  <meta name="robots" content="index, follow">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Falo ModelBox">
+  <meta property="og:title" content="Voice-to-Prompt PWA 部署案例｜Falo x Force Cheng">
+  <meta property="og:description" content="單檔 HTML 教學文件：用 Voice-to-Prompt PWA Lite 說明 PWA 部署與教學邊界。">
+  <meta property="og:url" content="https://falo-taiwan.github.io/voice-to-prompt/content/dish-assets/html/voice-to-prompt-pwa-deployment-note.html">
+  <meta property="og:locale" content="zh_TW">
+  <meta property="article:published_time" content="2026-05-06">
+  <link rel="canonical" href="https://falo-taiwan.github.io/voice-to-prompt/content/dish-assets/html/voice-to-prompt-pwa-deployment-note.html">
+  <style>
+    :root {
+      --bg: #f3fbf9;
+      --panel: #ffffff;
+      --ink: #16302e;
+      --muted: #5d706d;
+      --line: #cfe3df;
+      --teal: #0f766e;
+      --blue: #2563eb;
+      --soft: #e8f7f4;
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background:
+        linear-gradient(180deg, #e8f0ff 0, rgba(232, 240, 255, 0) 330px),
+        var(--bg);
+      color: var(--ink);
+      line-height: 1.7;
+    }
+
+    .wrap {
+      width: min(980px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 34px 0;
+    }
+
+    header {
+      border-bottom: 1px solid var(--line);
+      background: #fff;
+    }
+
+    .top-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      min-height: 38px;
+      padding: 8px 12px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      color: var(--teal);
+      font-weight: 800;
+      text-decoration: none;
+    }
+
+    .button.primary {
+      border-color: var(--blue);
+      background: var(--blue);
+      color: #fff;
+    }
+
+    .eyebrow {
+      margin: 0 0 8px;
+      color: var(--blue);
+      font-size: 14px;
+      font-weight: 800;
+    }
+
+    h1 {
+      margin: 0;
+      max-width: 900px;
+      font-size: clamp(32px, 5vw, 56px);
+      line-height: 1.08;
+      letter-spacing: 0;
+    }
+
+    h2 {
+      margin: 34px 0 10px;
+      font-size: 26px;
+      line-height: 1.25;
+    }
+
+    h3 {
+      margin: 0 0 8px;
+      font-size: 20px;
+    }
+
+    p { color: var(--muted); }
+
+    .lead {
+      max-width: 880px;
+      font-size: 18px;
+    }
+
+    .card {
+      margin: 16px 0;
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .flow {
+      display: grid;
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .flow div {
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      color: var(--ink);
+      font-weight: 800;
+    }
+
+    pre {
+      overflow: auto;
+      padding: 14px;
+      border-radius: 8px;
+      background: #0f172a;
+      color: #dff7f2;
+      line-height: 1.55;
+    }
+
+    code, pre {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    }
+
+    .tag {
+      display: inline-block;
+      padding: 4px 9px;
+      border-radius: 999px;
+      background: var(--soft);
+      color: var(--teal);
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    ul, ol { padding-left: 22px; }
+    li { margin: 6px 0; color: var(--muted); }
+    strong { color: var(--ink); }
+
+    @media (max-width: 760px) {
+      .grid { grid-template-columns: 1fr; }
+      .button { width: 100%; justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <div class="top-links">
+        <a class="button" href="../../../">回到 Voice-to-Prompt 主頁</a>
+        <a class="button primary" href="../../../pwa/">開啟 PWA Lite</a>
+      </div>
+      <p class="eyebrow">Falo x Force Cheng｜2026/5/6｜single-file HTML case note</p>
+      <h1>Voice-to-Prompt PWA 部署案例</h1>
+      <p class="lead">這份文件用本專案的「即時錄音轉文字 PWA」當案例，說明 PWA 的原理、部署檔案、GitHub Pages 路徑，以及它和 Chrome Extension / Built-in AI 的邊界。</p>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="card">
+      <span class="tag">一句話</span>
+      <p><strong>PWA 是可安裝的網頁 App。</strong>它讓網頁可以像本地 App 一樣被加入桌面、獨立視窗開啟、快取靜態檔案；但它不是 Chrome 外掛，也不會自動解鎖 Chrome Built-in AI 的 Prompt API 或 Rewriter API。</p>
+    </section>
+
+    <h2>案例目標</h2>
+    <div class="grid">
+      <div class="card">
+        <h3>要證明的事</h3>
+        <p>最小的 Web Speech API 即時轉錄工具，可以從一般網頁升級成 PWA Lite，讓使用者安裝成本地 App 型態。</p>
+      </div>
+      <div class="card">
+        <h3>不承諾的事</h3>
+        <p>PWA 不負責語音模型本地化、不處理上傳音檔，也不保證 Chrome Built-in AI 的 LanguageModel / Rewriter 在任何 origin 都可用。</p>
+      </div>
+    </div>
+
+    <h2>部署後的使用者流程</h2>
+    <div class="flow">
+      <div>1. 使用者打開 https://falo-taiwan.github.io/voice-to-prompt/pwa/</div>
+      <div>2. 瀏覽器讀取 manifest.webmanifest，知道這是一個可安裝 App</div>
+      <div>3. Service Worker 註冊 sw.js，快取 PWA 需要的靜態檔案</div>
+      <div>4. 使用者按「安裝此 PWA」或從瀏覽器選單安裝</div>
+      <div>5. 安裝後以獨立視窗開啟，使用 Web Speech API 即時轉錄</div>
+    </div>
+
+    <h2>本案例檔案結構</h2>
+    <pre><code>voice-to-prompt/
+├── index.html
+├── pwa/
+│   ├── index.html
+│   ├── manifest.webmanifest
+│   ├── sw.js
+│   └── icon.svg
+└── content/
+    └── dish-assets/
+        └── html/
+            ├── voice-to-prompt-mvp.html
+            ├── voice-to-prompt-browser-workbench-note.html
+            └── voice-to-prompt-pwa-deployment-note.html</code></pre>
+
+    <h2>三個核心檔案</h2>
+    <div class="grid">
+      <div class="card">
+        <h3>pwa/index.html</h3>
+        <p>真正的 PWA 小工具頁。它包含 Web Speech API 即時轉錄、清除、複製到剪貼簿、安裝提示與 Service Worker 註冊。</p>
+      </div>
+      <div class="card">
+        <h3>manifest.webmanifest</h3>
+        <p>告訴瀏覽器這個 App 的名稱、啟動路徑、作用範圍、顯示模式、主題色與 icon。沒有 manifest，網頁通常不會被視為可安裝 App。</p>
+      </div>
+      <div class="card">
+        <h3>sw.js</h3>
+        <p>Service Worker 是 PWA 的本地代理。它負責快取檔案、接住 fetch request，讓 App 在重新開啟時更像本地工具。</p>
+      </div>
+      <div class="card">
+        <h3>icon.svg</h3>
+        <p>提供 App 安裝時使用的圖示。這個 MVP 用 SVG，方便 GitHub Pages 直接提供靜態檔。</p>
+      </div>
+    </div>
+
+    <h2>最小原理</h2>
+    <pre><code>&lt;link rel="manifest" href="manifest.webmanifest"&gt;
+
+&lt;script&gt;
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("./sw.js");
+}
+&lt;/script&gt;</code></pre>
+    <p>這兩段就是 PWA 的入口。manifest 讓瀏覽器知道「這個網站可以像 App」；Service Worker 則讓網站有快取與離線基礎。</p>
+
+    <h2>GitHub Pages 部署注意</h2>
+    <ul>
+      <li><strong>路徑要用相對路徑：</strong>本案例放在 <code>/voice-to-prompt/pwa/</code>，所以 manifest 與 service worker 都用 <code>./</code> 開頭。</li>
+      <li><strong>scope 要收斂：</strong><code>scope: "./"</code> 代表這個 PWA 只管理 <code>/pwa/</code> 子路徑，不接管整個 Voice-to-Prompt 網站。</li>
+      <li><strong>GitHub Pages 是 HTTPS：</strong>PWA 與 Service Worker 需要 secure context，GitHub Pages 符合這個條件。</li>
+      <li><strong>更新會受快取影響：</strong>修改 <code>sw.js</code> 或 cache name，才能讓瀏覽器較穩定地更新快取。</li>
+    </ul>
+
+    <h2>和 Chrome Built-in AI 的關係</h2>
+    <div class="card">
+      <p>PWA 只是 Web App 的安裝與快取能力，不是權限升級器。若一般網頁拿不到 <code>LanguageModel</code> 或 <code>Rewriter</code>，改成 PWA 通常也不會自動拿到。這也是為什麼本案例把核心功能放在 Web Speech API，而不是把 Chrome Built-in AI 當必要依賴。</p>
+    </div>
+
+    <h2>本案例最小檢查清單</h2>
+    <ol>
+      <li>打開 PWA URL：<code>https://falo-taiwan.github.io/voice-to-prompt/pwa/</code></li>
+      <li>確認頁面有「開始轉錄、停止、清除、複製到剪貼簿」。</li>
+      <li>確認 DevTools Application 中有 manifest 與 service worker。</li>
+      <li>用 Chrome 選單或網址列安裝 App。</li>
+      <li>安裝後測試麥克風權限與即時轉錄。</li>
+    </ol>
+
+    <section class="card">
+      <span class="tag">教學定位</span>
+      <p>這份 PWA Lite 是「Web App → PWA → Extension → Local App」教學路線中的第二站。它證明同一個語音轉文字小功能，可以從普通網頁升級成可安裝的本地感工具，但仍保留清楚的能力邊界。</p>
+    </section>
+  </main>
+</body>
+</html>
