@@ -1176,6 +1176,7 @@
         const item = availability.chromeAi[feature.id];
         const isTranslatorSameLanguage = feature.id === "translator" && isSameLanguageTarget();
         const isTextProcessingFeature = feature.textProcessing;
+        const isUnavailable = ["unavailable", "error"].includes(item.status);
         const card = document.createElement("div");
         card.className = `model-card ${item.status}`;
 
@@ -1205,10 +1206,10 @@
           ? "不需啟用"
           : item.status === "ready"
             ? "重新暖身"
-            : item.status === "unavailable"
+            : isUnavailable
               ? "不可用"
               : "下載 / 暖身";
-        action.disabled = item.status === "warming" || item.status === "unavailable" || isTranslatorSameLanguage;
+        action.disabled = item.status === "warming" || isUnavailable || isTranslatorSameLanguage;
         action.addEventListener("click", async () => {
           try {
             await warmUpChromeAiFeature(feature.id);
@@ -1830,8 +1831,13 @@
         }
       });
       chromeAiSession = { type: featureId, value: session };
-      setChromeAiFeatureStatus(featureId, "ready", `${feature.title} 已下載 / 暖身完成，可做文字後處理。`, "ready", 100);
-      availability.textEngines["chrome-built-in"] = { ok: true, status: "ready", detail: `${feature.title} 已暖身，可做文字後處理。` };
+      const readyDetail = feature.textProcessing
+        ? `${feature.title} 已下載 / 暖身完成，可做文字後處理。`
+        : `${feature.title} 已下載 / 暖身完成，可作為能力檢測，不列入文字後處理模型。`;
+      setChromeAiFeatureStatus(featureId, "ready", readyDetail, "ready", 100);
+      if (feature.textProcessing) {
+        availability.textEngines["chrome-built-in"] = { ok: true, status: "ready", detail: `${feature.title} 已暖身，可做文字後處理。` };
+      }
       updateChoiceUi();
       setGlobalStatus(`${feature.title} 暖身完成。`, "ok");
       return chromeAiSession;
