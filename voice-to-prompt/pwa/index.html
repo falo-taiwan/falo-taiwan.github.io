@@ -64,13 +64,6 @@
       margin-bottom: 18px;
     }
 
-    .eyebrow {
-      margin: 0 0 8px;
-      color: var(--blue-dark);
-      font-size: 14px;
-      font-weight: 800;
-    }
-
     h1 {
       margin: 0;
       font-size: clamp(34px, 5vw, 58px);
@@ -175,6 +168,12 @@
       color: var(--muted);
     }
 
+    .fine-print {
+      margin-top: 18px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
     @media (max-width: 640px) {
       button {
         width: 100%;
@@ -186,12 +185,11 @@
   <main>
     <div class="top-links">
       <a class="home-link" href="../">回到 Voice-to-Prompt 主頁</a>
-      <a class="home-link" href="../content/dish-assets/html/voice-to-prompt-pwa-deployment-note.html">閱讀 PWA 部署案例文件</a>
+      <a class="home-link" href="deployment-note.html">閱讀 PWA 部署案例文件</a>
     </div>
-    <p class="eyebrow">Falo x Force Cheng｜PWA Lite｜2026/5/6</p>
     <h1>即時錄音轉文字 PWA</h1>
     <p class="lead">
-      這是最小的 Voice-to-Prompt PWA 範例：開啟麥克風，用 Web Speech API 即時轉錄，並可安裝成桌面或手機上的本地 App。
+      開啟麥克風，用 Web Speech API 即時轉錄；支援清除與複製，也可安裝成桌面或手機上的輕量 App。
     </p>
 
     <section class="card" aria-label="pwa install">
@@ -201,11 +199,6 @@
         <button id="installApp" class="blue" type="button" disabled>安裝此 PWA</button>
         <span id="installStatus" class="status">等待瀏覽器提供安裝提示。</span>
       </div>
-      <ol>
-        <li>用 Chrome 或 Edge 開啟此頁。</li>
-        <li>看到安裝提示時，按「安裝此 PWA」。</li>
-        <li>安裝後會以獨立視窗開啟，像一個輕量本地 App。</li>
-      </ol>
     </section>
 
     <section class="card" aria-label="web speech pwa app">
@@ -226,10 +219,7 @@
       <textarea id="speechOutput" placeholder="即時轉錄文字會出現在這裡。"></textarea>
     </section>
 
-    <section class="card">
-      <h2>教學邊界</h2>
-      <p class="note">PWA 是可安裝的網頁 App，不是 Chrome Extension，也不會自動解鎖 Chrome Built-in AI 的 Prompt API / Rewriter API。這頁的核心是 Web Speech API 即時轉錄。</p>
-    </section>
+    <p class="fine-print">Falo x Force Cheng｜2026/5/6｜PWA Lite demo</p>
   </main>
 
   <script>

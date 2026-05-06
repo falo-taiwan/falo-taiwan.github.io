@@ -1,7 +1,8 @@
-const CACHE_NAME = "voice-to-prompt-pwa-lite-v102";
+const CACHE_NAME = "voice-to-prompt-pwa-lite-v102-2";
 const ASSETS = [
   "./",
   "./index.html",
+  "./deployment-note.html",
   "./manifest.webmanifest",
   "./icon.svg"
 ];
