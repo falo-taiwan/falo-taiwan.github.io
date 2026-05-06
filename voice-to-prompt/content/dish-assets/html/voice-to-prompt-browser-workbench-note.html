@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Voice-to-Prompt Browser Workbench 說明｜Falo x Force Cheng</title>
+  <meta name="description" content="Falo x Force Cheng 的 Voice-to-Prompt Browser Workbench 專案說明，整理瀏覽器 ASR、模型暖身、文字後處理與 Prompt Template 教學流程。">
+  <meta name="keywords" content="Falo, Force Cheng, Voice-to-Prompt, Web Speech API, Transformers.js Whisper, Chrome Built-in AI, Prompt Template, AI 教學">
+  <meta name="author" content="Falo x Force Cheng">
+  <meta name="creator" content="Force Cheng">
+  <meta name="publisher" content="Falo">
+  <meta name="robots" content="index, follow">
+  <meta name="geo.region" content="TW">
+  <meta name="geo.placename" content="Taiwan">
+  <meta name="geo.position" content="25.0330;121.5654">
+  <meta name="ICBM" content="25.0330, 121.5654">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Falo ModelBox">
+  <meta property="og:title" content="Voice-to-Prompt Browser Workbench 說明｜Falo x Force Cheng">
+  <meta property="og:description" content="Voice-to-Prompt Workflow MVP 的教學說明與 GitHub Pages 展示上下文。">
+  <meta property="og:locale" content="zh_TW">
+  <meta property="article:published_time" content="2026-05-06">
+  <style>
+    :root {
+      --bg: #f3fbf9;
+      --panel: #ffffff;
+      --ink: #16302e;
+      --muted: #5d706d;
+      --line: #cfe3df;
+      --teal: #0f766e;
+      --soft: #e8f7f4;
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      line-height: 1.65;
+    }
+    header {
+      background: #fff;
+      border-bottom: 1px solid var(--line);
+    }
+    .wrap {
+      width: min(980px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 32px 0;
+    }
+    h1 {
+      margin: 0;
+      font-size: clamp(30px, 4vw, 50px);
+      line-height: 1.08;
+    }
+    h2 {
+      margin: 34px 0 8px;
+      font-size: 24px;
+    }
+    p { color: var(--muted); }
+    .eyebrow {
+      margin: 0 0 8px;
+      color: var(--teal);
+      font-weight: 800;
+    }
+    .card {
+      margin: 16px 0;
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel);
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+    code, pre {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    }
+    pre {
+      overflow: auto;
+      padding: 14px;
+      border-radius: 8px;
+      background: #0f172a;
+      color: #dff7f2;
+    }
+    ul { padding-left: 22px; }
+    .tag {
+      display: inline-block;
+      padding: 4px 9px;
+      border-radius: 999px;
+      background: var(--soft);
+      color: var(--teal);
+      font-size: 13px;
+      font-weight: 800;
+    }
+    @media (max-width: 760px) {
+      .grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <p class="eyebrow">Falo x Force Cheng｜2026/5/6｜Voice-to-Prompt Browser Workbench</p>
+      <h1>瀏覽器內轉錄到 Prompt 的教學型 MVP</h1>
+      <p>版本：Local MVP v0.11。這份說明是 single-file HTML，可直接分享、展示或交給其他 AI 作為上下文。</p>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="card">
+      <span class="tag">核心流程</span>
+      <pre>語音 / 音檔
+→ 瀏覽器內轉錄
+→ 手動選擇來源
+→ AI 或規則後處理
+→ Prompt Template
+→ 可執行 Prompt</pre>
+    </section>
+
+    <h2>專案定位</h2>
+    <p>這不是完整語音助理，也不是商用品質 ASR 系統。它是一個教學展示頁，用來證明聲音可以進入 ETL 流程，最後變成可以交給 AI 使用的 Prompt。</p>
+
+    <h2>兩層設計</h2>
+    <div class="grid">
+      <div class="card">
+        <h3>上方：能力確定區</h3>
+        <p>只做環境檢測、模型下載狀態、模型暖身與能力說明。這一區的預設不是工作區的真正選擇。</p>
+      </div>
+      <div class="card">
+        <h3>下方：真正工作區</h3>
+        <p>使用者用按鈕選已可用的 Whisper 模型、後處理模型與文字來源。工作區按鈕才決定實際流程。</p>
+      </div>
+    </div>
+
+    <h2>轉錄模式</h2>
+    <div class="grid">
+      <div class="card">
+        <h3>Web Speech API</h3>
+        <ul>
+          <li>零安裝</li>
+          <li>麥克風即時轉錄</li>
+          <li>適合快速教學展示</li>
+          <li>不能處理上傳音檔</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Transformers.js Whisper</h3>
+        <ul>
+          <li>瀏覽器內跑 Whisper</li>
+          <li>可處理上傳音檔</li>
+          <li>可用 chunk 做近即時轉錄</li>
+          <li>首次需下載模型</li>
+        </ul>
+      </div>
+    </div>
+
+    <h2>模型選擇</h2>
+    <p>Whisper 模型先在上方做預下載 / 暖身。已完成暖身的模型顯示為綠色，才可在工作區選擇；未下載模型顯示為灰色。MVP 建議先暖身 <code>Xenova/whisper-tiny</code> 或 <code>Xenova/whisper-base</code>。</p>
+
+    <h2>AI 後處理</h2>
+    <p>可選 Chrome Built-in AI、Ollama 或本地規則。Chrome Built-in AI 為預設選擇，目標語言預設繁中；Ollama 需檢查 endpoint 與模型清單，本地規則永遠可用。</p>
+
+    <h2>文字框操作</h2>
+    <p>所有主要文字框都提供「清除」與「複製到剪貼簿」兩個按鈕，包含 Web Speech 輸出、Whisper 上傳輸出、Whisper 近即時輸出、待處理原始文字、修飾後文字與最終 Prompt。</p>
+
+    <h2>Prompt DB</h2>
+    <p>目前內建任務拆解、會議摘要、客戶需求整理、教材/文章發想、待辦事項產生五類模板。</p>
+
+    <h2>主要檔案</h2>
+    <ul>
+      <li><code>content/dish-assets/html/voice-to-prompt-mvp.html</code></li>
+      <li><code>docs/mvp/voice-to-prompt-browser-workbench.md</code></li>
+      <li><code>content/dish-assets/html/voice-to-prompt-browser-workbench-note.html</code></li>
+    </ul>
+  </main>
+</body>
+</html>

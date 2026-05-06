@@ -1,0 +1,1836 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Voice-to-Prompt Browser Workbench｜Falo x Force Cheng</title>
+  <meta name="description" content="Falo x Force Cheng 的 Voice-to-Prompt Workflow MVP，展示 Web Speech API、Transformers.js Whisper、Chrome Built-in AI、Ollama 與 Prompt Template 的瀏覽器內教學工作流。">
+  <meta name="keywords" content="Falo, Force Cheng, Voice-to-Prompt, Web Speech API, Transformers.js, Whisper, Chrome Built-in AI, Ollama, Prompt Template, AI 教學, 繁體中文 AI">
+  <meta name="author" content="Falo x Force Cheng">
+  <meta name="creator" content="Force Cheng">
+  <meta name="publisher" content="Falo">
+  <meta name="copyright" content="Falo x Force Cheng, 2026">
+  <meta name="robots" content="index, follow">
+  <meta name="application-name" content="Voice-to-Prompt Browser Workbench">
+  <meta name="theme-color" content="#0f766e">
+  <meta name="geo.region" content="TW">
+  <meta name="geo.placename" content="Taiwan">
+  <meta name="geo.position" content="25.0330;121.5654">
+  <meta name="ICBM" content="25.0330, 121.5654">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Falo ModelBox">
+  <meta property="og:title" content="Voice-to-Prompt Browser Workbench｜Falo x Force Cheng">
+  <meta property="og:description" content="瀏覽器內完成錄音/音檔轉錄、AI 後處理、Prompt Template 輸出的教學型 MVP。">
+  <meta property="og:url" content="https://falo-taiwan.github.io/voice-to-prompt/content/dish-assets/html/voice-to-prompt-mvp.html">
+  <meta property="og:locale" content="zh_TW">
+  <meta property="article:published_time" content="2026-05-06">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Voice-to-Prompt Browser Workbench｜Falo x Force Cheng">
+  <meta name="twitter:description" content="Voice-to-Prompt Workflow MVP：從語音/音檔到可執行 Prompt 的瀏覽器教學展示。">
+  <link rel="canonical" href="https://falo-taiwan.github.io/voice-to-prompt/content/dish-assets/html/voice-to-prompt-mvp.html">
+  <style>
+    :root {
+      --bg: #f3fbf9;
+      --panel: #ffffff;
+      --ink: #16302e;
+      --muted: #5d706d;
+      --line: #cfe3df;
+      --soft: #e8f7f4;
+      --teal: #0f766e;
+      --teal-dark: #115e59;
+      --cyan: #0891b2;
+      --amber: #b45309;
+      --rose: #be123c;
+      --shadow: 0 16px 36px rgba(15, 118, 110, 0.11);
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background:
+        linear-gradient(180deg, #e9fbf7 0, rgba(233, 251, 247, 0) 320px),
+        var(--bg);
+      color: var(--ink);
+      line-height: 1.55;
+    }
+
+    button,
+    input,
+    textarea {
+      font: inherit;
+    }
+
+    button {
+      border: 0;
+      border-radius: 8px;
+      padding: 10px 14px;
+      background: var(--teal);
+      color: #fff;
+      cursor: pointer;
+      transition: transform 0.15s ease, background 0.15s ease, opacity 0.15s ease, border-color 0.15s ease;
+    }
+
+    button:hover {
+      background: var(--teal-dark);
+      transform: translateY(-1px);
+    }
+
+    button:disabled {
+      cursor: not-allowed;
+      opacity: 0.5;
+      transform: none;
+    }
+
+    button.choice.ready {
+      border-color: #5fc7b8;
+      background: #ecfdf8;
+      color: var(--teal-dark);
+    }
+
+    button.choice.unavailable {
+      border-color: #d7e2df;
+      background: #f4f7f6;
+      color: #8da19d;
+    }
+
+    button.choice.warn {
+      border-color: #f0c27a;
+      background: #fff7ed;
+      color: #7c3f04;
+    }
+
+    button.secondary {
+      background: #334155;
+    }
+
+    button.light {
+      background: #fff;
+      color: var(--ink);
+      border: 1px solid var(--line);
+    }
+
+    button.light:hover,
+    button.choice.active {
+      background: #dff7f2;
+      border-color: var(--teal);
+      color: var(--teal-dark);
+    }
+
+    button.danger {
+      background: var(--rose);
+    }
+
+    header {
+      border-bottom: 1px solid rgba(15, 118, 110, 0.16);
+      background: rgba(255, 255, 255, 0.82);
+    }
+
+    .wrap {
+      width: min(1200px, calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    .hero {
+      padding: 34px 0 24px;
+    }
+
+    .eyebrow {
+      margin: 0 0 8px;
+      color: var(--teal-dark);
+      font-size: 14px;
+      font-weight: 800;
+      letter-spacing: 0;
+    }
+
+    h1 {
+      margin: 0;
+      max-width: 900px;
+      font-size: clamp(30px, 4vw, 54px);
+      line-height: 1.06;
+      letter-spacing: 0;
+    }
+
+    .lead {
+      max-width: 920px;
+      margin: 16px 0 0;
+      color: var(--muted);
+      font-size: 18px;
+    }
+
+    .notice {
+      margin-top: 18px;
+      padding: 12px 14px;
+      border-left: 4px solid var(--cyan);
+      border-radius: 6px;
+      background: #ecfeff;
+      color: #164e63;
+    }
+
+    .public-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      margin-top: 18px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .public-meta strong {
+      color: var(--teal-dark);
+    }
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 10px;
+      padding: 16px 0 24px;
+    }
+
+    .step,
+    .section,
+    .mini-card {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel);
+      box-shadow: var(--shadow);
+    }
+
+    .step {
+      min-height: 74px;
+      padding: 12px;
+      box-shadow: none;
+    }
+
+    .step strong,
+    .mini-card strong {
+      display: block;
+      font-size: 14px;
+    }
+
+    .step span,
+    .mini-card span {
+      display: block;
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    main {
+      padding: 26px 0 50px;
+    }
+
+    .section {
+      margin-bottom: 18px;
+      padding: 18px;
+    }
+
+    .section h2 {
+      margin: 0 0 4px;
+      font-size: 20px;
+      letter-spacing: 0;
+    }
+
+    .section p {
+      margin: 0 0 14px;
+      color: var(--muted);
+    }
+
+    .section-title {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: baseline;
+      justify-content: space-between;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      min-height: 26px;
+      padding: 4px 9px;
+      border-radius: 999px;
+      background: var(--soft);
+      color: var(--teal-dark);
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .capability-grid,
+    .model-grid,
+    .transcription-grid,
+    .processing-grid {
+      display: grid;
+      gap: 14px;
+    }
+
+    .capability-grid {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .model-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      margin-top: 12px;
+    }
+
+    .model-card {
+      display: grid;
+      gap: 10px;
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fbfffe;
+    }
+
+    .model-card.ready {
+      border-color: #78cfc2;
+      background: #effaf7;
+    }
+
+    .model-card.warming {
+      border-color: #67c9d7;
+      background: #ecfeff;
+    }
+
+    .model-card.error {
+      border-color: #f0c27a;
+      background: #fff7ed;
+    }
+
+    .model-head {
+      display: flex;
+      gap: 10px;
+      align-items: start;
+      justify-content: space-between;
+    }
+
+    .model-head strong {
+      font-size: 15px;
+    }
+
+    .model-status {
+      display: inline-flex;
+      align-items: center;
+      min-height: 24px;
+      padding: 3px 8px;
+      border-radius: 999px;
+      background: #eef3f2;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .model-status.ready {
+      background: #c9f4e9;
+      color: var(--teal-dark);
+    }
+
+    .model-status.warming {
+      background: #cffafe;
+      color: #155e75;
+    }
+
+    .model-status.error {
+      background: #ffedd5;
+      color: #9a3412;
+    }
+
+    .model-note {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .availability-note {
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .transcription-grid,
+    .processing-grid {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      align-items: start;
+    }
+
+    .mini-card {
+      padding: 12px;
+      box-shadow: none;
+    }
+
+    .toolbar,
+    .choice-row,
+    .textarea-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      margin: 12px 0;
+    }
+
+    .textarea-actions {
+      justify-content: flex-end;
+      margin: 6px 0;
+    }
+
+    .textarea-actions button {
+      min-height: 34px;
+      padding: 7px 10px;
+      font-size: 13px;
+    }
+
+    .choice-row button {
+      min-height: 39px;
+    }
+
+    .status {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .recording-dot {
+      display: none;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--rose);
+      box-shadow: 0 0 0 6px rgba(190, 18, 60, 0.12);
+    }
+
+    .recording .recording-dot {
+      display: inline-block;
+    }
+
+    .file-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      padding: 12px;
+      border: 1px dashed #9cc4bd;
+      border-radius: 8px;
+      background: #fbfffe;
+    }
+
+    audio {
+      width: 100%;
+      margin-top: 10px;
+    }
+
+    label {
+      display: block;
+      margin: 12px 0 6px;
+      color: #294340;
+      font-size: 14px;
+      font-weight: 800;
+    }
+
+    textarea,
+    input[type="text"] {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 12px;
+      background: #fff;
+      color: var(--ink);
+      resize: vertical;
+    }
+
+    textarea:focus,
+    input[type="text"]:focus {
+      outline: 3px solid rgba(15, 118, 110, 0.18);
+      border-color: var(--teal);
+    }
+
+    .output {
+      min-height: 260px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 14px;
+      line-height: 1.55;
+    }
+
+    .check-grid,
+    .prompt-grid,
+    .metric-grid {
+      display: grid;
+      gap: 10px;
+    }
+
+    .check-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      margin-top: 12px;
+    }
+
+    .check-item {
+      padding: 10px 12px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fbfcfb;
+      font-size: 14px;
+    }
+
+    .check-item.ok {
+      border-color: #92d6cc;
+      background: #effaf7;
+    }
+
+    .check-item.warn {
+      border-color: #f0c27a;
+      background: #fff7ed;
+    }
+
+    .check-item strong {
+      display: block;
+    }
+
+    .check-item span {
+      display: block;
+      margin-top: 3px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .ai-status {
+      margin-top: 10px;
+      padding: 10px 12px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fbfcfb;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .ai-status.ok {
+      border-color: #92d6cc;
+      background: #effaf7;
+      color: var(--teal-dark);
+    }
+
+    .ai-status.warn {
+      border-color: #f0c27a;
+      background: #fff7ed;
+      color: #7c3f04;
+    }
+
+    .prompt-grid {
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+    }
+
+    .prompt-grid button {
+      min-height: 58px;
+      text-align: left;
+    }
+
+    .template-preview {
+      margin-top: 12px;
+      padding: 12px;
+      border-radius: 8px;
+      background: #0f172a;
+      color: #dff7f2;
+      white-space: pre-wrap;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 13px;
+      overflow-x: auto;
+    }
+
+    .metric-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      margin-top: 12px;
+    }
+
+    .metric {
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fbfcfb;
+    }
+
+    .metric strong {
+      display: block;
+      font-size: 18px;
+    }
+
+    .metric span {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .footer-note {
+      margin-top: 24px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    @media (max-width: 980px) {
+      .steps,
+      .capability-grid,
+      .model-grid,
+      .transcription-grid,
+      .processing-grid,
+      .check-grid,
+      .prompt-grid,
+      .metric-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .step {
+        min-height: auto;
+      }
+    }
+
+    @media (max-width: 540px) {
+      .wrap {
+        width: min(100% - 22px, 1200px);
+      }
+
+      .hero,
+      .section {
+        padding-left: 14px;
+        padding-right: 14px;
+      }
+
+      button {
+        width: 100%;
+      }
+
+      .file-row input {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap hero">
+      <p class="eyebrow">Falo x Force Cheng｜2026/5/6｜Voice-to-Prompt Browser Workbench</p>
+      <h1>瀏覽器內完成轉錄，手動帶入 AI 後處理，再產生 Prompt</h1>
+      <p class="lead">
+        上方只做能力檢測與模型暖身；下方工作區才是真正的模型選擇與操作。Web Speech 展示零安裝即時聽寫，Transformers.js Whisper 展示瀏覽器內本地 ASR。
+      </p>
+      <div class="notice">
+        這不是即時語音助理，也不是完整語音系統。這是 Voice-to-Prompt Workflow MVP：證明語音或音檔能進入 ETL 流程，最後變成可執行 Prompt。
+      </div>
+      <div class="public-meta" aria-label="publish metadata">
+        <span><strong>Project</strong> Falo ModelBox</span>
+        <span><strong>Author</strong> Force Cheng</span>
+        <span><strong>Brand</strong> Falo</span>
+        <span><strong>Date</strong> 2026/5/6</span>
+        <span><strong>Region</strong> Taiwan / zh-Hant</span>
+      </div>
+    </div>
+    <div class="wrap steps" aria-label="workflow steps">
+      <div class="step"><strong>1. 能力檢測</strong><span>確認瀏覽器 API / WASM / WebGPU / Built-in AI</span></div>
+      <div class="step"><strong>2. 轉錄模式</strong><span>Web Speech 或 Whisper，上傳或近即時</span></div>
+      <div class="step"><strong>3. 手動帶入</strong><span>把選定逐字稿送進後處理區</span></div>
+      <div class="step"><strong>4. AI 後處理</strong><span>Chrome Built-in AI / Ollama / 本地規則</span></div>
+      <div class="step"><strong>5. Prompt 輸出</strong><span>套用 5 類 Prompt Template</span></div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="section">
+      <div class="section-title">
+        <div>
+          <h2>0. 能力確定區</h2>
+          <p>這裡只負責檢查、說明與暖身，不決定下方真正工作區的選擇。</p>
+        </div>
+        <span class="tag">純展示 / readiness</span>
+      </div>
+
+      <div class="capability-grid">
+        <div class="mini-card"><strong>Web Speech API</strong><span>Chrome / Edge 原生，即時麥克風轉文字。</span></div>
+        <div class="mini-card"><strong>Transformers.js Whisper</strong><span>瀏覽器 WASM / WebGPU，可吃上傳檔與錄音 blob。</span></div>
+        <div class="mini-card"><strong>Chrome Built-in AI</strong><span>地端翻譯 / 改寫 / Prompt API，視 Chrome 版本與 flags 而定。</span></div>
+        <div class="mini-card"><strong>Ollama / 本地規則</strong><span>外部本地模型或無模型 fallback，作為教學備援。</span></div>
+      </div>
+
+      <div class="toolbar">
+        <button id="checkEnvironment" type="button">環境檢測</button>
+        <button id="detectWhisperModels" type="button" class="light">檢測已下載 Whisper</button>
+        <button id="warmChromeAi" type="button" class="secondary">暖身 Chrome Built-in AI</button>
+        <button id="warmWhisper" type="button" class="secondary">暖身目前選擇 Whisper</button>
+        <button id="loadOllamaModels" type="button" class="light">檢查 Ollama</button>
+      </div>
+      <div id="globalStatus" class="ai-status">尚未檢測環境。</div>
+      <div id="environmentChecks" class="check-grid" aria-label="environment checks"></div>
+
+      <h3>Whisper 模型下載 / 暖身狀態</h3>
+      <p class="availability-note">此區負責先下載與暖身。下方工作區只允許選擇已完成暖身的綠色模型。</p>
+      <div id="whisperModelManager" class="model-grid" aria-label="whisper model manager"></div>
+    </section>
+
+    <section class="section">
+      <div class="section-title">
+        <div>
+          <h2>1. 轉錄工作區</h2>
+          <p>兩種模式直接展示。上方能力區的預設不影響這裡，這裡的按鈕才是真正選擇。</p>
+        </div>
+        <span class="tag">真正工作區</span>
+      </div>
+
+      <div class="transcription-grid">
+        <div class="mini-card">
+          <h3>Web Speech API 即時轉錄</h3>
+          <p>零安裝、真即時、只能使用麥克風。轉錄結果直接輸出到本區文字框。</p>
+          <div class="choice-row" id="webSpeechLangGroup">
+            <button class="choice light active" data-speech-lang="zh-TW" type="button">繁中</button>
+            <button class="choice light" data-speech-lang="en-US" type="button">英文</button>
+            <button class="choice light" data-speech-lang="ja-JP" type="button">日文</button>
+          </div>
+          <div class="toolbar" id="webSpeechToolbar">
+            <span class="recording-dot" aria-hidden="true"></span>
+            <button id="startWebSpeech" type="button">開始 Web Speech</button>
+            <button id="stopWebSpeech" type="button" class="secondary" disabled>停止</button>
+            <span id="webSpeechStatus" class="status">尚未啟動。</span>
+          </div>
+          <label for="webSpeechTranscript">Web Speech 輸出</label>
+          <div class="textarea-actions">
+            <button type="button" class="light" data-clear-target="webSpeechTranscript">清除</button>
+            <button type="button" class="light" data-copy-target="webSpeechTranscript">複製到剪貼簿</button>
+          </div>
+          <textarea id="webSpeechTranscript" rows="9" placeholder="Web Speech API 的即時逐字稿會出現在這裡。"></textarea>
+        </div>
+
+        <div class="mini-card">
+          <h3>Transformers.js Whisper 轉錄</h3>
+          <p>可處理上傳音檔，也可用 chunk 近即時錄音。只有上方已暖身完成的模型可在這裡選擇。</p>
+          <div class="choice-row" id="whisperModelGroup">
+          </div>
+          <p id="whisperAvailabilityNote" class="availability-note">尚未檢測模型狀態。</p>
+          <div class="choice-row" id="whisperDeviceGroup">
+            <button class="choice light active" data-whisper-device="auto" type="button">auto</button>
+            <button class="choice light" data-whisper-device="webgpu" type="button">WebGPU</button>
+            <button class="choice light" data-whisper-device="wasm" type="button">WASM</button>
+          </div>
+          <div class="file-row">
+            <label for="audioFile" style="margin:0;">上傳音檔</label>
+            <input id="audioFile" type="file" accept="audio/*">
+          </div>
+          <audio id="audioPreview" controls class="hidden"></audio>
+          <div class="toolbar" id="whisperToolbar">
+            <span class="recording-dot" aria-hidden="true"></span>
+            <button id="transcribeUpload" type="button">轉錄上傳檔</button>
+            <button id="startWhisperLive" type="button" class="secondary">開始 Whisper 近即時</button>
+            <button id="stopWhisperLive" type="button" class="secondary" disabled>停止</button>
+          </div>
+          <div id="whisperStatus" class="ai-status">尚未載入 Whisper。</div>
+          <label for="whisperUploadTranscript">Whisper 上傳檔輸出</label>
+          <div class="textarea-actions">
+            <button type="button" class="light" data-clear-target="whisperUploadTranscript">清除</button>
+            <button type="button" class="light" data-copy-target="whisperUploadTranscript">複製到剪貼簿</button>
+          </div>
+          <textarea id="whisperUploadTranscript" rows="6" placeholder="上傳音檔轉錄結果會出現在這裡。"></textarea>
+          <label for="whisperLiveTranscript">Whisper 近即時輸出</label>
+          <div class="textarea-actions">
+            <button type="button" class="light" data-clear-target="whisperLiveTranscript">清除</button>
+            <button type="button" class="light" data-copy-target="whisperLiveTranscript">複製到剪貼簿</button>
+          </div>
+          <textarea id="whisperLiveTranscript" rows="6" placeholder="chunk-based 近即時轉錄結果會持續追加在這裡。"></textarea>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-title">
+        <div>
+          <h2>2. AI 後處理工作區</h2>
+          <p>手動選擇要帶入哪一段逐字稿，再選 Chrome Built-in AI、Ollama 或本地規則處理。</p>
+        </div>
+        <span class="tag">manual handoff</span>
+      </div>
+
+      <div class="processing-grid">
+        <div>
+          <div class="choice-row">
+            <button id="useWebSpeechText" type="button">帶入 Web Speech 文字</button>
+            <button id="useWhisperUploadText" type="button">帶入 Whisper 上傳文字</button>
+            <button id="useWhisperLiveText" type="button">帶入 Whisper 即時文字</button>
+          </div>
+          <label for="rawTranscript">待處理原始文字</label>
+          <div class="textarea-actions">
+            <button type="button" class="light" data-clear-target="rawTranscript">清除</button>
+            <button type="button" class="light" data-copy-target="rawTranscript">複製到剪貼簿</button>
+          </div>
+          <textarea id="rawTranscript" rows="9" placeholder="從上方任一轉錄區帶入，或手動貼上文字。"></textarea>
+        </div>
+
+        <div>
+          <label>文字後處理模型</label>
+          <div class="choice-row" id="textEngineGroup">
+            <button class="choice light active" data-text-engine="chrome-built-in" type="button">Chrome Built-in AI</button>
+            <button class="choice light" data-text-engine="ollama" type="button">Ollama</button>
+            <button class="choice light" data-text-engine="local-rule" type="button">本地規則</button>
+          </div>
+          <p id="textEngineAvailabilityNote" class="availability-note">預設使用 Chrome Built-in AI；若不可用，可改用本地規則或檢查 Ollama。</p>
+          <label>目標語言 / 翻譯方向</label>
+          <div class="choice-row" id="targetLanguageGroup">
+            <button class="choice light active" data-target-language="zh-Hant" type="button">繁中</button>
+            <button class="choice light" data-target-language="en" type="button">英文</button>
+            <button class="choice light" data-target-language="ja" type="button">日文</button>
+          </div>
+          <label for="ollamaEndpoint">Ollama Endpoint / 模型</label>
+          <div class="choice-row">
+            <input id="ollamaEndpoint" type="text" value="http://127.0.0.1:11434" aria-label="Ollama endpoint">
+            <input id="ollamaModel" type="text" value="qwen3-vl:4b" aria-label="Ollama model">
+          </div>
+          <div class="toolbar">
+            <button id="processText" type="button">處理文字</button>
+          </div>
+          <label for="cleanText">修飾後文字</label>
+          <div class="textarea-actions">
+            <button type="button" class="light" data-clear-target="cleanText">清除</button>
+            <button id="copyCleanText" type="button" class="light" data-copy-target="cleanText">複製到剪貼簿</button>
+          </div>
+          <textarea id="cleanText" rows="9" placeholder="AI 或本地規則處理後的文字會出現在這裡。"></textarea>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-title">
+        <div>
+          <h2>3. Prompt DB 與最終輸出</h2>
+          <p>手動選 Prompt 類型，再把修飾後文字套入模板。</p>
+        </div>
+        <span class="tag">5 templates</span>
+      </div>
+      <div id="promptList" class="prompt-grid"></div>
+      <label for="templatePreview">目前 Template</label>
+      <div id="templatePreview" class="template-preview"></div>
+      <div class="toolbar">
+        <button id="generatePrompt" type="button">產生 Prompt</button>
+        <button type="button" class="light" data-clear-target="finalPrompt">清除</button>
+        <button id="copyPrompt" type="button" class="light" data-copy-target="finalPrompt">複製到剪貼簿</button>
+        <button id="resetAll" type="button" class="danger">清除暫存</button>
+      </div>
+      <label for="finalPrompt">最終 Prompt</label>
+      <textarea id="finalPrompt" class="output" rows="12" placeholder="最終 Prompt 會出現在這裡。"></textarea>
+      <div class="metric-grid" aria-label="workflow metrics">
+        <div class="metric"><strong id="rawCount">0</strong><span>待處理文字字數</span></div>
+        <div class="metric"><strong id="activeTextEngine">Chrome Built-in AI</strong><span>目前後處理模型</span></div>
+        <div class="metric"><strong id="promptType">任務拆解</strong><span>目前 Prompt 類型</span></div>
+      </div>
+    </section>
+
+    <p class="footer-note">
+      Falo x Force Cheng ｜ 2026/5/6 ｜ Local MVP v0.11 ｜ 能力檢查區與工作區分離；Whisper 模型先檢測 / 暖身，工作區只可選綠色可用模型；所有主要文字框皆可清除與複製到剪貼簿。
+    </p>
+  </main>
+
+  <script>
+    const promptDb = [
+      {
+        id: "task-breakdown",
+        title: "任務拆解",
+        description: "拆成目標、步驟、風險與下一步。",
+        template: `請將以下內容整理成「任務拆解」。\n\n請輸出：\n1. 任務目標\n2. 必要步驟\n3. 需要補充的資訊\n4. 風險或注意事項\n5. 建議的下一步\n\n原始內容：\n{{cleanText}}`
+      },
+      {
+        id: "meeting-summary",
+        title: "會議摘要",
+        description: "整理重點、決議、待辦與未決問題。",
+        template: `請將以下內容整理成「會議摘要」。\n\n請輸出：\n1. 會議主題\n2. 重要討論重點\n3. 已確認決議\n4. 待辦事項與負責人\n5. 尚未釐清的問題\n\n會議內容：\n{{cleanText}}`
+      },
+      {
+        id: "customer-requirements",
+        title: "客戶需求整理",
+        description: "把口語需求轉成可討論需求清單。",
+        template: `請將以下內容整理成「客戶需求文件初稿」。\n\n請輸出：\n1. 客戶背景與情境\n2. 核心需求\n3. 明確限制\n4. 隱含需求或可能期待\n5. 可先做的 MVP\n6. 需要回問客戶的問題\n\n需求內容：\n{{cleanText}}`
+      },
+      {
+        id: "teaching-article-ideas",
+        title: "教材/文章發想",
+        description: "發想教學大綱、文章角度或課程段落。",
+        template: `請根據以下內容，發想成「教材或文章企劃」。\n\n請輸出：\n1. 適合的標題方向\n2. 目標讀者\n3. 核心概念\n4. 文章或教材大綱\n5. 可加入的例子\n6. 初學者容易卡住的地方\n\n靈感內容：\n{{cleanText}}`
+      },
+      {
+        id: "todo-generation",
+        title: "待辦事項產生",
+        description: "整理成可執行待辦。",
+        template: `請將以下內容整理成「可執行待辦清單」。\n\n請輸出：\n1. 今天可以做的事項\n2. 本週要推進的事項\n3. 需要等待或確認的事項\n4. 可委派給別人的事項\n5. 第一個最小行動\n\n輸入內容：\n{{cleanText}}`
+      }
+    ];
+
+    const els = {
+      checkEnvironment: document.querySelector("#checkEnvironment"),
+      detectWhisperModels: document.querySelector("#detectWhisperModels"),
+      warmChromeAi: document.querySelector("#warmChromeAi"),
+      warmWhisper: document.querySelector("#warmWhisper"),
+      loadOllamaModels: document.querySelector("#loadOllamaModels"),
+      globalStatus: document.querySelector("#globalStatus"),
+      environmentChecks: document.querySelector("#environmentChecks"),
+      whisperModelManager: document.querySelector("#whisperModelManager"),
+      startWebSpeech: document.querySelector("#startWebSpeech"),
+      stopWebSpeech: document.querySelector("#stopWebSpeech"),
+      webSpeechToolbar: document.querySelector("#webSpeechToolbar"),
+      webSpeechStatus: document.querySelector("#webSpeechStatus"),
+      webSpeechTranscript: document.querySelector("#webSpeechTranscript"),
+      audioFile: document.querySelector("#audioFile"),
+      audioPreview: document.querySelector("#audioPreview"),
+      whisperModelGroup: document.querySelector("#whisperModelGroup"),
+      transcribeUpload: document.querySelector("#transcribeUpload"),
+      startWhisperLive: document.querySelector("#startWhisperLive"),
+      stopWhisperLive: document.querySelector("#stopWhisperLive"),
+      whisperToolbar: document.querySelector("#whisperToolbar"),
+      whisperStatus: document.querySelector("#whisperStatus"),
+      whisperAvailabilityNote: document.querySelector("#whisperAvailabilityNote"),
+      whisperUploadTranscript: document.querySelector("#whisperUploadTranscript"),
+      whisperLiveTranscript: document.querySelector("#whisperLiveTranscript"),
+      useWebSpeechText: document.querySelector("#useWebSpeechText"),
+      useWhisperUploadText: document.querySelector("#useWhisperUploadText"),
+      useWhisperLiveText: document.querySelector("#useWhisperLiveText"),
+      rawTranscript: document.querySelector("#rawTranscript"),
+      textEngineAvailabilityNote: document.querySelector("#textEngineAvailabilityNote"),
+      ollamaEndpoint: document.querySelector("#ollamaEndpoint"),
+      ollamaModel: document.querySelector("#ollamaModel"),
+      processText: document.querySelector("#processText"),
+      copyCleanText: document.querySelector("#copyCleanText"),
+      cleanText: document.querySelector("#cleanText"),
+      promptList: document.querySelector("#promptList"),
+      templatePreview: document.querySelector("#templatePreview"),
+      generatePrompt: document.querySelector("#generatePrompt"),
+      copyPrompt: document.querySelector("#copyPrompt"),
+      resetAll: document.querySelector("#resetAll"),
+      finalPrompt: document.querySelector("#finalPrompt"),
+      rawCount: document.querySelector("#rawCount"),
+      activeTextEngine: document.querySelector("#activeTextEngine"),
+      promptType: document.querySelector("#promptType")
+    };
+
+    const storageKey = "voice-to-prompt-workbench-v011";
+    const legacyStorageKey = "voice-to-prompt-workbench-v010";
+    const whisperModels = [
+      {
+        id: "Xenova/whisper-tiny",
+        shortName: "tiny",
+        size: "約 75MB",
+        description: "最快，適合第一次展示與環境確認。"
+      },
+      {
+        id: "Xenova/whisper-base",
+        shortName: "base",
+        size: "約 140MB",
+        description: "MVP 甜蜜點，速度與品質較平衡。"
+      },
+      {
+        id: "Xenova/whisper-small",
+        shortName: "small",
+        size: "約 250MB",
+        description: "繁中品質較好，首次下載時間較長。"
+      }
+    ];
+    const state = {
+      speechLang: "zh-TW",
+      whisperModel: "",
+      whisperDevice: "auto",
+      targetLanguage: "zh-Hant",
+      textEngine: "chrome-built-in",
+      promptId: "task-breakdown"
+    };
+
+    const availability = {
+      whisper: Object.fromEntries(whisperModels.map((model) => [model.id, {
+        status: "not-downloaded",
+        detail: "尚未下載 / 暖身",
+        percent: 0
+      }])),
+      textEngines: {
+        "chrome-built-in": { ok: true, status: "unknown", detail: "預設選用；請先做環境檢測或暖身確認。" },
+        ollama: { ok: false, status: "unknown", detail: "尚未檢測" },
+        "local-rule": { ok: true, status: "ready", detail: "永遠可用，作為教學 fallback" }
+      }
+    };
+
+    let speechRecognition = null;
+    let speechBaseTranscript = "";
+    let webSpeechListening = false;
+    let audioUrl = "";
+    let currentAudioBlob = null;
+    let mediaRecorder = null;
+    let recordedChunks = [];
+    let whisperQueue = Promise.resolve();
+    let transformersModule = null;
+    let whisperTranscriber = null;
+    let whisperTranscriberKey = "";
+    let chromeAiSession = null;
+
+    function setStatus(element, message, type = "") {
+      element.textContent = message;
+      element.className = `ai-status${type ? ` ${type}` : ""}`;
+    }
+
+    function setGlobalStatus(message, type = "") {
+      setStatus(els.globalStatus, message, type);
+    }
+
+    function setWhisperStatus(message, type = "") {
+      setStatus(els.whisperStatus, message, type);
+    }
+
+    function setActiveByData(groupId, attr, value) {
+      document.querySelectorAll(`#${groupId} [${attr}]`).forEach((button) => {
+        button.classList.toggle("active", button.dataset[attr.replace("data-", "")] === value);
+      });
+    }
+
+    function getWhisperStatusLabel(status) {
+      return {
+        ready: "可用",
+        warming: "下載中",
+        error: "失敗",
+        "not-downloaded": "未下載"
+      }[status] || "未檢測";
+    }
+
+    function getReadyWhisperModels() {
+      return whisperModels.filter((model) => availability.whisper[model.id].status === "ready");
+    }
+
+    function ensureSelectableWhisperModel() {
+      const readyModels = getReadyWhisperModels();
+      if (state.whisperModel && availability.whisper[state.whisperModel]?.status === "ready") return;
+      state.whisperModel = readyModels[0]?.id || "";
+      whisperTranscriber = null;
+      whisperTranscriberKey = "";
+    }
+
+    function setWhisperModelStatus(modelId, status, detail = "", percent = 0) {
+      if (!availability.whisper[modelId]) return;
+      availability.whisper[modelId] = {
+        status,
+        detail: detail || availability.whisper[modelId].detail,
+        percent
+      };
+      if (status === "ready") {
+        const downloaded = new Set(JSON.parse(localStorage.getItem("voice-to-prompt-downloaded-whisper") || "[]"));
+        downloaded.add(modelId);
+        localStorage.setItem("voice-to-prompt-downloaded-whisper", JSON.stringify([...downloaded]));
+      }
+      ensureSelectableWhisperModel();
+      renderWhisperModelManager();
+      renderWhisperWorkspaceModels();
+      updateChoiceUi();
+    }
+
+    function restoreDownloadedWhisperModels() {
+      let downloaded = [];
+      try {
+        downloaded = JSON.parse(localStorage.getItem("voice-to-prompt-downloaded-whisper") || "[]");
+      } catch (error) {
+        downloaded = [];
+      }
+      whisperModels.forEach((model) => {
+        if (downloaded.includes(model.id)) {
+          availability.whisper[model.id] = {
+            status: "ready",
+            detail: "本頁曾成功下載 / 暖身，瀏覽器 cache 通常可直接復用。",
+            percent: 100
+          };
+        }
+      });
+      ensureSelectableWhisperModel();
+    }
+
+    function renderWhisperModelManager() {
+      els.whisperModelManager.innerHTML = "";
+      whisperModels.forEach((model) => {
+        const item = availability.whisper[model.id];
+        const card = document.createElement("div");
+        card.className = `model-card ${item.status}`;
+        const status = document.createElement("span");
+        status.className = `model-status ${item.status}`;
+        status.textContent = getWhisperStatusLabel(item.status);
+        const head = document.createElement("div");
+        head.className = "model-head";
+        const title = document.createElement("div");
+        title.innerHTML = `<strong>${model.shortName}</strong><span>${model.id}</span>`;
+        head.append(title, status);
+
+        const note = document.createElement("div");
+        note.className = "model-note";
+        note.textContent = `${model.size}｜${item.status === "warming" && item.percent ? `下載 ${item.percent}%` : item.detail || model.description}`;
+
+        const action = document.createElement("button");
+        action.type = "button";
+        action.className = item.status === "ready" ? "light" : "secondary";
+        action.textContent = item.status === "ready" ? "重新暖身" : "預下載 / 暖身";
+        action.disabled = item.status === "warming";
+        action.addEventListener("click", async () => {
+          try {
+            await warmUpWhisper(model.id, { selectAfterWarm: true });
+          } catch (error) {
+            setWhisperModelStatus(model.id, "error", error.message);
+            setWhisperStatus(`Whisper 暖身失敗：${error.message}`, "warn");
+          }
+        });
+
+        card.append(head, note, action);
+        els.whisperModelManager.appendChild(card);
+      });
+    }
+
+    function renderWhisperWorkspaceModels() {
+      const readyModels = getReadyWhisperModels();
+      els.whisperAvailabilityNote.textContent = readyModels.length
+        ? "綠色模型可使用；灰色模型請先回到上方預下載 / 暖身。"
+        : "目前沒有可用 Whisper 模型。請先在上方預下載 / 暖身 tiny 或 base。";
+      els.transcribeUpload.disabled = !readyModels.length;
+      els.startWhisperLive.disabled = !readyModels.length;
+      const previous = state.whisperModel;
+      ensureSelectableWhisperModel();
+      if (previous !== state.whisperModel) saveState();
+      els.whisperModelGroup.innerHTML = "";
+      whisperModels.forEach((model) => {
+        const item = availability.whisper[model.id];
+        const button = document.createElement("button");
+        button.type = "button";
+        button.dataset.whisperModel = model.id;
+        const isReady = item.status === "ready";
+        button.className = `choice light ${isReady ? "ready" : "unavailable"}${model.id === state.whisperModel ? " active" : ""}`;
+        button.disabled = !isReady;
+        button.textContent = `${model.shortName}｜${getWhisperStatusLabel(item.status)}`;
+        button.title = isReady ? `${model.description}` : "尚未下載，請先在上方模型管理區暖身。";
+        button.addEventListener("click", () => {
+          if (!isReady) return;
+          state.whisperModel = model.id;
+          whisperTranscriber = null;
+          whisperTranscriberKey = "";
+          updateChoiceUi();
+          saveState();
+        });
+        els.whisperModelGroup.appendChild(button);
+      });
+    }
+
+    function updateTextEngineUi() {
+      if (!availability.textEngines[state.textEngine]?.ok) {
+        state.textEngine = availability.textEngines["chrome-built-in"].ok ? "chrome-built-in" : "local-rule";
+      }
+      document.querySelectorAll("#textEngineGroup [data-text-engine]").forEach((button) => {
+        const engine = button.dataset.textEngine;
+        const item = availability.textEngines[engine];
+        const ready = Boolean(item?.ok);
+        button.classList.toggle("ready", ready);
+        button.classList.toggle("unavailable", !ready);
+        button.classList.toggle("active", engine === state.textEngine);
+        button.disabled = !ready;
+        button.title = item?.detail || "";
+      });
+      const active = availability.textEngines[state.textEngine];
+      els.textEngineAvailabilityNote.textContent = `目前選擇：${{
+        "chrome-built-in": "Chrome Built-in AI",
+        ollama: "Ollama",
+        "local-rule": "本地規則"
+      }[state.textEngine]}｜${active.detail}`;
+    }
+
+    function updateChoiceUi() {
+      setActiveByData("webSpeechLangGroup", "data-speech-lang", state.speechLang);
+      setActiveByData("whisperDeviceGroup", "data-whisper-device", state.whisperDevice);
+      setActiveByData("targetLanguageGroup", "data-target-language", state.targetLanguage);
+      renderWhisperModelManager();
+      renderWhisperWorkspaceModels();
+      updateTextEngineUi();
+      els.activeTextEngine.textContent = {
+        "chrome-built-in": "Chrome Built-in AI",
+        "ollama": "Ollama",
+        "local-rule": "本地規則"
+      }[state.textEngine];
+    }
+
+    function saveState() {
+      const stored = {
+        ...state,
+        webSpeechTranscript: els.webSpeechTranscript.value,
+        whisperUploadTranscript: els.whisperUploadTranscript.value,
+        whisperLiveTranscript: els.whisperLiveTranscript.value,
+        rawTranscript: els.rawTranscript.value,
+        cleanText: els.cleanText.value,
+        finalPrompt: els.finalPrompt.value,
+        ollamaEndpoint: els.ollamaEndpoint.value,
+        ollamaModel: els.ollamaModel.value
+      };
+      localStorage.setItem(storageKey, JSON.stringify(stored));
+      updateMetrics();
+    }
+
+    function restoreState() {
+      try {
+        restoreDownloadedWhisperModels();
+        const stored = JSON.parse(localStorage.getItem(storageKey) || localStorage.getItem(legacyStorageKey) || "{}");
+        Object.assign(state, {
+          speechLang: stored.speechLang || state.speechLang,
+          whisperModel: stored.whisperModel || state.whisperModel,
+          whisperDevice: stored.whisperDevice || state.whisperDevice,
+          targetLanguage: stored.targetLanguage || state.targetLanguage,
+          textEngine: stored.textEngine || state.textEngine,
+          promptId: stored.promptId || state.promptId
+        });
+        els.webSpeechTranscript.value = stored.webSpeechTranscript || "";
+        els.whisperUploadTranscript.value = stored.whisperUploadTranscript || "";
+        els.whisperLiveTranscript.value = stored.whisperLiveTranscript || "";
+        els.rawTranscript.value = stored.rawTranscript || "";
+        els.cleanText.value = stored.cleanText || "";
+        els.finalPrompt.value = stored.finalPrompt || "";
+        els.ollamaEndpoint.value = stored.ollamaEndpoint || els.ollamaEndpoint.value;
+        els.ollamaModel.value = stored.ollamaModel || els.ollamaModel.value;
+      } catch (error) {
+        console.warn("Cannot restore state", error);
+      }
+      ensureSelectableWhisperModel();
+      updateChoiceUi();
+    }
+
+    function setEnvironmentChecks(items) {
+      els.environmentChecks.innerHTML = items.map((item) => `
+        <div class="check-item ${item.ok ? "ok" : "warn"}">
+          <strong>${item.ok ? "OK" : "注意"}｜${item.title}</strong>
+          <span>${item.detail}</span>
+        </div>
+      `).join("");
+    }
+
+    function getChromeAiApis() {
+      return {
+        translator: window.Translator || null,
+        languageDetector: window.LanguageDetector || null,
+        rewriter: window.Rewriter || null,
+        languageModel: window.LanguageModel || null
+      };
+    }
+
+    function getChromeTargetLanguage() {
+      return {
+        "zh-Hant": "zh-TW",
+        en: "en",
+        ja: "ja"
+      }[state.targetLanguage] || state.targetLanguage;
+    }
+
+    function isSameLanguageTarget() {
+      return state.speechLang.toLowerCase() === getChromeTargetLanguage().toLowerCase()
+        || (state.speechLang === "zh-TW" && state.targetLanguage === "zh-Hant");
+    }
+
+    async function checkEnvironment() {
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      const chromeAi = getChromeAiApis();
+      const chromeAiReady = Boolean(chromeAi.translator || chromeAi.rewriter || chromeAi.languageModel);
+      availability.textEngines["chrome-built-in"] = {
+        ok: chromeAiReady,
+        status: chromeAiReady ? "ready" : "unavailable",
+        detail: chromeAiReady ? "偵測到 Chrome Built-in AI，可作為預設後處理模型。" : "未偵測到，可能需要 Chrome 版本、flags 或 localhost / origin trial。"
+      };
+      const checks = [
+        {
+          title: "Web Speech API",
+          ok: Boolean(SpeechRecognition),
+          detail: SpeechRecognition ? "可用，可做麥克風即時轉文字。" : "不可用，請改用 Chrome / Edge 或 Whisper。"
+        },
+        {
+          title: "Transformers.js Whisper",
+          ok: Boolean(window.WebAssembly),
+          detail: window.WebAssembly ? "WASM 可用，可載入瀏覽器 Whisper 模型。" : "WebAssembly 不可用，無法跑瀏覽器 Whisper。"
+        },
+        {
+          title: "WebGPU",
+          ok: Boolean(navigator.gpu),
+          detail: navigator.gpu ? "WebGPU 可用，可嘗試加速 Whisper。" : "WebGPU 不可用，會用 WASM 或自動 fallback。"
+        },
+        {
+          title: "Chrome Built-in AI",
+          ok: chromeAiReady,
+          detail: chromeAiReady ? "偵測到至少一個 Built-in AI API。" : "未偵測到，可能需要 Chrome 版本、flags 或 origin trial。"
+        },
+        {
+          title: "MediaRecorder",
+          ok: Boolean(window.MediaRecorder && navigator.mediaDevices),
+          detail: "Whisper 近即時模式需要用 MediaRecorder 切音訊 chunk。"
+        },
+        {
+          title: "頁面來源",
+          ok: window.isSecureContext || location.protocol === "file:",
+          detail: `${location.protocol}；file:// 可展示，但 Built-in AI 可能需要 localhost 或正式 origin。`
+        }
+      ];
+      setEnvironmentChecks(checks);
+      updateChoiceUi();
+      setGlobalStatus("環境檢測完成。", "ok");
+    }
+
+    async function detectDownloadedWhisperModels() {
+      restoreDownloadedWhisperModels();
+      renderWhisperModelManager();
+      renderWhisperWorkspaceModels();
+      const ready = getReadyWhisperModels().map((model) => model.shortName).join("、");
+      setWhisperStatus(
+        ready
+          ? `已檢測到本頁曾暖身的 Whisper 模型：${ready}。`
+          : "尚未檢測到本頁曾成功暖身的 Whisper 模型；請先預下載 tiny 或 base。",
+        ready ? "ok" : "warn"
+      );
+      setGlobalStatus("Whisper 模型狀態檢測完成。", ready ? "ok" : "warn");
+    }
+
+    async function loadTransformersModule() {
+      if (!transformersModule) {
+        setWhisperStatus("正在載入 Transformers.js runtime...");
+        transformersModule = await import("https://cdn.jsdelivr.net/npm/@huggingface/transformers@3.0.0");
+      }
+      return transformersModule;
+    }
+
+    async function warmUpWhisper(modelId = state.whisperModel, optionsOverride = {}) {
+      if (!modelId) {
+        throw new Error("請先在上方預下載 / 暖身至少一個 Whisper 模型。");
+      }
+      const { pipeline } = await loadTransformersModule();
+      const key = `${modelId}:${state.whisperDevice}`;
+      if (whisperTranscriber && whisperTranscriberKey === key) {
+        setWhisperStatus("Whisper 已暖身完成。", "ok");
+        return whisperTranscriber;
+      }
+      setWhisperModelStatus(modelId, "warming", "正在下載 / 暖身", 0);
+      setWhisperStatus(`正在預下載 / 暖身 ${modelId}...`);
+      const options = {
+        dtype: "q8",
+        progress_callback: (event) => {
+          if (event.status === "progress" && event.total) {
+            const percent = Math.round((event.loaded / event.total) * 100);
+            setWhisperModelStatus(modelId, "warming", `下載 ${percent}%`, percent);
+            setWhisperStatus(`Whisper 模型下載中：${percent}%`);
+          }
+        }
+      };
+      if (state.whisperDevice !== "auto") options.device = state.whisperDevice;
+      whisperTranscriber = await pipeline("automatic-speech-recognition", modelId, options);
+      whisperTranscriberKey = key;
+      if (optionsOverride.selectAfterWarm || !state.whisperModel) {
+        state.whisperModel = modelId;
+      }
+      setWhisperModelStatus(modelId, "ready", "已下載 / 暖身完成，可在下方工作區選擇。", 100);
+      setWhisperStatus(`${modelId} 暖身完成。`, "ok");
+      saveState();
+      return whisperTranscriber;
+    }
+
+    async function transcribeWithWhisper(blobOrFile, targetTextarea, append = false) {
+      if (!blobOrFile) {
+        setWhisperStatus("沒有可轉錄的音訊。請先上傳或開始 Whisper 近即時錄音。", "warn");
+        return;
+      }
+      if (!state.whisperModel || availability.whisper[state.whisperModel]?.status !== "ready") {
+        setWhisperStatus("請先在上方預下載 / 暖身 Whisper 模型，完成後才能轉錄。", "warn");
+        return;
+      }
+      const transcriber = await warmUpWhisper();
+      const tempUrl = URL.createObjectURL(blobOrFile);
+      try {
+        setWhisperStatus("正在用 Transformers.js Whisper 轉錄...");
+        const result = await transcriber(tempUrl, {
+          language: state.speechLang.split("-")[0],
+          task: "transcribe"
+        });
+        const text = (result.text || "").trim();
+        targetTextarea.value = append ? [targetTextarea.value.trim(), text].filter(Boolean).join("\n") : text;
+        setWhisperStatus("Whisper 轉錄完成。", "ok");
+        saveState();
+      } finally {
+        URL.revokeObjectURL(tempUrl);
+      }
+    }
+
+    function createSpeechRecognition() {
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      if (!SpeechRecognition) return null;
+      const recognition = new SpeechRecognition();
+      recognition.lang = state.speechLang;
+      recognition.continuous = true;
+      recognition.interimResults = true;
+      recognition.addEventListener("start", () => {
+        speechBaseTranscript = els.webSpeechTranscript.value.trim();
+        els.webSpeechStatus.textContent = "Web Speech API 正在即時轉錄...";
+      });
+      recognition.addEventListener("result", (event) => {
+        let committed = "";
+        let interim = "";
+        for (let index = event.resultIndex; index < event.results.length; index += 1) {
+          const transcript = event.results[index][0].transcript.trim();
+          if (event.results[index].isFinal) {
+            committed += transcript;
+          } else {
+            interim += transcript;
+          }
+        }
+        if (committed) {
+          speechBaseTranscript = [speechBaseTranscript, committed].filter(Boolean).join("\n");
+        }
+        els.webSpeechTranscript.value = [speechBaseTranscript, interim ? `（即時）${interim}` : ""].filter(Boolean).join("\n");
+        saveState();
+      });
+      recognition.addEventListener("error", (event) => {
+        els.webSpeechStatus.textContent = `Web Speech API 錯誤：${event.error}`;
+      });
+      recognition.addEventListener("end", () => {
+        if (webSpeechListening) {
+          webSpeechListening = false;
+          els.webSpeechToolbar.classList.remove("recording");
+          els.startWebSpeech.disabled = false;
+          els.stopWebSpeech.disabled = true;
+          els.webSpeechStatus.textContent = "Web Speech API 已停止。";
+        }
+      });
+      return recognition;
+    }
+
+    async function warmUpChromeBuiltInAi() {
+      const chromeAi = getChromeAiApis();
+      if (chromeAi.translator && chromeAi.translator.create && !isSameLanguageTarget()) {
+        setGlobalStatus("正在暖身 Chrome Translator API...");
+        const translator = await chromeAi.translator.create({
+          sourceLanguage: state.speechLang,
+          targetLanguage: getChromeTargetLanguage(),
+          monitor(monitor) {
+            monitor.addEventListener("downloadprogress", (event) => {
+              const percent = Math.round((event.loaded || 0) * 100);
+              setGlobalStatus(`Chrome Translator 模型下載中：${percent}%`);
+            });
+          }
+        });
+        chromeAiSession = { type: "translator", value: translator };
+        availability.textEngines["chrome-built-in"] = { ok: true, status: "ready", detail: "Chrome Translator API 已暖身，可做目標語言轉換。" };
+        updateChoiceUi();
+        setGlobalStatus("Chrome Translator API 暖身完成。", "ok");
+        return chromeAiSession;
+      }
+      if (chromeAi.rewriter && chromeAi.rewriter.create) {
+        setGlobalStatus("正在暖身 Chrome Rewriter API...");
+        const rewriter = await chromeAi.rewriter.create({
+          tone: "as-is",
+          format: "plain-text",
+          length: "as-is",
+          outputLanguage: getChromeTargetLanguage()
+        });
+        chromeAiSession = { type: "rewriter", value: rewriter };
+        availability.textEngines["chrome-built-in"] = { ok: true, status: "ready", detail: "Chrome Rewriter API 已暖身，可做逐字稿修飾。" };
+        updateChoiceUi();
+        setGlobalStatus("Chrome Rewriter API 暖身完成。", "ok");
+        return chromeAiSession;
+      }
+      if (chromeAi.languageModel && chromeAi.languageModel.create) {
+        setGlobalStatus("正在暖身 Chrome LanguageModel API...");
+        const session = await chromeAi.languageModel.create({
+          systemPrompt: "請把逐字稿整理成清楚、精簡、可放入 prompt template 的文字。"
+        });
+        chromeAiSession = { type: "languageModel", value: session };
+        availability.textEngines["chrome-built-in"] = { ok: true, status: "ready", detail: "Chrome LanguageModel API 已暖身，可做文字後處理。" };
+        updateChoiceUi();
+        setGlobalStatus("Chrome LanguageModel API 暖身完成。", "ok");
+        return chromeAiSession;
+      }
+      availability.textEngines["chrome-built-in"] = { ok: false, status: "unavailable", detail: "此瀏覽器未提供可用的 Chrome Built-in AI API。" };
+      updateChoiceUi();
+      throw new Error("此瀏覽器未提供可用的 Chrome Built-in AI API。");
+    }
+
+    async function callChromeBuiltInAi(text) {
+      const session = chromeAiSession || await warmUpChromeBuiltInAi();
+      if (session.type === "translator") return await session.value.translate(text);
+      if (session.type === "rewriter") {
+        return await session.value.rewrite(text, {
+          context: "將口語逐字稿整理成 Voice-to-Prompt workflow 可使用的清楚輸入。"
+        });
+      }
+      if (session.type === "languageModel") {
+        const targetLabel = { "zh-Hant": "繁體中文", en: "英文", ja: "日文" }[state.targetLanguage] || "繁體中文";
+        return await session.value.prompt(`請把以下逐字稿整理成清楚文字，保留原意，不新增事實，使用${targetLabel}：\n\n${text}`);
+      }
+      throw new Error("Chrome Built-in AI session 不可用。");
+    }
+
+    function normalizeTranscript(text) {
+      return text
+        .replace(/\s+/g, " ")
+        .replace(/嗯+|呃+|啊+|就是就是|然後然後/g, "")
+        .replace(/([，。！？])\1+/g, "$1")
+        .trim();
+    }
+
+    function polish(text) {
+      const normalized = normalizeTranscript(text);
+      if (!normalized) return "";
+      const chunks = normalized.split(/(?<=[。！？])|[;；]/).map((item) => item.trim()).filter(Boolean);
+      const source = chunks.length ? chunks : [normalized];
+      return [
+        "整理後重點：",
+        ...source.map((item, index) => `${index + 1}. ${item.replace(/[。！？]$/, "")}`),
+        "",
+        "可交給 AI 處理的核心需求：",
+        source.join(" ").replace(/[。！？]$/g, "")
+      ].join("\n");
+    }
+
+    function buildOllamaPolishPrompt() {
+      return [
+        "請將以下原始逐字稿修飾成清楚、可被 Prompt Template 使用的文字。",
+        "",
+        "要求：",
+        "1. 保留原本意思，不要新增事實。",
+        "2. 移除口頭禪與重複語氣。",
+        "3. 整理成「整理後重點」與「可交給 AI 處理的核心需求」兩段。",
+        "4. 使用繁體中文。",
+        "",
+        `原始逐字稿：\n${els.rawTranscript.value.trim()}`
+      ].join("\n");
+    }
+
+    async function callOllama(userPrompt, systemPrompt, model) {
+      const baseUrl = els.ollamaEndpoint.value.trim().replace(/\/+$/, "") || "http://127.0.0.1:11434";
+      const response = await fetch(`${baseUrl}/api/chat`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          model,
+          stream: false,
+          options: { temperature: 0.2 },
+          messages: [
+            { role: "system", content: systemPrompt },
+            { role: "user", content: userPrompt }
+          ]
+        })
+      });
+      if (!response.ok) throw new Error(`Ollama HTTP ${response.status}: ${(await response.text()).slice(0, 160)}`);
+      const data = await response.json();
+      return (data.message && data.message.content ? data.message.content : data.response || "").trim();
+    }
+
+    async function loadOllamaModels() {
+      const baseUrl = els.ollamaEndpoint.value.trim().replace(/\/+$/, "") || "http://127.0.0.1:11434";
+      setGlobalStatus("正在檢查 Ollama...");
+      try {
+        const response = await fetch(`${baseUrl}/api/tags`);
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        const data = await response.json();
+        const models = (data.models || []).map((item) => item.name).join("、") || "無";
+        availability.textEngines.ollama = {
+          ok: Boolean(data.models && data.models.length),
+          status: data.models && data.models.length ? "ready" : "unavailable",
+          detail: data.models && data.models.length ? `Ollama 可用：${models}` : "Ollama 可連線，但目前沒有模型。"
+        };
+        updateChoiceUi();
+        setGlobalStatus(`Ollama 可用：${models}`, "ok");
+      } catch (error) {
+        availability.textEngines.ollama = { ok: false, status: "unavailable", detail: `Ollama 不可用：${error.message}` };
+        updateChoiceUi();
+        setGlobalStatus(`Ollama 不可用：${error.message}`, "warn");
+      }
+    }
+
+    function setAudioPreview(blobOrFile, label) {
+      if (audioUrl) URL.revokeObjectURL(audioUrl);
+      currentAudioBlob = blobOrFile;
+      audioUrl = URL.createObjectURL(blobOrFile);
+      els.audioPreview.src = audioUrl;
+      els.audioPreview.classList.remove("hidden");
+      setWhisperStatus(label);
+    }
+
+    function renderPromptDb() {
+      els.promptList.innerHTML = "";
+      promptDb.forEach((item) => {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = `choice light${item.id === state.promptId ? " active" : ""}`;
+        button.textContent = item.title;
+        button.title = item.description;
+        button.addEventListener("click", () => {
+          state.promptId = item.id;
+          renderPromptDb();
+          saveState();
+        });
+        els.promptList.appendChild(button);
+      });
+      const selected = getSelectedPrompt();
+      els.templatePreview.textContent = selected.template.replace("{{cleanText}}", "...");
+      els.promptType.textContent = selected.title;
+    }
+
+    function getSelectedPrompt() {
+      return promptDb.find((item) => item.id === state.promptId) || promptDb[0];
+    }
+
+    function updateMetrics() {
+      els.rawCount.textContent = String(els.rawTranscript.value.replace(/\s/g, "").length);
+      els.activeTextEngine.textContent = {
+        "chrome-built-in": "Chrome Built-in AI",
+        "ollama": "Ollama",
+        "local-rule": "本地規則"
+      }[state.textEngine];
+      els.promptType.textContent = getSelectedPrompt().title;
+    }
+
+    async function copyToClipboard(text, doneLabel, button) {
+      if (!text.trim()) return;
+      await navigator.clipboard.writeText(text);
+      const original = button.textContent;
+      button.textContent = doneLabel;
+      window.setTimeout(() => {
+        button.textContent = original;
+      }, 1200);
+    }
+
+    function bindTextareaActions() {
+      document.querySelectorAll("[data-clear-target]").forEach((button) => {
+        button.addEventListener("click", () => {
+          const target = document.getElementById(button.dataset.clearTarget);
+          if (!target) return;
+          target.value = "";
+          if (target.id === "webSpeechTranscript") speechBaseTranscript = "";
+          saveState();
+        });
+      });
+      document.querySelectorAll("[data-copy-target]").forEach((button) => {
+        button.addEventListener("click", () => {
+          const target = document.getElementById(button.dataset.copyTarget);
+          if (!target) return;
+          copyToClipboard(target.value, "已複製", button);
+        });
+      });
+    }
+
+    els.checkEnvironment.addEventListener("click", checkEnvironment);
+    els.detectWhisperModels.addEventListener("click", detectDownloadedWhisperModels);
+    els.warmChromeAi.addEventListener("click", async () => {
+      try {
+        await warmUpChromeBuiltInAi();
+      } catch (error) {
+        setGlobalStatus(`Chrome Built-in AI 暖身失敗：${error.message}`, "warn");
+      }
+    });
+    els.warmWhisper.addEventListener("click", async () => {
+      try {
+        await warmUpWhisper(state.whisperModel || whisperModels[0].id, { selectAfterWarm: true });
+      } catch (error) {
+        setWhisperStatus(`Whisper 暖身失敗：${error.message}`, "warn");
+      }
+    });
+    els.loadOllamaModels.addEventListener("click", loadOllamaModels);
+
+    document.querySelectorAll("[data-speech-lang]").forEach((button) => {
+      button.addEventListener("click", () => {
+        state.speechLang = button.dataset.speechLang;
+        updateChoiceUi();
+        chromeAiSession = null;
+        saveState();
+      });
+    });
+
+    document.querySelectorAll("[data-whisper-model]").forEach((button) => {
+      button.addEventListener("click", () => {
+        state.whisperModel = button.dataset.whisperModel;
+        whisperTranscriber = null;
+        whisperTranscriberKey = "";
+        updateChoiceUi();
+        saveState();
+      });
+    });
+
+    document.querySelectorAll("[data-whisper-device]").forEach((button) => {
+      button.addEventListener("click", () => {
+        state.whisperDevice = button.dataset.whisperDevice;
+        whisperTranscriber = null;
+        whisperTranscriberKey = "";
+        updateChoiceUi();
+        saveState();
+      });
+    });
+
+    document.querySelectorAll("[data-text-engine]").forEach((button) => {
+      button.addEventListener("click", () => {
+        state.textEngine = button.dataset.textEngine;
+        updateChoiceUi();
+        saveState();
+      });
+    });
+
+    document.querySelectorAll("[data-target-language]").forEach((button) => {
+      button.addEventListener("click", () => {
+        state.targetLanguage = button.dataset.targetLanguage;
+        chromeAiSession = null;
+        updateChoiceUi();
+        saveState();
+      });
+    });
+
+    els.startWebSpeech.addEventListener("click", () => {
+      speechRecognition = createSpeechRecognition();
+      if (!speechRecognition) {
+        els.webSpeechStatus.textContent = "此瀏覽器不支援 Web Speech API。";
+        return;
+      }
+      try {
+        speechRecognition.start();
+        webSpeechListening = true;
+        els.webSpeechToolbar.classList.add("recording");
+        els.startWebSpeech.disabled = true;
+        els.stopWebSpeech.disabled = false;
+      } catch (error) {
+        els.webSpeechStatus.textContent = "Web Speech API 啟動失敗，請檢查麥克風權限。";
+      }
+    });
+
+    els.stopWebSpeech.addEventListener("click", () => {
+      if (speechRecognition) speechRecognition.stop();
+      speechRecognition = null;
+      webSpeechListening = false;
+      els.webSpeechToolbar.classList.remove("recording");
+      els.startWebSpeech.disabled = false;
+      els.stopWebSpeech.disabled = true;
+    });
+
+    els.audioFile.addEventListener("change", (event) => {
+      const file = event.target.files[0];
+      if (!file) return;
+      setAudioPreview(file, `已暫存上傳音檔：${file.name}`);
+    });
+
+    els.transcribeUpload.addEventListener("click", async () => {
+      els.transcribeUpload.disabled = true;
+      try {
+        await transcribeWithWhisper(currentAudioBlob, els.whisperUploadTranscript, false);
+      } catch (error) {
+        setWhisperStatus(`上傳檔轉錄失敗：${error.message}`, "warn");
+      } finally {
+        els.transcribeUpload.disabled = false;
+      }
+    });
+
+    els.startWhisperLive.addEventListener("click", async () => {
+      if (!navigator.mediaDevices || !window.MediaRecorder) {
+        setWhisperStatus("此瀏覽器不支援 MediaRecorder。", "warn");
+        return;
+      }
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        recordedChunks = [];
+        mediaRecorder = new MediaRecorder(stream);
+        mediaRecorder.addEventListener("dataavailable", (event) => {
+          if (event.data.size > 0) {
+            const chunk = event.data;
+            whisperQueue = whisperQueue.then(() => transcribeWithWhisper(chunk, els.whisperLiveTranscript, true));
+          }
+        });
+        mediaRecorder.addEventListener("stop", () => {
+          stream.getTracks().forEach((track) => track.stop());
+          setWhisperStatus("Whisper 近即時錄音已停止。", "ok");
+        });
+        mediaRecorder.start(6000);
+        els.whisperToolbar.classList.add("recording");
+        els.startWhisperLive.disabled = true;
+        els.stopWhisperLive.disabled = false;
+        setWhisperStatus("Whisper 近即時錄音中，每 6 秒切段轉錄...");
+      } catch (error) {
+        setWhisperStatus("無法啟動麥克風，請檢查權限。", "warn");
+      }
+    });
+
+    els.stopWhisperLive.addEventListener("click", () => {
+      if (mediaRecorder && mediaRecorder.state !== "inactive") mediaRecorder.stop();
+      els.whisperToolbar.classList.remove("recording");
+      els.startWhisperLive.disabled = false;
+      els.stopWhisperLive.disabled = true;
+    });
+
+    els.useWebSpeechText.addEventListener("click", () => {
+      els.rawTranscript.value = els.webSpeechTranscript.value;
+      saveState();
+    });
+    els.useWhisperUploadText.addEventListener("click", () => {
+      els.rawTranscript.value = els.whisperUploadTranscript.value;
+      saveState();
+    });
+    els.useWhisperLiveText.addEventListener("click", () => {
+      els.rawTranscript.value = els.whisperLiveTranscript.value;
+      saveState();
+    });
+
+    els.processText.addEventListener("click", async () => {
+      if (!els.rawTranscript.value.trim()) {
+        els.cleanText.value = "請先帶入或貼上原始文字。";
+        saveState();
+        return;
+      }
+      els.processText.disabled = true;
+      try {
+        if (state.textEngine === "chrome-built-in") {
+          setGlobalStatus("正在呼叫 Chrome Built-in AI...");
+          els.cleanText.value = await callChromeBuiltInAi(els.rawTranscript.value.trim());
+          setGlobalStatus("Chrome Built-in AI 處理完成。", "ok");
+        } else if (state.textEngine === "ollama") {
+          setGlobalStatus(`正在呼叫 Ollama：${els.ollamaModel.value}...`);
+          els.cleanText.value = await callOllama(
+            buildOllamaPolishPrompt(),
+            "你是 Voice-to-Prompt Workflow 的文字修飾 adapter。請把口語逐字稿整理成清楚、可被 prompt template 使用的輸入文字。",
+            els.ollamaModel.value.trim() || "qwen3-vl:4b"
+          );
+          setGlobalStatus("Ollama 處理完成。", "ok");
+        } else {
+          els.cleanText.value = polish(els.rawTranscript.value);
+          setGlobalStatus("本地規則處理完成。", "ok");
+        }
+        saveState();
+      } catch (error) {
+        setGlobalStatus(`文字處理失敗：${error.message}`, "warn");
+      } finally {
+        els.processText.disabled = false;
+      }
+    });
+
+    els.generatePrompt.addEventListener("click", () => {
+      const selected = getSelectedPrompt();
+      const cleanText = els.cleanText.value.trim() || polish(els.rawTranscript.value);
+      if (!cleanText) {
+        els.finalPrompt.value = "請先帶入逐字稿，並完成文字後處理。";
+      } else {
+        els.cleanText.value = cleanText;
+        els.finalPrompt.value = selected.template.replace("{{cleanText}}", cleanText);
+      }
+      saveState();
+    });
+
+    els.resetAll.addEventListener("click", () => {
+      if (audioUrl) URL.revokeObjectURL(audioUrl);
+      localStorage.removeItem(storageKey);
+      [els.webSpeechTranscript, els.whisperUploadTranscript, els.whisperLiveTranscript, els.rawTranscript, els.cleanText, els.finalPrompt].forEach((item) => {
+        item.value = "";
+      });
+      els.audioFile.value = "";
+      currentAudioBlob = null;
+      recordedChunks = [];
+      els.audioPreview.removeAttribute("src");
+      els.audioPreview.classList.add("hidden");
+      setWhisperStatus("尚未載入 Whisper。");
+      setGlobalStatus("已清除暫存。", "ok");
+      saveState();
+    });
+
+    [els.webSpeechTranscript, els.whisperUploadTranscript, els.whisperLiveTranscript, els.rawTranscript, els.cleanText, els.finalPrompt, els.ollamaEndpoint, els.ollamaModel].forEach((item) => {
+      item.addEventListener("input", saveState);
+    });
+
+    bindTextareaActions();
+    restoreState();
+    renderPromptDb();
+    updateChoiceUi();
+    updateMetrics();
+  </script>
+</body>
+</html>
