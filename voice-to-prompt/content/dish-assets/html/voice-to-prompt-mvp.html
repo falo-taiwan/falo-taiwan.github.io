@@ -654,13 +654,18 @@
 
       <div class="toolbar">
         <button id="checkEnvironment" type="button">環境檢測</button>
+        <button id="detectChromeAi" type="button" class="light">檢測 Chrome Built-in AI</button>
         <button id="detectWhisperModels" type="button" class="light">檢測已下載 Whisper</button>
-        <button id="warmChromeAi" type="button" class="secondary">暖身 Chrome Built-in AI</button>
+        <button id="warmChromeAi" type="button" class="secondary">檢測 Chrome Built-in AI 狀態</button>
         <button id="warmWhisper" type="button" class="secondary">暖身目前選擇 Whisper</button>
         <button id="loadOllamaModels" type="button" class="light">檢查 Ollama</button>
       </div>
       <div id="globalStatus" class="ai-status">尚未檢測環境。</div>
       <div id="environmentChecks" class="check-grid" aria-label="environment checks"></div>
+
+      <h3>Chrome Built-in AI 檢測 / 下載狀態</h3>
+      <p class="availability-note">上方按鈕只做檢測；真正的模型下載 / 暖身，請在下方各 API 狀態卡內操作。</p>
+      <div id="chromeAiManager" class="model-grid" aria-label="chrome built in ai manager"></div>
 
       <h3>Whisper 模型下載 / 暖身狀態</h3>
       <p class="availability-note">此區負責先下載與暖身。下方工作區只允許選擇已完成暖身的綠色模型。</p>
@@ -821,7 +826,7 @@
     </section>
 
     <p class="footer-note">
-      Falo x Force Cheng ｜ 2026/5/6 ｜ Local MVP v0.11 ｜ 能力檢查區與工作區分離；Whisper 模型先檢測 / 暖身，工作區只可選綠色可用模型；所有主要文字框皆可清除與複製到剪貼簿。
+      Falo x Force Cheng ｜ 2026/5/6 ｜ v102 (v1.02) ｜ 能力檢查區與工作區分離；Chrome Built-in AI 與 Whisper 皆先檢測 / 下載 / 暖身；所有主要文字框皆可清除與複製到剪貼簿。
     </p>
   </main>
 
@@ -861,12 +866,14 @@
 
     const els = {
       checkEnvironment: document.querySelector("#checkEnvironment"),
+      detectChromeAi: document.querySelector("#detectChromeAi"),
       detectWhisperModels: document.querySelector("#detectWhisperModels"),
       warmChromeAi: document.querySelector("#warmChromeAi"),
       warmWhisper: document.querySelector("#warmWhisper"),
       loadOllamaModels: document.querySelector("#loadOllamaModels"),
       globalStatus: document.querySelector("#globalStatus"),
       environmentChecks: document.querySelector("#environmentChecks"),
+      chromeAiManager: document.querySelector("#chromeAiManager"),
       whisperModelManager: document.querySelector("#whisperModelManager"),
       startWebSpeech: document.querySelector("#startWebSpeech"),
       stopWebSpeech: document.querySelector("#stopWebSpeech"),
@@ -905,8 +912,25 @@
       promptType: document.querySelector("#promptType")
     };
 
-    const storageKey = "voice-to-prompt-workbench-v011";
-    const legacyStorageKey = "voice-to-prompt-workbench-v010";
+    const storageKey = "voice-to-prompt-workbench-v102";
+    const legacyStorageKeys = ["voice-to-prompt-workbench-v002", "voice-to-prompt-workbench-v011", "voice-to-prompt-workbench-v010"];
+    const chromeAiFeatures = [
+      {
+        id: "translator",
+        title: "Translator API",
+        description: "負責跨語言翻譯；目標語言不是原語言時優先使用。"
+      },
+      {
+        id: "rewriter",
+        title: "Rewriter API",
+        description: "負責把逐字稿改寫成更清楚的文字。"
+      },
+      {
+        id: "languageModel",
+        title: "Prompt API / LanguageModel",
+        description: "負責以 prompt 方式做文字整理與轉換。"
+      }
+    ];
     const whisperModels = [
       {
         id: "Xenova/whisper-tiny",
@@ -937,6 +961,11 @@
     };
 
     const availability = {
+      chromeAi: Object.fromEntries(chromeAiFeatures.map((feature) => [feature.id, {
+        status: "unknown",
+        detail: "尚未檢測",
+        raw: ""
+      }])),
       whisper: Object.fromEntries(whisperModels.map((model) => [model.id, {
         status: "not-downloaded",
         detail: "尚未下載 / 暖身",
@@ -988,6 +1017,169 @@
         error: "失敗",
         "not-downloaded": "未下載"
       }[status] || "未檢測";
+    }
+
+    function getChromeAiStatusLabel(status) {
+      return {
+        ready: "可用",
+        available: "可用",
+        downloadable: "可下載",
+        downloading: "下載中",
+        warming: "暖身中",
+        unavailable: "不可用",
+        "not-needed": "不需啟用",
+        error: "失敗",
+        unknown: "未檢測"
+      }[status] || "未檢測";
+    }
+
+    function normalizeChromeAiAvailability(rawValue, hasCreate) {
+      const raw = String(rawValue || "").toLowerCase();
+      if (["available", "readily", "ready"].includes(raw)) return "ready";
+      if (["downloadable", "after-download"].includes(raw)) return "downloadable";
+      if (["downloading"].includes(raw)) return "downloading";
+      if (["unavailable", "no", "no-support"].includes(raw)) return "unavailable";
+      return hasCreate ? "available" : "unavailable";
+    }
+
+    function setChromeAiFeatureStatus(featureId, status, detail = "", raw = "", percent = 0) {
+      if (!availability.chromeAi[featureId]) return;
+      availability.chromeAi[featureId] = {
+        status,
+        detail: detail || availability.chromeAi[featureId].detail,
+        raw,
+        percent
+      };
+      if (status === "ready") {
+        const ready = new Set(JSON.parse(localStorage.getItem("voice-to-prompt-chrome-ai-ready") || "[]"));
+        ready.add(featureId);
+        localStorage.setItem("voice-to-prompt-chrome-ai-ready", JSON.stringify([...ready]));
+      }
+      updateChromeBuiltInTextEngineStatus();
+      renderChromeAiManager();
+      updateTextEngineUi();
+    }
+
+    function restoreReadyChromeAiFeatures() {
+      let ready = [];
+      try {
+        ready = JSON.parse(localStorage.getItem("voice-to-prompt-chrome-ai-ready") || "[]");
+      } catch (error) {
+        ready = [];
+      }
+      chromeAiFeatures.forEach((feature) => {
+        if (ready.includes(feature.id)) {
+          availability.chromeAi[feature.id] = {
+            status: "ready",
+            detail: "本頁曾成功下載 / 暖身，可優先嘗試使用。",
+            raw: "local-ready",
+            percent: 100
+          };
+        }
+      });
+      updateChromeBuiltInTextEngineStatus();
+    }
+
+    function getChromeAiFeatureOptions(featureId) {
+      if (featureId === "translator") {
+        return {
+          sourceLanguage: state.speechLang,
+          targetLanguage: getChromeTargetLanguage()
+        };
+      }
+      if (featureId === "rewriter") {
+        return {
+          tone: "as-is",
+          format: "plain-text",
+          length: "as-is",
+          outputLanguage: getChromeTargetLanguage()
+        };
+      }
+      if (featureId === "languageModel") {
+        return {
+          initialPrompts: [
+            {
+              role: "system",
+              content: "請把逐字稿整理成清楚、精簡、可放入 prompt template 的文字。"
+            }
+          ]
+        };
+      }
+      return {};
+    }
+
+    function getBestChromeAiFeatureId() {
+      if (!isSameLanguageTarget() && ["ready", "available", "downloadable", "downloading"].includes(availability.chromeAi.translator.status)) return "translator";
+      if (["ready", "available", "downloadable", "downloading"].includes(availability.chromeAi.rewriter.status)) return "rewriter";
+      if (["ready", "available", "downloadable", "downloading"].includes(availability.chromeAi.languageModel.status)) return "languageModel";
+      return "";
+    }
+
+    function updateChromeBuiltInTextEngineStatus() {
+      const best = getBestChromeAiFeatureId();
+      if (best) {
+        const item = availability.chromeAi[best];
+        availability.textEngines["chrome-built-in"] = {
+          ok: true,
+          status: item.status,
+          detail: `${chromeAiFeatures.find((feature) => feature.id === best).title}：${item.detail}`
+        };
+        return;
+      }
+      const hasAnyCandidate = Object.values(availability.chromeAi).some((item) => item.status !== "unknown" && item.status !== "unavailable" && item.status !== "error" && item.status !== "not-needed");
+      availability.textEngines["chrome-built-in"] = {
+        ok: hasAnyCandidate,
+        status: hasAnyCandidate ? "available" : "unavailable",
+        detail: hasAnyCandidate ? "偵測到 Chrome Built-in AI 候選能力，請先暖身確認。" : "尚未偵測到可用 Chrome Built-in AI。"
+      };
+    }
+
+    function renderChromeAiManager() {
+      els.chromeAiManager.innerHTML = "";
+      chromeAiFeatures.forEach((feature) => {
+        const item = availability.chromeAi[feature.id];
+        const isTranslatorSameLanguage = feature.id === "translator" && isSameLanguageTarget();
+        const card = document.createElement("div");
+        card.className = `model-card ${item.status}`;
+
+        const status = document.createElement("span");
+        status.className = `model-status ${item.status}`;
+        status.textContent = getChromeAiStatusLabel(isTranslatorSameLanguage ? "not-needed" : item.status);
+
+        const head = document.createElement("div");
+        head.className = "model-head";
+        const title = document.createElement("div");
+        title.innerHTML = `<strong>${feature.title}</strong><span>${feature.id}</span>`;
+        head.append(title, status);
+
+        const note = document.createElement("div");
+        note.className = "model-note";
+        const progress = item.status === "warming" && item.percent ? `下載 ${item.percent}%` : item.detail;
+        note.textContent = isTranslatorSameLanguage ? "目前來源語言與目標語言相同，翻譯 API 不需啟用；可用 Rewriter 或 Prompt API 做整理。" : (progress || feature.description);
+
+        const action = document.createElement("button");
+        action.type = "button";
+        action.className = item.status === "ready" ? "light" : "secondary";
+        action.textContent = isTranslatorSameLanguage
+          ? "不需啟用"
+          : item.status === "ready"
+            ? "重新暖身"
+            : item.status === "unavailable"
+              ? "不可用"
+              : "下載 / 暖身";
+        action.disabled = item.status === "warming" || item.status === "unavailable" || isTranslatorSameLanguage;
+        action.addEventListener("click", async () => {
+          try {
+            await warmUpChromeAiFeature(feature.id);
+          } catch (error) {
+            setChromeAiFeatureStatus(feature.id, "error", error.message, "error");
+            setGlobalStatus(`Chrome Built-in AI 暖身失敗：${error.message}`, "warn");
+          }
+        });
+
+        card.append(head, note, action);
+        els.chromeAiManager.appendChild(card);
+      });
     }
 
     function getReadyWhisperModels() {
@@ -1136,6 +1328,7 @@
       setActiveByData("webSpeechLangGroup", "data-speech-lang", state.speechLang);
       setActiveByData("whisperDeviceGroup", "data-whisper-device", state.whisperDevice);
       setActiveByData("targetLanguageGroup", "data-target-language", state.targetLanguage);
+      renderChromeAiManager();
       renderWhisperModelManager();
       renderWhisperWorkspaceModels();
       updateTextEngineUi();
@@ -1164,6 +1357,7 @@
 
     function restoreState() {
       try {
+        restoreReadyChromeAiFeatures();
         restoreDownloadedWhisperModels();
         const stored = JSON.parse(localStorage.getItem(storageKey) || localStorage.getItem(legacyStorageKey) || "{}");
         Object.assign(state, {
@@ -1200,10 +1394,10 @@
 
     function getChromeAiApis() {
       return {
-        translator: window.Translator || null,
-        languageDetector: window.LanguageDetector || null,
-        rewriter: window.Rewriter || null,
-        languageModel: window.LanguageModel || null
+        translator: window.Translator || window.ai?.translator || null,
+        languageDetector: window.LanguageDetector || window.ai?.languageDetector || null,
+        rewriter: window.Rewriter || window.ai?.rewriter || null,
+        languageModel: window.LanguageModel || window.ai?.languageModel || window.ai?.assistant || null
       };
     }
 
@@ -1222,13 +1416,7 @@
 
     async function checkEnvironment() {
       const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-      const chromeAi = getChromeAiApis();
-      const chromeAiReady = Boolean(chromeAi.translator || chromeAi.rewriter || chromeAi.languageModel);
-      availability.textEngines["chrome-built-in"] = {
-        ok: chromeAiReady,
-        status: chromeAiReady ? "ready" : "unavailable",
-        detail: chromeAiReady ? "偵測到 Chrome Built-in AI，可作為預設後處理模型。" : "未偵測到，可能需要 Chrome 版本、flags 或 localhost / origin trial。"
-      };
+      const chromeAiSummary = await detectChromeBuiltInAi({ silent: true });
       const checks = [
         {
           title: "Web Speech API",
@@ -1247,8 +1435,8 @@
         },
         {
           title: "Chrome Built-in AI",
-          ok: chromeAiReady,
-          detail: chromeAiReady ? "偵測到至少一個 Built-in AI API。" : "未偵測到，可能需要 Chrome 版本、flags 或 origin trial。"
+          ok: chromeAiSummary.ok,
+          detail: chromeAiSummary.detail
         },
         {
           title: "MediaRecorder",
@@ -1264,6 +1452,69 @@
       setEnvironmentChecks(checks);
       updateChoiceUi();
       setGlobalStatus("環境檢測完成。", "ok");
+    }
+
+    async function detectChromeAiFeature(featureId) {
+      const chromeAi = getChromeAiApis();
+      const api = chromeAi[featureId];
+      const feature = chromeAiFeatures.find((item) => item.id === featureId);
+      if (!api) {
+        setChromeAiFeatureStatus(featureId, "unavailable", `${feature.title} 未出現在此瀏覽器。`, "missing");
+        return availability.chromeAi[featureId];
+      }
+      if (featureId === "translator" && isSameLanguageTarget()) {
+        availability.chromeAi[featureId] = {
+          status: "not-needed",
+          detail: "目前來源語言與目標語言相同，翻譯 API 不需啟用。",
+          raw: "same-language",
+          percent: 0
+        };
+        renderChromeAiManager();
+        updateChromeBuiltInTextEngineStatus();
+        return availability.chromeAi[featureId];
+      }
+      const options = getChromeAiFeatureOptions(featureId);
+      try {
+        let raw = "";
+        if (typeof api.availability === "function") {
+          raw = await api.availability(options);
+        } else if (typeof api.capabilities === "function") {
+          const capabilities = await api.capabilities(options);
+          raw = capabilities?.available || capabilities?.availability || "";
+        }
+        const status = normalizeChromeAiAvailability(raw, typeof api.create === "function");
+        const detail = {
+          ready: `${feature.title} 已可直接建立 session。`,
+          available: `${feature.title} 有 create()，但此瀏覽器未回傳標準 availability；可嘗試暖身。`,
+          downloadable: `${feature.title} 可用，但需要下載瀏覽器內建模型。`,
+          downloading: `${feature.title} 模型正在下載中，可按暖身觀察進度。`,
+          unavailable: `${feature.title} 目前不可用，可能需要 Chrome 版本、flags、硬體條件或 localhost/HTTPS。`
+        }[status] || `${feature.title} 狀態：${raw || "unknown"}`;
+        setChromeAiFeatureStatus(featureId, status, detail, raw || status);
+      } catch (error) {
+        setChromeAiFeatureStatus(featureId, "error", `${feature.title} 檢測失敗：${error.message}`, "error");
+      }
+      return availability.chromeAi[featureId];
+    }
+
+    async function detectChromeBuiltInAi(options = {}) {
+      for (const feature of chromeAiFeatures) {
+        await detectChromeAiFeature(feature.id);
+      }
+      updateChromeBuiltInTextEngineStatus();
+      updateChoiceUi();
+      const best = getBestChromeAiFeatureId();
+      const summary = best
+        ? {
+            ok: true,
+            detail: `可用候選：${chromeAiFeatures.find((feature) => feature.id === best).title}。${availability.chromeAi[best].detail}`
+          }
+        : {
+            ok: false,
+            detail: "未偵測到可用 Chrome Built-in AI；可能需要 Chrome 版本、flags、硬體條件或 localhost/HTTPS。"
+          };
+      if (!options.silent) setGlobalStatus(`Chrome Built-in AI 檢測完成：${summary.detail}`, summary.ok ? "ok" : "warn");
+      return summary;
     }
 
     async function detectDownloadedWhisperModels() {
@@ -1391,7 +1642,53 @@
       return recognition;
     }
 
+    async function warmUpChromeAiFeature(featureId) {
+      const chromeAi = getChromeAiApis();
+      const api = chromeAi[featureId];
+      const feature = chromeAiFeatures.find((item) => item.id === featureId);
+      if (!api || typeof api.create !== "function") {
+        throw new Error(`${feature.title} 沒有可用 create()。`);
+      }
+      if (featureId === "translator" && isSameLanguageTarget()) {
+        throw new Error("目前來源語言與目標語言相同，Translator API 不需啟用。");
+      }
+      const createOptions = getChromeAiFeatureOptions(featureId);
+      setChromeAiFeatureStatus(featureId, "warming", `${feature.title} 正在下載 / 暖身。`, "warming", 0);
+      setGlobalStatus(`正在下載 / 暖身 ${feature.title}...`);
+      const session = await api.create({
+        ...createOptions,
+        monitor(monitor) {
+          monitor.addEventListener("downloadprogress", (event) => {
+            const percent = event.total
+              ? Math.round((event.loaded / event.total) * 100)
+              : Math.round((event.loaded || 0) * 100);
+            setChromeAiFeatureStatus(featureId, "warming", `${feature.title} 模型下載中：${percent}%`, "downloading", percent);
+            setGlobalStatus(`${feature.title} 模型下載中：${percent}%`);
+          });
+        }
+      });
+      chromeAiSession = { type: featureId, value: session };
+      setChromeAiFeatureStatus(featureId, "ready", `${feature.title} 已下載 / 暖身完成，可做文字後處理。`, "ready", 100);
+      availability.textEngines["chrome-built-in"] = { ok: true, status: "ready", detail: `${feature.title} 已暖身，可做文字後處理。` };
+      updateChoiceUi();
+      setGlobalStatus(`${feature.title} 暖身完成。`, "ok");
+      return chromeAiSession;
+    }
+
     async function warmUpChromeBuiltInAi() {
+      await detectChromeBuiltInAi({ silent: true });
+      const preferred = getBestChromeAiFeatureId();
+      if (preferred) return await warmUpChromeAiFeature(preferred);
+      const chromeAi = getChromeAiApis();
+      if (!isSameLanguageTarget() && chromeAi.translator?.create) return await warmUpChromeAiFeature("translator");
+      if (chromeAi.rewriter?.create) return await warmUpChromeAiFeature("rewriter");
+      if (chromeAi.languageModel?.create) return await warmUpChromeAiFeature("languageModel");
+      availability.textEngines["chrome-built-in"] = { ok: false, status: "unavailable", detail: "此瀏覽器未提供可用的 Chrome Built-in AI API。" };
+      updateChoiceUi();
+      throw new Error("此瀏覽器未提供可用的 Chrome Built-in AI API。");
+    }
+
+    async function warmUpChromeBuiltInAiLegacy() {
       const chromeAi = getChromeAiApis();
       if (chromeAi.translator && chromeAi.translator.create && !isSameLanguageTarget()) {
         setGlobalStatus("正在暖身 Chrome Translator API...");
@@ -1607,13 +1904,10 @@
     }
 
     els.checkEnvironment.addEventListener("click", checkEnvironment);
+    els.detectChromeAi.addEventListener("click", () => detectChromeBuiltInAi());
     els.detectWhisperModels.addEventListener("click", detectDownloadedWhisperModels);
     els.warmChromeAi.addEventListener("click", async () => {
-      try {
-        await warmUpChromeBuiltInAi();
-      } catch (error) {
-        setGlobalStatus(`Chrome Built-in AI 暖身失敗：${error.message}`, "warn");
-      }
+      await detectChromeBuiltInAi();
     });
     els.warmWhisper.addEventListener("click", async () => {
       try {

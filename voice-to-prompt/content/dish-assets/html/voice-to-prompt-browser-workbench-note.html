@@ -104,7 +104,7 @@
     <div class="wrap">
       <p class="eyebrow">Falo x Force Cheng｜2026/5/6｜Voice-to-Prompt Browser Workbench</p>
       <h1>瀏覽器內轉錄到 Prompt 的教學型 MVP</h1>
-      <p>版本：Local MVP v0.11。這份說明是 single-file HTML，可直接分享、展示或交給其他 AI 作為上下文。</p>
+      <p>版本：v102 (v1.02)。這份說明是 single-file HTML，可直接分享、展示或交給其他 AI 作為上下文。</p>
     </div>
   </header>
 
@@ -126,7 +126,7 @@
     <div class="grid">
       <div class="card">
         <h3>上方：能力確定區</h3>
-        <p>只做環境檢測、模型下載狀態、模型暖身與能力說明。這一區的預設不是工作區的真正選擇。</p>
+        <p>只做環境檢測、Chrome Built-in AI 與 Whisper 的模型下載狀態、模型暖身與能力說明。這一區的預設不是工作區的真正選擇。</p>
       </div>
       <div class="card">
         <h3>下方：真正工作區</h3>
@@ -161,6 +161,7 @@
 
     <h2>AI 後處理</h2>
     <p>可選 Chrome Built-in AI、Ollama 或本地規則。Chrome Built-in AI 為預設選擇，目標語言預設繁中；Ollama 需檢查 endpoint 與模型清單，本地規則永遠可用。</p>
+    <p>v102 新增 Chrome Built-in AI 檢測與下載暖身：上方工具列只做檢測；下方狀態卡分別檢查 Translator、Rewriter 與 Prompt API / LanguageModel，並由狀態卡按鈕透過 <code>create({ monitor })</code> 觸發瀏覽器內建模型下載，使用 <code>downloadprogress</code> 呈現進度。</p>
 
     <h2>文字框操作</h2>
     <p>所有主要文字框都提供「清除」與「複製到剪貼簿」兩個按鈕，包含 Web Speech 輸出、Whisper 上傳輸出、Whisper 近即時輸出、待處理原始文字、修飾後文字與最終 Prompt。</p>

@@ -8,6 +8,8 @@
 
 這次新增一個可直接上 GitHub Pages 測試的 Voice-to-Prompt Workflow MVP。
 
+目前本地版本：`v102 (v1.02)`，尚未推送。
+
 - 預計公開 URL：`https://falo-taiwan.github.io/voice-to-prompt/`
 - Pages 首頁入口：[`index.html`](index.html)
 - 主工作台：[`content/dish-assets/html/voice-to-prompt-mvp.html`](content/dish-assets/html/voice-to-prompt-mvp.html)
