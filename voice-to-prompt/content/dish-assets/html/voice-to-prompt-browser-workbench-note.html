@@ -94,6 +94,19 @@
       font-size: 13px;
       font-weight: 800;
     }
+    .home-link {
+      display: inline-flex;
+      align-items: center;
+      min-height: 38px;
+      margin-bottom: 14px;
+      padding: 8px 12px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      color: var(--teal);
+      font-weight: 800;
+      text-decoration: none;
+    }
     @media (max-width: 760px) {
       .grid { grid-template-columns: 1fr; }
     }
@@ -102,6 +115,7 @@
 <body>
   <header>
     <div class="wrap">
+      <a class="home-link" href="../../../">回到 Voice-to-Prompt 主頁</a>
       <p class="eyebrow">Falo x Force Cheng｜2026/5/6｜Voice-to-Prompt Browser Workbench</p>
       <h1>瀏覽器內轉錄到 Prompt 的教學型 MVP</h1>
       <p>版本：v102 (v1.02)。這份說明是 single-file HTML，可直接分享、展示或交給其他 AI 作為上下文。</p>

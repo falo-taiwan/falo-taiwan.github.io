@@ -184,6 +184,20 @@
       color: var(--teal-dark);
     }
 
+    .home-link {
+      display: inline-flex;
+      align-items: center;
+      min-height: 38px;
+      margin-bottom: 14px;
+      padding: 8px 12px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      color: var(--teal-dark);
+      font-weight: 800;
+      text-decoration: none;
+    }
+
     .steps {
       display: grid;
       grid-template-columns: repeat(5, 1fr);
@@ -610,6 +624,7 @@
 <body>
   <header>
     <div class="wrap hero">
+      <a class="home-link" href="../../../">回到 Voice-to-Prompt 主頁</a>
       <p class="eyebrow">Falo x Force Cheng｜2026/5/6｜Voice-to-Prompt Browser Workbench</p>
       <h1>瀏覽器內完成轉錄，手動帶入 AI 後處理，再產生 Prompt</h1>
       <p class="lead">

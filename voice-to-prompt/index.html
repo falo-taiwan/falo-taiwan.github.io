@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Falo ModelBox｜Voice-to-Prompt Browser Workbench</title>
-  <meta name="description" content="Falo x Force Cheng 的 GitHub Pages 測試入口，展示 Voice-to-Prompt Browser Workbench：從錄音或音檔轉錄，到 AI 後處理與 Prompt Template 輸出。">
+  <meta name="description" content="Falo x Force Cheng 的 Voice-to-Prompt GitHub Pages 主頁，內建最小 Web Speech API 即時轉錄展示，並連到完整工作台與專案說明。">
   <meta name="keywords" content="Falo, Force Cheng, Falo ModelBox, Voice-to-Prompt, Web Speech API, Transformers.js Whisper, Chrome Built-in AI, Ollama, Prompt Template, AI 教學">
   <meta name="author" content="Falo x Force Cheng">
   <meta name="creator" content="Force Cheng">
@@ -113,6 +113,79 @@
       color: var(--ink);
     }
 
+    button {
+      min-height: 42px;
+      padding: 10px 14px;
+      border: 0;
+      border-radius: 8px;
+      background: var(--teal);
+      color: #fff;
+      font: inherit;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    button.secondary {
+      background: #334155;
+    }
+
+    button.light {
+      border: 1px solid var(--line);
+      background: #fff;
+      color: var(--ink);
+    }
+
+    button:disabled {
+      cursor: not-allowed;
+      opacity: 0.55;
+    }
+
+    .speech-demo {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 14px;
+    }
+
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .lang-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .lang-row button.active {
+      background: var(--teal-dark);
+      color: #fff;
+    }
+
+    .status {
+      padding: 10px 12px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--soft);
+      color: var(--teal-dark);
+      font-weight: 700;
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 220px;
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      resize: vertical;
+      color: var(--ink);
+      font: inherit;
+      font-size: 18px;
+      line-height: 1.65;
+    }
+
     dl {
       display: grid;
       grid-template-columns: 130px 1fr;
@@ -139,6 +212,10 @@
         width: 100%;
         justify-content: center;
       }
+
+      button {
+        width: 100%;
+      }
     }
   </style>
 </head>
@@ -147,8 +224,29 @@
     <p class="eyebrow">Falo x Force Cheng｜2026/5/6｜GitHub Pages Test Entry</p>
     <h1>Voice-to-Prompt Browser Workbench</h1>
     <p class="lead">
-      這是 Falo ModelBox 的教學型 MVP 入口，用來展示錄音或音檔如何進入 ETL 流程，經過瀏覽器內轉錄、AI 後處理與 Prompt Template，最後產生可執行 Prompt。
+      這是 Falo ModelBox 的教學型 MVP 入口。主頁先放最小可用的 Web Speech API 即時轉錄；完整工作台再展示音檔、Whisper、AI 後處理與 Prompt Template。
     </p>
+
+    <section class="card speech-demo" aria-label="web speech api realtime transcription">
+      <div>
+        <p class="eyebrow">最小展示｜Web Speech API 即時轉錄</p>
+        <h2>對著麥克風說話，文字會即時進入文字框</h2>
+        <p class="lead">Chrome / Edge 支援度較好。這個區塊只示範即時聽寫，不處理上傳音檔。</p>
+      </div>
+      <div class="lang-row" id="speechLangGroup" aria-label="speech language">
+        <button class="light active" type="button" data-lang="zh-TW">繁中</button>
+        <button class="light" type="button" data-lang="en-US">English</button>
+        <button class="light" type="button" data-lang="ja-JP">日本語</button>
+      </div>
+      <div class="toolbar">
+        <button id="startSpeech" type="button">開始轉錄</button>
+        <button id="stopSpeech" class="secondary" type="button" disabled>停止</button>
+        <button id="clearSpeech" class="light" type="button">清除</button>
+        <button id="copySpeech" class="light" type="button">複製到剪貼簿</button>
+      </div>
+      <div id="speechStatus" class="status">尚未啟動。請按開始轉錄。</div>
+      <textarea id="speechOutput" placeholder="即時轉錄文字會出現在這裡。"></textarea>
+    </section>
 
     <div class="actions">
       <a class="button" href="content/dish-assets/html/voice-to-prompt-mvp.html">開啟 Voice-to-Prompt MVP</a>
@@ -175,5 +273,121 @@
       </dl>
     </section>
   </main>
+
+  <script>
+    const SpeechRecognitionApi = window.SpeechRecognition || window.webkitSpeechRecognition;
+    const startSpeech = document.querySelector("#startSpeech");
+    const stopSpeech = document.querySelector("#stopSpeech");
+    const clearSpeech = document.querySelector("#clearSpeech");
+    const copySpeech = document.querySelector("#copySpeech");
+    const speechOutput = document.querySelector("#speechOutput");
+    const speechStatus = document.querySelector("#speechStatus");
+    const speechLangGroup = document.querySelector("#speechLangGroup");
+
+    let speechRecognition = null;
+    let speechLang = "zh-TW";
+    let finalTranscript = "";
+
+    function setSpeechStatus(message) {
+      speechStatus.textContent = message;
+    }
+
+    function setListening(isListening) {
+      startSpeech.disabled = isListening;
+      stopSpeech.disabled = !isListening;
+    }
+
+    function createRecognition() {
+      if (!SpeechRecognitionApi) {
+        setSpeechStatus("此瀏覽器未提供 Web Speech API。建議用 Chrome 或 Edge 測試。");
+        startSpeech.disabled = true;
+        return null;
+      }
+
+      const recognition = new SpeechRecognitionApi();
+      recognition.lang = speechLang;
+      recognition.continuous = true;
+      recognition.interimResults = true;
+
+      recognition.onstart = () => {
+        setListening(true);
+        setSpeechStatus(`正在聽寫：${speechLang}`);
+      };
+
+      recognition.onresult = (event) => {
+        let interimTranscript = "";
+        for (let index = event.resultIndex; index < event.results.length; index += 1) {
+          const text = event.results[index][0].transcript;
+          if (event.results[index].isFinal) {
+            finalTranscript += `${text.trim()}\n`;
+          } else {
+            interimTranscript += text;
+          }
+        }
+        speechOutput.value = `${finalTranscript}${interimTranscript}`.trimStart();
+      };
+
+      recognition.onerror = (event) => {
+        setSpeechStatus(`轉錄狀態：${event.error || "unknown error"}`);
+      };
+
+      recognition.onend = () => {
+        setListening(false);
+        setSpeechStatus("已停止轉錄。");
+      };
+
+      return recognition;
+    }
+
+    speechLangGroup.addEventListener("click", (event) => {
+      const button = event.target.closest("[data-lang]");
+      if (!button) return;
+      speechLang = button.dataset.lang;
+      speechLangGroup.querySelectorAll("[data-lang]").forEach((item) => {
+        item.classList.toggle("active", item === button);
+      });
+      if (speechRecognition) {
+        speechRecognition.stop();
+        speechRecognition = null;
+      }
+      setSpeechStatus(`語言已切換：${speechLang}`);
+    });
+
+    startSpeech.addEventListener("click", () => {
+      speechRecognition = createRecognition();
+      if (!speechRecognition) return;
+      try {
+        speechRecognition.start();
+      } catch (error) {
+        setSpeechStatus(`無法開始轉錄：${error.message}`);
+      }
+    });
+
+    stopSpeech.addEventListener("click", () => {
+      if (speechRecognition) speechRecognition.stop();
+    });
+
+    clearSpeech.addEventListener("click", () => {
+      finalTranscript = "";
+      speechOutput.value = "";
+      setSpeechStatus("已清除文字。");
+    });
+
+    copySpeech.addEventListener("click", async () => {
+      try {
+        await navigator.clipboard.writeText(speechOutput.value);
+        setSpeechStatus("已複製到剪貼簿。");
+      } catch (error) {
+        speechOutput.select();
+        document.execCommand("copy");
+        setSpeechStatus("已嘗試複製到剪貼簿。");
+      }
+    });
+
+    if (!SpeechRecognitionApi) {
+      setSpeechStatus("此瀏覽器未提供 Web Speech API。建議用 Chrome 或 Edge 測試。");
+      startSpeech.disabled = true;
+    }
+  </script>
 </body>
 </html>
