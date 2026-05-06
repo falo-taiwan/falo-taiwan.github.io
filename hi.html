@@ -1,0 +1,470 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Falo｜hi diagnostics</title>
+  <meta name="description" content="瀏覽器端能抓到的時間、IP、地理、裝置、網路、權限資訊一頁全顯示。">
+  <meta name="theme-color" content="#0f766e">
+  <meta name="robots" content="noindex">
+  <link rel="canonical" href="https://falo-taiwan.github.io/hi.html">
+  <style>
+    :root {
+      --bg: #f3fbf9;
+      --panel: #ffffff;
+      --ink: #16302e;
+      --muted: #5d706d;
+      --line: #cfe3df;
+      --teal: #0f766e;
+      --teal-dark: #115e59;
+      --soft: #e8f7f4;
+      --warn: #b15c00;
+      --err: #b3261e;
+      --ok: #0f766e;
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans TC", sans-serif;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body { background: var(--bg); color: var(--ink); line-height: 1.55; min-height: 100vh; }
+    header { background: var(--teal); color: #fff; padding: 28px 20px; }
+    header .wrap { max-width: 1100px; margin: 0 auto; }
+    header .eyebrow { font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; opacity: 0.85; }
+    header h1 { margin: 6px 0 4px; font-size: 28px; font-weight: 700; }
+    header p { margin: 0; opacity: 0.9; font-size: 14px; }
+    main { padding: 24px 20px 60px; }
+    main .wrap { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 16px; }
+    .card { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 18px 20px; box-shadow: 0 1px 0 rgba(15,118,110,0.04); }
+    .card h2 { margin: 0 0 12px; font-size: 16px; color: var(--teal-dark); display: flex; align-items: center; gap: 8px; }
+    .card h2 .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--teal); display: inline-block; }
+    dl { margin: 0; display: grid; grid-template-columns: minmax(96px, max-content) 1fr; gap: 4px 12px; font-size: 13px; }
+    dt { color: var(--muted); font-weight: 500; }
+    dd { margin: 0; word-break: break-word; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12.5px; }
+    .pill { display: inline-block; padding: 1px 8px; border-radius: 999px; font-size: 11px; font-family: ui-sans-serif, system-ui, sans-serif; letter-spacing: 0.04em; }
+    .pill.ok    { background: var(--soft);   color: var(--teal-dark);  border: 1px solid var(--line); }
+    .pill.warn  { background: #fff4e0;       color: var(--warn);       border: 1px solid #f3d8aa; }
+    .pill.err   { background: #fde8e6;       color: var(--err);        border: 1px solid #f4b6b1; }
+    .err-msg { color: var(--err); font-size: 12px; }
+    .muted { color: var(--muted); font-size: 12px; }
+    button { background: var(--teal); color: #fff; border: 0; padding: 6px 12px; border-radius: 8px; font-size: 13px; cursor: pointer; }
+    button:hover { background: var(--teal-dark); }
+    button:disabled { opacity: 0.5; cursor: not-allowed; }
+    a { color: var(--teal-dark); }
+    code { background: var(--soft); color: var(--teal-dark); padding: 1px 5px; border-radius: 5px; font-size: 12px; }
+    .row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin-bottom: 10px; }
+    footer { padding: 20px; text-align: center; color: var(--muted); font-size: 12px; border-top: 1px solid var(--line); background: var(--panel); }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <div class="eyebrow">falo-taiwan.github.io</div>
+      <h1>hi — 瀏覽器診斷頁</h1>
+      <p>顯示這台裝置上瀏覽器能讀到的時間、IP、地理、硬體、網路、權限等資訊。</p>
+    </div>
+  </header>
+
+  <main>
+    <div class="wrap">
+
+      <!-- 時間 -->
+      <section class="card">
+        <h2><span class="dot"></span>時間</h2>
+        <dl id="time-dl">
+          <dt>本地時間</dt><dd id="t-local">…</dd>
+          <dt>UTC</dt><dd id="t-utc">…</dd>
+          <dt>ISO 8601</dt><dd id="t-iso">…</dd>
+          <dt>epoch (ms)</dt><dd id="t-epoch">…</dd>
+          <dt>時區</dt><dd id="t-tz">…</dd>
+          <dt>時區位移</dt><dd id="t-tzoff">…</dd>
+          <dt>locale</dt><dd id="t-locale">…</dd>
+        </dl>
+      </section>
+
+      <!-- IP + 地理 (server-side) -->
+      <section class="card">
+        <h2><span class="dot"></span>IP / 公網地理（ipapi.co）</h2>
+        <div class="row"><span class="muted">由 <code>https://ipapi.co/json/</code> 提供，反映出口 IP</span></div>
+        <dl id="ip-dl">
+          <dt>狀態</dt><dd id="ip-status"><span class="pill warn">loading…</span></dd>
+          <dt>IP</dt><dd id="ip-addr">—</dd>
+          <dt>版本</dt><dd id="ip-ver">—</dd>
+          <dt>城市</dt><dd id="ip-city">—</dd>
+          <dt>區域</dt><dd id="ip-region">—</dd>
+          <dt>國家</dt><dd id="ip-country">—</dd>
+          <dt>郵遞區號</dt><dd id="ip-postal">—</dd>
+          <dt>經緯度</dt><dd id="ip-latlng">—</dd>
+          <dt>時區</dt><dd id="ip-tz">—</dd>
+          <dt>ISP / Org</dt><dd id="ip-org">—</dd>
+          <dt>ASN</dt><dd id="ip-asn">—</dd>
+        </dl>
+      </section>
+
+      <!-- 瀏覽器 geolocation -->
+      <section class="card">
+        <h2><span class="dot"></span>瀏覽器 Geolocation</h2>
+        <div class="row">
+          <button id="btn-geo">取得目前位置</button>
+          <span id="geo-status" class="muted">尚未請求權限</span>
+        </div>
+        <dl id="geo-dl">
+          <dt>緯度</dt><dd id="g-lat">—</dd>
+          <dt>經度</dt><dd id="g-lng">—</dd>
+          <dt>精度</dt><dd id="g-acc">—</dd>
+          <dt>海拔</dt><dd id="g-alt">—</dd>
+          <dt>方向</dt><dd id="g-heading">—</dd>
+          <dt>速度</dt><dd id="g-speed">—</dd>
+          <dt>取得於</dt><dd id="g-ts">—</dd>
+        </dl>
+      </section>
+
+      <!-- 瀏覽器 / OS -->
+      <section class="card">
+        <h2><span class="dot"></span>瀏覽器 / OS</h2>
+        <dl>
+          <dt>User-Agent</dt><dd id="ua">—</dd>
+          <dt>UA platform</dt><dd id="ua-plat">—</dd>
+          <dt>UA mobile</dt><dd id="ua-mob">—</dd>
+          <dt>UA brands</dt><dd id="ua-brands">—</dd>
+          <dt>vendor</dt><dd id="vendor">—</dd>
+          <dt>language</dt><dd id="lang">—</dd>
+          <dt>languages</dt><dd id="langs">—</dd>
+          <dt>cookies</dt><dd id="cookies">—</dd>
+          <dt>online</dt><dd id="online">—</dd>
+          <dt>do not track</dt><dd id="dnt">—</dd>
+        </dl>
+      </section>
+
+      <!-- 螢幕 / viewport -->
+      <section class="card">
+        <h2><span class="dot"></span>螢幕 / Viewport</h2>
+        <dl>
+          <dt>screen</dt><dd id="scr">—</dd>
+          <dt>available</dt><dd id="scr-avail">—</dd>
+          <dt>viewport</dt><dd id="vp">—</dd>
+          <dt>devicePixelRatio</dt><dd id="dpr">—</dd>
+          <dt>colorDepth</dt><dd id="colord">—</dd>
+          <dt>orientation</dt><dd id="orient">—</dd>
+          <dt>color-scheme</dt><dd id="cs">—</dd>
+          <dt>reduce-motion</dt><dd id="rm">—</dd>
+          <dt>contrast</dt><dd id="contrast">—</dd>
+        </dl>
+      </section>
+
+      <!-- 硬體 -->
+      <section class="card">
+        <h2><span class="dot"></span>硬體</h2>
+        <dl>
+          <dt>CPU 核心</dt><dd id="hw-cores">—</dd>
+          <dt>device memory</dt><dd id="hw-mem">—</dd>
+          <dt>max touch</dt><dd id="hw-touch">—</dd>
+          <dt>pointer</dt><dd id="hw-pointer">—</dd>
+          <dt>hover</dt><dd id="hw-hover">—</dd>
+          <dt>WebGL vendor</dt><dd id="gl-vendor">—</dd>
+          <dt>WebGL renderer</dt><dd id="gl-renderer">—</dd>
+        </dl>
+      </section>
+
+      <!-- 網路 -->
+      <section class="card">
+        <h2><span class="dot"></span>網路（NetworkInformation）</h2>
+        <dl>
+          <dt>支援</dt><dd id="net-support">—</dd>
+          <dt>effectiveType</dt><dd id="net-eff">—</dd>
+          <dt>type</dt><dd id="net-type">—</dd>
+          <dt>downlink</dt><dd id="net-dl">—</dd>
+          <dt>rtt</dt><dd id="net-rtt">—</dd>
+          <dt>saveData</dt><dd id="net-save">—</dd>
+        </dl>
+      </section>
+
+      <!-- 電池 -->
+      <section class="card">
+        <h2><span class="dot"></span>電池</h2>
+        <dl>
+          <dt>支援</dt><dd id="bat-support">—</dd>
+          <dt>charging</dt><dd id="bat-charge">—</dd>
+          <dt>level</dt><dd id="bat-level">—</dd>
+          <dt>charging time</dt><dd id="bat-ct">—</dd>
+          <dt>discharging time</dt><dd id="bat-dt">—</dd>
+        </dl>
+      </section>
+
+      <!-- 儲存 -->
+      <section class="card">
+        <h2><span class="dot"></span>儲存</h2>
+        <dl>
+          <dt>localStorage</dt><dd id="ls">—</dd>
+          <dt>sessionStorage</dt><dd id="ss">—</dd>
+          <dt>indexedDB</dt><dd id="idb">—</dd>
+          <dt>quota</dt><dd id="quota">—</dd>
+          <dt>used</dt><dd id="used">—</dd>
+          <dt>persistent</dt><dd id="persist">—</dd>
+        </dl>
+      </section>
+
+      <!-- 權限 -->
+      <section class="card">
+        <h2><span class="dot"></span>Permissions API</h2>
+        <dl id="perms-dl">
+          <dt>geolocation</dt><dd id="perm-geo">—</dd>
+          <dt>notifications</dt><dd id="perm-noti">—</dd>
+          <dt>camera</dt><dd id="perm-cam">—</dd>
+          <dt>microphone</dt><dd id="perm-mic">—</dd>
+          <dt>clipboard-read</dt><dd id="perm-cr">—</dd>
+        </dl>
+      </section>
+
+      <!-- 連線細節 -->
+      <section class="card">
+        <h2><span class="dot"></span>頁面 / 連線</h2>
+        <dl>
+          <dt>URL</dt><dd id="url">—</dd>
+          <dt>referrer</dt><dd id="ref">—</dd>
+          <dt>protocol</dt><dd id="proto">—</dd>
+          <dt>secure context</dt><dd id="sec">—</dd>
+          <dt>document.cookie</dt><dd id="dc">—</dd>
+        </dl>
+      </section>
+
+      <!-- raw fingerprint -->
+      <section class="card">
+        <h2><span class="dot"></span>原始資料</h2>
+        <p class="muted" style="margin-top:0">給工程師看的整包 JSON：</p>
+        <pre id="raw" style="background:#0f1f1d;color:#cfe3df;padding:12px;border-radius:8px;font-size:11.5px;overflow:auto;max-height:280px;margin:0">{}</pre>
+        <div class="row" style="margin-top:10px"><button id="btn-copy">複製 JSON</button> <span id="copy-status" class="muted"></span></div>
+      </section>
+
+    </div>
+  </main>
+
+  <footer>
+    <div>Falo x Force Cheng · hi diagnostics ·
+      <a href="/">回首頁</a> ·
+      <a href="/test1/">test1 專區</a></div>
+  </footer>
+
+  <script>
+  (function(){
+    const $ = (id) => document.getElementById(id);
+    const set = (id, val) => { const el = $(id); if (el) el.textContent = (val ?? '—'); };
+    const setHTML = (id, html) => { const el = $(id); if (el) el.innerHTML = html; };
+
+    // ---------- 時間 ----------
+    function tickTime(){
+      const d = new Date();
+      const tz = Intl.DateTimeFormat().resolvedOptions().timeZone || '(unknown)';
+      const off = -d.getTimezoneOffset();
+      const sign = off >= 0 ? '+' : '-';
+      const abs = Math.abs(off);
+      const h = String(Math.floor(abs/60)).padStart(2,'0');
+      const m = String(abs%60).padStart(2,'0');
+      set('t-local', d.toLocaleString());
+      set('t-utc',   d.toUTCString());
+      set('t-iso',   d.toISOString());
+      set('t-epoch', d.getTime());
+      set('t-tz',    tz);
+      set('t-tzoff', `UTC${sign}${h}:${m} (${off} 分鐘)`);
+      set('t-locale', Intl.DateTimeFormat().resolvedOptions().locale);
+    }
+    tickTime();
+    setInterval(tickTime, 1000);
+
+    // ---------- 瀏覽器 / OS ----------
+    set('ua', navigator.userAgent);
+    set('ua-plat',  navigator.userAgentData?.platform ?? '(no UA-CH)');
+    set('ua-mob',   navigator.userAgentData?.mobile  ?? '(no UA-CH)');
+    set('ua-brands', (navigator.userAgentData?.brands || []).map(b => `${b.brand} ${b.version}`).join(', ') || '(no UA-CH)');
+    set('vendor',   navigator.vendor || '(none)');
+    set('lang',     navigator.language);
+    set('langs',    (navigator.languages || []).join(', '));
+    set('cookies',  navigator.cookieEnabled);
+    set('online',   navigator.onLine);
+    set('dnt',      navigator.doNotTrack ?? '(none)');
+
+    // ---------- 螢幕 ----------
+    set('scr',       `${screen.width} × ${screen.height}`);
+    set('scr-avail', `${screen.availWidth} × ${screen.availHeight}`);
+    set('vp',        `${window.innerWidth} × ${window.innerHeight}`);
+    set('dpr',       window.devicePixelRatio);
+    set('colord',    `${screen.colorDepth} bit`);
+    set('orient',    screen.orientation?.type ?? '(unknown)');
+    set('cs',        matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    set('rm',        matchMedia('(prefers-reduced-motion: reduce)').matches ? 'reduce' : 'no-preference');
+    set('contrast',  matchMedia('(prefers-contrast: more)').matches ? 'more' : (matchMedia('(prefers-contrast: less)').matches ? 'less' : 'no-preference'));
+    window.addEventListener('resize', () => set('vp', `${window.innerWidth} × ${window.innerHeight}`));
+
+    // ---------- 硬體 ----------
+    set('hw-cores',  navigator.hardwareConcurrency ?? '(unknown)');
+    set('hw-mem',    navigator.deviceMemory ? `${navigator.deviceMemory} GB` : '(unknown)');
+    set('hw-touch',  navigator.maxTouchPoints);
+    set('hw-pointer', matchMedia('(pointer: fine)').matches ? 'fine' : (matchMedia('(pointer: coarse)').matches ? 'coarse' : 'none'));
+    set('hw-hover',   matchMedia('(hover: hover)').matches ? 'hover' : 'none');
+
+    // WebGL
+    try {
+      const c = document.createElement('canvas');
+      const gl = c.getContext('webgl') || c.getContext('experimental-webgl');
+      if (gl) {
+        const dbg = gl.getExtension('WEBGL_debug_renderer_info');
+        set('gl-vendor',   dbg ? gl.getParameter(dbg.UNMASKED_VENDOR_WEBGL)   : gl.getParameter(gl.VENDOR));
+        set('gl-renderer', dbg ? gl.getParameter(dbg.UNMASKED_RENDERER_WEBGL) : gl.getParameter(gl.RENDERER));
+      } else {
+        set('gl-vendor', '(no webgl)');
+        set('gl-renderer', '(no webgl)');
+      }
+    } catch (e) {
+      set('gl-vendor', 'error: ' + e.message);
+    }
+
+    // ---------- 網路 ----------
+    const conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+    if (conn) {
+      set('net-support', '✓');
+      set('net-eff',  conn.effectiveType ?? '(unknown)');
+      set('net-type', conn.type ?? '(unknown)');
+      set('net-dl',   conn.downlink != null ? `${conn.downlink} Mbps` : '(unknown)');
+      set('net-rtt',  conn.rtt != null ? `${conn.rtt} ms` : '(unknown)');
+      set('net-save', conn.saveData ?? false);
+    } else {
+      set('net-support', '✗ NetworkInformation API unavailable');
+    }
+
+    // ---------- 電池 ----------
+    if (navigator.getBattery) {
+      navigator.getBattery().then(b => {
+        set('bat-support', '✓');
+        set('bat-charge',  b.charging);
+        set('bat-level',   `${Math.round(b.level * 100)}%`);
+        set('bat-ct',      b.chargingTime === Infinity ? '∞' : `${b.chargingTime}s`);
+        set('bat-dt',      b.dischargingTime === Infinity ? '∞' : `${b.dischargingTime}s`);
+      }).catch(e => set('bat-support', 'error: ' + e.message));
+    } else {
+      set('bat-support', '✗ getBattery() unavailable');
+    }
+
+    // ---------- 儲存 ----------
+    function probeStorage(s){
+      try { s.setItem('__t', '1'); s.removeItem('__t'); return '✓'; }
+      catch(e){ return '✗ ' + e.name; }
+    }
+    set('ls', probeStorage(window.localStorage));
+    set('ss', probeStorage(window.sessionStorage));
+    set('idb', 'indexedDB' in window ? '✓' : '✗');
+    if (navigator.storage?.estimate) {
+      navigator.storage.estimate().then(({ quota, usage }) => {
+        const fmt = (n) => n != null ? `${(n/1024/1024).toFixed(1)} MB` : '—';
+        set('quota', fmt(quota));
+        set('used',  fmt(usage));
+      });
+    } else {
+      set('quota', '(unsupported)');
+      set('used',  '(unsupported)');
+    }
+    if (navigator.storage?.persisted) {
+      navigator.storage.persisted().then(p => set('persist', p)).catch(()=>{});
+    }
+
+    // ---------- 權限 ----------
+    async function checkPerm(name, id){
+      if (!navigator.permissions?.query) { set(id, '(API unavailable)'); return; }
+      try {
+        const p = await navigator.permissions.query({ name });
+        set(id, p.state);
+      } catch(e){
+        set(id, `(${e.message})`);
+      }
+    }
+    checkPerm('geolocation',     'perm-geo');
+    checkPerm('notifications',   'perm-noti');
+    checkPerm('camera',          'perm-cam');
+    checkPerm('microphone',      'perm-mic');
+    checkPerm('clipboard-read',  'perm-cr');
+
+    // ---------- 連線細節 ----------
+    set('url',    location.href);
+    set('ref',    document.referrer || '(none)');
+    set('proto',  location.protocol);
+    set('sec',    window.isSecureContext ? '✓ secure' : '✗ insecure');
+    set('dc',     document.cookie || '(empty)');
+
+    // ---------- IP / 地理 ----------
+    fetch('https://ipapi.co/json/', { headers: { Accept: 'application/json' } })
+      .then(r => {
+        if (!r.ok) throw new Error('HTTP ' + r.status);
+        return r.json();
+      })
+      .then(d => {
+        if (d.error) throw new Error(d.reason || 'ipapi error');
+        setHTML('ip-status', '<span class="pill ok">ok</span>');
+        set('ip-addr',    d.ip);
+        set('ip-ver',     d.version);
+        set('ip-city',    d.city);
+        set('ip-region',  `${d.region || ''} (${d.region_code || ''})`);
+        set('ip-country', `${d.country_name || ''} (${d.country_code || ''})`);
+        set('ip-postal',  d.postal);
+        set('ip-latlng',  `${d.latitude}, ${d.longitude}`);
+        set('ip-tz',      d.timezone);
+        set('ip-org',     d.org);
+        set('ip-asn',     d.asn);
+        rawState.ip = d;
+        renderRaw();
+      })
+      .catch(e => {
+        setHTML('ip-status', `<span class="pill err">error</span>`);
+        set('ip-addr', e.message);
+      });
+
+    // ---------- Geolocation ----------
+    $('btn-geo').addEventListener('click', () => {
+      if (!navigator.geolocation) {
+        $('geo-status').textContent = 'Geolocation API 不存在';
+        return;
+      }
+      $('geo-status').textContent = '請求中…（瀏覽器會跳權限提示）';
+      navigator.geolocation.getCurrentPosition((pos) => {
+        const c = pos.coords;
+        set('g-lat',   c.latitude);
+        set('g-lng',   c.longitude);
+        set('g-acc',   `${c.accuracy} m`);
+        set('g-alt',   c.altitude != null ? `${c.altitude} m` : '(none)');
+        set('g-heading', c.heading != null ? `${c.heading}°` : '(none)');
+        set('g-speed',   c.speed != null ? `${c.speed} m/s` : '(none)');
+        set('g-ts',    new Date(pos.timestamp).toLocaleString());
+        $('geo-status').textContent = 'OK';
+        rawState.geo = { latitude: c.latitude, longitude: c.longitude, accuracy: c.accuracy, ts: pos.timestamp };
+        renderRaw();
+      }, (err) => {
+        $('geo-status').innerHTML = `<span class="err-msg">失敗：${err.message} (code ${err.code})</span>`;
+      }, { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 });
+    });
+
+    // ---------- raw json ----------
+    const rawState = {};
+    function renderRaw(){
+      const snapshot = {
+        time: { iso: new Date().toISOString(), epoch: Date.now(), tz: Intl.DateTimeFormat().resolvedOptions().timeZone, locale: Intl.DateTimeFormat().resolvedOptions().locale },
+        navigator: { userAgent: navigator.userAgent, language: navigator.language, languages: navigator.languages, vendor: navigator.vendor, platform: navigator.platform, online: navigator.onLine, cookieEnabled: navigator.cookieEnabled, hardwareConcurrency: navigator.hardwareConcurrency, deviceMemory: navigator.deviceMemory, maxTouchPoints: navigator.maxTouchPoints, doNotTrack: navigator.doNotTrack },
+        screen: { width: screen.width, height: screen.height, availWidth: screen.availWidth, availHeight: screen.availHeight, colorDepth: screen.colorDepth, dpr: window.devicePixelRatio, orientation: screen.orientation?.type, viewport: { w: innerWidth, h: innerHeight } },
+        connection: conn ? { effectiveType: conn.effectiveType, type: conn.type, downlink: conn.downlink, rtt: conn.rtt, saveData: conn.saveData } : null,
+        location: { href: location.href, referrer: document.referrer, protocol: location.protocol, isSecureContext: window.isSecureContext },
+        ...rawState,
+      };
+      $('raw').textContent = JSON.stringify(snapshot, null, 2);
+    }
+    renderRaw();
+    setInterval(renderRaw, 5000);
+
+    // copy
+    $('btn-copy').addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText($('raw').textContent);
+        $('copy-status').textContent = '已複製';
+        setTimeout(()=>{ $('copy-status').textContent = ''; }, 2000);
+      } catch(e) {
+        $('copy-status').textContent = '複製失敗：' + e.message;
+      }
+    });
+  })();
+  </script>
+</body>
+</html>
