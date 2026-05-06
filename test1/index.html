@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Falo｜test1 專區</title>
+  <meta name="description" content="falo-taiwan.github.io 的 test1 測試專區 — 用來驗證子頁面部署與後續功能掛載點。">
+  <meta name="author" content="Falo x Force Cheng">
+  <meta name="robots" content="index, follow">
+  <meta name="theme-color" content="#0f766e">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Falo">
+  <meta property="og:title" content="Falo｜test1 專區">
+  <meta property="og:description" content="falo-taiwan.github.io 的 test1 測試專區。">
+  <meta property="og:url" content="https://falo-taiwan.github.io/test1/">
+  <meta property="og:locale" content="zh_TW">
+  <link rel="canonical" href="https://falo-taiwan.github.io/test1/">
+  <style>
+    :root {
+      --bg: #f3fbf9;
+      --panel: #ffffff;
+      --ink: #16302e;
+      --muted: #5d706d;
+      --line: #cfe3df;
+      --teal: #0f766e;
+      --teal-dark: #115e59;
+      --soft: #e8f7f4;
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    header { background: var(--teal); color: #fff; padding: 32px 24px; }
+    header .wrap { max-width: 880px; margin: 0 auto; }
+    header .eyebrow { font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; opacity: 0.8; margin-bottom: 8px; }
+    header h1 { margin: 0; font-size: 32px; font-weight: 700; }
+    header p { margin: 8px 0 0; opacity: 0.92; }
+    main { flex: 1; padding: 40px 24px; }
+    main .wrap { max-width: 880px; margin: 0 auto; display: grid; gap: 24px; }
+    .card { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 24px 28px; box-shadow: 0 1px 0 rgba(15, 118, 110, 0.04); }
+    .card h2 { margin: 0 0 12px; font-size: 20px; color: var(--teal-dark); }
+    .card p { margin: 0 0 12px; color: var(--ink); }
+    .card p:last-child { margin-bottom: 0; }
+    .badge { display: inline-block; background: var(--soft); color: var(--teal-dark); border: 1px solid var(--line); padding: 2px 10px; border-radius: 999px; font-size: 12px; letter-spacing: 0.04em; }
+    code { background: var(--soft); color: var(--teal-dark); padding: 2px 6px; border-radius: 6px; font-size: 0.92em; }
+    .row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+    a { color: var(--teal-dark); }
+    footer { padding: 24px; text-align: center; color: var(--muted); font-size: 13px; border-top: 1px solid var(--line); background: var(--panel); }
+    footer a { color: var(--teal-dark); text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <div class="eyebrow">falo-taiwan.github.io</div>
+      <h1>test1 專區</h1>
+      <p>子頁面部署測試入口。</p>
+    </div>
+  </header>
+
+  <main>
+    <div class="wrap">
+      <section class="card">
+        <div class="row" style="margin-bottom: 8px;">
+          <span class="badge">status: placeholder</span>
+          <span class="badge">path: /test1/</span>
+        </div>
+        <h2>這裡是什麼？</h2>
+        <p>
+          這個專區用來驗證 <code>falo-taiwan.github.io</code> 上 <code>/test1/</code>
+          子路徑的部署是否正確，並作為後續功能或 demo 的暫定掛載點。
+        </p>
+        <p>
+          如果你看到這頁，就代表 GitHub Pages 已經把
+          <code>test1/index.html</code> 部署到 <code>https://falo-taiwan.github.io/test1/</code>。
+        </p>
+      </section>
+
+      <section class="card">
+        <h2>下一步可以放什麼</h2>
+        <p>這個專區目前是空白頁，後續可考慮放：</p>
+        <ul>
+          <li>單頁 demo / prototype</li>
+          <li>shortlink 行為測試</li>
+          <li>新功能在正式發佈前的灰度入口</li>
+        </ul>
+      </section>
+
+      <section class="card">
+        <h2>相關連結</h2>
+        <p>
+          <a href="/">↩ 回到首頁</a>　|
+          <a href="/voice-to-prompt/">Voice-to-Prompt</a>
+        </p>
+      </section>
+    </div>
+  </main>
+
+  <footer>
+    <div>Falo x Force Cheng　·　test1 placeholder</div>
+  </footer>
+</body>
+</html>
