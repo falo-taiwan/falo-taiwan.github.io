@@ -51,9 +51,10 @@
 - 檢查 Web Speech API
 - 檢查 WebAssembly / WebGPU
 - 檢查 Chrome Built-in AI
-- 檢測 Chrome Built-in AI 的 Translator / Rewriter / Prompt API availability
+- 檢測 Chrome Built-in AI 的 Summarizer / Language Detector / Translator / Rewriter / Prompt API availability
 - 上方工具列只做 Chrome Built-in AI 狀態檢測
 - 各 Chrome Built-in AI 狀態卡才負責透過 `create({ monitor })` 觸發模型下載 / 暖身
+- 清理本頁模型暫存狀態：重置本頁記錄，並嘗試清除 Transformers.js / Whisper 相關 Cache Storage 與 IndexedDB
 - 檢查 MediaRecorder
 - 檢測本頁曾成功下載 / 暖身的 Whisper 模型
 - 預下載 / 暖身指定 Whisper 模型
@@ -63,11 +64,20 @@
 
 這版新增 Chrome Built-in AI 的明確檢測與下載暖身流程。
 
+重點限制：
+
+- Chrome Built-in AI 不是只能用在 Chrome 外掛；官方文件也把它定位為網站 / Web App 可使用的瀏覽器內 AI API。
+- 一般網頁能否使用，取決於 Chrome 版本、API 狀態、origin trial / flags、localhost 或 HTTPS、硬體條件、可用儲存空間與地區支援。
+- 外掛環境與一般網頁環境不同。外掛 side panel 偵測到 Summarizer、Prompt 或 Translator，不代表 `file://` 或 GitHub Pages 頁面一定能拿到同樣的 `window.Summarizer`、`window.LanguageModel` 或 `window.Translator`。
+- Chrome Built-in AI 實體模型由 Chrome 管理；網頁只能建立 / 釋放 session、觸發下載暖身與顯示狀態，不能直接刪除 Chrome 內部模型檔。
+
 能力區會分別顯示：
 
 - Translator API：目標語言不同時，用於翻譯。
 - Rewriter API：用於把逐字稿整理成更清楚的文字。
 - Prompt API / LanguageModel：用 prompt 方式做文字後處理。
+- Summarizer API：可用來確認 Gemini Nano 類內建模型能力，但不作為此 MVP 的預設文字後處理模型。
+- Language Detector API：可用來確認瀏覽器內語言偵測能力，但不作為此 MVP 的預設文字後處理模型。
 
 狀態呈現：
 

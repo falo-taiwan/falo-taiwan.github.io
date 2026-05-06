@@ -161,7 +161,10 @@
 
     <h2>AI 後處理</h2>
     <p>可選 Chrome Built-in AI、Ollama 或本地規則。Chrome Built-in AI 為預設選擇，目標語言預設繁中；Ollama 需檢查 endpoint 與模型清單，本地規則永遠可用。</p>
-    <p>v102 新增 Chrome Built-in AI 檢測與下載暖身：上方工具列只做檢測；下方狀態卡分別檢查 Translator、Rewriter 與 Prompt API / LanguageModel，並由狀態卡按鈕透過 <code>create({ monitor })</code> 觸發瀏覽器內建模型下載，使用 <code>downloadprogress</code> 呈現進度。</p>
+    <p>v102 新增 Chrome Built-in AI 檢測與下載暖身：上方工具列只做檢測；下方狀態卡分別檢查 Summarizer、Language Detector、Translator、Rewriter 與 Prompt API / LanguageModel。Translator、Rewriter 與 Prompt API 可作為文字後處理候選；Summarizer 與 Language Detector 主要作為能力確認。狀態卡按鈕會透過 <code>create({ monitor })</code> 觸發瀏覽器內建模型下載，並使用 <code>downloadprogress</code> 呈現進度。</p>
+
+    <h2>模型暫存清理</h2>
+    <p>頁面提供「清理模型暫存狀態」按鈕，用於釋放目前 Chrome Built-in AI session、清除本頁記錄的 Chrome AI / Whisper 可用狀態，並嘗試刪除 Transformers.js / Whisper 相關 Cache Storage 與 IndexedDB。Chrome Built-in AI 的實體模型由 Chrome 自動管理，網頁不能直接刪除；若要完整清理，需到 Chrome 設定或 <code>chrome://on-device-internals</code> 觀察與處理。</p>
 
     <h2>文字框操作</h2>
     <p>所有主要文字框都提供「清除」與「複製到剪貼簿」兩個按鈕，包含 Web Speech 輸出、Whisper 上傳輸出、Whisper 近即時輸出、待處理原始文字、修飾後文字與最終 Prompt。</p>

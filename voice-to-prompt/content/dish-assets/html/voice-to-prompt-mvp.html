@@ -659,16 +659,17 @@
         <button id="warmChromeAi" type="button" class="secondary">檢測 Chrome Built-in AI 狀態</button>
         <button id="warmWhisper" type="button" class="secondary">暖身目前選擇 Whisper</button>
         <button id="loadOllamaModels" type="button" class="light">檢查 Ollama</button>
+        <button id="cleanupModelCache" type="button" class="danger">清理模型暫存狀態</button>
       </div>
       <div id="globalStatus" class="ai-status">尚未檢測環境。</div>
       <div id="environmentChecks" class="check-grid" aria-label="environment checks"></div>
 
       <h3>Chrome Built-in AI 檢測 / 下載狀態</h3>
-      <p class="availability-note">上方按鈕只做檢測；真正的模型下載 / 暖身，請在下方各 API 狀態卡內操作。</p>
+      <p class="availability-note">上方按鈕只做檢測；真正的模型下載 / 暖身，請在下方各 API 狀態卡內操作。Chrome Built-in AI 實體模型由 Chrome 管理，本頁只能釋放 session 與清除本頁可用狀態紀錄。</p>
       <div id="chromeAiManager" class="model-grid" aria-label="chrome built in ai manager"></div>
 
       <h3>Whisper 模型下載 / 暖身狀態</h3>
-      <p class="availability-note">此區負責先下載與暖身。下方工作區只允許選擇已完成暖身的綠色模型。</p>
+      <p class="availability-note">此區負責先下載與暖身。下方工作區只允許選擇已完成暖身的綠色模型。清理功能會移除本頁紀錄，並嘗試清除瀏覽器可見的 Transformers.js Cache Storage / IndexedDB。</p>
       <div id="whisperModelManager" class="model-grid" aria-label="whisper model manager"></div>
     </section>
 
@@ -871,6 +872,7 @@
       warmChromeAi: document.querySelector("#warmChromeAi"),
       warmWhisper: document.querySelector("#warmWhisper"),
       loadOllamaModels: document.querySelector("#loadOllamaModels"),
+      cleanupModelCache: document.querySelector("#cleanupModelCache"),
       globalStatus: document.querySelector("#globalStatus"),
       environmentChecks: document.querySelector("#environmentChecks"),
       chromeAiManager: document.querySelector("#chromeAiManager"),
@@ -916,19 +918,34 @@
     const legacyStorageKeys = ["voice-to-prompt-workbench-v002", "voice-to-prompt-workbench-v011", "voice-to-prompt-workbench-v010"];
     const chromeAiFeatures = [
       {
+        id: "summarizer",
+        title: "Summarizer API",
+        description: "負責摘要；可用來確認 Chrome Built-in AI 基礎能力與模型下載狀態。",
+        textProcessing: false
+      },
+      {
+        id: "languageDetector",
+        title: "Language Detector API",
+        description: "負責語言偵測；通常是較輕量的內建 AI 能力。",
+        textProcessing: false
+      },
+      {
         id: "translator",
         title: "Translator API",
-        description: "負責跨語言翻譯；目標語言不是原語言時優先使用。"
+        description: "負責跨語言翻譯；目標語言不是原語言時優先使用。",
+        textProcessing: true
       },
       {
         id: "rewriter",
         title: "Rewriter API",
-        description: "負責把逐字稿改寫成更清楚的文字。"
+        description: "負責把逐字稿改寫成更清楚的文字。",
+        textProcessing: true
       },
       {
         id: "languageModel",
         title: "Prompt API / LanguageModel",
-        description: "負責以 prompt 方式做文字整理與轉換。"
+        description: "負責以 prompt 方式做文字整理與轉換。",
+        textProcessing: true
       }
     ];
     const whisperModels = [
@@ -1095,6 +1112,13 @@
           outputLanguage: getChromeTargetLanguage()
         };
       }
+      if (featureId === "summarizer") {
+        return {
+          type: "key-points",
+          format: "plain-text",
+          length: "medium"
+        };
+      }
       if (featureId === "languageModel") {
         return {
           initialPrompts: [
@@ -1115,6 +1139,13 @@
       return "";
     }
 
+    function getAnyChromeAiFeatureId() {
+      const bestTextFeature = getBestChromeAiFeatureId();
+      if (bestTextFeature) return bestTextFeature;
+      const feature = chromeAiFeatures.find((item) => ["ready", "available", "downloadable", "downloading"].includes(availability.chromeAi[item.id].status));
+      return feature?.id || "";
+    }
+
     function updateChromeBuiltInTextEngineStatus() {
       const best = getBestChromeAiFeatureId();
       if (best) {
@@ -1126,7 +1157,12 @@
         };
         return;
       }
-      const hasAnyCandidate = Object.values(availability.chromeAi).some((item) => item.status !== "unknown" && item.status !== "unavailable" && item.status !== "error" && item.status !== "not-needed");
+      const hasAnyCandidate = chromeAiFeatures
+        .filter((feature) => feature.textProcessing)
+        .some((feature) => {
+          const item = availability.chromeAi[feature.id];
+          return item.status !== "unknown" && item.status !== "unavailable" && item.status !== "error" && item.status !== "not-needed";
+        });
       availability.textEngines["chrome-built-in"] = {
         ok: hasAnyCandidate,
         status: hasAnyCandidate ? "available" : "unavailable",
@@ -1139,6 +1175,7 @@
       chromeAiFeatures.forEach((feature) => {
         const item = availability.chromeAi[feature.id];
         const isTranslatorSameLanguage = feature.id === "translator" && isSameLanguageTarget();
+        const isTextProcessingFeature = feature.textProcessing;
         const card = document.createElement("div");
         card.className = `model-card ${item.status}`;
 
@@ -1155,7 +1192,11 @@
         const note = document.createElement("div");
         note.className = "model-note";
         const progress = item.status === "warming" && item.percent ? `下載 ${item.percent}%` : item.detail;
-        note.textContent = isTranslatorSameLanguage ? "目前來源語言與目標語言相同，翻譯 API 不需啟用；可用 Rewriter 或 Prompt API 做整理。" : (progress || feature.description);
+        note.textContent = isTranslatorSameLanguage
+          ? "目前來源語言與目標語言相同，翻譯 API 不需啟用；可用 Rewriter 或 Prompt API 做整理。"
+          : isTextProcessingFeature
+            ? (progress || feature.description)
+            : `${progress || feature.description} 這項會列入能力檢測，但不作為文字後處理預設模型。`;
 
         const action = document.createElement("button");
         action.type = "button";
@@ -1180,6 +1221,117 @@
         card.append(head, note, action);
         els.chromeAiManager.appendChild(card);
       });
+    }
+
+    function resetChromeAiAvailability() {
+      chromeAiFeatures.forEach((feature) => {
+        availability.chromeAi[feature.id] = {
+          status: "unknown",
+          detail: "尚未檢測",
+          raw: "",
+          percent: 0
+        };
+      });
+      availability.textEngines["chrome-built-in"] = {
+        ok: true,
+        status: "unknown",
+        detail: "預設選用；請先做環境檢測或暖身確認。"
+      };
+    }
+
+    function resetWhisperAvailability() {
+      whisperModels.forEach((model) => {
+        availability.whisper[model.id] = {
+          status: "not-downloaded",
+          detail: "尚未下載 / 暖身",
+          percent: 0
+        };
+      });
+      state.whisperModel = "";
+      whisperTranscriber = null;
+      whisperTranscriberKey = "";
+    }
+
+    async function cleanupBrowserModelStorage() {
+      const result = {
+        cacheKeysDeleted: [],
+        indexedDbDeleted: [],
+        notes: []
+      };
+      const isModelStorageName = (name) => /transformers|huggingface|xenova|whisper|onnx|ort|voice-to-prompt/i.test(name || "");
+
+      if ("caches" in window) {
+        try {
+          const keys = await caches.keys();
+          const targets = keys.filter(isModelStorageName);
+          for (const key of targets) {
+            if (await caches.delete(key)) result.cacheKeysDeleted.push(key);
+          }
+        } catch (error) {
+          result.notes.push(`Cache Storage 清理失敗：${error.message}`);
+        }
+      } else {
+        result.notes.push("此環境沒有 Cache Storage API。");
+      }
+
+      if ("indexedDB" in window && indexedDB && typeof indexedDB.databases === "function") {
+        try {
+          const databases = await indexedDB.databases();
+          const targets = databases.map((db) => db.name).filter(isModelStorageName);
+          for (const name of targets) {
+            await new Promise((resolve) => {
+              const request = indexedDB.deleteDatabase(name);
+              request.onsuccess = () => {
+                result.indexedDbDeleted.push(name);
+                resolve();
+              };
+              request.onerror = () => {
+                result.notes.push(`IndexedDB ${name} 清理失敗。`);
+                resolve();
+              };
+              request.onblocked = () => {
+                result.notes.push(`IndexedDB ${name} 被使用中，稍後重開頁面再清。`);
+                resolve();
+              };
+            });
+          }
+        } catch (error) {
+          result.notes.push(`IndexedDB 清理失敗：${error.message}`);
+        }
+      } else {
+        result.notes.push("此環境不能列出 IndexedDB databases。");
+      }
+
+      return result;
+    }
+
+    async function cleanupModelCache() {
+      const messages = [];
+      try {
+        if (chromeAiSession?.value?.destroy) chromeAiSession.value.destroy();
+        if (chromeAiSession?.value?.close) chromeAiSession.value.close();
+      } catch (error) {
+        messages.push(`Chrome AI session 釋放失敗：${error.message}`);
+      }
+      chromeAiSession = null;
+      localStorage.removeItem("voice-to-prompt-chrome-ai-ready");
+      localStorage.removeItem("voice-to-prompt-downloaded-whisper");
+      resetChromeAiAvailability();
+      resetWhisperAvailability();
+
+      const storageCleanup = await cleanupBrowserModelStorage();
+      messages.push(`Cache Storage 已刪除 ${storageCleanup.cacheKeysDeleted.length} 筆。`);
+      messages.push(`IndexedDB 已刪除 ${storageCleanup.indexedDbDeleted.length} 筆。`);
+      messages.push(...storageCleanup.notes);
+      messages.push("Chrome Built-in AI 實體模型由 Chrome 管理，網頁不能直接刪除；本頁已釋放 session 並清除本頁紀錄。");
+
+      renderChromeAiManager();
+      renderWhisperModelManager();
+      renderWhisperWorkspaceModels();
+      updateChoiceUi();
+      saveState();
+      setGlobalStatus(`模型暫存清理完成。${messages.join(" ")}`, "ok");
+      setWhisperStatus("已清除本頁 Whisper 可用紀錄；如瀏覽器 HTTP cache 仍佔空間，需從 Chrome 清除網站資料。", "ok");
     }
 
     function getReadyWhisperModels() {
@@ -1396,6 +1548,7 @@
       return {
         translator: window.Translator || window.ai?.translator || null,
         languageDetector: window.LanguageDetector || window.ai?.languageDetector || null,
+        summarizer: window.Summarizer || window.ai?.summarizer || null,
         rewriter: window.Rewriter || window.ai?.rewriter || null,
         languageModel: window.LanguageModel || window.ai?.languageModel || window.ai?.assistant || null
       };
@@ -1435,7 +1588,7 @@
         },
         {
           title: "Chrome Built-in AI",
-          ok: chromeAiSummary.ok,
+          ok: chromeAiSummary.hasAny,
           detail: chromeAiSummary.detail
         },
         {
@@ -1504,16 +1657,25 @@
       updateChromeBuiltInTextEngineStatus();
       updateChoiceUi();
       const best = getBestChromeAiFeatureId();
+      const any = getAnyChromeAiFeatureId();
       const summary = best
         ? {
             ok: true,
-            detail: `可用候選：${chromeAiFeatures.find((feature) => feature.id === best).title}。${availability.chromeAi[best].detail}`
+            hasAny: true,
+            detail: `文字後處理候選：${chromeAiFeatures.find((feature) => feature.id === best).title}。${availability.chromeAi[best].detail}`
           }
-        : {
-            ok: false,
-            detail: "未偵測到可用 Chrome Built-in AI；可能需要 Chrome 版本、flags、硬體條件或 localhost/HTTPS。"
-          };
-      if (!options.silent) setGlobalStatus(`Chrome Built-in AI 檢測完成：${summary.detail}`, summary.ok ? "ok" : "warn");
+        : any
+          ? {
+              ok: false,
+              hasAny: true,
+              detail: `偵測到 Built-in AI 能力：${chromeAiFeatures.find((feature) => feature.id === any).title}，但尚未偵測到可直接做文字後處理的 Rewriter / Prompt / Translator。`
+            }
+          : {
+              ok: false,
+              hasAny: false,
+              detail: "未偵測到可用 Chrome Built-in AI；可能需要 Chrome 版本、flags、硬體條件或 localhost/HTTPS。"
+            };
+      if (!options.silent) setGlobalStatus(`Chrome Built-in AI 檢測完成：${summary.detail}`, summary.hasAny ? "ok" : "warn");
       return summary;
     }
 
@@ -1917,6 +2079,16 @@
       }
     });
     els.loadOllamaModels.addEventListener("click", loadOllamaModels);
+    els.cleanupModelCache.addEventListener("click", async () => {
+      const confirmed = window.confirm("要清理本頁記錄的模型暫存狀態嗎？這會重置 Whisper 可用狀態，並嘗試刪除 Transformers.js / Whisper 相關 Cache Storage 與 IndexedDB。Chrome Built-in AI 實體模型仍由 Chrome 管理。");
+      if (!confirmed) return;
+      setGlobalStatus("正在清理模型暫存狀態...");
+      try {
+        await cleanupModelCache();
+      } catch (error) {
+        setGlobalStatus(`模型暫存清理失敗：${error.message}`, "warn");
+      }
+    });
 
     document.querySelectorAll("[data-speech-lang]").forEach((button) => {
       button.addEventListener("click", () => {
