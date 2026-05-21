@@ -1,0 +1,1021 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gmail 獨立網頁發信助手 & 程式碼產生器 (教師授課與自動排程版)</title>
+    <!-- 引入 Tailwind CSS 提供現代化排版與美觀 UI -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* 自訂滾動條樣式，增進視覺美感 */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col font-sans">
+
+    <!-- 頂部導覽列 -->
+    <header class="bg-white border-b border-slate-200 sticky top-0 z-30 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="bg-blue-600 text-white p-2 rounded-lg shadow-md shadow-blue-200">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                    </svg>
+                </div>
+                <div>
+                    <div class="flex items-center space-x-2">
+                        <h1 class="text-lg font-bold text-slate-900">Gmail 網頁發信助手</h1>
+                        <span class="bg-amber-100 text-amber-800 text-[10px] font-extrabold px-1.5 py-0.5 rounded-full">教師教學 & 自動排程版</span>
+                    </div>
+                    <p class="text-xs text-slate-500">獨立 HTML 整合式方案 & 密碼安全、自動排程雙核心教材</p>
+                </div>
+            </div>
+            <div class="flex items-center space-x-2 text-xs bg-slate-100 px-3 py-1.5 rounded-full text-slate-600 font-medium">
+                <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                <span>免伺服器 / 純前端運作</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- 主要內容區 -->
+    <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
+        
+        <!-- 教學觀念與架構圖說明 -->
+        <section class="bg-gradient-to-r from-slate-800 to-indigo-900 rounded-2xl p-6 md:p-8 text-white shadow-xl mb-8 relative overflow-hidden">
+            <div class="absolute right-0 bottom-0 opacity-10 pointer-events-none transform translate-x-12 translate-y-12">
+                <svg class="w-96 h-96" fill="currentColor" viewBox="0 0 20 20"><path d="M10.3 2.1a1 1 0 00-1.6 0L1.1 12.3A1 1 0 002 14h3v4a1 1 0 001 1h8a1 1 0 001-1v-4h3a1 1 0 00.9-1.7L10.3 2.1z"></path></svg>
+            </div>
+            <div class="relative z-10 max-w-4xl">
+                <span class="bg-blue-500/20 text-blue-300 text-xs font-bold px-2.5 py-1 rounded-full uppercase tracking-wider">
+                    🎓 課堂焦點：如何「分清楚」Python SMTP 與 GAS Web App 的實作機制？
+                </span>
+                <h2 class="text-2xl md:text-3xl font-extrabold mt-3 mb-4">解鎖第一次寫 GAS 的核心概念：前後端分離！</h2>
+                <p class="text-slate-300 text-sm md:text-base leading-relaxed mb-6">
+                    在過往教學中，學生常因重複修改 GAS 程式碼而陷入「無止盡重新部署」的挫折。
+                    本教具特別引導學生將其拆分為：負責雲端轉接的 <strong>Code.gs (後端 API)</strong>，以及負責提供發信內容的 <strong>setup.js (前端/本機變數)</strong>。學生部署一次 Code.gs 後，便只需在本地修改 setup.js，不再需要重複部署！
+                </p>
+                
+                <!-- 教學三大原則卡片 -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-slate-900 mt-2">
+                    <div class="bg-white p-4 rounded-xl shadow-md border-t-4 border-amber-500">
+                        <div class="flex items-center space-x-2 mb-2">
+                            <span class="bg-amber-100 text-amber-700 w-6 h-6 rounded-full flex items-center justify-center font-bold text-xs">A</span>
+                            <h3 class="font-bold text-sm">本機 Python (SMTP)</h3>
+                        </div>
+                        <p class="text-xs text-slate-600 leading-relaxed">
+                            <strong>必須明確輸入 16 位元密碼</strong>。透過本機 Python 解密並直接與 Google SMTP 握手。適合教導「加密傳輸與直接密碼認證」。
+                        </p>
+                    </div>
+                    <div class="bg-white p-4 rounded-xl shadow-md border-t-4 border-emerald-500">
+                        <div class="flex items-center space-x-2 mb-2">
+                            <span class="bg-emerald-100 text-emerald-700 w-6 h-6 rounded-full flex items-center justify-center font-bold text-xs">B</span>
+                            <h3 class="font-bold text-sm">雲端 GAS (Code.gs)</h3>
+                        </div>
+                        <p class="text-xs text-slate-600 leading-relaxed">
+                            <strong>雲端轉接器 (不寫密碼)</strong>。部署為 Web App 接收 Fetch 請求，需要「一鍵 Google 授權」，是體驗雲端微服務（API）的絕佳教具。
+                        </p>
+                    </div>
+                    <div class="bg-white p-4 rounded-xl shadow-md border-t-4 border-indigo-500">
+                        <div class="flex items-center space-x-2 mb-2">
+                            <span class="bg-indigo-100 text-indigo-700 w-6 h-6 rounded-full flex items-center justify-center font-bold text-xs">C</span>
+                            <h3 class="font-bold text-sm">前端資料 (setup.js)</h3>
+                        </div>
+                        <p class="text-xs text-slate-600 leading-relaxed">
+                            <strong>僅異動內部資料 (免部署)</strong>。透過 JSON 傳遞收件人與內文給 Code.gs。修改此處免重新部署 API，極速看到成效！
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 主要工作區：左側設定與編輯，右側預覽與教學講義 -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            
+            <!-- 左側：設定與編輯器 (5/12) -->
+            <div class="lg:col-span-5 space-y-6">
+                <!-- 區塊 1: 寄件設定 -->
+                <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
+                    <div class="flex items-center space-x-2 mb-4 pb-3 border-b border-slate-100">
+                        <span class="text-blue-600">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                        </span>
+                        <h3 class="font-bold text-slate-800">第一步：發信模式與設定</h3>
+                    </div>
+
+                    <div class="space-y-4">
+                        <!-- 模式切換 -->
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">請選擇測試模式</label>
+                            <div class="grid grid-cols-2 gap-2 bg-slate-100 p-1 rounded-xl">
+                                <button type="button" onclick="switchMethod('gas')" id="btn-method-gas" class="py-2 text-xs font-bold rounded-lg transition-all text-blue-600 bg-white shadow-sm">
+                                    方法 A: 網頁線上寄信 (GAS)
+                                </button>
+                                <button type="button" onclick="switchMethod('local')" id="btn-method-local" class="py-2 text-xs font-bold rounded-lg transition-all text-slate-600 hover:text-slate-800">
+                                    方法 B: 本機腳本產生
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- 欄位：GAS API 網址 (僅在 GAS 模式顯示) -->
+                        <div id="field-gas-url" class="transition-all duration-300">
+                            <label class="block text-xs font-bold text-slate-700 mb-1">Google Apps Script Web App URL</label>
+                            <input type="text" id="gas-url-input" oninput="updateState('gasUrl', this.value)" placeholder="https://script.google.com/macros/s/.../exec" class="w-full text-sm px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <p class="text-[11px] text-slate-500 mt-1">取得此網址的步驟，請參閱右側的「GAS 部署代碼」教學。</p>
+                        </div>
+
+                        <!-- 欄位：本機發信設定 (僅在 Local 模式顯示) -->
+                        <div id="field-local-settings" class="hidden space-y-3 transition-all duration-300">
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 mb-1">您的 Gmail 帳號 (Sender)</label>
+                                <input type="email" id="sender-input" oninput="updateState('sender', this.value)" value="your-email@gmail.com" class="w-full text-sm px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+                            <div>
+                                <div class="flex justify-between items-center mb-1">
+                                    <label class="block text-xs font-bold text-slate-700">16 位元應用程式密碼</label>
+                                    <span class="text-[10px] text-amber-600 font-semibold bg-amber-50 px-1.5 py-0.5 rounded">重要考點</span>
+                                </div>
+                                <input type="password" id="password-input" oninput="updateState('password', this.value)" value="abcd efgh ijkl mnop" class="w-full text-sm px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 區塊 2: 撰寫信件內容 -->
+                <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
+                    <div class="flex items-center justify-between mb-4 pb-3 border-b border-slate-100">
+                        <div class="flex items-center space-x-2">
+                            <span class="text-blue-600">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
+                            </span>
+                            <h3 class="font-bold text-slate-800">第二步：編輯信件內容</h3>
+                        </div>
+                        <div class="flex items-center space-x-1">
+                            <button onclick="applyTemplate('test')" class="text-[11px] bg-slate-100 hover:bg-slate-200 text-slate-600 font-semibold px-2 py-1 rounded">測試信</button>
+                            <button onclick="applyTemplate('report')" class="text-[11px] bg-slate-100 hover:bg-slate-200 text-slate-600 font-semibold px-2 py-1 rounded">報表信</button>
+                            <button onclick="applyTemplate('alert')" class="text-[11px] bg-slate-100 hover:bg-slate-200 text-slate-600 font-semibold px-2 py-1 rounded">警告信</button>
+                        </div>
+                    </div>
+
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 mb-1">收件者 (Recipient)</label>
+                            <input type="email" id="recipient-input" oninput="updateState('recipient', this.value)" value="recipient@example.com" class="w-full text-sm px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="friend@example.com">
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 mb-1">信件主旨 (Subject)</label>
+                            <input type="text" id="subject-input" oninput="updateState('subject', this.value)" value="哈囉！這是一封來自 HTML 網頁的測試信件" class="w-full text-sm px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        </div>
+
+                        <div>
+                            <div class="flex justify-between items-center mb-1">
+                                <label class="block text-xs font-bold text-slate-700">信件內文 (支援 HTML 語法)</label>
+                                <span class="text-[10px] text-blue-600 font-mono">HTML 程式碼</span>
+                            </div>
+                            <textarea id="body-input" oninput="updateState('body', this.value)" rows="8" class="w-full text-xs font-mono p-3 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 leading-relaxed"></textarea>
+                        </div>
+
+                        <!-- 寄信執行按鈕 (僅在 GAS 模式下有效) -->
+                        <div id="gas-send-action-wrapper">
+                            <button type="button" id="send-btn" onclick="sendViaGas()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-xl shadow-lg shadow-blue-100 transition-all flex items-center justify-center space-x-2">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path></svg>
+                                <span>立即在網頁上發送郵件</span>
+                            </button>
+                            <p class="text-[10px] text-center text-slate-400 mt-2">點擊將透過您設定的 Google Apps Script 網頁應用程式傳送</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 右側：輸出效果、預覽與【教師專屬講義、自動排程】 (7/12) -->
+            <div class="lg:col-span-7 space-y-6">
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden flex flex-col h-full">
+                    <!-- 控制頁籤 -->
+                    <div class="bg-slate-50 px-4 pt-3 border-b border-slate-200 flex flex-wrap gap-2">
+                        <button onclick="switchTab('lecture')" id="tab-btn-lecture" class="px-3 py-2 text-xs font-bold border-b-2 border-blue-600 text-blue-600 transition-all flex items-center space-x-1">
+                            <span class="text-amber-500">🎓</span>
+                            <span>授課講義</span>
+                        </button>
+                        <button onclick="switchTab('gas-concept')" id="tab-btn-gas-concept" class="px-3 py-2 text-xs font-bold border-b-2 border-transparent text-slate-500 hover:text-slate-800 transition-all flex items-center space-x-1">
+                            <span class="text-emerald-500">☁️</span>
+                            <span>GAS 新手實作 (Code & setup)</span>
+                        </button>
+                        <button onclick="switchTab('python-code')" id="tab-btn-python-code" class="px-3 py-2 text-xs font-bold border-b-2 border-transparent text-slate-500 hover:text-slate-800 transition-all flex items-center space-x-1">
+                            <span class="text-blue-500">🐍</span>
+                            <span>Python SMTP</span>
+                        </button>
+                        <button onclick="switchTab('scheduling')" id="tab-btn-scheduling" class="px-3 py-2 text-xs font-bold border-b-2 border-transparent text-slate-500 hover:text-slate-800 transition-all flex items-center space-x-1">
+                            <span class="text-indigo-500">⏰</span>
+                            <span>自動排程機制</span>
+                        </button>
+                        <button onclick="switchTab('preview')" id="tab-btn-preview" class="px-3 py-2 text-xs font-bold border-b-2 border-transparent text-slate-500 hover:text-slate-800 transition-all">
+                            信件預覽
+                        </button>
+                    </div>
+
+                    <!-- 頁籤內容展示 -->
+                    <div class="p-6 flex-grow flex flex-col">
+                        
+                        <!-- Tab: 教師專用授課講義 -->
+                        <div id="tab-content-lecture" class="space-y-6">
+                            <div class="border-l-4 border-amber-500 bg-amber-50 p-4 rounded-r-xl">
+                                <h3 class="font-extrabold text-sm text-slate-900 mb-1">👨‍🏫 老師，此講義幫您劃分兩者的教學界線：</h3>
+                                <p class="text-xs text-slate-700 leading-relaxed">
+                                    教學時，強烈建議<strong>先教 Python (本機 SMTP 通訊)</strong>，讓學生理解密碼驗證的基本流程；<strong>後教 GAS (雲端 API 橋接)</strong>，讓學生理解免伺服器、安全 OAuth 的現代網頁架構。
+                                </p>
+                            </div>
+
+                            <!-- 教學引導步驟 1 -->
+                            <div class="bg-slate-50 border border-slate-200 rounded-xl p-5">
+                                <h4 class="font-bold text-xs text-slate-800 mb-2 flex items-center">
+                                    <span class="bg-blue-600 text-white rounded-full w-5 h-5 flex items-center justify-center mr-2 text-[10px]">1</span>
+                                    本機 Python SMTP 機制：硬編碼與直接認證
+                                </h4>
+                                <p class="text-xs text-slate-600 leading-relaxed mb-3">
+                                    在 Python 腳本中，程式碼必須<b>主動提供帳號與 16 位元密碼</b>。學生要在程式中直接宣告此金鑰。請框出以下程式碼向學生示範：
+                                </p>
+                                
+                                <!-- 高亮框線 Python 代碼 -->
+                                <div class="border-2 border-dashed border-red-500 rounded-lg p-3 bg-red-50/50 my-3 font-mono text-xs text-slate-800 relative">
+                                    <span class="absolute -top-3 left-3 bg-red-500 text-white text-[9px] font-bold px-2 py-0.5 rounded">🔑 Python 密碼宣告與連線區塊</span>
+                                    <pre class="overflow-x-auto leading-relaxed">
+<span class="text-emerald-600"># 學生必須在此變數直接寫入本機硬編碼的 16 位的應用程式密碼</span>
+app_password = <span class="bg-yellow-200 text-red-700 font-bold px-1 rounded">"abcd efgh ijkl mnop"</span> 
+
+server = smtplib.SMTP("smtp.gmail.com", 587)
+server.starttls()  <span class="text-emerald-600"># 建立 TLS 加密通道</span>
+<span class="bg-yellow-100 text-slate-900 font-semibold p-1 border border-amber-400 rounded">server.login(sender_email, app_password) # 使用金鑰完成身份認證</span></pre>
+                                </div>
+                                <div class="bg-amber-50 text-[11px] text-amber-800 p-2.5 rounded-lg">
+                                    <strong>💡 教師教學點：</strong>此方法需要學生嚴格遵守資安，告知他們若將此程式碼上傳 GitHub，密碼將在一分鐘內被 Google 的自動掃描系統廢除並發出安全警告。
+                                </div>
+                            </div>
+
+                            <!-- 教學引導步驟 2 -->
+                            <div class="bg-slate-50 border border-slate-200 rounded-xl p-5">
+                                <h4 class="font-bold text-xs text-slate-800 mb-2 flex items-center">
+                                    <span class="bg-emerald-600 text-white rounded-full w-5 h-5 flex items-center justify-center mr-2 text-[10px]">2</span>
+                                    雲端 GAS 前後端分離機制：免密碼與部署隔離
+                                </h4>
+                                <p class="text-xs text-slate-600 leading-relaxed mb-3">
+                                    第一次學習 GAS 最大的阻礙是「每次改內容都要重新部署 Web App」。
+                                    我們可以引入<b>前後端分離</b>觀念：後端 `Code.gs` 當作免更動的「寄信郵件伺服器」；前端 `setup.js` 則是學生修改收件人、主旨與 HTML 的操作台。
+                                </p>
+                                
+                                <div class="grid grid-cols-2 gap-3 text-xs">
+                                    <div class="border border-slate-200 bg-white p-3 rounded-lg">
+                                        <p class="font-bold text-emerald-600">☁️ Code.gs (後端 API)</p>
+                                        <p class="text-[11px] text-slate-500 mt-1">部署在 Google 雲端。只負責解析 Request，呼叫系統權限寄信。不需要寫任何密碼，部署一次就再也不需要修改。</p>
+                                    </div>
+                                    <div class="border border-slate-200 bg-white p-3 rounded-lg">
+                                        <p class="font-bold text-indigo-600">💻 setup.js (前端資料端)</p>
+                                        <p class="text-[11px] text-slate-500 mt-1">放在學生本機或 HTML 中。學生任意修改信件內容、收件人，按下執行後動態傳送至 API。修改此處<b>完全不需重部署 GAS</b>！</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Tab: GAS 第一次實作專區 (Code.gs vs setup.js) -->
+                        <div id="tab-content-gas-concept" class="hidden space-y-6">
+                            <div class="bg-emerald-50 border border-emerald-200 rounded-xl p-4 text-xs text-emerald-900 leading-relaxed">
+                                <h4 class="font-bold mb-1 flex items-center text-emerald-800 text-sm">
+                                    🚀 第一次部署 GAS 核心心法：
+                                </h4>
+                                <p class="mt-1">
+                                    請帶領學生在 Google Apps Script 中貼上 <b>Code.gs</b> 的程式碼，並完成 **一次性部署**（取得 API 網址）。
+                                    此後，學生若想變更「信件主旨、內容或收件人」，<b>只需要修改本機 setup.js 內的變數並呼叫即可</b>，完全不需要再回到 GAS 網頁重新按部署更新！
+                                </p>
+                            </div>
+
+                            <!-- 檔案切換面板 -->
+                            <div class="bg-slate-100 p-1 rounded-xl flex space-x-1 text-xs">
+                                <button type="button" onclick="switchGasSubFile('code-gs')" id="btn-file-gs" class="flex-1 py-2 font-bold text-center rounded-lg transition-all text-emerald-700 bg-white shadow-sm">
+                                    📄 1. Code.gs (部署在 Google 雲端 - 一次性部署)
+                                </button>
+                                <button type="button" onclick="switchGasSubFile('setup-js')" id="btn-file-js" class="flex-1 py-2 font-bold text-center rounded-lg transition-all text-slate-600 hover:text-slate-800">
+                                    📄 2. setup.js (學生在本機任意修改 - 免重新部署)
+                                </button>
+                            </div>
+
+                            <!-- 1. Code.gs 區塊 -->
+                            <div id="file-code-gs" class="space-y-3">
+                                <p class="text-xs text-slate-500">
+                                    請引導學生開啟 GAS 專案並貼入此程式碼。**教學亮點：** 程式碼完全沒有寫入硬編碼密碼！
+                                </p>
+                                <div class="relative">
+                                    <button onclick="copyCode('gas-engine-code')" class="absolute right-2 top-2 bg-slate-800 hover:bg-slate-700 text-white text-[10px] px-2 py-0.5 rounded-md transition-all">複製</button>
+                                    <pre id="gas-engine-code" class="bg-slate-900 text-emerald-400 p-4 pt-10 rounded-xl text-xs font-mono overflow-x-auto leading-relaxed max-h-[300px]">
+/**
+ * ☁️ Code.gs (API 轉介引擎)
+ * 部署指引：
+ * 1. 貼上程式碼後，點擊「部署」 &gt; 「新增部署」
+ * 2. 類型選擇「網頁應用程式 (Web App)」
+ * 3. 執行身分選擇：「我」(您的 Gmail)
+ * 4. 誰有權存取選擇：「任何人 (Anyone)」
+ * 5. 授權驗證完成後，複製產生的「網頁應用程式網址」
+ */
+
+function doPost(e) {
+  var corsHeader = "*"; // 允許跨網域存取
+  
+  try {
+    // 解析來自前端 setup.js 傳過來的動態 JSON 資料
+    var params = JSON.parse(e.postData.contents);
+    var recipient = params.recipient;
+    var subject = params.subject;
+    var body = params.body;
+
+    if (!recipient || !subject || !body) {
+      throw new Error("發信失敗！缺少必要參數：recipient, subject 或 body");
+    }
+
+    // 🔒 安全機制：直接利用 Google 核心 OAuth 權限發信（完全免打應用程式密碼）
+    <span class="bg-emerald-950 text-white px-1 py-0.5 border border-emerald-500 rounded font-bold">GmailApp.sendEmail(recipient, subject, "", { htmlBody: body });</span>
+
+    return ContentService.createTextOutput(JSON.stringify({
+      "status": "success", 
+      "message": "郵件已透過 GAS 成功發送！"
+    }))
+    .setMimeType(ContentService.MimeType.JSON)
+    .setHeaders({ "Access-Control-Allow-Origin": corsHeader });
+
+  } catch (error) {
+    return ContentService.createTextOutput(JSON.stringify({
+      "status": "error",
+      "message": error.toString()
+    }))
+    .setMimeType(ContentService.MimeType.JSON)
+    .setHeaders({ "Access-Control-Allow-Origin": corsHeader });
+  }
+}
+
+// 支援跨來源 CORS 預檢
+function doOptions(e) {
+  return ContentService.createTextOutput("")
+    .setHeaders({
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Methods": "POST, OPTIONS",
+      "Access-Control-Allow-Headers": "Content-Type"
+    });
+}</pre>
+                                </div>
+                            </div>
+
+                            <!-- 2. setup.js 區塊 -->
+                            <div id="file-setup-js" class="hidden space-y-3">
+                                <p class="text-xs text-slate-500">
+                                    這是前端/本機執行的 JavaScript 檔。**教學亮點：** 學生要修改的資料通通集中在這裡，直接由 JS 的 `fetch()` 送出。
+                                </p>
+                                <div class="relative">
+                                    <button onclick="copyCode('gas-setup-code')" class="absolute right-2 top-2 bg-slate-800 hover:bg-slate-700 text-white text-[10px] px-2 py-0.5 rounded-md transition-all">複製</button>
+                                    <pre id="gas-setup-code" class="bg-slate-900 text-emerald-400 p-4 pt-10 rounded-xl text-xs font-mono overflow-x-auto leading-relaxed max-h-[300px]">
+/**
+ * 💻 setup.js (前端資料控制器)
+ * 學生在此自由修改信件內容，點擊發信即可直接傳遞，不需重複部署 API
+ */
+
+// 1. 貼上部署 Code.gs 後得到的 Web App 網址
+const GAS_WEBAPP_URL = "您的_GAS_網頁應用程式網址"; 
+
+// 2. 🎯 在這裡任意修改您的信件資料
+const emailData = {
+  recipient: "recipient@example.com", 
+  subject: "測試信：不用重新部署的 GAS 實作",
+  body: "&lt;h2&gt;你好！&lt;/h2&gt;&lt;p&gt;這封信直接用 setup.js 裡的變數資料進行替換。&lt;/p&gt;"
+};
+
+// 3. 呼叫發信引擎 (Fetch POST)
+function sendMail() {
+  if (GAS_WEBAPP_URL === "您的_GAS_網頁應用程式網址") {
+    console.error("請先填入您部署 Code.gs 得到的 API 網址！");
+    return;
+  }
+
+  fetch(GAS_WEBAPP_URL, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(emailData) // 將學生修改的資料封裝並送往雲端
+  })
+  .then(() => console.log("發送信號已發送！請至收件匣確認！"))
+  .catch(err => console.error("發送發生異常：", err));
+}</pre>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Tab 3: Python Script -->
+                        <div id="tab-content-python-code" class="hidden space-y-4">
+                            <p class="text-xs text-slate-500">與 GAS 不同，Python 本機腳本必須直接對接 Google SMTP。請引導學生在此輸入「16 位元密碼」：</p>
+                            <div class="relative">
+                                <button onclick="copyCode('python-code-block')" class="absolute right-2 top-2 bg-slate-800 hover:bg-slate-700 text-white text-xs px-2.5 py-1 rounded-md transition-all">複製代碼</button>
+                                <pre id="python-code-block" class="bg-slate-900 text-emerald-400 p-4 rounded-xl text-xs font-mono overflow-x-auto leading-relaxed max-h-[350px]">
+// 即時產生中...
+                                </pre>
+                            </div>
+                        </div>
+
+                        <!-- Tab 4: 自動排程機制教學 -->
+                        <div id="tab-content-scheduling" class="hidden space-y-6">
+                            <div class="bg-slate-100 p-1.5 rounded-xl flex space-x-1 text-xs">
+                                <button type="button" onclick="switchScheduleSubTab('gas-sched')" id="btn-sched-gas" class="flex-1 py-2 font-bold text-center rounded-lg transition-all text-indigo-700 bg-white shadow-sm">
+                                    ☁️ 方案 A: GAS 雲端定時器
+                                </button>
+                                <button type="button" onclick="switchScheduleSubTab('local-sched')" id="btn-sched-local" class="flex-1 py-2 font-bold text-center rounded-lg transition-all text-slate-600 hover:text-slate-800">
+                                    💻 方案 B: Python/本機定時排程
+                                </button>
+                            </div>
+
+                            <!-- 方案 A: GAS 雲端排程 -->
+                            <div id="sub-sched-gas" class="space-y-4">
+                                <div class="border-l-4 border-indigo-600 bg-indigo-50 p-4 rounded-r-xl text-xs text-indigo-900 leading-relaxed">
+                                    <h4 class="font-bold text-sm mb-1">🎯 雲端定時發信：免開機、零電費</h4>
+                                    <p>
+                                        使用 Google Apps Script 的<b>「時間驅動觸發器」</b>。就算學生關閉電腦，Google 伺服器每天早上依然會準時被喚醒。
+                                    </p>
+                                </div>
+
+                                <div class="bg-slate-50 border border-slate-200 rounded-xl p-4 space-y-3 text-xs">
+                                    <h5 class="font-bold text-slate-800">1. 操作步驟：如何在 GAS 控制台配置定時器</h5>
+                                    <ol class="list-decimal pl-4 text-slate-600 space-y-1">
+                                        <li>在 GAS 專案編輯器，點擊左側邊欄的 **「鬧鐘/觸發條件 (Triggers)」**。</li>
+                                        <li>點選右下角藍色的 **「新增觸發條件 (Add Trigger)」**。</li>
+                                        <li>
+                                            設定：
+                                            <ul class="list-disc pl-4 mt-0.5 text-slate-500">
+                                                <li>選擇執行的功能：<code class="bg-slate-200 px-1 rounded text-red-600 font-mono text-[10px]">sendDailyReport</code></li>
+                                                <li>來源選： **「時間驅動 (Time-driven)」**</li>
+                                                <li>類型選： **「日計時器 (Day timer)」**</li>
+                                            </ul>
+                                        </li>
+                                    </ol>
+                                </div>
+
+                                <div class="relative">
+                                    <button onclick="copyCode('gas-sched-code')" class="absolute right-2 top-2 bg-slate-800 hover:bg-slate-700 text-white text-[10px] px-2 py-0.5 rounded-md transition-all">複製</button>
+                                    <pre id="gas-sched-code" class="bg-slate-900 text-emerald-400 p-4 pt-8 rounded-xl text-xs font-mono overflow-x-auto leading-relaxed max-h-[200px]">
+// 加載中...
+                                    </pre>
+                                </div>
+                            </div>
+
+                            <!-- 方案 B: Python/本機定時排程 -->
+                            <div id="sub-sched-local" class="hidden space-y-4">
+                                <div class="border-l-4 border-amber-500 bg-amber-50 p-4 rounded-r-xl text-xs text-amber-900 leading-relaxed">
+                                    <h4 class="font-bold text-sm mb-1">🛠️ 本機 Linux / Windows 排程</h4>
+                                    <p>
+                                        如果您的程式跑在公司內部的伺服器，有兩種方式：**「Python 內部程式無窮迴圈 `schedule` 庫」** 或是 **「作業系統層級（Windows 工作排程器 / Linux Crontab）」**。
+                                    </p>
+                                </div>
+
+                                <div class="relative">
+                                    <button onclick="copyCode('python-sched-code')" class="absolute right-2 top-2 bg-slate-800 hover:bg-slate-700 text-white text-[10px] px-2 py-0.5 rounded-md transition-all">複製</button>
+                                    <pre id="python-sched-code" class="bg-slate-900 text-emerald-400 p-4 pt-8 rounded-xl text-xs font-mono overflow-x-auto leading-relaxed max-h-[250px]">
+// 加載中...
+                                    </pre>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Tab 1: 即時預覽 -->
+                        <div id="tab-content-preview" class="hidden space-y-4 flex-grow flex flex-col">
+                            <div class="border border-slate-200 rounded-xl bg-slate-50 overflow-hidden flex-grow flex flex-col min-h-[400px]">
+                                <div class="bg-white px-4 py-3 border-b border-slate-200 text-xs text-slate-500 space-y-1">
+                                    <div><strong>收件者：</strong> <span id="preview-to" class="text-slate-800">recipient@example.com</span></div>
+                                    <div><strong>主旨：</strong> <span id="preview-subject" class="text-slate-800 font-bold"></span></div>
+                                </div>
+                                <div class="p-4 bg-white flex-grow overflow-auto" style="min-height: 350px;">
+                                    <div id="preview-body-container" class="prose max-w-none"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- 頁尾宣告 -->
+    <footer class="bg-white border-t border-slate-200 py-6 mt-12">
+        <div class="max-w-7xl mx-auto px-4 text-center text-xs text-slate-400">
+            <p>© 2026 Gmail 獨立網頁發信與教學工具. 本網頁不收集任何帳號密碼，請確保引導學生正確使用「應用程式密碼」安全發信。</p>
+        </div>
+    </footer>
+
+    <!-- 客製化彈窗 Notification (Toast) -->
+    <div id="toast-container" class="fixed bottom-5 right-5 z-50 space-y-2 pointer-events-none"></div>
+
+    <!-- JavaScript 邏輯控制 -->
+    <script>
+        // 核心應用程式狀態管理
+        const state = {
+            method: 'gas', // 'gas' 或 'local'
+            gasUrl: '',
+            sender: 'your-email@gmail.com',
+            password: 'abcd efgh ijkl mnop',
+            recipient: 'recipient@example.com',
+            subject: '哈囉！這是一封來自 HTML 網頁的測試信件',
+            body: `<html>
+  <body style="font-family: sans-serif; background-color: #f8fafc; padding: 20px;">
+    <div style="max-width: 600px; margin: 0 auto; background-color: #ffffff; border-radius: 12px; border: 1px solid #e2e8f0; overflow: hidden; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);">
+      <div style="background-color: #2563eb; padding: 24px; text-align: center; color: #ffffff;">
+        <h2 style="margin: 0; font-size: 20px;">🎉 獨立網頁發信測試成功！</h2>
+      </div>
+      <div style="padding: 24px; color: #334155; line-height: 1.6;">
+        <p style="margin-top: 0;">您好：</p>
+        <p>這封信是您直接在 <strong>獨立 HTML 網頁</strong> 上撰寫並透過 <strong>Google Apps Script 雲端橋接器</strong> 成功發送的。</p>
+        <p>這個技術能完美解決網頁無法直接走 SMTP 發信的問題，且安全性極高！</p>
+        <div style="background-color: #f1f5f9; padding: 16px; border-radius: 8px; margin: 20px 0; font-size: 14px;">
+          <strong>信件規格：</strong><br>
+          • 寄件通道：Google Apps Script API<br>
+          • 信件格式：HTML 多重渲染格式
+        </div>
+        <p style="margin-bottom: 0;">祝您的 Python & HTML 開發之路順利！</p>
+      </div>
+    </div>
+  </body>
+</html>`,
+            activeTab: 'lecture'
+        };
+
+        // 預設信件範本庫
+        const templates = {
+            test: {
+                subject: '哈囉！這是一封來自 HTML 網頁的測試信件',
+                body: `<html>
+  <body style="font-family: sans-serif; background-color: #f8fafc; padding: 20px;">
+    <div style="max-width: 600px; margin: 0 auto; background-color: #ffffff; border-radius: 12px; border: 1px solid #e2e8f0; overflow: hidden; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);">
+      <div style="background-color: #2563eb; padding: 24px; text-align: center; color: #ffffff;">
+        <h2 style="margin: 0; font-size: 20px;">🎉 獨立網頁發信測試成功！</h2>
+      </div>
+      <div style="padding: 24px; color: #334155; line-height: 1.6;">
+        <p style="margin-top: 0;">您好：</p>
+        <p>這封信是您直接在 <strong>獨立 HTML 網頁</strong> 上撰寫並透過 <strong>Google Apps Script 雲端橋接器</strong> 成功發送的。</p>
+        <p>這個技術能完美解決網頁無法直接走 SMTP 發信的問題，且安全性極高！</p>
+        <div style="background-color: #f1f5f9; padding: 16px; border-radius: 8px; margin: 20px 0; font-size: 14px;">
+          <strong>信件規格：</strong><br>
+          • 寄件通道：Google Apps Script API<br>
+          • 信件格式：HTML 多重渲染格式
+        </div>
+        <p style="margin-bottom: 0;">祝您的 Python & HTML 開發之路順利！</p>
+      </div>
+    </div>
+  </body>
+</html>`
+            },
+            report: {
+                subject: '【每日維運報告】系統狀態正常與數據統計',
+                body: `<html>
+  <body style="font-family: sans-serif; color: #334155; padding: 20px; background-color: #f8fafc;">
+    <div style="max-width: 600px; margin: 0 auto; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 24px;">
+      <h2 style="border-bottom: 2px solid #e2e8f0; padding-bottom: 12px; color: #0f172a;">📊 系統自動日報表</h2>
+      <p>親愛的團隊成員：</p>
+      <p>以下為今日系統維運核心指標摘要：</p>
+      <table style="width: 100%; border-collapse: collapse; margin: 20px 0;">
+        <thead>
+          <tr style="background-color: #f1f5f9;">
+            <th style="padding: 10px; border: 1px solid #cbd5e1; text-align: left;">監控項目</th>
+            <th style="padding: 10px; border: 1px solid #cbd5e1; text-align: center;">狀態</th>
+            <th style="padding: 10px; border: 1px solid #cbd5e1; text-align: right;">響應時間</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="padding: 10px; border: 1px solid #cbd5e1;">AI-Node 主引擎</td>
+            <td style="padding: 10px; border: 1px solid #cbd5e1; text-align: center; color: #16a34a; font-weight: bold;">正常</td>
+            <td style="padding: 10px; border: 1px solid #cbd5e1; text-align: right;">42 ms</td>
+          </tr>
+          <tr>
+            <td style="padding: 10px; border: 1px solid #cbd5e1;">Gmail API 連線</td>
+            <td style="padding: 10px; border: 1px solid #cbd5e1; text-align: center; color: #16a34a; font-weight: bold;">正常</td>
+            <td style="padding: 10px; border: 1px solid #cbd5e1; text-align: right;">125 ms</td>
+          </tr>
+          <tr>
+            <td style="padding: 10px; border: 1px solid #cbd5e1;">資料庫備份儲存</td>
+            <td style="padding: 10px; border: 1px solid #cbd5e1; text-align: center; color: #16a34a; font-weight: bold;">完成</td>
+            <td style="padding: 10px; border: 1px solid #cbd5e1; text-align: right;">-</td>
+          </tr>
+        </tbody>
+      </table>
+      <p style="font-size: 13px; color: #64748b;">* 本報告透過網頁排程發信系統自動發送。</p>
+    </div>
+  </body>
+</html>`
+            },
+            alert: {
+                subject: '⚠️【嚴重警告】主機伺服器異常，請立即確認',
+                body: `<html>
+  <body style="font-family: sans-serif; color: #7f1d1d; padding: 20px; background-color: #fef2f2;">
+    <div style="max-width: 600px; margin: 0 auto; background: #ffffff; border: 2px solid #fca5a5; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(239, 68, 68, 0.1);">
+      <div style="background-color: #ef4444; color: white; padding: 20px; font-weight: bold; font-size: 18px; text-align: center;">
+        🚨 系統警報：資源負載過高
+      </div>
+      <div style="padding: 24px; color: #374151;">
+        <p><b>管理員您好：</b></p>
+        <p>系統偵測到以下節點發生異常警告，請儘速登入控制台排解：</p>
+        <div style="background-color: #fef2f2; border-left: 4px solid #ef4444; padding: 12px; margin: 16px 0; font-size: 14px; color: #991b1b;">
+          <strong>警報原因：</strong> CPU 使用率連續 5 分鐘高於 95%<br>
+          <strong>受影響主機：</strong> AWS-EC2-Asia-East1<br>
+          <strong>觸發時間：</strong> 2026-05-21 22:04 (UTC+8)
+        </div>
+        <p>請立即執行重啟或擴展程序，確保服務穩定性。</p>
+      </div>
+    </div>
+  </body>
+</html>`
+            }
+        };
+
+        // 網頁載入時初始化
+        window.onload = function() {
+            // 設定各輸入框預設值
+            document.getElementById('recipient-input').value = state.recipient;
+            document.getElementById('subject-input').value = state.subject;
+            document.getElementById('body-input').value = state.body;
+            document.getElementById('sender-input').value = state.sender;
+            document.getElementById('password-input').value = state.password;
+            
+            // 首次同步資料
+            updateOutputs();
+        };
+
+        // 更新狀態與重繪畫面
+        function updateState(key, value) {
+            state[key] = value;
+            updateOutputs();
+        }
+
+        // 切換郵件範本
+        function applyTemplate(type) {
+            if (templates[type]) {
+                state.subject = templates[type].subject;
+                state.body = templates[type].body;
+                document.getElementById('subject-input').value = state.subject;
+                document.getElementById('body-input').value = state.body;
+                updateOutputs();
+                showToast('已成功載入信件模板！', 'success');
+            }
+        }
+
+        // 切換發信模式 (GAS 或 Local)
+        function switchMethod(method) {
+            state.method = method;
+            
+            const btnGas = document.getElementById('btn-method-gas');
+            const btnLocal = document.getElementById('btn-method-local');
+            const fieldGas = document.getElementById('field-gas-url');
+            const fieldLocal = document.getElementById('field-local-settings');
+            const sendBtnWrapper = document.getElementById('gas-send-action-wrapper');
+
+            if (method === 'gas') {
+                btnGas.className = "py-2 text-xs font-bold rounded-lg transition-all text-blue-600 bg-white shadow-sm";
+                btnLocal.className = "py-2 text-xs font-bold rounded-lg transition-all text-slate-600 hover:text-slate-800";
+                fieldGas.classList.remove('hidden');
+                fieldLocal.classList.add('hidden');
+                sendBtnWrapper.classList.remove('hidden');
+            } else {
+                btnGas.className = "py-2 text-xs font-bold rounded-lg transition-all text-slate-600 hover:text-slate-800";
+                btnLocal.className = "py-2 text-xs font-bold rounded-lg transition-all text-blue-600 bg-white shadow-sm";
+                fieldGas.classList.add('hidden');
+                fieldLocal.classList.remove('hidden');
+                sendBtnWrapper.classList.add('hidden');
+            }
+            updateOutputs();
+        }
+
+        // 切換 GAS 新手區的兩個子檔案 (Code.gs vs setup.js)
+        function switchGasSubFile(fileId) {
+            const btnGs = document.getElementById('btn-file-gs');
+            const btnJs = document.getElementById('btn-file-js');
+            const fileGs = document.getElementById('file-code-gs');
+            const fileJs = document.getElementById('file-setup-js');
+
+            if (fileId === 'code-gs') {
+                btnGs.className = "flex-1 py-2 font-bold text-center rounded-lg transition-all text-emerald-700 bg-white shadow-sm";
+                btnJs.className = "flex-1 py-2 font-bold text-center rounded-lg transition-all text-slate-600 hover:text-slate-800";
+                fileGs.classList.remove('hidden');
+                fileJs.classList.add('hidden');
+            } else {
+                btnGs.className = "flex-1 py-2 font-bold text-center rounded-lg transition-all text-slate-600 hover:text-slate-800";
+                btnJs.className = "flex-1 py-2 font-bold text-center rounded-lg transition-all text-emerald-700 bg-white shadow-sm";
+                fileGs.classList.add('hidden');
+                fileJs.classList.remove('hidden');
+            }
+        }
+
+        // 切換右側頁籤
+        function switchTab(tabId) {
+            state.activeTab = tabId;
+            const tabs = ['lecture', 'gas-concept', 'python-code', 'scheduling', 'preview'];
+            
+            tabs.forEach(t => {
+                const btn = document.getElementById(`tab-btn-${t}`);
+                const content = document.getElementById(`tab-content-${t}`);
+                if (t === tabId) {
+                    btn.classList.add('border-blue-600', 'text-blue-600');
+                    btn.classList.remove('border-transparent', 'text-slate-500');
+                    content.classList.remove('hidden');
+                } else {
+                    btn.classList.add('border-transparent', 'text-slate-500');
+                    btn.classList.remove('border-blue-600', 'text-blue-600');
+                    content.classList.add('hidden');
+                }
+            });
+        }
+
+        // 切換排程子頁籤 (GAS vs Local)
+        function switchScheduleSubTab(subTabId) {
+            const btnGas = document.getElementById('btn-sched-gas');
+            const btnLocal = document.getElementById('btn-sched-local');
+            const paneGas = document.getElementById('sub-sched-gas');
+            const paneLocal = document.getElementById('sub-sched-local');
+
+            if (subTabId === 'gas-sched') {
+                btnGas.className = "flex-1 py-2 font-bold text-center rounded-lg transition-all text-indigo-700 bg-white shadow-sm";
+                btnLocal.className = "flex-1 py-2 font-bold text-center rounded-lg transition-all text-slate-600 hover:text-slate-800";
+                paneGas.classList.remove('hidden');
+                paneLocal.classList.add('hidden');
+            } else {
+                btnGas.className = "flex-1 py-2 font-bold text-center rounded-lg transition-all text-slate-600 hover:text-slate-800";
+                btnLocal.className = "flex-1 py-2 font-bold text-center rounded-lg transition-all text-indigo-700 bg-white shadow-sm";
+                paneGas.classList.add('hidden');
+                paneLocal.classList.remove('hidden');
+            }
+        }
+
+        // 即時渲染預覽畫面與多種程式碼區塊
+        function updateOutputs() {
+            // 1. 更新 HTML 預覽畫面
+            document.getElementById('preview-to').innerText = state.recipient;
+            document.getElementById('preview-subject').innerText = state.subject;
+            document.getElementById('preview-body-container').innerHTML = state.body;
+
+            // 2. 更新 GAS setup.js 的動態呈現內容
+            const escapedBodyJs = state.body.replace(/`/g, '\\`').replace(/\$/g, '\\$');
+            document.getElementById('gas-setup-code').innerText = `/**
+ * 💻 setup.js (前端資料控制器)
+ * 學生在此自由修改信件內容，點擊發信即可直接傳遞，不需重複部署 API
+ */
+
+// 1. 貼上部署 Code.gs 後得到的 Web App 網址
+const GAS_WEBAPP_URL = "${state.gasUrl || '您的_GAS_網頁應用程式網址'}"; 
+
+// 2. 🎯 在這裡任意修改您的信件資料 (目前已與您左側輸入的值同步)
+const emailData = {
+  recipient: "${state.recipient}", 
+  subject: "${state.subject}",
+  body: \`${escapedBodyJs}\`
+};
+
+// 3. 呼叫發信引擎 (Fetch POST)
+function sendMail() {
+  if (GAS_WEBAPP_URL === "您的_GAS_網頁應用程式網址" || GAS_WEBAPP_URL === "") {
+    console.error("請先填入您部署 Code.gs 得到的 API 網址！");
+    return;
+  }
+
+  fetch(GAS_WEBAPP_URL, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(emailData) // 將修改的資料送往雲端，GAS 後端不需重新部署
+  })
+  .then(() => console.log("發送信號已發送！請至收件匣確認！"))
+  .catch(err => console.error("發送發生異常：", err));
+}`;
+
+            // 3. 更新 Python 程式碼
+            const cleanPythonCode = `import smtplib
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+
+def send_gmail():
+    # 1. 寄件資訊與【16 位元應用程式密碼】設定
+    sender_email = "${state.sender}"
+    
+    # ⚠️ 這裡填寫 16 位元隨機密碼 (例如: abcd efgh ijkl mnop)，本機程式會自動幫您過濾空白字元
+    app_password = "${state.password.replace(/\s+/g, '')}"  
+    
+    recipient_email = "${state.recipient}"
+    subject = "${state.subject}"
+    html_content = """${state.body}"""
+
+    # 2. 建立多格式郵件物件
+    message = MIMEMultipart()
+    message["From"] = sender_email
+    message["To"] = recipient_email
+    message["Subject"] = subject
+    message.attach(MIMEText(html_content, "html", "utf-8"))
+
+    try:
+        # 3. 建立連線並使用 TLS 加密通訊
+        print("連線至 Gmail SMTP 伺服器...")
+        server = smtplib.SMTP("smtp.gmail.com", 587)
+        server.starttls()
+        
+        # 4. 【核心驗證】：使用應用程式密碼登入
+        print("正在透過安全憑證登入...")
+        server.login(sender_email, app_password)
+        
+        # 5. 發送並關閉連線
+        print("登入成功，正在發送信件...")
+        server.sendmail(sender_email, recipient_email, message.as_string())
+        print(f"郵件已成功寄出至 {recipient_email}！")
+        server.quit()
+    except Exception as e:
+        print(f"發生錯誤: {e}")
+
+if __name__ == "__main__":
+    send_gmail()`;
+            document.getElementById('python-code-block').innerText = cleanPythonCode;
+
+            // 4. 更新排程專用的動態代碼
+            const cleanBodyEscaped = state.body.replace(/`/g, '\\`').replace(/\$/g, '\\$');
+            document.getElementById('gas-sched-code').innerText = `/**
+ * ⏰ 這個函式會被 Google 雲端定時觸發器自動定時執行
+ * (不需要在程式中放置任何密碼，因為它使用 OAuth 機制發信)
+ */
+function sendDailyReport() {
+  var recipient = "${state.recipient}";
+  var subject = "【自動排程每日回報】" + "${state.subject}";
+  var body = \`${cleanBodyEscaped}\`;
+  
+  try {
+    GmailApp.sendEmail(recipient, subject, "", {
+      htmlBody: body
+    });
+    Logger.log("排程信件已於 " + new Date() + " 成功發送。");
+  } catch (err) {
+    Logger.log("發送失敗: " + err.toString());
+  }
+}`;
+
+            document.getElementById('python-sched-code').innerText = `import smtplib
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+import schedule
+import time
+
+def send_gmail():
+    sender_email = "${state.sender}"
+    app_password = "${state.password.replace(/\s+/g, '')}"
+    recipient_email = "${state.recipient}"
+    subject = "[自動定時] ${state.subject}"
+    html_content = """${state.body}"""
+
+    message = MIMEMultipart()
+    message["From"] = sender_email
+    message["To"] = recipient_email
+    message["Subject"] = subject
+    message.attach(MIMEText(html_content, "html", "utf-8"))
+
+    try:
+        server = smtplib.SMTP("smtp.gmail.com", 587)
+        server.starttls()
+        server.login(sender_email, app_password)
+        server.sendmail(sender_email, recipient_email, message.as_string())
+        server.quit()
+        print(f"[{time.strftime('%Y-%m-%d %H:%M:%S')}] 每日排程信件已寄出！")
+    except Exception as e:
+        print("發送失敗:", e)
+
+# ⏰ 設定排程規則：每天早上 08:30 執行發信任務
+schedule.every().day.at("08:30").do(send_gmail)
+
+print("排程器已啟動，長駐背景等待中...（按 Ctrl+C 可停止）")
+while True:
+    schedule.run_pending()
+    time.sleep(1) # 每秒檢查一次是否有排程待執行`;
+        }
+
+        // 一鍵複製程式碼邏輯 (利用 textarea 繞過 iframe sandbox 剪貼簿限制)
+        function copyCode(elementId) {
+            const codeText = document.getElementById(elementId).innerText;
+            const tempTextArea = document.createElement("textarea");
+            tempTextArea.value = codeText;
+            tempTextArea.style.position = "absolute";
+            tempTextArea.style.left = "-9999px";
+            document.body.appendChild(tempTextArea);
+            tempTextArea.select();
+            
+            try {
+                document.execCommand('copy');
+                showToast('已複製到剪貼簿！', 'success');
+            } catch (err) {
+                showToast('複製失敗，請手動選取複製', 'error');
+            }
+            document.body.removeChild(tempTextArea);
+        }
+
+        // 獨立前端呼叫 Google Apps Script 寄信測試
+        async function sendViaGas() {
+            if (!state.gasUrl || !state.gasUrl.startsWith('https://script.google.com')) {
+                showToast('請先填入正確的 Google Apps Script 網頁應用程式網址！', 'error');
+                switchTab('gas-concept');
+                return;
+            }
+
+            const sendBtn = document.getElementById('send-btn');
+            const originalContent = sendBtn.innerHTML;
+            
+            // 進入載入狀態
+            sendBtn.disabled = true;
+            sendBtn.innerHTML = `
+                <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white inline-block" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                <span>正在寄送郵件，請稍候...</span>
+            `;
+
+            const maxRetries = 5;
+            let attempt = 0;
+            let success = false;
+            let errorMessage = '';
+
+            const payload = {
+                recipient: state.recipient,
+                subject: state.subject,
+                body: state.body
+            };
+
+            while (attempt < maxRetries && !success) {
+                try {
+                    const response = await fetch(state.gasUrl, {
+                        method: 'POST',
+                        mode: 'no-cors', // 解決瀏覽器 redirect 導向的安全阻擋
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(payload)
+                    });
+                    success = true;
+                } catch (error) {
+                    attempt++;
+                    const delay = Math.pow(2, attempt) * 1000;
+                    errorMessage = error.message || '未知錯誤';
+                    if (attempt < maxRetries) {
+                        await new Promise(resolve => setTimeout(resolve, delay));
+                    }
+                }
+            }
+
+            // 恢復按鈕狀態
+            sendBtn.disabled = false;
+            sendBtn.innerHTML = originalContent;
+
+            if (success) {
+                showToast('🚀 郵件已發送！請檢查收件匣。', 'success');
+            } else {
+                showToast(`發送失敗 (重試5次仍失敗): ${errorMessage}`, 'error');
+            }
+        }
+
+        // 客製化吐司通知提示 UI 
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            
+            const bgClass = type === 'success' ? 'bg-emerald-600' : 'bg-rose-600';
+            const icon = type === 'success' ? 
+                `<svg class="w-5 h-5 mr-2 text-white inline-block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>` : 
+                `<svg class="w-5 h-5 mr-2 text-white inline-block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>`;
+
+            toast.className = `${bgClass} text-white px-4 py-3 rounded-xl shadow-xl flex items-center text-xs font-semibold transform translate-y-5 opacity-0 transition-all duration-300 pointer-events-auto`;
+            toast.innerHTML = `${icon}<span>${message}</span>`;
+            
+            container.appendChild(toast);
+            
+            // 觸發進場動畫
+            setTimeout(() => {
+                toast.classList.remove('translate-y-5', 'opacity-0');
+            }, 50);
+
+            // 3 秒後自動退場並銷毀
+            setTimeout(() => {
+                toast.classList.add('opacity-0', 'translate-y-2');
+                setTimeout(() => {
+                    toast.remove();
+                }, 300);
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
