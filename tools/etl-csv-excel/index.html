@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transforma - 輕量級 ETL 資料轉換工具</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icon CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- SheetJS (XLSX) CDN 用於完美匯出 Excel -->
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+        }
+        /* 自訂美化捲軸 */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col">
+
+    <!-- 導覽列 -->
+    <header class="bg-white border-b border-slate-200 sticky top-0 z-40 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="bg-gradient-to-tr from-indigo-600 to-violet-500 p-2.5 rounded-xl text-white shadow-md shadow-indigo-200">
+                    <i class="fa-solid fa-wand-magic-sparkles text-xl"></i>
+                </div>
+                <div>
+                    <span class="text-xl font-bold bg-gradient-to-r from-indigo-600 to-violet-600 bg-clip-text text-transparent">Transforma</span>
+                    <span class="text-xs block text-slate-400 font-medium">輕量級瀏覽器端 ETL 工作室</span>
+                </div>
+            </div>
+            <div class="flex items-center space-x-4">
+                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-800">
+                    <span class="w-1.5 h-1.5 mr-1.5 bg-emerald-500 rounded-full animate-pulse"></span>
+                    完全本地端運作 (100% Privacy)
+                </span>
+            </div>
+        </div>
+    </header>
+
+    <!-- 主容器 -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        
+        <!-- 頂部說明 -->
+        <div class="mb-8 bg-gradient-to-r from-indigo-50 to-violet-50 rounded-2xl p-6 border border-indigo-100/80 shadow-sm">
+            <h1 class="text-2xl font-bold text-slate-800 flex items-center gap-2">
+                歡迎使用 Transforma 👋
+            </h1>
+            <p class="text-slate-600 mt-2 text-sm leading-relaxed max-w-4xl">
+                這是一個免安裝、免上傳伺服器的純網頁端 ETL (Extract-Transform-Load) 資料整合工具。您可以在這裡將各種雜亂的文字、單行連續引號資料或混亂的 CSV 字串快速匯入，進行格式清洗、重新欄位包裝、並即時預覽，最後完美打包導出為 UTF-8 CSV 或點對點 Excel 檔案。
+            </p>
+        </div>
+
+        <!-- ETL 三步驟網格 -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            
+            <!-- 左側：Extract (E) & Transform (T) -->
+            <div class="lg:col-span-5 space-y-6">
+                
+                <!-- 步驟一：Extract 區塊 -->
+                <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 relative overflow-hidden">
+                    <div class="absolute top-0 left-0 w-2 h-full bg-indigo-600"></div>
+                    <div class="flex justify-between items-start mb-4 pl-2">
+                        <div>
+                            <span class="text-xs font-bold text-indigo-600 uppercase tracking-wider">Step 1</span>
+                            <h2 class="text-lg font-bold text-slate-800 flex items-center gap-2 mt-0.5">
+                                <i class="fa-solid fa-file-import text-indigo-600"></i> Extract (資料擷取)
+                            </h2>
+                        </div>
+                        <span class="text-xs text-slate-400" id="charCount">0 字元</span>
+                    </div>
+
+                    <!-- 資料輸入區 -->
+                    <div class="space-y-3 pl-2">
+                        <label for="rawInput" class="block text-xs font-semibold text-slate-500 uppercase">請貼上您的原始資料：</label>
+                        <textarea id="rawInput" 
+                                  class="w-full h-60 p-3 text-sm font-mono border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 bg-slate-50"
+                                  placeholder='例如："John Doe","john@example.com","New York","Jane Smith","jane@example.com","Los Angeles"...'
+                                  oninput="updateInputStats()"></textarea>
+                        
+                        <!-- 快速範例按鈕 -->
+                        <div class="flex flex-wrap gap-2 pt-1">
+                            <span class="text-xs text-slate-400 self-center mr-1">測試範例：</span>
+                            <button type="button" onclick="loadExample('messy')" 
+                                    class="text-xs bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium py-1 px-2.5 rounded-lg border border-slate-200 transition duration-150 flex items-center gap-1">
+                                <i class="fa-solid fa-broom"></i> 混亂 CSV
+                            </button>
+                            <button type="button" onclick="loadExample('flat')" 
+                                    class="text-xs bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium py-1 px-2.5 rounded-lg border border-slate-200 transition duration-150 flex items-center gap-1">
+                                <i class="fa-solid fa-arrows-split-up-and-left"></i> 單行扁平流
+                            </button>
+                            <button type="button" onclick="clearInput()" 
+                                    class="text-xs bg-rose-50 hover:bg-rose-100 text-rose-600 font-medium py-1 px-2.5 rounded-lg border border-rose-200 transition duration-150 ml-auto flex items-center gap-1">
+                                <i class="fa-solid fa-trash-can"></i> 清空
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 步驟二：Transform 區塊 -->
+                <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 relative overflow-hidden">
+                    <div class="absolute top-0 left-0 w-2 h-full bg-violet-500"></div>
+                    <div class="mb-4 pl-2">
+                        <span class="text-xs font-bold text-violet-500 uppercase tracking-wider">Step 2</span>
+                        <h2 class="text-lg font-bold text-slate-800 flex items-center gap-2 mt-0.5">
+                            <i class="fa-solid fa-gears text-violet-500"></i> Transform (資料轉換)
+                        </h2>
+                    </div>
+
+                    <div class="space-y-5 pl-2">
+                        <!-- 1. 讀取模式選擇 -->
+                        <div class="bg-slate-50 p-3 rounded-xl border border-slate-100">
+                            <label class="block text-xs font-bold text-slate-500 uppercase mb-2">解析讀取模式</label>
+                            <div class="grid grid-cols-2 gap-3">
+                                <label class="flex items-center p-2.5 bg-white rounded-lg border border-slate-200 cursor-pointer hover:bg-indigo-50/20 transition">
+                                    <input type="radio" name="parseMode" value="standard" checked onchange="toggleModeSettings()"
+                                           class="w-4 h-4 text-indigo-600 border-slate-300 focus:ring-indigo-500">
+                                    <div class="ml-2">
+                                        <span class="text-xs font-semibold block text-slate-700">標準多行 CSV</span>
+                                        <span class="text-[10px] text-slate-400 block">每行代表一筆資料</span>
+                                    </div>
+                                </label>
+                                <label class="flex items-center p-2.5 bg-white rounded-lg border border-slate-200 cursor-pointer hover:bg-indigo-50/20 transition">
+                                    <input type="radio" name="parseMode" value="flat" onchange="toggleModeSettings()"
+                                           class="w-4 h-4 text-indigo-600 border-slate-300 focus:ring-indigo-500">
+                                    <div class="ml-2">
+                                        <span class="text-xs font-semibold block text-slate-700">扁平打包流</span>
+                                        <span class="text-[10px] text-slate-400 block">連續欄位按個數折行</span>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- 2. 扁平流專用設定 -->
+                        <div id="flatModeSetting" class="hidden bg-slate-50 p-3 rounded-xl border border-slate-100 transition duration-200">
+                            <div class="flex items-center justify-between">
+                                <label for="colsPerRow" class="text-xs font-bold text-slate-600 block">每列應折行之欄位數：</label>
+                                <div class="flex items-center space-x-2">
+                                    <input type="number" id="colsPerRow" value="3" min="1" max="50"
+                                           class="w-16 p-1.5 text-center text-sm font-semibold border border-slate-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-indigo-500">
+                                    <span class="text-xs text-slate-400">個欄位</span>
+                                </div>
+                            </div>
+                            <p class="text-[10px] text-slate-400 mt-1.5">適用於您貼上了長串資料，想每 N 個項目就強迫打包為一列的情況。</p>
+                        </div>
+
+                        <!-- 3. 清理與修剪選項 -->
+                        <div class="space-y-3">
+                            <label class="block text-xs font-bold text-slate-500 uppercase">清洗與格式處理</label>
+                            
+                            <div class="space-y-2.5">
+                                <label class="flex items-start cursor-pointer group">
+                                    <input type="checkbox" id="trimWhitespace" checked class="mt-0.5 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500 w-4 h-4">
+                                    <span class="ml-2.5 text-xs text-slate-600 group-hover:text-slate-900 transition">
+                                        自動修剪（Trim）欄位前後多餘空白與空格
+                                    </span>
+                                </label>
+
+                                <label class="flex items-start cursor-pointer group">
+                                    <input type="checkbox" id="stripQuotes" checked class="mt-0.5 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500 w-4 h-4">
+                                    <span class="ml-2.5 text-xs text-slate-600 group-hover:text-slate-900 transition">
+                                        去除欄位外圍包裹的引號（如 <code class="bg-slate-100 text-slate-800 px-1 rounded">"value"</code> → <code class="bg-slate-100 text-slate-800 px-1 rounded">value</code>）
+                                    </span>
+                                </label>
+
+                                <label class="flex items-start cursor-pointer group">
+                                    <input type="checkbox" id="skipEmptyRows" checked class="mt-0.5 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500 w-4 h-4">
+                                    <span class="ml-2.5 text-xs text-slate-600 group-hover:text-slate-900 transition">
+                                        自動過濾並跳過空白列
+                                    </span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- 4. 進階替代值設定 -->
+                        <div class="flex items-center justify-between pt-1">
+                            <label for="nullPlaceholder" class="text-xs font-semibold text-slate-500 uppercase flex items-center gap-1">
+                                空值（Null）時的預設替換字：
+                            </label>
+                            <input type="text" id="nullPlaceholder" placeholder="例如: N/A"
+                                   class="w-24 p-1.5 text-xs border border-slate-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-indigo-500 text-center">
+                        </div>
+
+                        <!-- 啟動 ETL 轉換按鈕 -->
+                        <button type="button" onclick="runETL()"
+                                class="w-full bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 text-white font-semibold py-3 px-4 rounded-xl shadow-lg shadow-indigo-100 hover:shadow-xl transition-all duration-150 flex items-center justify-center gap-2 mt-4 text-sm">
+                            <i class="fa-solid fa-circle-play text-base"></i> 執行轉換並產生預覽
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 右側：Load (L) 預覽與下載區 -->
+            <div class="lg:col-span-7 flex flex-col h-full">
+                
+                <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 flex flex-col flex-grow relative overflow-hidden min-h-[600px]">
+                    <div class="absolute top-0 left-0 w-2 h-full bg-emerald-500"></div>
+                    
+                    <!-- 步驟三：標頭 -->
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center pb-4 mb-4 border-b border-slate-100 pl-2 gap-3">
+                        <div>
+                            <span class="text-xs font-bold text-emerald-500 uppercase tracking-wider">Step 3</span>
+                            <h2 class="text-lg font-bold text-slate-800 flex items-center gap-2 mt-0.5">
+                                <i class="fa-solid fa-table text-emerald-500"></i> Load (資料預覽與輸出)
+                            </h2>
+                        </div>
+                        
+                        <!-- 狀態指標與統計 -->
+                        <div class="flex items-center gap-2">
+                            <span id="statRows" class="text-xs font-medium bg-slate-100 text-slate-600 py-1 px-2.5 rounded-lg border border-slate-200">
+                                0 列
+                            </span>
+                            <span id="statCols" class="text-xs font-medium bg-slate-100 text-slate-600 py-1 px-2.5 rounded-lg border border-slate-200">
+                                0 欄
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- 搜尋過濾與操作列 -->
+                    <div class="flex flex-col sm:flex-row justify-between items-center gap-3 mb-4 pl-2">
+                        <div class="relative w-full sm:w-64">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+                                <i class="fa-solid fa-magnifying-glass text-xs"></i>
+                            </div>
+                            <input type="text" id="searchFilter" onkeyup="filterPreviewTable()" placeholder="快速搜尋預覽資料..."
+                                   class="w-full pl-8 pr-3 py-1.5 text-xs border border-slate-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-indigo-500 bg-slate-50">
+                        </div>
+                        
+                        <!-- 導出按鈕群 -->
+                        <div class="flex gap-2 w-full sm:w-auto">
+                            <!-- CSV 匯出 -->
+                            <button type="button" onclick="exportToCSV()" id="btnExportCSV" disabled
+                                    class="flex-1 sm:flex-none bg-slate-100 text-slate-400 cursor-not-allowed font-semibold py-1.5 px-3.5 rounded-lg text-xs transition duration-150 flex items-center justify-center gap-1.5">
+                                <i class="fa-solid fa-file-csv"></i> 匯出 CSV
+                            </button>
+                            <!-- Excel 匯出 -->
+                            <button type="button" onclick="exportToExcel()" id="btnExportExcel" disabled
+                                    class="flex-1 sm:flex-none bg-slate-100 text-slate-400 cursor-not-allowed font-semibold py-1.5 px-3.5 rounded-lg text-xs transition duration-150 flex items-center justify-center gap-1.5">
+                                <i class="fa-solid fa-file-excel"></i> 匯出 Excel
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- 表格預覽容器 -->
+                    <div class="flex-grow overflow-auto border border-slate-100 rounded-xl bg-slate-50/50 relative" id="tableWrapper">
+                        <!-- 空狀態 placeholder -->
+                        <div id="emptyState" class="absolute inset-0 flex flex-col items-center justify-center text-center p-8 bg-white/80">
+                            <div class="w-16 h-16 bg-slate-100 rounded-2xl flex items-center justify-center text-slate-400 mb-4 animate-bounce">
+                                <i class="fa-solid fa-circle-question text-2xl"></i>
+                            </div>
+                            <h3 class="text-slate-800 font-bold text-sm">尚未有轉換結果</h3>
+                            <p class="text-slate-400 text-xs mt-1.5 max-w-xs leading-relaxed">
+                                請於左側輸入原始資料並選定規則，隨後點擊「執行轉換並產生預覽」按鈕。
+                            </p>
+                        </div>
+
+                        <!-- 實際表格結構 -->
+                        <table id="previewTable" class="w-full text-left border-collapse text-xs hidden bg-white">
+                            <thead class="bg-slate-100 border-b border-slate-200 text-slate-700 font-semibold sticky top-0 z-10">
+                                <tr id="tableHeaderRow">
+                                    <!-- 動態生成表頭 -->
+                                </tr>
+                            </thead>
+                            <tbody id="tableBody" class="divide-y divide-slate-100 text-slate-600">
+                                <!-- 動態生成內容 -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- 底部提示訊息與限制 -->
+                    <div class="mt-3 text-[10px] text-slate-400 flex justify-between items-center pl-2">
+                        <span>💡 系統已設定最高預覽 50 行，但實體匯出時將會為您完整導出所有數據。</span>
+                        <span id="previewLimitBadge" class="hidden font-medium text-amber-600 bg-amber-50 px-2 py-0.5 rounded">
+                            僅預覽前 50 筆
+                        </span>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Prompt 示範區塊 -->
+        <section class="mt-8 bg-white rounded-2xl border border-slate-200 shadow-sm p-6">
+            <div class="flex items-center justify-between gap-4 mb-4">
+                <div>
+                    <span class="text-xs font-bold text-indigo-600 uppercase tracking-wider">Prompt Example</span>
+                    <h2 class="text-lg font-bold text-slate-800 flex items-center gap-2 mt-0.5">
+                        <i class="fa-solid fa-message text-indigo-600"></i> PDF 題庫轉 CSV Prompt
+                    </h2>
+                </div>
+                <button type="button" onclick="copyEtlPrompt()"
+                        class="text-xs bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-semibold py-2 px-3 rounded-lg border border-indigo-100 transition duration-150 flex items-center gap-1.5">
+                    <i class="fa-solid fa-copy"></i>
+                    <span id="copyEtlPromptText">複製 Prompt</span>
+                </button>
+            </div>
+            <p class="text-sm text-slate-600 mb-3">
+                這段 Prompt 可貼給 Gemini、NotebookLM、Claude 或其他可讀 PDF 的 AI 工具，先把官方 PDF 逐條轉成 CSV，再貼到本工具做清洗、預覽與匯出 Excel。
+            </p>
+            <textarea id="etlPromptContent"
+                      class="w-full h-64 p-4 bg-slate-900 text-slate-100 font-mono text-sm rounded-xl border border-slate-700 resize-y focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                      readonly>請讀取這份 PDF，將試題完整轉成自修用 CSV 題庫。
+
+請依題號順序逐條輸出所有題目，不要跳題，不要漏題。
+
+如果一次輸出算力或篇幅不夠，可以分段輸出，但每一段都必須接續上一段的題號，不可以跳題。
+
+只輸出 CSV，不要說明，不要 Markdown 表格。
+
+欄位固定如下：
+
+"題號","題目","選項A","選項B","選項C","選項D","答案","概念"
+
+規則：
+1. 題目與選項請依 PDF 原文整理。
+2. 請依題號順序逐條輸出。
+3. 不要跳題，不要漏題，不要自行新增題目。
+4. 答案請依 PDF 左側「答案」欄填入。
+5. "概念" 欄請用 2 到 8 個中文字描述主要考點。
+6. 每一欄都要用雙引號包住。
+7. 如果內容中有雙引號，請改成單引號。
+8. 如果本次無法全部輸出，請在最後一列寫：
+"待續","下一段請從第X題開始","","","","","",""
+9. 如果已經到最後一題，最後加一列：
+"完成","本份 PDF 已全部轉換完成","","","","","",""</textarea>
+            <div class="mt-3 bg-slate-50 rounded-xl border border-slate-100 p-3 text-xs text-slate-500 leading-relaxed">
+                接續輸出時可補一句：「請接續上一段，從第 X 題開始，繼續逐條輸出 CSV，不要跳題，不要說明。」
+            </div>
+        </section>
+        
+    </main>
+
+    <!-- Toast 通知容器 -->
+    <div id="toastContainer" class="fixed top-5 right-5 z-50 flex flex-col gap-3 pointer-events-none"></div>
+
+    <!-- 頁尾 -->
+    <footer class="bg-white border-t border-slate-200 py-6 mt-12 text-center text-xs text-slate-400">
+        <p>© 2026 Transforma Studio. 以 100% 網頁安全沙盒技術為您保駕護航。</p>
+    </footer>
+
+    <script>
+        // 全域變數用以儲存當前轉換後的二維陣列數據
+        let currentTransformedData = [];
+
+        // 頁面初始化
+        window.onload = function() {
+            // 自動偵測並觸發狀態更新
+            updateInputStats();
+            toggleModeSettings();
+        };
+
+        // 偵測並更新字元個數
+        function updateInputStats() {
+            const rawText = document.getElementById('rawInput').value;
+            const charCount = rawText.length;
+            document.getElementById('charCount').textContent = `${charCount.toLocaleString()} 字元`;
+        }
+
+        // 切換讀取模式時的UI動態展開
+        function toggleModeSettings() {
+            const parseMode = document.querySelector('input[name="parseMode"]:checked').value;
+            const flatModeSetting = document.getElementById('flatModeSetting');
+            if (parseMode === 'flat') {
+                flatModeSetting.classList.remove('hidden');
+            } else {
+                flatModeSetting.classList.add('hidden');
+            }
+        }
+
+        // 清空輸入區
+        function clearInput() {
+            document.getElementById('rawInput').value = '';
+            updateInputStats();
+            showToast('已清空輸入欄位。', 'info');
+        }
+
+        // 載入預設範例
+        function loadExample(type) {
+            if (type === 'messy') {
+                const messyData = 
+` "ID" ,  "姓名"  ,  "電子信箱" , "主要通訊地" 
+ "C001" , "王小明" ,  "xiaoming@gmail.com" , "台北市大安區忠孝東路三段" 
+ "C002" , "李麗華" , "li-hua@yahoo.com.tw" , "台中市西屯區台灣大道" 
+ "C003" , "張建國" , "chian_kuo@outlook.com" , "高雄市苓雅區五福一路" 
+ "C004" , "  陳美玲 " , "meiling.chen@gmail.com" , "台南市中西區府前路" 
+ "C005" , "劉冠宇" , "" , "新北市板橋區縣民大道"`;
+                document.getElementById('rawInput').value = messyData;
+                document.querySelector('input[name="parseMode"][value="standard"]').checked = true;
+                document.getElementById('trimWhitespace').checked = true;
+                document.getElementById('stripQuotes').checked = true;
+                document.getElementById('skipEmptyRows').checked = true;
+                document.getElementById('nullPlaceholder').value = 'N/A';
+            } else if (type === 'flat') {
+                const flatData = 
+`"陳大文", "david@gmail.com", "高雄市", "林志明", "chih_ming@gmail.com", "新北市", "黃美華", "mei_hua@gmail.com", "台中市", "周杰倫", "jay@gmail.com", "台北市", "蔡依林", "jolin@gmail.com", "宜蘭縣"`;
+                document.getElementById('rawInput').value = flatData;
+                document.querySelector('input[name="parseMode"][value="flat"]').checked = true;
+                document.getElementById('colsPerRow').value = '3';
+                document.getElementById('trimWhitespace').checked = true;
+                document.getElementById('stripQuotes').checked = true;
+                document.getElementById('skipEmptyRows').checked = true;
+                document.getElementById('nullPlaceholder').value = '無資料';
+            }
+            
+            updateInputStats();
+            toggleModeSettings();
+            showToast('已為您載入預設測試範例資料，點擊「執行轉換」開始分析！', 'success');
+        }
+
+        /**
+         * 複雜 CSV 解析器 (字元狀態機)
+         * 可處理包含雙引號包裹、逗號、以及包含換行符在內的精確 CSV 讀取。
+         */
+        function parseComplexCSV(text, delimiter = ',') {
+            let lines = [];
+            let row = [""];
+            let inQuotes = false;
+            
+            for (let i = 0; i < text.length; i++) {
+                let c = text[i];
+                let next = text[i+1];
+                
+                if (c === '"') {
+                    // 若當前在引號內，且下一個字元亦為引號，此為轉義引號 "" -> "
+                    if (inQuotes && next === '"') {
+                        row[row.length - 1] += '"';
+                        i++; // 跳過下一個引號
+                    } else {
+                        // 切換引號開閉狀態
+                        inQuotes = !inQuotes;
+                    }
+                } else if (c === delimiter && !inQuotes) {
+                    // 逗號切分新欄位
+                    row.push("");
+                } else if ((c === '\r' || c === '\n') && !inQuotes) {
+                    // 遇到換行且不在引號區內，即切分新列
+                    if (c === '\r' && next === '\n') {
+                        i++; // Windows 換行 \r\n，多跳一格
+                    }
+                    lines.push(row);
+                    row = [""];
+                } else {
+                    // 一般字元，直接注入當前單元格
+                    row[row.length - 1] += c;
+                }
+            }
+            // 處理結尾遺留列
+            if (row.length > 1 || row[0] !== "") {
+                lines.push(row);
+            }
+            return lines;
+        }
+
+        // 執行 ETL 轉換核心
+        function runETL() {
+            const rawText = document.getElementById('rawInput').value.trim();
+            if (!rawText) {
+                showToast('轉換失敗：請先貼上原始資料，或點選內建的範例。', 'warning');
+                return;
+            }
+
+            const parseMode = document.querySelector('input[name="parseMode"]:checked').value;
+            const trimWhitespace = document.getElementById('trimWhitespace').checked;
+            const stripQuotes = document.getElementById('stripQuotes').checked;
+            const skipEmptyRows = document.getElementById('skipEmptyRows').checked;
+            const nullPlaceholder = document.getElementById('nullPlaceholder').value;
+            const colsPerRow = parseInt(document.getElementById('colsPerRow').value) || 3;
+
+            // 1. 透過解析器切分為初始二維資料
+            let rawLines = parseComplexCSV(rawText);
+
+            // 2. 欄位數據清洗、修整 (Transforming)
+            let processedLines = rawLines.map(row => {
+                return row.map(cell => {
+                    let val = cell;
+                    
+                    if (trimWhitespace) val = val.trim();
+                    
+                    if (stripQuotes) {
+                        // 移除前後多餘的引號 (可能因使用者重複貼上或特定格式包裹)
+                        if (val.startsWith('"') && val.endsWith('"')) {
+                            val = val.substring(1, val.length - 1);
+                        } else if (val.startsWith("'") && val.endsWith("'")) {
+                            val = val.substring(1, val.length - 1);
+                        }
+                    }
+                    
+                    if (trimWhitespace) val = val.trim(); // 脫去引號後可能內含額外空白，再次修剪
+
+                    // 當為空字元時，使用使用者預設值填補
+                    if (val === "" && nullPlaceholder) {
+                        val = nullPlaceholder;
+                    }
+                    return val;
+                });
+            });
+
+            let finalRows = [];
+
+            // 3. 重塑結構與整合
+            if (parseMode === 'flat') {
+                // 將所有單元格攤平為一維陣列
+                let flatCells = [];
+                processedLines.forEach(row => {
+                    row.forEach(cell => {
+                        // 依照設定決定是否過濾空欄位
+                        if (cell !== "" || !skipEmptyRows) {
+                            flatCells.push(cell);
+                        }
+                    });
+                });
+
+                // 按 colsPerRow 行數重新折返打包為 2D 矩陣
+                for (let i = 0; i < flatCells.length; i += colsPerRow) {
+                    let chunk = flatCells.slice(i, i + colsPerRow);
+                    // 若最後一行不足設定數，補空值
+                    while (chunk.length < colsPerRow) {
+                        chunk.push(nullPlaceholder || "");
+                    }
+                    finalRows.push(chunk);
+                }
+            } else {
+                // 標準模式：多行 CSV，僅執行空列排除
+                finalRows = processedLines.filter(row => {
+                    if (!skipEmptyRows) return true;
+                    // 如果整行各欄都為空（或者均為空值預設替換值），則排除
+                    return row.some(cell => cell !== "" && cell !== nullPlaceholder);
+                });
+            }
+
+            // 將轉換後數據保存至全域
+            currentTransformedData = finalRows;
+
+            // 4. 渲染預覽與介面狀態更新
+            if (currentTransformedData.length > 0) {
+                renderPreviewTable();
+                enableExportButtons(true);
+                showToast(`資料轉換完成！共轉換 ${currentTransformedData.length} 列資料。`, 'success');
+            } else {
+                renderEmptyState();
+                enableExportButtons(false);
+                showToast('轉換結果為空，請檢查輸入內容是否完整。', 'warning');
+            }
+        }
+
+        // 渲染 HTML 預覽表格
+        function renderPreviewTable() {
+            const tableHeaderRow = document.getElementById('tableHeaderRow');
+            const tableBody = document.getElementById('tableBody');
+            const emptyState = document.getElementById('emptyState');
+            const previewTable = document.getElementById('previewTable');
+            const previewLimitBadge = document.getElementById('previewLimitBadge');
+
+            // 清空舊結構
+            tableHeaderRow.innerHTML = '';
+            tableBody.innerHTML = '';
+
+            if (currentTransformedData.length === 0) {
+                renderEmptyState();
+                return;
+            }
+
+            // 取得最多可能出現的欄位數量
+            let maxCols = 0;
+            currentTransformedData.forEach(row => {
+                if (row.length > maxCols) maxCols = row.length;
+            });
+
+            // 更新動態數據面板
+            document.getElementById('statRows').textContent = `${currentTransformedData.length} 列`;
+            document.getElementById('statCols').textContent = `${maxCols} 欄`;
+
+            // 動態生成虛擬表頭名稱
+            for (let i = 1; i <= maxCols; i++) {
+                const th = document.createElement('th');
+                th.className = 'px-4 py-3 border-b border-slate-200 text-[11px] font-bold text-slate-500 uppercase tracking-wider';
+                th.textContent = `欄位 ${i}`;
+                tableHeaderRow.appendChild(th);
+            }
+
+            // 設定預覽行數限制以防前端卡頓 (最高50行)
+            const previewLimit = 50;
+            const rowsToPreview = currentTransformedData.slice(0, previewLimit);
+
+            if (currentTransformedData.length > previewLimit) {
+                previewLimitBadge.classList.remove('hidden');
+            } else {
+                previewLimitBadge.classList.add('hidden');
+            }
+
+            // 填充表格內容
+            rowsToPreview.forEach((row, rowIndex) => {
+                const tr = document.createElement('tr');
+                tr.className = rowIndex % 2 === 0 ? 'bg-white hover:bg-slate-50/80' : 'bg-slate-50 hover:bg-slate-100/80';
+                tr.setAttribute('data-index', rowIndex);
+
+                for (let i = 0; i < maxCols; i++) {
+                    const td = document.createElement('td');
+                    td.className = 'px-4 py-2.5 border-b border-slate-100 font-medium whitespace-nowrap text-slate-700';
+                    // 若當前行無此列（資料不對稱），則以空值展示
+                    td.textContent = row[i] !== undefined ? row[i] : '';
+                    tr.appendChild(td);
+                }
+                tableBody.appendChild(tr);
+            });
+
+            // 調整顯示
+            emptyState.classList.add('hidden');
+            previewTable.classList.remove('hidden');
+        }
+
+        // 搜尋篩選器功能 (針對預覽表進行動態顯隱)
+        function filterPreviewTable() {
+            const query = document.getElementById('searchFilter').value.toLowerCase();
+            const tableBody = document.getElementById('tableBody');
+            const rows = tableBody.getElementsByTagName('tr');
+
+            for (let i = 0; i < rows.length; i++) {
+                let showRow = false;
+                const cells = rows[i].getElementsByTagName('td');
+                for (let j = 0; j < cells.length; j++) {
+                    if (cells[j].textContent.toLowerCase().includes(query)) {
+                        showRow = true;
+                        break;
+                    }
+                }
+                if (showRow) {
+                    rows[i].style.display = "";
+                } else {
+                    rows[i].style.display = "none";
+                }
+            }
+        }
+
+        // 恢復至空狀態面板
+        function renderEmptyState() {
+            document.getElementById('statRows').textContent = '0 列';
+            document.getElementById('statCols').textContent = '0 欄';
+            document.getElementById('emptyState').classList.remove('hidden');
+            document.getElementById('previewTable').classList.add('hidden');
+            document.getElementById('previewLimitBadge').classList.add('hidden');
+        }
+
+        // 開關匯出按鈕活性
+        function enableExportButtons(enable) {
+            const csvBtn = document.getElementById('btnExportCSV');
+            const xlsxBtn = document.getElementById('btnExportExcel');
+
+            if (enable) {
+                csvBtn.disabled = false;
+                csvBtn.className = "flex-grow sm:flex-none bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 text-white font-semibold py-1.5 px-3.5 rounded-lg text-xs shadow-sm hover:shadow-md transition duration-150 flex items-center justify-center gap-1.5 cursor-pointer";
+
+                xlsxBtn.disabled = false;
+                xlsxBtn.className = "flex-grow sm:flex-none bg-gradient-to-r from-blue-500 to-sky-500 hover:from-blue-600 hover:to-sky-600 text-white font-semibold py-1.5 px-3.5 rounded-lg text-xs shadow-sm hover:shadow-md transition duration-150 flex items-center justify-center gap-1.5 cursor-pointer";
+            } else {
+                csvBtn.disabled = true;
+                csvBtn.className = "flex-grow sm:flex-none bg-slate-100 text-slate-400 cursor-not-allowed font-semibold py-1.5 px-3.5 rounded-lg text-xs transition duration-150 flex items-center justify-center gap-1.5";
+
+                xlsxBtn.disabled = true;
+                xlsxBtn.className = "flex-grow sm:flex-none bg-slate-100 text-slate-400 cursor-not-allowed font-semibold py-1.5 px-3.5 rounded-lg text-xs transition duration-150 flex items-center justify-center gap-1.5";
+            }
+        }
+
+        // 匯出 CSV (處理 UTF-8 BOM，防 Excel 開啟中文亂碼)
+        function exportToCSV() {
+            if (currentTransformedData.length === 0) return;
+
+            // 輔助函式：用以將包含逗號或引號的字串，進行精準引號包裹與轉義
+            const formatCSVCell = (cell) => {
+                let formatted = String(cell);
+                // 若含有雙引號，轉義為雙引號包裹 ""
+                if (formatted.includes('"')) {
+                    formatted = formatted.replace(/"/g, '""');
+                }
+                // 若含有逗號、雙引號或換行，則兩端以雙引號包裹
+                if (formatted.includes(',') || formatted.includes('"') || formatted.includes('\n') || formatted.includes('\r')) {
+                    formatted = `"${formatted}"`;
+                }
+                return formatted;
+            };
+
+            // 拼合 CSV 字串
+            let csvContent = "";
+            currentTransformedData.forEach(row => {
+                let rowStr = row.map(formatCSVCell).join(",");
+                csvContent += rowStr + "\r\n";
+            });
+
+            // 注入 UTF-8 BOM 以防微軟 Excel 識別失敗產生亂碼
+            const BOM = "\uFEFF";
+            const blob = new Blob([BOM + csvContent], { type: "text/csv;charset=utf-8;" });
+            
+            // 下載驅動
+            const link = document.createElement("a");
+            const url = URL.createObjectURL(blob);
+            link.setAttribute("href", url);
+            link.setAttribute("download", `transforma_export_${getTimestamp()}.csv`);
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+
+            showToast('CSV 檔案已成功產生並開始下載！', 'success');
+        }
+
+        // 整合 SheetJS 匯出高品質的 Excel .xlsx 檔案
+        function exportToExcel() {
+            if (currentTransformedData.length === 0) return;
+
+            try {
+                // 1. 建立空活頁簿
+                const wb = XLSX.utils.book_new();
+                
+                // 2. 將 2D 陣列轉換成工作表
+                const ws = XLSX.utils.aoa_to_sheet(currentTransformedData);
+                
+                // 3. 將工作表附加至活頁簿，並設定活頁簿名稱
+                XLSX.utils.book_append_sheet(wb, ws, "Transforma_ETL");
+                
+                // 4. 下載 .xlsx
+                XLSX.writeFile(wb, `transforma_export_${getTimestamp()}.xlsx`);
+                
+                showToast('Excel (.xlsx) 檔案下載成功！', 'success');
+            } catch (err) {
+                console.error("SheetJS export error:", err);
+                showToast('匯出失敗：無法調用 SheetJS，請檢查您的網路連線。', 'error');
+            }
+        }
+
+        // 獲取目前格式化的時間戳記
+        function getTimestamp() {
+            const now = new Date();
+            const y = now.getFullYear();
+            const m = String(now.getMonth() + 1).padStart(2, '0');
+            const d = String(now.getDate()).padStart(2, '0');
+            const h = String(now.getHours()).padStart(2, '0');
+            const i = String(now.getMinutes()).padStart(2, '0');
+            return `${y}${m}${d}_${h}${i}`;
+        }
+
+        // 自訂精美 Toast 通知
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('toastContainer');
+            
+            // 建立 Toast 節點
+            const toast = document.createElement('div');
+            toast.className = `flex items-center gap-3 p-4 rounded-xl shadow-lg border text-sm max-w-sm w-80 bg-white transform translate-y-5 opacity-0 transition-all duration-300 pointer-events-auto`;
+            
+            // 設定樣式配色與 Icon
+            let iconClass = 'fa-circle-check text-emerald-500';
+            let borderColor = 'border-emerald-100';
+            
+            if (type === 'warning') {
+                iconClass = 'fa-triangle-exclamation text-amber-500';
+                borderColor = 'border-amber-100';
+            } else if (type === 'error') {
+                iconClass = 'fa-circle-xmark text-rose-500';
+                borderColor = 'border-rose-100';
+            } else if (type === 'info') {
+                iconClass = 'fa-circle-info text-sky-500';
+                borderColor = 'border-sky-100';
+            }
+
+            toast.classList.add(borderColor);
+            
+            toast.innerHTML = `
+                <span class="text-base"><i class="fa-solid ${iconClass}"></i></span>
+                <span class="text-slate-600 font-medium flex-grow leading-tight">${message}</span>
+                <button type="button" class="text-slate-400 hover:text-slate-600 ml-1" onclick="this.parentElement.remove()">
+                    <i class="fa-solid fa-xmark text-xs"></i>
+                </button>
+            `;
+            
+            container.appendChild(toast);
+            
+            // 動態淡入
+            setTimeout(() => {
+                toast.classList.remove('translate-y-5', 'opacity-0');
+            }, 10);
+            
+            // 4.5秒後自動移除
+            setTimeout(() => {
+                toast.classList.add('opacity-0', 'translate-y-[-10px]');
+                setTimeout(() => {
+                    toast.remove();
+                }, 300);
+            }, 4500);
+        }
+
+        // 複製 PDF 題庫轉 CSV Prompt
+        function copyEtlPrompt() {
+            const promptContent = document.getElementById('etlPromptContent');
+            const copyText = document.getElementById('copyEtlPromptText');
+            promptContent.select();
+            promptContent.setSelectionRange(0, 99999);
+
+            try {
+                const successful = document.execCommand('copy');
+                if (successful) {
+                    const originalText = copyText.textContent;
+                    copyText.textContent = '已複製';
+                    showToast('Prompt 已複製，可以貼給 Gemini / NotebookLM 使用。', 'success');
+                    setTimeout(() => {
+                        copyText.textContent = originalText;
+                    }, 1800);
+                } else {
+                    showToast('複製失敗，請手動選取 Prompt。', 'warning');
+                }
+            } catch (err) {
+                showToast('瀏覽器不支援一鍵複製，請手動選取 Prompt。', 'warning');
+            }
+
+            window.getSelection().removeAllRanges();
+        }
+    </script>
+</body>
+</html>

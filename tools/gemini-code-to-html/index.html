@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gemini HTML 快速下載器</title>
+    <!-- 引入 Tailwind CSS 以進行快速且美觀的樣式設定 -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* 自訂滾動條樣式，讓 textarea 看起來更精緻 */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8; 
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans min-h-screen flex flex-col items-center py-10 px-4">
+
+    <div class="w-full max-w-4xl bg-white rounded-xl shadow-lg overflow-hidden flex flex-col">
+        
+        <!-- 標題區域 -->
+        <div class="bg-blue-600 text-white px-6 py-4 flex items-center justify-between">
+            <h1 class="text-xl font-bold flex items-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+                </svg>
+                Gemini 程式碼另存工具
+            </h1>
+            <span class="text-blue-200 text-sm">離線可用</span>
+        </div>
+
+        <!-- 內容區域 -->
+        <div class="p-6 flex flex-col gap-8 flex-grow overflow-y-auto">
+            
+            <!-- 上半部：工具主要功能 -->
+            <div class="flex flex-col gap-6">
+                <!-- 程式碼輸入區塊 -->
+                <div class="flex flex-col gap-2">
+                    <label for="codeInput" class="text-sm font-semibold text-gray-700">1. 貼上您的 HTML 程式碼</label>
+                    <textarea 
+                        id="codeInput" 
+                        class="w-full h-80 p-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 font-mono text-sm bg-gray-50 resize-y" 
+                        placeholder="<!-- 請在此貼上從 Gemini 複製的 HTML 程式碼 -->&#10;<!DOCTYPE html>&#10;<html>...</html>"
+                    ></textarea>
+                    <p id="errorMsg" class="text-red-500 text-sm hidden">請先貼上程式碼內容！</p>
+                </div>
+
+                <!-- 檔案設定與操作區塊 -->
+                <div class="bg-blue-50 p-4 rounded-lg border border-blue-100 flex flex-col md:flex-row gap-4 items-end justify-between shadow-sm">
+                    
+                    <div class="flex-grow w-full md:w-auto flex flex-col gap-2">
+                        <label for="filenameInput" class="text-sm font-semibold text-gray-700">2. 設定檔案名稱</label>
+                        <div class="flex shadow-sm rounded-md">
+                            <input 
+                                type="text" 
+                                id="filenameInput" 
+                                class="flex-grow px-3 py-2 border border-gray-300 rounded-l-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 z-10" 
+                            >
+                            <span class="inline-flex items-center px-3 rounded-r-md border border-l-0 border-gray-300 bg-gray-100 text-gray-500 text-sm">
+                                .html
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="flex gap-3 w-full md:w-auto">
+                        <button 
+                            id="clearBtn" 
+                            class="px-4 py-2 bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 font-medium rounded-md transition-colors flex-grow md:flex-grow-0 shadow-sm"
+                        >
+                            清除內容
+                        </button>
+                        <button 
+                            id="downloadBtn" 
+                            class="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-md transition-colors shadow-sm flex items-center justify-center gap-2 flex-grow md:flex-grow-0"
+                        >
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                              <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                            </svg>
+                            下載 HTML
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 分隔線 -->
+            <hr class="border-gray-200">
+
+            <!-- 下半部：Prompt 教學區塊 -->
+            <div class="bg-gray-50 rounded-lg border border-gray-200 p-5 shadow-inner">
+                <div class="flex items-center justify-between mb-3">
+                    <h2 class="text-lg font-bold text-gray-800 flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        如何用 Gemini Canvas 產生這個工具？
+                    </h2>
+                    <button 
+                        id="copyPromptBtn"
+                        class="text-sm px-3 py-1.5 bg-gray-200 hover:bg-gray-300 text-gray-700 rounded transition-colors flex items-center gap-1"
+                        title="複製 Prompt"
+                    >
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                        </svg>
+                        <span id="copyPromptText">複製 Prompt</span>
+                    </button>
+                </div>
+                <p class="text-sm text-gray-600 mb-3">您可以複製下方這段 Prompt，貼給 Gemini Canvas 或其他 AI 模型，請它們幫您重建或修改這個工具：</p>
+                
+                <div class="relative">
+                    <textarea 
+                        id="promptContent"
+                        class="w-full h-40 p-4 bg-gray-800 text-gray-100 font-mono text-sm rounded-md border border-gray-700 resize-none focus:outline-none focus:ring-1 focus:ring-gray-500"
+                        readonly
+                    >請使用 Gemini Canvas 幫我寫一個單一檔案的 HTML 離線小工具，用途是讓我將 AI 生成的 HTML 程式碼貼上後，可以一鍵下載成實體的 .html 檔案。
+
+需求細節如下：
+1. 介面設計：使用 Tailwind CSS，設計要現代、乾淨、美觀，並有適當的陰影與圓角，背景使用淺灰色系。
+2. 核心功能：
+   - 一個大型 textarea，供使用者貼上 HTML 程式碼。
+   - 一個 input 供使用者填寫要下載的檔案名稱。
+   - 預設檔案名稱需透過 JavaScript 自動產生，格式為「Gemini_Canva_YYYYMMDDHHmm」。
+   - 一個「下載」按鈕，點擊後會將 textarea 的內容打包成 .html 檔案並觸發瀏覽器下載。
+   - 一個「清除」按鈕，清空 textarea 內容並重新產生預設時間檔名。
+3. 防呆機制：如果 textarea 是空的就點擊下載，需顯示紅色的錯誤提示文字「請先貼上程式碼內容！」，並將 textarea 邊框變紅，阻止下載。輸入內容後即時隱藏錯誤提示。
+4. 技術限制：必須是單一 HTML 檔案，包含所有 HTML、CSS (透過 CDN 引入 Tailwind) 和 JavaScript，不依賴任何後端伺服器，完全離線可用。
+5. 附加功能：在工具最下方，加入一個區塊顯示這段 Prompt 本身，並附帶一個可以一鍵複製這段 Prompt 的按鈕。</textarea>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const codeInput = document.getElementById('codeInput');
+            const filenameInput = document.getElementById('filenameInput');
+            const downloadBtn = document.getElementById('downloadBtn');
+            const clearBtn = document.getElementById('clearBtn');
+            const errorMsg = document.getElementById('errorMsg');
+            
+            // 新增：處理 Prompt 複製的元素
+            const copyPromptBtn = document.getElementById('copyPromptBtn');
+            const promptContent = document.getElementById('promptContent');
+            const copyPromptText = document.getElementById('copyPromptText');
+
+            // 輔助函式：補零 (例如 9 變成 '09')
+            const padZero = (num) => num.toString().padStart(2, '0');
+
+            // 輔助函式：產生預設檔案名稱 (Gemini_Canva_年月日時分)
+            const generateDefaultFilename = () => {
+                const now = new Date();
+                const year = now.getFullYear();
+                const month = padZero(now.getMonth() + 1); // 月份是 0-11
+                const day = padZero(now.getDate());
+                const hours = padZero(now.getHours());
+                const minutes = padZero(now.getMinutes());
+                
+                return `Gemini_Canva_${year}${month}${day}${hours}${minutes}`;
+            };
+
+            // 初始化：載入時自動設定預設檔名
+            filenameInput.value = generateDefaultFilename();
+
+            // 下載按鈕點擊事件
+            downloadBtn.addEventListener('click', () => {
+                const codeContent = codeInput.value.trim();
+                
+                // 檢查是否有內容
+                if (!codeContent) {
+                    errorMsg.classList.remove('hidden');
+                    codeInput.classList.add('border-red-500');
+                    codeInput.focus();
+                    return;
+                }
+
+                // 隱藏錯誤訊息
+                errorMsg.classList.add('hidden');
+                codeInput.classList.remove('border-red-500');
+
+                // 取得檔名 (如果使用者清空，則重新產生一個預設的)
+                let baseFilename = filenameInput.value.trim();
+                if (!baseFilename) {
+                    baseFilename = generateDefaultFilename();
+                    filenameInput.value = baseFilename;
+                }
+
+                const finalFilename = `${baseFilename}.html`;
+
+                // 建立 Blob 物件 (用於將文字轉換為可下載的檔案)
+                const blob = new Blob([codeContent], { type: 'text/html;charset=utf-8' });
+                
+                // 建立一個暫時的 <a> 標籤來觸發下載
+                const link = document.createElement('a');
+                const url = URL.createObjectURL(blob);
+                
+                link.href = url;
+                link.download = finalFilename;
+                
+                // 將 <a> 加入 DOM、點擊它，然後移除
+                document.body.appendChild(link);
+                link.click();
+                
+                // 清理 URL 物件以釋放記憶體
+                setTimeout(() => {
+                    document.body.removeChild(link);
+                    window.URL.revokeObjectURL(url);
+                }, 0);
+            });
+
+            // 清除按鈕點擊事件
+            clearBtn.addEventListener('click', () => {
+                codeInput.value = '';
+                errorMsg.classList.add('hidden');
+                codeInput.classList.remove('border-red-500');
+                // 可選：清除後是否要更新檔名的時間？
+                filenameInput.value = generateDefaultFilename(); 
+                codeInput.focus();
+            });
+            
+            // 當使用者開始輸入時，隱藏錯誤提示
+            codeInput.addEventListener('input', () => {
+                if (codeInput.value.trim() !== '') {
+                    errorMsg.classList.add('hidden');
+                    codeInput.classList.remove('border-red-500');
+                }
+            });
+
+            // 新增：複製 Prompt 按鈕事件
+            copyPromptBtn.addEventListener('click', () => {
+                // 選擇 textarea 內的文字
+                promptContent.select();
+                promptContent.setSelectionRange(0, 99999); // 給行動裝置的相容性
+                
+                try {
+                    // 執行複製指令
+                    const successful = document.execCommand('copy');
+                    if (successful) {
+                        // 視覺回饋：更改按鈕文字與樣式
+                        const originalText = copyPromptText.innerText;
+                        copyPromptText.innerText = '已複製！';
+                        copyPromptBtn.classList.add('bg-green-100', 'text-green-700');
+                        copyPromptBtn.classList.remove('bg-gray-200', 'text-gray-700');
+                        
+                        // 2 秒後恢復原狀
+                        setTimeout(() => {
+                            copyPromptText.innerText = originalText;
+                            copyPromptBtn.classList.remove('bg-green-100', 'text-green-700');
+                            copyPromptBtn.classList.add('bg-gray-200', 'text-gray-700');
+                        }, 2000);
+                    } else {
+                        alert('複製失敗，請手動選取文字複製。');
+                    }
+                } catch (err) {
+                    alert('您的瀏覽器不支援一鍵複製，請手動選取文字。');
+                }
+                
+                // 取消選取狀態
+                window.getSelection().removeAllRanges();
+            });
+        });
+    </script>
+</body>
+</html>
