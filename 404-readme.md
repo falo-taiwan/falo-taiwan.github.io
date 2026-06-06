@@ -12,41 +12,8 @@
 
 - 使用者打短網址
 - `404.html` 接手判斷
-- 先查 `links.json`
-- 沒有再問 GAS
-
-## 0. 版本策略
-
-目前這個專案保留兩種 router 策略：
-
-- [404_gas_first_v101.htm](/Users/force/AI-CodeX/tools/shortlink/404_gas_first_v101.htm)
-  - 舊版保留
-  - 先查 GAS，再 fallback JSON
-- [404_js_first_v101.htm](/Users/force/AI-CodeX/tools/shortlink/404_js_first_v101.htm)
-  - 新版保留
-  - 先查 JSON，再查 GAS
-- [404.html](/Users/force/AI-CodeX/tools/shortlink/404.html)
-  - 目前維護中的主線版本
-  - 內容與 `404_js_first_v101.htm` 相同
-
-## 0.1 這次版本的重要發現
-
-這一版最重要的實務發現是：
-
-- shortlink 失敗，不一定代表資料不存在
-- 很多時候，真正原因是 `timeout`
-
-這次實測發現：
-
-- GAS 其實有資料
-- 但如果 router 等待時間太短
-- 使用者仍然會看到找不到或 fallback 失敗
-
-所以目前的設計原則是：
-
-- 只有 `/go/<slug>` 這類 shortlink 路徑才放寬等待時間
-- 其他非 shortlink 路徑仍保持快速反應
-- 若仍失敗，就用更明確的 error code 告訴使用者發生了什麼
+- 先問 GAS
+- 不行再 fallback `links.json`
 
 ## 1. 這個 404.html 是做什麼的
 
@@ -56,8 +23,8 @@
 
 1. 接管 GitHub Pages 上未知路徑
 2. 專門處理 `/go/<slug>`
-3. 先查網站 root 的 `links.json`
-4. 若 `links.json` 沒有，再查 GAS lookup API
+3. 先查 GAS lookup API
+4. 若 GAS 沒在時限內回傳可用結果，再 fallback 到 `links.json`
 5. 找到目標網址後，立即 redirect
 
 所以它其實是：
@@ -73,21 +40,18 @@
 1. 使用者打開 `https://your-site/go/demo`
 2. GitHub Pages 把這個未知路徑交給網站 root 的 `404.html`
 3. `404.html` 解析 slug，也就是 `demo`
-4. 先查網站 root 的 `links.json`
-5. 若 JSON 找到
+4. 先呼叫 GAS lookup
+5. 若 GAS 回傳 `status=ok` 且 `target` 合法
    - 直接跳轉
-6. 若 JSON 沒有
-   - 顯示提示，說明要改查 GAS，而且會比較慢
-7. 再查 GAS lookup
-8. 若 GAS 回傳 `status=ok` 且 `target` 合法
-   - 直接跳轉
-9. 若 GAS 也找不到或 timeout
+6. 若 GAS timeout、格式錯誤、找不到、或回傳不可用
+   - 改查網站 root 的 `links.json`
+7. 若 `links.json` 也找不到
    - 顯示 `Shortlink not found`
 
 一句話版：
 
-- `links.json` 是第一層已發布快照
-- GAS 是第二層即時補查
+- GAS 是主資料源
+- `links.json` 是 published snapshot / fallback
 - `404.html` 是中間的決策層
 
 ## 3. 專案中的定位
@@ -127,19 +91,17 @@ GitHub Pages 不是完整後端系統，不能像一般 web app 那樣自由做 
 
 ## 5. 目前支援的 lookup 順序
 
-目前主線 router 依序做三層判斷：
+目前 router 依序做三層判斷：
 
-1. `links.json`
-2. GAS JSONP lookup
-3. GAS fetch lookup
+1. GAS JSONP lookup
+2. GAS fetch lookup
+3. fallback `links.json`
 
 這樣做的原因是：
 
-- 同站的 `links.json` 讀取通常更穩、更快
-- 若資料已發布，就不必先等 GAS
-- 只有 JSON 沒有時，才值得花更長時間查 GAS
 - 某些瀏覽器或 App 內建瀏覽器，對跨網域 fetch 比較嚴格
 - JSONP 在某些情況下反而更穩
+- 若 GAS 仍失敗，還可以退回 published snapshot
 
 ## 6. 目前支援的結果畫面
 
@@ -219,7 +181,7 @@ GitHub Pages 不是完整後端系統，不能像一般 web app 那樣自由做 
 
 例如：
 
-- `Router Updated: 2026-03-27 20:27 TPE`
+- `Router Updated: 2026-03-27 20:01 TPE`
 
 這個時間不是裝飾，而是部署確認點。
 
@@ -235,12 +197,10 @@ GitHub Pages 不是完整後端系統，不能像一般 web app 那樣自由做 
 
 1. 在本機維護：
    - [404.html](/Users/force/AI-CodeX/tools/shortlink/404.html)
-2. 同步更新：
-   - [404-readme.md](/Users/force/AI-CodeX/tools/shortlink/404-readme.md)
-3. 確認版本時間與邏輯正確
-4. 手動上傳到網站 root：
+2. 確認版本時間與邏輯正確
+3. 手動上傳到網站 root：
    - `/404.html`
-5. 線上重新測試
+4. 線上重新測試
 
 ## 10. 建議測試網址
 
@@ -291,18 +251,14 @@ GitHub Pages 不是完整後端系統，不能像一般 web app 那樣自由做 
 
 1. 只維護 shortlink 專案內這一份來源檔
 2. 每次修改都更新版本時間
-3. 每次修改 `404.html`，同步更新 `404-readme.md`
-4. 每次部署後都實測 `/go/<slug>`
-5. 不把商業邏輯拆太散，先保留 single-file 可維護性
-6. 優先讓錯誤可判讀，再追求更複雜功能
-7. 每次修改 router timeout、lookup 流程或錯誤文案時，都同步更新這份說明
+3. 每次部署後都實測 `/go/<slug>`
+4. 不把商業邏輯拆太散，先保留 single-file 可維護性
+5. 優先讓錯誤可判讀，再追求更複雜功能
 
 ## 13. 目前檔案位置
 
 - Router source：
   - [404.html](/Users/force/AI-CodeX/tools/shortlink/404.html)
-- Router README：
-  - [404-readme.md](/Users/force/AI-CodeX/tools/shortlink/404-readme.md)
 - Shortlink project README：
   - [README.md](/Users/force/AI-CodeX/tools/shortlink/README.md)
 - GAS template：
