@@ -101,5 +101,15 @@
       "falo-taiwan/class/a01/class3/class03_ocr_hitl.md",
       "falo-taiwan/class/a01/class3/class03_ocr_hitl.html"
     ]
+  },
+  {
+    "timestamp": "2026-06-07T19:35:00+08:00",
+    "action_type": "file_corrected",
+    "description": "修正主題四教材中「某郵局/某郵政」為「台北郵局」，並將「海科大」更正為「海洋大學」，以與原始新聞及學校名稱保持一致。",
+    "operator": "AI (Antigravity)",
+    "files_affected": [
+      "falo-taiwan/class/a01/class3/class03_ocr_hitl.md",
+      "falo-taiwan/class/a01/class3/class03_ocr_hitl.html"
+    ]
   }
 ]
