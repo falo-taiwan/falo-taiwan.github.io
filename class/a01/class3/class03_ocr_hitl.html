@@ -256,6 +256,40 @@
             align-items: center;
             gap: 0.5rem;
         }
+        .news-summary {
+            background: rgba(59, 130, 246, 0.08);
+            border: 1px solid rgba(59, 130, 246, 0.25);
+            border-left: 4px solid #3b82f6;
+            border-radius: 8px;
+            padding: 1.25rem;
+            margin: 1rem 0 1.5rem 0;
+            color: #d1d5db;
+            font-size: 0.95rem;
+            text-align: left;
+        }
+        .news-summary h4 {
+            color: #60a5fa;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .news-summary ul {
+            margin-left: 1.25rem;
+            list-style-type: disc;
+        }
+        .news-summary li {
+            margin-bottom: 0.5rem;
+        }
+        .news-summary a {
+            color: #60a5fa;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .news-summary a:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
@@ -275,6 +309,20 @@
             <p style="color: var(--text-secondary); font-size: 0.95rem; margin-bottom: 1rem;">
                 某郵局在導入自動化分揀系統後，因 OCR 自動辨識誤判，將海科大交寄的 1773 件考生成績單中的部分郵件，誤將「寄件人地址」當作「收件人地址」，導致約 500 件郵件被錯誤分揀並退回起寄地基隆，造成嚴重的投遞延誤。
             </p>
+
+            <div class="news-summary">
+                <h4>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 20H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2z"/><path d="M12 12h3"/><path d="M12 16h3"/><path d="M8 8h3"/><path d="M8 12h1"/><path d="M8 16h1"/></svg>
+                    原始新聞來源與重點摘要
+                </h4>
+                <p style="margin-bottom: 0.75rem;">新聞網址：<a href="https://news.ltn.com.tw/news/life/breakingnews/5463575" target="_blank" rel="noopener noreferrer">自由時報 - 海大甄選成績單延誤 中華郵政出面道歉：調整機器分揀辨識</a></p>
+                <ul>
+                    <li><strong>事件起因</strong>：海洋大學於 2026/5/29 委託寄發 1,773 件考生成績單大宗普通掛號郵件，因信封上寄、收件人地址皆偏向中間印製，屬於「非標準格式」。</li>
+                    <li><strong>系統誤判</strong>：郵件於台北郵件處理中心（A7 智慧物流園區）分揀時，機器 OCR 誤將「寄件人地址（海大）」判讀為收件人，導致約 990 件郵件被錯誤退回基隆（其中約 500 件為成績單），引發投遞延誤。</li>
+                    <li><strong>緊急應變</strong>：中華郵政發現後增加投遞頻率，並取得校方諒解，配合提供資料供考生線上查詢或親自領取，於 6/5 晚間前全數完成投遞，未影響考生權益。</li>
+                    <li><strong>技術檢討</strong>：掛號郵件的機器分揀比例從以往的 20% 提升至 70%，但對非標準信封的容錯率不足。後續將調整機器辨識設定，並要求廠商增設「非標準書寫排除機制」，若遇非標郵件則改用人工分揀。</li>
+                </ul>
+            </div>
             
             <div class="flow-diagram">
                 <div class="flow-node"><span>Step 1</span> 大宗普通掛號寄件 (收寄件人資訊皆偏中間，符合以往人工習慣)</div>
