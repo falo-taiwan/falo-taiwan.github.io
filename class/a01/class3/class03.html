@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Class 03 課程大綱入口 | 銀河 ERP 內訓課程</title>
+    <meta name="description" content="銀河 ERP 企業 AI 應用與導入策略：Class 03 課程主題導航入口。">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-gradient: radial-gradient(circle at 50% 50%, #0b071e 0%, #020108 100%);
+            --primary: #8b5cf6;
+            --primary-glow: rgba(139, 92, 246, 0.15);
+            --secondary: #3b82f6;
+            --accent: #10b981;
+            --card-bg: rgba(25, 18, 50, 0.45);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --card-hover-border: rgba(139, 92, 246, 0.45);
+            --text-primary: #f3f4f6;
+            --text-secondary: #9ca3af;
+            --text-muted: #6b7280;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Outfit', 'Inter', 'Noto Sans TC', sans-serif;
+            background: var(--bg-gradient);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 3.5rem 1.5rem;
+            overflow-x: hidden;
+        }
+
+        .glow {
+            position: absolute;
+            width: 450px;
+            height: 450px;
+            border-radius: 50%;
+            background: radial-gradient(circle, var(--primary-glow) 0%, transparent 70%);
+            z-index: -1;
+            filter: blur(60px);
+        }
+        .glow-1 { top: 10%; left: 10%; }
+        .glow-2 { bottom: 15%; right: 10%; }
+
+        header {
+            max-width: 1200px;
+            margin: 0 auto 4rem auto;
+            text-align: center;
+        }
+
+        .tagline {
+            display: inline-block;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            color: #ffffff;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            padding: 0.4rem 1.2rem;
+            border-radius: 9999px;
+            margin-bottom: 1.25rem;
+            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.25);
+        }
+
+        h1 {
+            font-size: 2.8rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #ffffff 40%, #c084fc 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.75rem;
+            letter-spacing: -0.01em;
+        }
+
+        header p {
+            color: var(--text-secondary);
+            font-size: 1.15rem;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* 3-Column Grid */
+        .topics-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+
+        @media (min-width: 768px) {
+            .topics-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .topic-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 2.25rem;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .topic-card:hover {
+            border-color: var(--card-hover-border);
+            box-shadow: 0 20px 40px rgba(139, 92, 246, 0.15);
+            transform: translateY(-5px);
+        }
+
+        .topic-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            opacity: 0.7;
+        }
+
+        .topic-header {
+            margin-bottom: 1.5rem;
+        }
+
+        .topic-number {
+            font-size: 0.8rem;
+            font-weight: 800;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 0.5rem;
+        }
+
+        .topic-title h2 {
+            font-size: 1.35rem;
+            font-weight: 700;
+            color: #ffffff;
+            line-height: 1.4;
+        }
+
+        .topic-desc {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            margin-bottom: 2rem;
+            flex-grow: 1;
+        }
+
+        .btn-enter {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            background: linear-gradient(135deg, var(--primary) 0%, #7c3aed 100%);
+            color: #ffffff;
+            font-size: 0.9rem;
+            font-weight: 600;
+            padding: 0.7rem 1.25rem;
+            border-radius: 10px;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 12px rgba(139, 92, 246, 0.25);
+        }
+
+        .btn-enter:hover {
+            box-shadow: 0 6px 16px rgba(139, 92, 246, 0.35);
+            transform: translateY(-1px);
+        }
+
+        .btn-enter svg {
+            transition: transform 0.2s ease;
+        }
+
+        .btn-enter:hover svg {
+            transform: translateX(3px);
+        }
+
+        /* Logs Panel */
+        .logs-panel {
+            max-width: 1200px;
+            margin: 3.5rem auto 0 auto;
+            text-align: center;
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            border-radius: 12px;
+            padding: 1.5rem;
+        }
+
+        .logs-panel p {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .logs-panel a {
+            color: #60a5fa;
+            text-decoration: none;
+            font-weight: 500;
+            margin: 0 0.5rem;
+        }
+
+        .logs-panel a:hover {
+            text-decoration: underline;
+        }
+
+        footer {
+            max-width: 1200px;
+            margin: 4rem auto 1.5rem auto;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding-top: 2.5rem;
+        }
+
+        footer a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        footer a:hover {
+            color: var(--primary);
+        }
+    </style>
+</head>
+<body>
+    <div class="glow glow-1"></div>
+    <div class="glow glow-2"></div>
+
+    <header>
+        <div class="tagline">银河 ERP Internal Syllabus</div>
+        <h1>Class 03 課程主題導航</h1>
+        <p>探索 AI Agent 開發、Vibe Coding 以及如何將維護經驗提煉封裝為組織能力資產</p>
+    </header>
+
+    <main class="topics-grid">
+        <!-- Topic 1 Card -->
+        <section class="topic-card">
+            <div class="topic-header">
+                <div class="topic-number">Topic 01</div>
+                <div class="topic-title">
+                    <h2>AI Agent 協同討論與即時知識工程化</h2>
+                </div>
+            </div>
+            <div class="topic-desc">
+                解析「對話即生產」與動態共創筆記模式。理解如何打破傳統靜態知識管理限制，讓 AI Agent 在討論中即時進行結構化寫檔與決策軌跡記錄。
+            </div>
+            <a href="class03_collaboration.html" class="btn-enter">
+                進入主題一
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </a>
+        </section>
+
+        <!-- Topic 2 Card -->
+        <section class="topic-card">
+            <div class="topic-header">
+                <div class="topic-number">Topic 02</div>
+                <div class="topic-title">
+                    <h2>AI Agent & Vibe Coding 工具分析與對比</h2>
+                </div>
+            </div>
+            <div class="topic-desc">
+                橫向對比四大開發模式（Antigravity、Claude Cowork、ChatGPT Codex、Gemini Canvas 模式），著重探討上下文視窗、本地操作能力、Diff 區塊替換等核心指標，助您挑選最適合的 Vibe Coding 工具。
+            </div>
+            <a href="agent_tools.html" class="btn-enter">
+                進入主題二
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </a>
+        </section>
+
+        <!-- Topic 3 Card -->
+        <section class="topic-card">
+            <div class="topic-header">
+                <div class="topic-number">Topic 03</div>
+                <div class="topic-title">
+                    <h2>AI 時代的知識資產化案例實踐</h2>
+                </div>
+            </div>
+            <div class="topic-desc">
+                以「Chrome 內建 Gemini 解鎖」為實戰案例，展示如何遵循 FALO 六層模型，將一個真實問題提煉為組織的能力包 (Capability Pack)，並用 NotebookLM 扮演知識煉油廠。
+            </div>
+            <a href="class03_gemini_chrome.html" class="btn-enter">
+                進入主題三
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </a>
+        </section>
+
+        <!-- Topic 4 Card -->
+        <section class="topic-card">
+            <div class="topic-header">
+                <div class="topic-number">Topic 04</div>
+                <div class="topic-title">
+                    <h2>OCR 辨識策略與 HITL 人機協作實務</h2>
+                </div>
+            </div>
+            <div class="topic-desc">
+                以「郵務自動化分揀辨識延誤」為實戰案例，分析自動化系統的辨識邊界、校對 (Audit) 設計與 HITL (Human-in-the-Loop) 的必要性，並探討其在銀河 ERP 電子發票與排程系統中的應用。
+            </div>
+            <a href="class03_ocr_hitl.html" class="btn-enter">
+                進入主題四
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </a>
+        </section>
+    </main>
+
+    <div class="logs-panel">
+        <p>
+            銀河 ERP 本次課程的所有操作、命名去識別化與重構日誌已完整歸檔於：
+            <a href="../../../logs.md" target="_blank">logs.md (變更日誌)</a> | 
+            <a href="../../../logs.json" target="_blank">logs.json (機器後設資料)</a>
+        </p>
+    </div>
+
+    <footer>
+        <p>銀河 ERP 內訓課程 Class 03 &copy; 2026 | 設計符合 AI (Markdown) 與人類 (Premium HTML) 雙重閱讀標準</p>
+        <p style="margin-top: 0.5rem;"><a href="class03.md">檢視 AI 專用主 Markdown 大綱</a> | <a href="../../../history.md">檢視歷史課程彙整</a></p>
+    </footer>
+</body>
+</html>

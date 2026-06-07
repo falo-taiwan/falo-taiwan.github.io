@@ -1,0 +1,40 @@
+# 銀河軟體 ERP 內訓課程：Class 03 課程大綱 (class03.md)
+
+* **課程名稱**：銀河軟體 ERP 企業 AI 應用與導入策略
+* **模組代號**：Class 03
+* **課程主題**：AI Agent 與 Vibe Coding 實戰及知識資產化
+* **授課教師**：鄭穎臨 老師
+* **上課地點**：台南市安平區育平九街49號 二樓教室
+
+---
+
+## 課程簡介
+Class 03 專注於讓學員理解最新的 **AI Agent 協同開發思維 (Vibe Coding)**，以及如何將排障或客製流程提煉封裝成企業知識資產。本課程由四個核心專題組成：
+
+### 1. 主題一：AI Agent 協同討論與即時知識工程化
+* **簡介**：探討全新的「對話即生產」共創筆記模式。學員將理解如何打破傳統靜態知識管理限制，讓 AI 在對話中即時進行結構化寫檔與決策軌跡記錄 (Logs)。
+* **詳細課件網頁**：[class03_collaboration.html](class03_collaboration.html)
+* **AI 專用文件**：[class03_collaboration.md](class03_collaboration.md)
+
+### 2. 主題二：AI Agent & Vibe Coding 工具分析與對比
+* **簡介**：橫向對比四大開發模式（Antigravity、Claude Cowork、ChatGPT Codex、Gemini Canvas 模式），著重探討上下文視窗、本地操作能力、Diff 區塊替換等核心指標，幫助學員挑選最適合 the Vibe Coding 工具。
+* **詳細課件網頁**：[agent_tools.html](agent_tools.html)
+* **AI 專用文件**：[agent_tools.md](agent_tools.md)
+
+### 3. 主題三：AI 時代的知識資產化案例實踐
+* **簡介**：以「Chrome 內建 Gemini 全球地區限制解鎖」為實戰案例，展示如何遵循 FALO 六層模型，將一個真實問題提煉為組織的能力包 (Capability Pack)，並用 NotebookLM 扮演知識煉油廠。
+* **詳細課件網頁**：[class03_gemini_chrome.html](class03_gemini_chrome.html)
+* **AI 專用文件**：[class03_gemini_chrome.md](class03_gemini_chrome.md)
+
+### 4. 主題四：OCR 辨識策略與 HITL 人機協作實務
+* **簡介**：以「郵務自動化分揀辨識延誤」為實戰案例，分析自動化系統的辨識邊界、校對 (Audit) 設計與 HITL (Human-in-the-Loop) 的必要性，並探討其在銀河 ERP 電子發票與排程系統中的應用。
+* **詳細課件網頁**：[class03_ocr_hitl.html](class03_ocr_hitl.html)
+* **AI 專用文件**：[class03_ocr_hitl.md](class03_ocr_hitl.md)
+
+
+---
+
+## 學習日誌與軌跡 (Logs)
+本課程所有的教學決策與教材演進已完整記錄在專案日誌中：
+* **變更日誌 (Markdown)**：[logs.md](../../../../logs.md)
+* **後設資料 (JSON)**：[logs.json](../../../../logs.json)

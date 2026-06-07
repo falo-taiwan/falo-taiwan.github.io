@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>銀河 ERP 內訓課程 | 歷史課程彙整</title>
+    <meta name="description" content="銀河 ERP 企業 AI 應用與導入策略內訓課程歷史大綱、實作工具與 Falo 學習日誌彙整。">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-gradient: radial-gradient(circle at 10% 20%, #111827 0%, #030712 100%);
+            --primary: #8b5cf6;
+            --primary-glow: rgba(139, 92, 246, 0.15);
+            --secondary: #3b82f6;
+            --accent: #06b6d4;
+            --card-bg: rgba(17, 24, 39, 0.7);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --card-hover-border: rgba(139, 92, 246, 0.4);
+            --text-primary: #f3f4f6;
+            --text-secondary: #9ca3af;
+            --text-muted: #6b7280;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Outfit', 'Inter', 'Noto Sans TC', sans-serif;
+            background: var(--bg-gradient);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 2rem 1.5rem;
+            overflow-x: hidden;
+        }
+
+        /* Ambient Background Glows */
+        .glow {
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: radial-gradient(circle, var(--primary-glow) 0%, transparent 70%);
+            z-index: -1;
+            filter: blur(40px);
+        }
+        .glow-1 { top: 10%; left: 10%; }
+        .glow-2 { bottom: 20%; right: 10%; }
+
+        header {
+            max-width: 1200px;
+            margin: 0 auto 3rem auto;
+            text-align: center;
+            position: relative;
+        }
+
+        .tagline {
+            display: inline-block;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            color: #ffffff;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            padding: 0.35rem 1rem;
+            border-radius: 9999px;
+            margin-bottom: 1rem;
+            box-shadow: 0 4px 12px rgba(139, 92, 246, 0.2);
+        }
+
+        h1 {
+            font-size: 2.75rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            background: linear-gradient(135deg, #ffffff 30%, #a78bfa 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.75rem;
+        }
+
+        .meta-info-bar {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            flex-wrap: wrap;
+            margin-top: 1rem;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .meta-item svg {
+            width: 18px;
+            height: 18px;
+            stroke: var(--primary);
+            fill: none;
+        }
+
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2.5rem;
+        }
+
+        @media (min-width: 1024px) {
+            main {
+                grid-template-columns: 1fr 1fr;
+            }
+            .full-width {
+                grid-column: span 2;
+            }
+        }
+
+        /* Glassmorphism Card Style */
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 2rem;
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            border-color: var(--card-hover-border);
+            box-shadow: 0 15px 35px rgba(139, 92, 246, 0.15);
+            transform: translateY(-4px);
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            opacity: 0.7;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding-bottom: 1rem;
+        }
+
+        .card-title-group h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 0.25rem;
+        }
+
+        .card-subtitle {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .badge {
+            background: rgba(139, 92, 246, 0.15);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            color: #c084fc;
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+        }
+
+        .section-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--accent);
+            margin: 1.25rem 0 0.75rem 0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .section-title svg {
+            width: 16px;
+            height: 16px;
+            stroke: var(--accent);
+            fill: none;
+        }
+
+        /* List Items */
+        ul {
+            list-style: none;
+        }
+
+        li {
+            position: relative;
+            padding-left: 1.5rem;
+            margin-bottom: 0.75rem;
+            color: var(--text-primary);
+        }
+
+        li::before {
+            content: "✦";
+            position: absolute;
+            left: 0;
+            top: 0;
+            color: var(--primary);
+            font-size: 0.85rem;
+        }
+
+        .tool-list li {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            border-radius: 8px;
+            padding: 0.75rem 1rem 0.75rem 2.2rem;
+            transition: all 0.2s ease;
+        }
+
+        .tool-list li:hover {
+            background: rgba(139, 92, 246, 0.05);
+            border-color: rgba(139, 92, 246, 0.2);
+            padding-left: 2.4rem;
+        }
+
+        .tool-list li::before {
+            left: 1rem;
+            top: 0.85rem;
+        }
+
+        .tool-link {
+            color: #60a5fa;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s ease;
+            word-break: break-all;
+        }
+
+        .tool-link:hover {
+            color: #93c5fd;
+            text-decoration: underline;
+        }
+
+        /* Google Drive Button */
+        .btn-drive {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.2) 0%, rgba(37, 99, 235, 0.2) 100%);
+            border: 1px solid rgba(59, 130, 246, 0.4);
+            color: #93c5fd;
+            font-size: 0.85rem;
+            font-weight: 600;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            margin-top: 0.5rem;
+        }
+
+        .btn-drive:hover {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.4) 0%, rgba(37, 99, 235, 0.4) 100%);
+            border-color: #60a5fa;
+            box-shadow: 0 0 12px rgba(59, 130, 246, 0.3);
+            transform: translateY(-1px);
+        }
+
+        /* Timeline Styling */
+        .timeline {
+            position: relative;
+            padding-left: 2rem;
+            border-left: 2px dashed rgba(255, 255, 255, 0.1);
+            margin: 1rem 0 0 1rem;
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 2rem;
+        }
+
+        .timeline-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .timeline-marker {
+            position: absolute;
+            left: -2.7rem;
+            top: 0.25rem;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: var(--bg-gradient);
+            border: 3px solid var(--primary);
+            box-shadow: 0 0 10px var(--primary);
+        }
+
+        .timeline-time {
+            font-size: 0.8rem;
+            color: var(--accent);
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .timeline-content h4 {
+            font-size: 1.1rem;
+            color: #ffffff;
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-content p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        /* Prompt Box */
+        .prompt-box {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            padding: 1rem;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.9rem;
+            color: #e2e8f0;
+            margin-top: 0.5rem;
+            overflow-x: auto;
+            white-space: pre-wrap;
+        }
+
+        footer {
+            max-width: 1200px;
+            margin: 4rem auto 1rem auto;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding-top: 2rem;
+        }
+
+        footer a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        footer a:hover {
+            color: var(--primary);
+        }
+    </style>
+</head>
+<body>
+    <div class="glow glow-1"></div>
+    <div class="glow glow-2"></div>
+
+    <header>
+        <div class="tagline">Internal Training Archive</div>
+        <h1>銀河 ERP 內訓課程彙整</h1>
+        <div class="meta-info-bar">
+            <div class="meta-item">
+                <svg viewBox="0 0 24 24" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                <span>講師：鄭穎臨 老師</span>
+            </div>
+            <div class="meta-item">
+                <svg viewBox="0 0 24 24" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                <span>地點：台南市育平九街49號 2F</span>
+            </div>
+            <div class="meta-item">
+                <svg viewBox="0 0 24 24" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                <span>學期：2026 年夏季</span>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- Class 01 Card -->
+        <section class="card" id="class01">
+            <div class="card-header">
+                <div class="card-title-group">
+                    <h2>Class 01：企業 AI 應用與導入策略 (完整版)</h2>
+                    <div class="card-subtitle">2026/05/12 (二) 09:00 - 12:00</div>
+                </div>
+                <span class="badge">已歸檔</span>
+            </div>
+
+            <div class="section-title">
+                <svg viewBox="0 0 24 24" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+                <span>AI Agent 武器庫與協作定位</span>
+            </div>
+            <ul>
+                <li><strong>OpenClaw (龍蝦)</strong>：本地環境自動化執行與操控，能修補環境、執行腳本，著重「動手做」。</li>
+                <li><strong>Claude Cowork</strong>：透過 Artifacts 進行協作編排，極適合 PM 共同編排 ERP 流程。</li>
+                <li><strong>ChatGPT Codex</strong>：具備強大邏輯推理與多模態能力，作為自動化流程 (Loop) 的核心大腦。</li>
+                <li><strong>Perplexity Computer</strong>：自動化實時檢索研究，追蹤最新 ERP 協議與技術標準。</li>
+                <li><strong>Hermes Agent</strong>：通用型代理。</li>
+            </ul>
+
+            <div class="section-title">
+                <svg viewBox="0 0 24 24" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                <span>環境控制與 MCP 協議</span>
+            </div>
+            <ul>
+                <li><strong>Claude</strong>: Computer Use / Chrome外掛 (操控/MCP)</li>
+                <li><strong>ChatGPT</strong>: Atlas (操控/MCP) / CodeX</li>
+                <li><strong>Perplexity</strong>: Computer / Comet (操控/MCP)</li>
+                <li><strong>Smart User 自建外掛</strong>: 高度彈性、節省 Token 的專用外掛</li>
+            </ul>
+
+            <div class="section-title">
+                <svg viewBox="0 0 24 24" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                <span>專案記憶管理</span>
+            </div>
+            <ul>
+                <li>倡導使用 <strong>Markdown (.md)</strong> 做為外部記憶體，節省 Token 並產出高質量程式碼。</li>
+            </ul>
+
+            <div class="section-title">
+                <svg viewBox="0 0 24 24" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                <span>相關資源連結</span>
+            </div>
+            <ul class="tool-list">
+                <li>IPAS AIAP 課程：<a href="https://forceai0001-commits.github.io/ipas-aiap-2026/" class="tool-link" target="_blank">ipas-aiap-2026</a></li>
+                <li>IPAS 歷屆考古題：<a href="https://forceai0001-commits.github.io/ipas-aiap-exam/" class="tool-link" target="_blank">ipas-aiap-exam</a></li>
+                <li>問卷調查：<a href="https://falo-taiwan.github.io/survey/" class="tool-link" target="_blank">falo-taiwan survey</a></li>
+                <li>GitHub 資源：<a href="https://github.com/obra/superpowers" class="tool-link" target="_blank">obra/superpowers</a></li>
+                <li>PocketDrum 2 Plus 展示：<a href="https://www.youtube.com/shorts/7deM3U-WraI" class="tool-link" target="_blank">YouTube Shorts</a></li>
+            </ul>
+
+            <div style="margin-top: 1.5rem;">
+                <a href="https://drive.google.com/file/d/1lXezYJhbHxRXl2o-imZDmsQZNj1z8SWF/view?usp=drive_link" class="btn-drive" target="_blank">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a6 6 0 0 0 9-6H18z"/></svg>
+                    Google Drive 原始簡報
+                </a>
+            </div>
+        </section>
+
+        <!-- Class 02 Card -->
+        <section class="card" id="class02">
+            <div class="card-header">
+                <div class="card-title-group">
+                    <h2>Class 02：企業 AI 應用與導入策略 (學員版)</h2>
+                    <div class="card-subtitle">2026/05/22 (五) 09:00 - 12:00</div>
+                </div>
+                <span class="badge">已歸檔</span>
+            </div>
+
+            <div class="section-title">
+                <svg viewBox="0 0 24 24" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+                <span>Falo 實作網頁工具箱</span>
+            </div>
+            <ul class="tool-list">
+                <li>工具箱主入口：<a href="https://falo-taiwan.github.io/tools" class="tool-link" target="_blank">falo-taiwan.github.io/tools</a></li>
+                <li>Gmail 寄信自動化：<a href="https://falo-taiwan.github.io/tools/gmail-sent/" class="tool-link" target="_blank">gmail-sent</a></li>
+                <li>ETL 檔案轉換：<a href="https://falo-taiwan.github.io/tools/etl-csv-excel/" class="tool-link" target="_blank">etl-csv-excel</a></li>
+                <li>Gemini 程式碼轉 HTML：<a href="https://falo-taiwan.github.io/tools/gemini-code-to-html/" class="tool-link" target="_blank">gemini-code-to-html</a></li>
+                <li>教室座點配置圖 (SVG)：<a href="https://falo-taiwan.github.io/ai-ocr-classroom/" class="tool-link" target="_blank">ai-ocr-classroom</a></li>
+                <li>AI OCR 視覺對比基準：<a href="https://falo-chinese.github.io/ai-ocr-vision-benchmark/" class="tool-link" target="_blank">ai-ocr-vision-benchmark</a></li>
+                <li>IPAS AIAP 網頁：<a href="https://falo-taiwan.github.io/ipas-aiap/" class="tool-link" target="_blank">falo-taiwan.github.io/ipas-aiap</a></li>
+                <li>AI OCR 專業版：<a href="https://falo-chinese.github.io/aiocr-pro01/" class="tool-link" target="_blank">aiocr-pro01</a></li>
+                <li>AI 防火牆應用：<a href="https://falo-taiwan.github.io/ai-firewall/" class="tool-link" target="_blank">ai-firewall</a></li>
+            </ul>
+
+            <div class="section-title">
+                <svg viewBox="0 0 24 24" stroke-width="2"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/></svg>
+                <span>核心練習：PDF 考卷轉 CSV 題庫</span>
+            </div>
+            <p style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 0.5rem;">
+                學員練習使用 Prompt Engineering 批次提取 PDF 題目，輸出標準 CSV 欄位 `"題號","題目","選項A","選項B","選項C","選項D","答案"`。
+            </p>
+            <div class="prompt-box">
+請把這份 PDF 完整轉成自修用題庫 DB。
+每次只輸出 10 題 CSV，分批處理。
+欄位固定為："題號","題目","選項A","選項B","選項C","選項D","答案"
+規則：每次10題、不跳不漏、無答案留空、雙引號包覆。最後一列加上「完成」標記。</div>
+
+            <div class="section-title">
+                <svg viewBox="0 0 24 24" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+                <span>Google Classroom</span>
+            </div>
+            <ul>
+                <li>課程代碼：<code style="background: rgba(255,255,255,0.1); padding: 0.2rem 0.5rem; border-radius: 4px; color: var(--accent);">rtvxcb3e</code></li>
+            </ul>
+
+            <div style="margin-top: 1.5rem;">
+                <a href="https://drive.google.com/file/d/1B8U9hmc8HIzE9y_yHlS9v_HiVp-A9A0Y/view?usp=sharing" class="btn-drive" target="_blank">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a6 6 0 0 0 9-6H18z"/></svg>
+                    Google Drive 原始簡報
+                </a>
+            </div>
+        </section>
+
+        <!-- Falo Methodology Log / Action Trace -->
+        <section class="card full-width" id="action-logs">
+            <div class="card-header">
+                <div class="card-title-group">
+                    <h2>Falo 方法論：專案操作與學習軌跡 (Timeline Logs)</h2>
+                    <div class="card-subtitle">記錄本次專案的所有變更、研究與決策軌跡。</div>
+                </div>
+                <span class="badge" style="background: rgba(6, 182, 212, 0.15); border-color: rgba(6, 182, 212, 0.3); color: #22d3ee;">軌跡追蹤</span>
+            </div>
+
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-marker"></div>
+                    <div class="timeline-time">2026-06-07 11:39</div>
+                    <div class="timeline-content">
+                        <h4>完成 Class 01 & Class 02 資料彙整</h4>
+                        <p>
+                            針對已下載的原始 PDF 進行文字與關鍵架構提取，成功梳理出 AI Agent 協作模式與 Falo 實作網頁工具箱的知識點。
+                            建立 <code style="color:var(--accent);">history.md</code> (供 AI 檢索) 與本 HTML 頁面。
+                        </p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-marker"></div>
+                    <div class="timeline-time">2026-06-07 11:36</div>
+                    <div class="timeline-content">
+                        <h4>完成原始課件檔案歸檔 (PDF)</h4>
+                        <p>
+                            成功將老師提供的 Google Drive 課件檔案下載至本地專案目錄中：
+                            <code style="color:var(--accent);">archive/class01/(完整版v1)銀河-class01.pdf</code> 以及
+                            <code style="color:var(--accent);">archive/class02/銀河class02-v101.pdf</code>。
+                        </p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-marker"></div>
+                    <div class="timeline-time">2026-06-07 11:35</div>
+                    <div class="timeline-content">
+                        <h4>專案初始化與目錄建立</h4>
+                        <p>
+                            收到老師指令，建立 <code style="color:var(--accent);">archive/class01</code>、
+                            <code style="color:var(--accent);">archive/class02</code>、
+                            <code style="color:var(--accent);">archive/class03</code> 目錄，為課程資源歸檔做準備。
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>銀河 ERP 內訓課程專案資料夾 &copy; 2026 | 設計符合 AI (Markdown) 與人類 (Premium HTML) 雙重閱讀標準</p>
+        <p style="margin-top: 0.5rem;"><a href="history.md">檢視 AI 專用 Markdown 檔案</a></p>
+    </footer>
+</body>
+</html>

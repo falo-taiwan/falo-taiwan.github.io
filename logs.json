@@ -1,0 +1,88 @@
+[
+  {
+    "timestamp": "2026-06-07T11:35:56+08:00",
+    "action_type": "project_initialized",
+    "description": "專案初始化，接收老師提供之前兩堂課的 Google Drive 連結與專案基本規範。",
+    "operator": "Teacher & AI",
+    "files_affected": []
+  },
+  {
+    "timestamp": "2026-06-07T11:36:20+08:00",
+    "action_type": "directory_created",
+    "description": "建立專案歸檔目錄：archive/class01、archive/class02、archive/class03。",
+    "operator": "AI (Antigravity)",
+    "files_affected": ["archive/class01", "archive/class02", "archive/class03"]
+  },
+  {
+    "timestamp": "2026-06-07T11:36:30+08:00",
+    "action_type": "file_downloaded",
+    "description": "從 Google Drive 下載第二堂課 PDF 銀河class02-v101.pdf 並儲存至對應歸檔目錄。",
+    "operator": "AI (Antigravity)",
+    "files_affected": ["archive/class02/銀河class02-v101.pdf"]
+  },
+  {
+    "timestamp": "2026-06-07T11:36:40+08:00",
+    "action_type": "file_downloaded",
+    "description": "從 Google Drive 下載第一堂課 PDF (完整版v1)銀河-class01.pdf 並儲存至對應歸檔目錄。",
+    "operator": "AI (Antigravity)",
+    "files_affected": ["archive/class01/(完整版v1)銀河-class01.pdf"]
+  },
+  {
+    "timestamp": "2026-06-07T11:39:40+08:00",
+    "action_type": "file_created",
+    "description": "建立歷史課程彙整 Markdown history.md，提供 AI 讀取與理解 Class 01、02 的主要概念與原始連結。",
+    "operator": "AI (Antigravity)",
+    "files_affected": ["history.md"]
+  },
+  {
+    "timestamp": "2026-06-07T11:39:50+08:00",
+    "action_type": "file_created",
+    "description": "建立歷史課程彙整網頁 history.html，具備 Glassmorphism 現代化視覺設計與 RWD 排版。",
+    "operator": "AI (Antigravity)",
+    "files_affected": ["history.html"]
+  },
+  {
+    "timestamp": "2026-06-07T11:39:54+08:00",
+    "action_type": "file_created",
+    "description": "建立 Falo 變更與決策日誌 logs.md 與 logs.json，用以追蹤專案脈絡。",
+    "operator": "AI (Antigravity)",
+    "files_affected": ["logs.md", "logs.json"]
+  },
+  {
+    "timestamp": "2026-06-07T12:55:50+08:00",
+    "action_type": "file_created",
+    "description": "建立與更新 AI Agent 開發工具比較表 agent_tools.md 與 agent_tools.html，新增 Gemini Canvas 模式對比。",
+    "operator": "AI (Antigravity)",
+    "files_affected": ["agent_tools.md", "agent_tools.html"]
+  },
+  {
+    "timestamp": "2026-06-07T12:56:00+08:00",
+    "action_type": "file_created",
+    "description": "建立 Class 03 案例教材 class03.md 與 class03.html，詳細解構 FALO 六層模型與 Chrome Gemini 解鎖案例。",
+    "operator": "AI (Antigravity)",
+    "files_affected": ["class03.md", "class03.html"]
+  },
+  {
+    "timestamp": "2026-06-07T16:41:00+08:00",
+    "action_type": "file_created",
+    "description": "建立 Class 03 主題四教材 class03_ocr_hitl.md 與 class03_ocr_hitl.html，以郵局分揀辨識延誤為案例解析 OCR 與 HITL 的必要性，並更新 Class 03 主目錄。",
+    "operator": "AI (Antigravity)",
+    "files_affected": [
+      "falo-taiwan/class/a01/class3/class03_ocr_hitl.md",
+      "falo-taiwan/class/a01/class3/class03_ocr_hitl.html",
+      "falo-taiwan/class/a01/class3/class03.md",
+      "falo-taiwan/class/a01/class3/class03.html"
+    ]
+  },
+  {
+    "timestamp": "2026-06-07T18:38:30+08:00",
+    "action_type": "file_created",
+    "description": "將大宗郵件 OCR 分揀異常與 HITL 分析圖複製並整合至 class03_ocr_hitl.md 與 class03_ocr_hitl.html 中。",
+    "operator": "AI (Antigravity)",
+    "files_affected": [
+      "falo-taiwan/class/a01/class3/images/ocr_hitl_flow.jpg",
+      "falo-taiwan/class/a01/class3/class03_ocr_hitl.md",
+      "falo-taiwan/class/a01/class3/class03_ocr_hitl.html"
+    ]
+  }
+]

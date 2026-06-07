@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Class 03 案例教材 | AI 時代的知識資產化</title>
+    <meta name="description" content="銀河 ERP 內訓課程 Class 03：Chrome 內建 Gemini 全球地區限制解鎖與 NotebookLM 知識煉油廠經典案例。">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-gradient: radial-gradient(circle at 50% 50%, #0c0a1c 0%, #020108 100%);
+            --primary: #8b5cf6;
+            --primary-glow: rgba(139, 92, 246, 0.15);
+            --secondary: #3b82f6;
+            --accent: #10b981;
+            --accent-glow: rgba(16, 185, 129, 0.15);
+            --card-bg: rgba(25, 20, 50, 0.4);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --card-hover-border: rgba(139, 92, 246, 0.4);
+            --text-primary: #f3f4f6;
+            --text-secondary: #9ca3af;
+            --text-muted: #6b7280;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Outfit', 'Inter', 'Noto Sans TC', sans-serif;
+            background: var(--bg-gradient);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 3rem 1.5rem;
+            overflow-x: hidden;
+        }
+
+        .glow {
+            position: absolute;
+            width: 450px;
+            height: 450px;
+            border-radius: 50%;
+            background: radial-gradient(circle, var(--primary-glow) 0%, transparent 70%);
+            z-index: -1;
+            filter: blur(60px);
+        }
+        .glow-1 { top: 15%; left: 10%; }
+        .glow-2 { bottom: 15%; right: 10%; }
+
+        header {
+            max-width: 1200px;
+            margin: 0 auto 3.5rem auto;
+            text-align: center;
+        }
+
+        .tagline {
+            display: inline-block;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            color: #ffffff;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            padding: 0.4rem 1.2rem;
+            border-radius: 9999px;
+            margin-bottom: 1.25rem;
+            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.25);
+        }
+
+        h1 {
+            font-size: 2.8rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #ffffff 40%, #c084fc 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.75rem;
+            letter-spacing: -0.01em;
+        }
+
+        .header-desc {
+            color: var(--text-secondary);
+            font-size: 1.15rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2.5rem;
+        }
+
+        @media (min-width: 1024px) {
+            main {
+                grid-template-columns: 3fr 2fr;
+            }
+            .full-width {
+                grid-column: span 2;
+            }
+        }
+
+        /* Card System */
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 2.5rem;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            border-color: var(--card-hover-border);
+            box-shadow: 0 20px 40px rgba(139, 92, 246, 0.12);
+        }
+
+        .quote-card {
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.08) 0%, rgba(59, 130, 246, 0.08) 100%);
+            border: 1px solid rgba(139, 92, 246, 0.2);
+            border-left: 5px solid var(--primary);
+        }
+
+        h2 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        h2 svg {
+            width: 22px;
+            height: 22px;
+            stroke: var(--primary);
+            fill: none;
+        }
+
+        /* Gold Quotes */
+        .gold-quotes blockquote {
+            font-size: 1.1rem;
+            font-style: italic;
+            color: #e2e8f0;
+            margin-bottom: 1.25rem;
+            padding-left: 1rem;
+            position: relative;
+        }
+
+        .gold-quotes blockquote:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Six Layers Accordion/List */
+        .layer-box {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .layer-item {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: all 0.2s ease;
+        }
+
+        .layer-item:hover {
+            background: rgba(139, 92, 246, 0.03);
+            border-color: rgba(139, 92, 246, 0.2);
+            transform: scale(1.01);
+        }
+
+        .layer-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .layer-num {
+            background: var(--primary);
+            color: #ffffff;
+            font-size: 0.8rem;
+            font-weight: 800;
+            padding: 0.2rem 0.6rem;
+            border-radius: 6px;
+            text-transform: uppercase;
+        }
+
+        .comparison-flow {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+            margin-top: 0.75rem;
+        }
+
+        @media (min-width: 640px) {
+            .comparison-flow {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .flow-card {
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            border-radius: 8px;
+            padding: 1rem;
+        }
+
+        .flow-card h5 {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .flow-card.falo-flow {
+            border-color: rgba(16, 185, 129, 0.2);
+            background: rgba(16, 185, 129, 0.02);
+        }
+
+        .flow-card.falo-flow h5 {
+            color: var(--accent);
+        }
+
+        /* ETL Pipeline visualization */
+        .etl-pipeline {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 1.25rem;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            margin-top: 0.75rem;
+        }
+
+        .etl-step {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 0.9rem;
+        }
+
+        .etl-step span {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-family: monospace;
+        }
+
+        .etl-arrow {
+            color: var(--primary);
+            font-weight: 800;
+            padding-left: 0.5rem;
+        }
+
+        /* Sidebar Info */
+        .sidebar-section {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .meta-list {
+            list-style: none;
+        }
+
+        .meta-list li {
+            position: relative;
+            padding-left: 1.75rem;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        .meta-list li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            top: 0;
+            color: var(--accent);
+            font-weight: bold;
+        }
+
+        .btn-action {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            background: linear-gradient(135deg, var(--primary) 0%, #7c3aed 100%);
+            color: #ffffff;
+            font-weight: 600;
+            padding: 0.75rem 1.5rem;
+            border-radius: 10px;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
+            margin-top: 0.5rem;
+        }
+
+        .btn-action:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(139, 92, 246, 0.4);
+        }
+
+        footer {
+            max-width: 1200px;
+            margin: 4rem auto 1.5rem auto;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding-top: 2.5rem;
+        }
+
+        footer a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        footer a:hover {
+            color: var(--primary);
+        }
+    </style>
+</head>
+<body>
+    <div class="glow glow-1"></div>
+    <div class="glow glow-2"></div>
+
+    <header>
+        <div class="tagline">FALO Method Classic Case Study</div>
+        <h1>Class 03 案例教材：AI 時代的知識資產化</h1>
+        <div class="header-desc">
+            探索如何將一次真實的「Chrome 內建 Gemini 地區限制解鎖」故障排除經驗，透過六層 FALO 模型與 NotebookLM，萃取並封裝成企業可複製的組織能力資產。
+        </div>
+    </header>
+
+    <main>
+        <!-- Main Case Content -->
+        <section class="card">
+            <h2>
+                <svg viewBox="0 0 24 24" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+                <span>FALO 六層方法論模型應用解析</span>
+            </h2>
+
+            <div class="layer-box">
+                <!-- Layer 1 -->
+                <div class="layer-item">
+                    <div class="layer-title">
+                        <span>第一層：Problem (真實問題與深究)</span>
+                        <span class="layer-num">Layer 1</span>
+                    </div>
+                    <p style="color: var(--text-secondary); font-size: 0.95rem;">
+                        Chrome 內建 Gemini 智慧側邊欄 (Glic) 因台灣地區限制無法啟用。FALO 強調不只修好問題，更要深究原因並沉澱。
+                    </p>
+                    <div class="comparison-flow">
+                        <div class="flow-card">
+                            <h5>一般流程</h5>
+                            <p style="font-size: 0.85rem; color: var(--text-muted);">遇到問題 → 上網爬文修改 → 問題修復 → 結束 (Know-how 未能留存)</p>
+                        </div>
+                        <div class="flow-card falo-flow">
+                            <h5>FALO 流程</h5>
+                            <p style="font-size: 0.85rem; color: #a7f3d0;">遇到問題 → 底層機制研究 → 自動化指令撰寫 → 知識沉澱與分析</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Layer 2 -->
+                <div class="layer-item">
+                    <div class="layer-title">
+                        <span>第二層：Code (工具化與自動化)</span>
+                        <span class="layer-num">Layer 2</span>
+                    </div>
+                    <p style="color: var(--text-secondary); font-size: 0.95rem; margin-bottom: 0.5rem;">
+                        將排障邏輯撰寫成跨平台的自動化修復工具，直接修改 Chrome 的 <code>Local State</code> 與 <code>Preferences</code> 檔案。
+                    </p>
+                    <p style="font-size: 0.85rem; color: var(--primary);">
+                        自動化產出檔案：<code>patch_glic.py</code> (核心邏輯)、<code>patch_glic.command</code> (macOS 一鍵執行)、<code>patch_glic.bat</code> (Windows 一鍵執行)、<code>diagnostics.json</code> (診斷日誌)。
+                    </p>
+                </div>
+
+                <!-- Layer 3 -->
+                <div class="layer-item">
+                    <div class="layer-title">
+                        <span>第三層：NotebookLM (系統理解重構)</span>
+                        <span class="layer-num">Layer 3</span>
+                    </div>
+                    <p style="color: var(--text-secondary); font-size: 0.95rem;">
+                        將所有排障程式碼、文檔與診斷記錄匯入 NotebookLM。驗證 NotebookLM 不僅是文件問答，更是**「系統與程式庫理解重構工具」**，適用於 ERP 文件、RFP 與複雜代碼庫。
+                    </p>
+                </div>
+
+                <!-- Layer 4 -->
+                <div class="layer-item">
+                    <div class="layer-title">
+                        <span>第四層：心智圖 (Transform Layer / ETL 思維)</span>
+                        <span class="layer-num">Layer 4</span>
+                    </div>
+                    <p style="color: var(--text-secondary); font-size: 0.95rem;">
+                        利用 AI 作為「Transform Layer」，將 NotebookLM 原生輸出的英文心智圖轉譯為符合中文教學需求的高品質心智圖大綱。
+                    </p>
+                    <div class="etl-pipeline">
+                        <div class="etl-step"><span>Step 1</span> 原始代碼與文件 → 匯入 NotebookLM</div>
+                        <div class="etl-step"><span>Step 2</span> NotebookLM → 產出英文結構心智圖 <div class="etl-arrow">→</div></div>
+                        <div class="etl-step"><span>Step 3</span> ChatGPT/Gemini → 多階段轉譯與中文結構化提煉 <div class="etl-arrow">→</div></div>
+                        <div class="etl-step"><span>Step 4</span> 中文大綱貼回 NotebookLM → 重新生成符合教材之中文心智圖</div>
+                    </div>
+                </div>
+
+                <!-- Layer 5 -->
+                <div class="layer-item">
+                    <div class="layer-title">
+                        <span>第五層：知識煉油廠 (Knowledge Refinery)</span>
+                        <span class="layer-num">Layer 5</span>
+                    </div>
+                    <p style="color: var(--text-secondary); font-size: 0.95rem;">
+                        驗證 NotebookLM 的本質是「知識煉油廠」：將「原油」（原始程式碼、障礙日誌、SOP、ERP文件）投入，提煉成「汽油/高價值資產」（精煉 FAQ、心智圖、教材、系統摘要、指令集/Prompt）。
+                    </p>
+                </div>
+
+                <!-- Layer 6 -->
+                <div class="layer-item">
+                    <div class="layer-title">
+                        <span>第六層：Capability Pack (能力包封裝)</span>
+                        <span class="layer-num">Layer 6</span>
+                    </div>
+                    <p style="color: var(--text-secondary); font-size: 0.95rem;">
+                        最終目標是將一次解決問題的經驗，轉化並封裝為企業可複製、可交接、可由 AI Agent 執行調用的 **Capability Pack**，完成企業知識資產化。
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sidebar Info -->
+        <div class="sidebar-section">
+            <!-- Quote Card -->
+            <section class="card quote-card">
+                <h2>
+                    <svg viewBox="0 0 24 24" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                    <span>FALO 金句提煉</span>
+                </h2>
+                <div class="gold-quotes">
+                    <blockquote>
+                        "NotebookLM 不是筆記工具。NotebookLM 是知識煉油廠。"
+                    </blockquote>
+                    <blockquote>
+                        "真正的價值不是修好問題。而是把解決問題的方法，變成可教學、可複製、可交接、可由 AI 執行的組織能力。"
+                    </blockquote>
+                </div>
+            </section>
+
+            <!-- Practical Inspiration -->
+            <section class="card">
+                <h2>對銀河 ERP 教學啟發</h2>
+                <ul class="meta-list">
+                    <li><strong>知識資產化</strong>：ERP 系統的客製開發或維運 Bug，皆應遵循此六層模型提煉為企業知識庫。</li>
+                    <li><strong>多階 AI 轉譯工作流</strong>：設計 ETL 鏈條讓多個 AI Agent 分工，提煉 Raw Data。</li>
+                    <li><strong>能力包 (Capability Pack) 建立</strong>：將複雜的 ERP 操作與排障 SOP 封裝成 Agent 隨時可調用的能力。</li>
+                </ul>
+                <div style="margin-top: 1.5rem;">
+                    <a href="https://falo-taiwan.github.io/gemini_chrome/" class="btn-action" target="_blank">
+                        瀏覽原始解鎖案例網站
+                    </a>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <p>銀河 ERP 內訓課程 Class 03 主題三 &copy; 2026 | 設計符合 AI (Markdown) 與人類 (Premium HTML) 雙重閱讀標準</p>
+        <p style="margin-top: 0.5rem;">
+            <a href="class03.html">返回 Class 03 課程大綱</a> |
+            <a href="class03_gemini_chrome.md">檢視 AI 專用 Markdown 檔案</a> | 
+            <a href="../../../logs.md">檢視 FALO 軌跡日誌</a>
+        </p>
+    </footer>
+</body>
+</html>

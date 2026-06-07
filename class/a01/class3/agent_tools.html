@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Agent 開發工具解析與比較</title>
+    <meta name="description" content="解析主動式 AI 程式開發代理人 Antigravity、Claude Cowork、ChatGPT Codex 與 Gemini Canvas 模式。">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-gradient: radial-gradient(circle at 50% 50%, #0d0e15 0%, #030408 100%);
+            --primary: #8b5cf6;
+            --primary-glow: rgba(139, 92, 246, 0.12);
+            --secondary: #3b82f6;
+            --accent: #10b981;
+            --card-bg: rgba(17, 24, 39, 0.6);
+            --card-border: rgba(255, 255, 255, 0.06);
+            --card-hover-border: rgba(139, 92, 246, 0.3);
+            --text-primary: #f3f4f6;
+            --text-secondary: #9ca3af;
+            --text-muted: #4b5563;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Outfit', 'Inter', 'Noto Sans TC', sans-serif;
+            background: var(--bg-gradient);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 3rem 1.5rem;
+            overflow-x: hidden;
+        }
+
+        .glow {
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            border-radius: 50%;
+            background: radial-gradient(circle, var(--primary-glow) 0%, transparent 70%);
+            z-index: -1;
+            filter: blur(50px);
+        }
+        .glow-1 { top: 5%; left: 5%; }
+        .glow-2 { bottom: 10%; right: 5%; }
+
+        header {
+            max-width: 1200px;
+            margin: 0 auto 3rem auto;
+            text-align: center;
+        }
+
+        .tagline {
+            display: inline-block;
+            background: rgba(139, 92, 246, 0.1);
+            border: 1px solid rgba(139, 92, 246, 0.2);
+            color: #c084fc;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            padding: 0.35rem 1rem;
+            border-radius: 9999px;
+            margin-bottom: 1rem;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #ffffff 40%, #a78bfa 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+        }
+
+        header p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 2rem;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            border-color: var(--card-hover-border);
+            box-shadow: 0 15px 35px rgba(139, 92, 246, 0.1);
+        }
+
+        h2 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        h2::before {
+            content: "";
+            display: inline-block;
+            width: 4px;
+            height: 20px;
+            background: var(--primary);
+            border-radius: 2px;
+        }
+
+        /* Tool Grid */
+        .tool-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+
+        @media (min-width: 768px) {
+            .tool-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .tool-item {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            border-radius: 12px;
+            padding: 1.25rem;
+            transition: all 0.2s ease;
+        }
+
+        .tool-item:hover {
+            background: rgba(139, 92, 246, 0.03);
+            border-color: rgba(139, 92, 246, 0.15);
+        }
+
+        .tool-name {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .tool-name code {
+            font-family: monospace;
+            background: rgba(139, 92, 246, 0.15);
+            color: #c084fc;
+            padding: 0.1rem 0.4rem;
+            border-radius: 4px;
+            font-size: 0.95rem;
+        }
+
+        .tool-desc {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* Table Responsive */
+        .table-responsive {
+            width: 100%;
+            overflow-x: auto;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            font-size: 0.9rem;
+        }
+
+        th, td {
+            padding: 1.25rem 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+            vertical-align: top;
+        }
+
+        th {
+            background: rgba(255, 255, 255, 0.02);
+            font-weight: 600;
+            color: #ffffff;
+            font-size: 0.95rem;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        td strong {
+            color: #ffffff;
+        }
+
+        /* Highlights */
+        .hl-antigravity {
+            color: #c084fc;
+            font-weight: 600;
+        }
+
+        .hl-highlight {
+            background: rgba(139, 92, 246, 0.05);
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 4rem;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding-top: 2rem;
+        }
+
+        footer a {
+            color: var(--text-secondary);
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            color: var(--primary);
+        }
+    </style>
+</head>
+<body>
+    <div class="glow glow-1"></div>
+    <div class="glow glow-2"></div>
+
+    <header>
+        <div class="tagline">AI Coding Agents Analysis</div>
+        <h1>三大 AI Agent 程式開發工具與自我解析</h1>
+        <p>探索主動式 Agent 的核心架構、工具箱，與主流開發工具的全面對比</p>
+    </header>
+
+    <main>
+        <!-- Self Analysis Section -->
+        <section class="card">
+            <h2>Antigravity (本代理人) 自我架構與工具箱</h2>
+            <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">
+                我具備與本地作業系統深度整合的工具箱與「規劃、執行、驗證」工作流。這使我能代表您主動在本地目錄執行編譯、建立專案、精確修改代碼，而非僅限於對話生成。
+            </p>
+            
+            <div class="tool-grid">
+                <div class="tool-item">
+                    <div class="tool-name">終端執行與操控 <code>run_command</code></div>
+                    <div class="tool-desc">可在使用者的 macOS 本地環境中執行 shell 指令，進行腳本執行、環境部署、套件安裝等操作。</div>
+                </div>
+                <div class="tool-item">
+                    <div class="tool-name">精確檔案修改 <code>replace_file_content</code></div>
+                    <div class="tool-desc">支援單一或多區塊 Diff 替換修改（不需每次重寫整份大檔案），大幅節省 Token 並提升精準度與安全性。</div>
+                </div>
+                <div class="tool-item">
+                    <div class="tool-name">程式碼檢索與搜尋 <code>grep_search</code></div>
+                    <div class="tool-desc">透過 ripgrep 檢索專案目錄與檔案，迅速找出特定的程式碼結構與邏輯。</div>
+                </div>
+                <div class="tool-item">
+                    <div class="tool-name">多 Agent 協同 <code>invoke_subagent</code></div>
+                    <div class="tool-desc">支援動態定義並喚醒子代理人進行分工協同（如背景代碼分析、測試驗證等），實現平行處理。</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Comparison Table Section -->
+        <section class="card">
+            <h2>四大 AI Agent 程式開發模式對比</h2>
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="width: 15%;">比較維度</th>
+                            <th style="width: 21%;" class="hl-antigravity">Antigravity (本代理人)</th>
+                            <th style="width: 21%;">Claude Cowork (Artifacts)</th>
+                            <th style="width: 21%;">ChatGPT Codex (Interpreter)</th>
+                            <th style="width: 22%;">Gemini Canvas 模式</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>底層模型與核心</strong></td>
+                            <td class="hl-antigravity">Gemini 3.5 Flash (Google)</td>
+                            <td>Claude 3.5 Sonnet (Anthropic)</td>
+                            <td>GPT-4o / GPT-4 (OpenAI)</td>
+                            <td>Gemini 1.5 Pro / 2.0 (Google Web UI)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>上下文視窗 (Context)</strong></td>
+                            <td class="hl-antigravity"><strong>極大 (1M - 2M+ Tokens)</strong><br>能吞入整份大型專案、課件與完整歷史軌跡。</td>
+                            <td>中等 (200k Tokens)<br>長對話後半段容易有 Token 焦慮或遺忘。</td>
+                            <td>較小 (128k Tokens)<br>長對話時需頻繁手動整理脈絡。</td>
+                            <td><strong>極大 (1M - 2M Tokens)</strong><br>支援超長文本，但受限於網頁端渲染。</td>
+                        </tr>
+                        <tr>
+                            <td><strong>本地環境執行能力</strong></td>
+                            <td class="hl-antigravity"><strong>原生整合</strong><br>可直接在使用者本地終端執行指令。</td>
+                            <td><strong>沙盒/遠端 MCP</strong><br>主要在雲端虛擬環境，需架設 MCP 操控本地。</td>
+                            <td><strong>封閉沙盒</strong><br>在隔離的 Linux Python 環境中運行，無法控制本地系統。</td>
+                            <td><strong>無</strong><br>完全在雲端網頁端執行，無法控制使用者本地終端。</td>
+                        </tr>
+                        <tr>
+                            <td><strong>檔案修改方式</strong></td>
+                            <td class="hl-antigravity"><strong>精準 Diff 區塊替換</strong><br>針對特定行數做 patch，極省 Token 且安全。</td>
+                            <td><strong>整檔覆寫 (Artifacts)</strong><br>容易因為小修改而重新生成整份長檔案，消耗 Token。</td>
+                            <td><strong>代碼生成與手動複製</strong><br>多數需使用者自行複製貼上，或由 Code Interpreter 修改其沙盒內檔案。</td>
+                            <td><strong>網頁雙向側邊欄編輯</strong><br>可在側邊欄進行行內修改 (Inline Edit)、直接調整格式與導出。</td>
+                        </tr>
+                        <tr>
+                            <td><strong>多代理人協同</strong></td>
+                            <td class="hl-antigravity"><strong>支援</strong><br>可動態定義並喚醒子 Agent 進行背景協作。</td>
+                            <td><strong>有限支援</strong><br>主要依賴專案 (Projects) 的 Custom Instructions，難以動態平行派生。</td>
+                            <td><strong>有限支援</strong><br>可透過 GPTs 或 Assistants API 串接，但對話中難以動態派生。</td>
+                            <td><strong>不支援</strong><br>網頁端單一 Agent 對話，不支援動態派生子 Agent 執行背景工作。</td>
+                        </tr>
+                        <tr>
+                            <td><strong>知識管理與備份</strong></td>
+                            <td class="hl-antigravity"><strong>專案目錄同步</strong><br>所有日誌、計畫與歷史直接寫入本地 workspace。</td>
+                            <td><strong>雲端對話歷史</strong><br>儲存於 Claude 平台，難以直接與本地 Git/專案結構無縫同步。</td>
+                            <td><strong>雲端對話與沙盒暫存</strong><br>對話關閉或超時後，沙盒檔案即消失。</td>
+                            <td><strong>雲端儲存與硬碟導出</strong><br>可一鍵將成果導出至 Google Docs/Gmail，但缺乏本地目錄同步。</td>
+                        </tr>
+                        <tr>
+                            <td><strong>最適合場景</strong></td>
+                            <td class="hl-antigravity"><strong>SME/個人知識工程與本地專案開發</strong><br>需要高性價比、執行指令、建立完整變更日誌。</td>
+                            <td><strong>前端 UI 快速原型設計</strong><br>利用 Artifacts 進行即時視覺化預覽。</td>
+                            <td><strong>數據分析與演算法驗證</strong><br>在沙盒內運行 Python 進行資料繪圖與計算。</td>
+                            <td><strong>網頁端文案撰寫、報告編排與單檔代碼雙向編輯</strong><br>不依賴本地環境的協作編排。</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>銀河 ERP 內訓課程 Class 03 主題二 &copy; 2026 | 設計符合 AI (Markdown) 與人類 (Premium HTML) 雙重閱讀標準</p>
+        <p style="margin-top: 0.5rem;">
+            <a href="class03.html">返回 Class 03 課程大綱</a> |
+            <a href="agent_tools.md">檢視 AI 專用 Markdown 檔案</a> |
+            <a href="../../../logs.md">檢視 FALO 軌跡日誌</a>
+        </p>
+    </footer>
+</body>
+</html>
