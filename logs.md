@@ -8,6 +8,7 @@
 
 | 時間戳記 | 操作類別 | 描述 | 操作者 | 影響檔案 |
 | :--- | :--- | :--- | :--- | :--- |
+| 2026-06-07 19:15:00 | 系統操作 | 解決 Git 推送權限問題（從 force-taiwan 切換為 falo-taiwan），並成功將 Class 03 課件推送至遠端儲存庫。 | AI (Antigravity) | 無 |
 | `2026-06-07 18:38:30` | 建立檔案 | 將大宗郵件 OCR 分揀異常與 HITL 分析圖複製並整合至 `class03_ocr_hitl.md` 與 `class03_ocr_hitl.html` 中。 | AI (Antigravity) | `falo-taiwan/class/a01/class3/images/ocr_hitl_flow.jpg`, `class03_ocr_hitl.md`, `class03_ocr_hitl.html` |
 | `2026-06-07 16:41:00` | 建立檔案 | 建立 Class 03 主題四教材 `class03_ocr_hitl.md` 與 `class03_ocr_hitl.html`，以郵局分揀辨識延誤為案例解析 OCR 與 HITL 的必要性，並更新 Class 03 主目錄。 | AI (Antigravity) | `class03_ocr_hitl.md`, `class03_ocr_hitl.html`, `class03.md`, `class03.html` |
 | `2026-06-07 12:56:00` | 建立檔案 | 建立 Class 03 案例教材 `class03.md` 與 `class03.html`，詳細解構 FALO 六層模型與 Chrome Gemini 解鎖案例。 | AI (Antigravity) | `class03.md`, `class03.html` |
