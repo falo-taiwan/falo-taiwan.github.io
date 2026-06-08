@@ -90,8 +90,8 @@
 ## Class 03：AI Agent 與 Vibe Coding 實戰及知識資產化
 
 * **上課時間**：2026/06/07 (日)
-* **核心連結**：[Class 03 課程主題導航](file:///Users/force/Google_Antigravity/attn-class/falo-taiwan/class/a01/class3/class03.html)
-* **本地主目錄**：`falo-taiwan/class/a01/class3/class03.md`
+* **核心連結**：[Class 03 課程主題導航](file:///Users/force/Google_Antigravity/attn-class/falo-taiwan/class/a01/class3/index.html)
+* **本地主目錄**：`falo-taiwan/class/a01/class3/index.md`
 
 ### 核心技術與概念
 

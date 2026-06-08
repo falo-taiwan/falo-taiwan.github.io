@@ -166,6 +166,23 @@
       "falo-taiwan/class/a01/class3/agent_tools.html",
       "falo-taiwan/class/a01/class3/class03_computer_use.md",
       "falo-taiwan/class/a01/class3/class03_computer_use.html"
+  },
+  {
+    "timestamp": "2026-06-08T18:52:00+08:00",
+    "action_type": "file_updated",
+    "description": "將 Class 03 大綱主頁重新命名為 index.html/md，修正所有相關連結，並在主題二 agent_tools.html 中補齊返回主頁的按鈕與樣式。",
+    "operator": "AI (Antigravity)",
+    "files_affected": [
+      "falo-taiwan/class/a01/class3/index.html",
+      "falo-taiwan/class/a01/class3/index.md",
+      "falo-taiwan/class/a01/class3/agent_tools.html",
+      "falo-taiwan/class/a01/class3/class03_collaboration.html",
+      "falo-taiwan/class/a01/class3/class03_gemini_chrome.html",
+      "falo-taiwan/class/a01/class3/class03_ocr_hitl.html",
+      "falo-taiwan/class/a01/class3/class03_computer_use.html",
+      "falo-taiwan/class/a01/class3/class03_qas.html",
+      "history.md",
+      "history.html"
     ]
   }
 ]

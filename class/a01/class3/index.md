@@ -1,4 +1,4 @@
-# 銀河軟體 ERP 內訓課程：Class 03 課程大綱 (class03.md)
+# 銀河軟體 ERP 內訓課程：Class 03 課程大綱 (index.md)
 
 * **課程名稱**：銀河軟體 ERP 企業 AI 應用與導入策略
 * **模組代號**：Class 03

@@ -340,6 +340,30 @@
         footer a:hover {
             color: var(--primary);
         }
+
+        /* Back Button */
+        .btn-back {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            color: #ffffff;
+            font-size: 0.9rem;
+            font-weight: 600;
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            margin-top: 2rem;
+            align-self: center;
+        }
+
+        .btn-back:hover {
+            background: rgba(139, 92, 246, 0.1);
+            border-color: rgba(139, 92, 246, 0.3);
+            color: #c084fc;
+        }
     </style>
 </head>
 <body>
@@ -483,12 +507,18 @@
                 </div>
             </section>
         </div>
+
+        <!-- Back Button -->
+        <a href="index.html" class="btn-back" style="grid-column: 1 / -1; justify-self: center;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+            返回 Class 03 課程大綱
+        </a>
     </main>
 
     <footer>
         <p>銀河 ERP 內訓課程 Class 03 主題三 &copy; 2026 | 設計符合 AI (Markdown) 與人類 (Premium HTML) 雙重閱讀標準</p>
         <p style="margin-top: 0.5rem;">
-            <a href="class03.html">返回 Class 03 課程大綱</a> |
+            <a href="index.html">返回 Class 03 課程大綱</a> |
             <a href="class03_gemini_chrome.md">檢視 AI 專用 Markdown 檔案</a> | 
             <a href="../../../logs.md">檢視 FALO 軌跡日誌</a>
         </p>

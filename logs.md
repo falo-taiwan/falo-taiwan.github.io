@@ -8,6 +8,7 @@
 
 | 時間戳記 | 操作類別 | 描述 | 操作者 | 影響檔案 |
 | :--- | :--- | :--- | :--- | :--- |
+| 2026-06-08 18:52:00 | 檔案更新 | 將 Class 03 大綱主頁重新命名為 index.html/md，修正所有相關連結，並在主題二 agent_tools.html 中補齊返回主頁的按鈕與樣式。 | AI (Antigravity) | `falo-taiwan/class/a01/class3/index.html`, `falo-taiwan/class/a01/class3/index.md`, `falo-taiwan/class/a01/class3/agent_tools.html`, `class03_collaboration.html`, `class03_gemini_chrome.html`, `class03_ocr_hitl.html`, `class03_computer_use.html`, `class03_qas.html`, `history.md`, `history.html`, `sync_and_push.py` |
 | 2026-06-08 18:15:00 | 檔案更新 | 於主題二與主題五教材中新增其他參考資源，包含電腦王阿達對 Anthropic Academy 的介紹連結。 | AI (Antigravity) | `falo-taiwan/class/a01/class3/agent_tools.md`, `falo-taiwan/class/a01/class3/agent_tools.html`, `falo-taiwan/class/a01/class3/class03_computer_use.md`, `falo-taiwan/class/a01/class3/class03_computer_use.html` |
 | 2026-06-08 15:50:00 | 檔案更新 | 在主題五教材中新增實作工具之線上 Live 網址（https://falo-taiwan.github.io/computer-use/）。 | AI (Antigravity) | `falo-taiwan/class/a01/class3/class03_computer_use.md`, `falo-taiwan/class/a01/class3/class03_computer_use.html` |
 | 2026-06-08 15:45:00 | 建立檔案 | 建立 Class 03 主題五教材 class03_computer_use.md 與 class03_computer_use.html，整合 LINE 防封鎖工具案例與 Computer Use 示範沙盒。 | AI (Antigravity) | `falo-taiwan/class/a01/class3/class03_computer_use.md`, `falo-taiwan/class/a01/class3/class03_computer_use.html`, `falo-taiwan/class/a01/class3/class03.md`, `falo-taiwan/class/a01/class3/class03.html` |

@@ -1,4 +1,4 @@
-# 銀河 ERP 內訓課程：Class 03 案例教材 (class03.md)
+# 銀河 ERP 內訓課程：Class 03 案例教材 (class03_gemini_chrome.md)
 
 * **課程主題**：AI 時代的知識資產化 (Knowledge Assetization)
 * **核心案例**：Chrome 內建 Gemini 全球地區限制解鎖案例
