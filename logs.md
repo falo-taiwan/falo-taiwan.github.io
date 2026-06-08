@@ -8,6 +8,7 @@
 
 | 時間戳記 | 操作類別 | 描述 | 操作者 | 影響檔案 |
 | :--- | :--- | :--- | :--- | :--- |
+| 2026-06-08 23:40:00 | 專案更新 | 於外掛專案教學頁 Tab 2 新增「致謝與功能重點對照卡片」，列出 Progress Bar for Instagram 外掛之原版核心功能，並將其與 FALO 進化重構版（Tooltip、Hover 音量控制條、懸浮遙控器與 HUD）進行對照與致謝。 | AI (Antigravity) | `falo-taiwan/class/a01/class3/ig/index.html`, `falo-taiwan/class/a01/class3/ig/falo_extension_tutorial.html` |
 | 2026-06-08 23:39:00 | 專案更新 | 修正外掛專案教學頁 Tab 2 之「研發背景與二創聲明」描述，改為參考 Chrome Web Store 上的 Progress Bar for Instagram 外掛專案精神，並與 AI Agent 交流後全新改寫實作，避免抽出與反編譯等字眼誤解。 | AI (Antigravity) | `falo-taiwan/class/a01/class3/ig/index.html`, `falo-taiwan/class/a01/class3/ig/falo_extension_tutorial.html` |
 | 2026-06-08 23:38:00 | 專案更新 | 於外掛專案教學頁 Tab 2 新增「研發背景與二創聲明」，揭露此專案是基於解構「Progress Bar for Instagram」外掛、以 AI Agent（Antigravity、Claude）抽出程式碼理解後二次創作重構而成，作為 Vibe Coding 教學示範。 | AI (Antigravity) | `falo-taiwan/class/a01/class3/ig/index.html`, `falo-taiwan/class/a01/class3/ig/falo_extension_tutorial.html` |
 | 2026-06-08 23:36:00 | 專案更新 | 新增外掛專案教學頁之 Tab 2 專區，深入說明外掛開發的核心技巧與卡頓優化原理（事件冒泡攔截、視區面積定位多影片、儲存適配器與 OLED 更新頻率優化），並將原本的 Chrome 架構與 AI 開發指南移至 Tab 3。 | AI (Antigravity) | `falo-taiwan/class/a01/class3/ig/index.html`, `falo-taiwan/class/a01/class3/ig/falo_extension_tutorial.html` |

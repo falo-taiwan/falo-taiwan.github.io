@@ -272,5 +272,15 @@
       "falo-taiwan/class/a01/class3/ig/index.html",
       "falo-taiwan/class/a01/class3/ig/falo_extension_tutorial.html"
     ]
+  },
+  {
+    "timestamp": "2026-06-08T23:40:00+08:00",
+    "action_type": "project_updated",
+    "description": "於外掛專案教學頁 Tab 2 中新增「致謝與功能重點對照卡片」，列出 Progress Bar for Instagram 外掛之原版核心功能，並將其與 FALO 進化重構版（Tooltip、Hover 音量控制條、懸浮遙控器與 HUD）進行對照與致謝。",
+    "operator": "AI (Antigravity)",
+    "files_affected": [
+      "falo-taiwan/class/a01/class3/ig/index.html",
+      "falo-taiwan/class/a01/class3/ig/falo_extension_tutorial.html"
+    ]
   }
 ]
