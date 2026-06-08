@@ -31,6 +31,17 @@ Class 03 專注於讓學員理解最新的 **AI Agent 協同開發思維 (Vibe C
 * **詳細課件網頁**：[class03_ocr_hitl.html](class03_ocr_hitl.html)
 * **AI 專用文件**：[class03_ocr_hitl.md](class03_ocr_hitl.md)
 
+### 5. 主題五：從社群痛點到 AI 代理協作：LINE 防封鎖工具與 Computer Use 模擬實務
+* **簡介**：解析 LINE 防封鎖工具的開發歷程。展示如何從社群真實問題出發，經由 Gemini Canvas 快速 PoC、Antigravity 高規進化，再到文件變形輸出與 Computer Use 模擬操作之完整知識工程實踐。
+* **詳細課件網頁**：[class03_computer_use.html](class03_computer_use.html)
+* **AI 專用文件**：[class03_computer_use.md](class03_computer_use.md)
+
+### 6. 主題六：學員課前提問與技術解答 (QA)
+* **簡介**：針對學員提出的 12 個核心技術問題（如 API 效能、AI 命名失控、Token 分配、Docker 環境隔離、安全掃描、PWA APP 開發等）進行深度解答。
+* **詳細課件網頁**：[class03_qas.html](class03_qas.html)
+* **AI 專用文件**：[class03_qas.md](class03_qas.md)
+
+
 
 ---
 

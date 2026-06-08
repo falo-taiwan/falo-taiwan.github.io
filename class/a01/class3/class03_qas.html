@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Class 03 學員提問與技術解答 | 銀河 ERP 內訓課程</title>
+    <meta name="description" content="銀河 ERP 內訓課程：Class 03 學員提問彙整與深度技術答覆。">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-gradient: radial-gradient(circle at 50% 50%, #0c0824 0%, #020108 100%);
+            --primary: #8b5cf6;
+            --primary-glow: rgba(139, 92, 246, 0.15);
+            --secondary: #3b82f6;
+            --accent: #10b981;
+            --card-bg: rgba(22, 16, 48, 0.5);
+            --card-border: rgba(255, 255, 255, 0.07);
+            --card-hover-border: rgba(139, 92, 246, 0.4);
+            --text-primary: #f3f4f6;
+            --text-secondary: #9ca3af;
+            --text-muted: #4b5563;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Outfit', 'Inter', 'Noto Sans TC', sans-serif;
+            background: var(--bg-gradient);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 3rem 1.5rem;
+            overflow-x: hidden;
+        }
+
+        .glow {
+            position: absolute;
+            width: 450px;
+            height: 450px;
+            border-radius: 50%;
+            background: radial-gradient(circle, var(--primary-glow) 0%, transparent 70%);
+            z-index: -1;
+            filter: blur(60px);
+        }
+        .glow-1 { top: 10%; left: 5%; }
+        .glow-2 { bottom: 15%; right: 5%; }
+
+        header {
+            max-width: 1000px;
+            margin: 0 auto 3rem auto;
+            text-align: center;
+        }
+
+        .tagline {
+            display: inline-block;
+            background: rgba(139, 92, 246, 0.1);
+            border: 1px solid rgba(139, 92, 246, 0.25);
+            color: #c084fc;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            padding: 0.4rem 1.2rem;
+            border-radius: 9999px;
+            margin-bottom: 1.25rem;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #ffffff 40%, #c084fc 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.75rem;
+            letter-spacing: -0.01em;
+        }
+
+        header p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
+        main {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 2.25rem;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.4);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            border-color: var(--card-hover-border);
+            box-shadow: 0 15px 40px rgba(139, 92, 246, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            opacity: 0.6;
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1.25rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding-bottom: 0.75rem;
+        }
+
+        .card-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 38px;
+            height: 38px;
+            background: rgba(139, 92, 246, 0.1);
+            border: 1px solid rgba(139, 92, 246, 0.2);
+            border-radius: 8px;
+            color: #c084fc;
+        }
+
+        .card-icon svg {
+            width: 20px;
+            height: 20px;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 2;
+        }
+
+        .card-number {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .card-title h2 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #ffffff;
+        }
+
+        .question-box {
+            background: rgba(255, 255, 255, 0.02);
+            border-left: 3px solid var(--secondary);
+            padding: 0.75rem 1.25rem;
+            margin-bottom: 1.25rem;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .question-box p {
+            color: #e5e7eb;
+            font-weight: 500;
+            font-size: 1rem;
+        }
+
+        .answer-box {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        .answer-box p {
+            margin-bottom: 1rem;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 1rem 0;
+        }
+
+        li {
+            position: relative;
+            padding-left: 1.5rem;
+            margin-bottom: 0.75rem;
+            font-size: 0.95rem;
+        }
+
+        li::before {
+            content: "✦";
+            position: absolute;
+            left: 0;
+            top: 0;
+            color: var(--primary);
+        }
+
+        li strong {
+            color: #ffffff;
+        }
+
+        /* Flow Visualizer */
+        .flow-diagram {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            border-radius: 8px;
+            padding: 0.75rem 1rem;
+            margin: 1rem 0;
+            font-size: 0.85rem;
+            font-family: monospace;
+        }
+
+        .flow-node {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            color: #ffffff;
+        }
+
+        .flow-arrow {
+            color: var(--primary);
+            font-weight: bold;
+        }
+
+        code {
+            background: rgba(0, 0, 0, 0.3);
+            color: #f43f5e;
+            padding: 0.15rem 0.4rem;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 0.85rem;
+        }
+
+        .code-block {
+            display: block;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            padding: 1rem;
+            color: #e2e8f0;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.85rem;
+            margin: 1rem 0;
+            overflow-x: auto;
+            white-space: pre-wrap;
+        }
+
+        .logs-panel {
+            max-width: 1000px;
+            margin: 3.5rem auto 0 auto;
+            text-align: center;
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            border-radius: 12px;
+            padding: 1.5rem;
+        }
+
+        .logs-panel p {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .logs-panel a {
+            color: #60a5fa;
+            text-decoration: none;
+            font-weight: 500;
+            margin: 0 0.5rem;
+        }
+
+        .logs-panel a:hover {
+            text-decoration: underline;
+        }
+
+        .btn-back {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            color: #ffffff;
+            font-size: 0.9rem;
+            font-weight: 600;
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            margin-top: 1rem;
+            align-self: center;
+        }
+
+        .btn-back:hover {
+            background: rgba(139, 92, 246, 0.1);
+            border-color: rgba(139, 92, 246, 0.3);
+            color: #c084fc;
+        }
+
+        footer {
+            max-width: 1000px;
+            margin: 4rem auto 1.5rem auto;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding-top: 2.5rem;
+        }
+
+        footer a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        footer a:hover {
+            color: var(--primary);
+        }
+    </style>
+</head>
+<body>
+    <div class="glow glow-1"></div>
+    <div class="glow glow-2"></div>
+
+    <header>
+        <div class="tagline">Class 03 Pre-Class Q&A</div>
+        <h1>Class 03 學員提問與技術解答</h1>
+        <p>為學員解鎖高併發 API 架構、AI 專案控制、環境乾淨度以及跨平台開發的落地心法</p>
+    </header>
+
+    <main>
+        <!-- Card 1: API Performance -->
+        <section class="card">
+            <div class="card-header">
+                <div class="card-icon">
+                    <svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                </div>
+                <div class="card-title-group">
+                    <div class="card-number">Question 01</div>
+                    <h2>API 效能優化與架構說明</h2>
+                </div>
+            </div>
+            <div class="question-box">
+                <p>API效能要怎麼寫比較快? 架構說明</p>
+            </div>
+            <div class="answer-box">
+                <p>API 的效能瓶頸往往不是 CPU 運算，而是 <strong>I/O 阻塞（尤其是資料庫查詢）</strong>。要讓 API 回應速度極快，必須從架構與代碼兩個層次著手：</p>
+                <ul>
+                    <li><strong>資料庫層級優化（80% 的效能關鍵）</strong>：
+                        <ul>
+                            <li><strong>建立合理索引（Index）</strong>：確保常用的 <code>WHERE</code>、<code>JOIN</code> 和 <code>ORDER BY</code> 欄位都有索引，避免全表掃描。</li>
+                            <li><strong>解決 N+1 查詢問題</strong>：在多表關聯查詢時，使用 <code>JOIN</code> 語法或預先載入（Eager Loading），千萬不要在迴圈中重複向資料庫下查詢指令。</li>
+                            <li><strong>資料庫連線池（Connection Pool）</strong>：重複使用連線，省去每次 API 請求都要重新與資料庫 Handshake 的時間成本。</li>
+                        </ul>
+                    </li>
+                    <li><strong>引進快取層（Caching）</strong>：使用 <strong>Redis</strong> 快取讀取極度頻繁但鮮少變動的資料（如：系統設定、基礎字典、用戶基本權限等）。</li>
+                    <li><strong>非同步處理（Asynchronous Workers）</strong>：針對發送驗證信、生成報表等耗時工作，API 不應阻塞等待，應直接丟入訊息佇列（如 BullMQ / RabbitMQ），並立刻回傳 <code>202 Accepted</code>。</li>
+                </ul>
+                <div class="flow-diagram">
+                    <div class="flow-node">Client</div> <div class="flow-arrow">→</div>
+                    <div class="flow-node">Load Balancer (Nginx)</div> <div class="flow-arrow">→</div>
+                    <div class="flow-node">API Server (Node/Go)</div> <div class="flow-arrow">→</div>
+                    <div class="flow-node">Redis Cache</div> <div class="flow-arrow">/</div>
+                    <div class="flow-node">MySQL DB / MQ</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Card 2: DB Naming -->
+        <section class="card">
+            <div class="card-header">
+                <div class="card-icon">
+                    <svg viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/><path d="M3 12c0 1.66 4 3 9 3s9-1.34 9-3"/></svg>
+                </div>
+                <div class="card-title-group">
+                    <div class="card-number">Question 02</div>
+                    <h2>AI 自動命名的命名風險與資料庫管理</h2>
+                </div>
+            </div>
+            <div class="question-box">
+                <p>AI的確可以自己創建資料表名稱和欄位名稱，但那是他的邏輯去命名的，我們系統做越大，真的越能有效管理嗎?</p>
+            </div>
+            <div class="answer-box">
+                <p><strong>答案是：完全無法有效管理。</strong> 如果放任 AI 隨機根據每次提示詞建立資料表與欄位，隨著系統擴大，會出現嚴重的命名衝突與重複定義（如同一個概念在 A 模組叫 <code>members</code>，在 B 模組叫 <code>user_info</code>）。</p>
+                <p><strong>💡 解決方案：</strong></p>
+                <ul>
+                    <li><strong>Schema-First（架構先行）</strong>：資料庫的 DDL 必須牢牢掌握在人類工程師（架構師或專案負責人）手中。AI 只能在既定的 DDL 結構下進行 API 與 SQL 程式開發。</li>
+                    <li><strong>提供現有 DDL 做為 Context</strong>：把資料庫結構以 SQL 或 Prisma Schema 檔案形式提供給 AI，並下達硬性指令：「<em>你只能讀寫現有資料表，未經允許不得擅自新增、修改任何資料表或欄位結構</em>」。</li>
+                    <li><strong>制定命名契約</strong>：在專案提示詞中規範命名（例如：一律用 <code>snake_case</code>，主鍵統一為 <code>id</code>，狀態欄位必須是 <code>is_active</code> 等），確保 AI 產生的程式碼與既有資料庫一致。</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Card 3: Codex limits -->
+        <section class="card">
+            <div class="card-header">
+                <div class="card-icon">
+                    <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="9" y1="3" x2="9" y2="21"/><line x1="15" y1="3" x2="15" y2="21"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="3" y1="15" x2="21" y2="15"/></svg>
+                </div>
+                <div class="card-title-group">
+                    <div class="card-number">Question 03</div>
+                    <h2>Codex 付費版額度與 Token 分配策略</h2>
+                </div>
+            </div>
+            <div class="question-box">
+                <p>Codex就算付費後 有用量限制 怎麼樣可以有效分配?</p>
+            </div>
+            <div class="answer-box">
+                <p>不論付費與否，大模型都有 <strong>Token 上限（Context Window）</strong> 以及 **速率限制（Rate Limits）**。要妥善分配額度，應掌握以下心法：</p>
+                <ul>
+                    <li><strong>精確提供 Context（拒絕程式碼大鍋炒）</strong>：不要把整個專案的程式碼塞進 Prompt。每次只需餵給 AI 當前需要修改或呼叫的檔案；若需調用其他模組，僅提供該模組的介面或型態定義，不提供實作程式。</li>
+                    <li><strong>任務原子化（Task Chunking）</strong>：不要讓 AI 一口氣寫完「整個購物車功能」，改為將任務拆成極小、職責單一的函數。如「請幫我寫一個驗證電子郵件格式的 Function」。這能省下極多的 Token 消耗，並降低出錯率。</li>
+                    <li><strong>大模型與本地模型分流</strong>：
+                        <ul>
+                            <li><strong>日常打雜（Inline 補全、修復語法錯誤）</strong>：交給本地運行的輕量模型（如 Ollama 運行的 Llama 3 或是 Gemini Flash 插件）。</li>
+                            <li><strong>架構設計與重構（複雜演算法、全域架構分析）</strong>：才使用付費的 Codex、Gemini Pro 或 Claude 3.5。</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Card 4: Antigravity Chinese -->
+        <section class="card">
+            <div class="card-header">
+                <div class="card-icon">
+                    <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                </div>
+                <div class="card-title-group">
+                    <div class="card-number">Question 04</div>
+                    <h2>Antigravity 2.0 中文介面與對話命名問題</h2>
+                </div>
+            </div>
+            <div class="question-box">
+                <p>antigravity 2.0 真的不能中文介面嗎? 他對話框命名都英文? 我還要自己重新命名才容易找</p>
+            </div>
+            <div class="answer-box">
+                <p>Antigravity 2.0 是 Google DeepMind 針對高階工程師設計的協作 Agent。目前為了確保在不同語系的開發環境、檔案系統及 Git 紀錄中的最大相容性，其系統 UI 與自動命名的對話 Title 預設會以英文生成。</p>
+                <p><strong>💡 實用對應方式：</strong></p>
+                <ul>
+                    <li><strong>全面中文溝通</strong>：雖然介面是英文，但您可以直接用繁體中文與它交談，它的程式碼理解與文字回答將完全維持流暢的繁體中文。</li>
+                    <li><strong>指定標題生成</strong>：每次開始新話題時，您可以在第一句話指令加上：「<em>請以繁體中文與我協作，並為這次的任務生成一個中文標題作為對話開始，例如：『[修正發票 OCR 邏輯]』</em>」，這能強迫 AI 在對話起手式就以中文來為您標記，便於日後回顧。</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Card 5: Dev Tools Comparison -->
+        <section class="card">
+            <div class="card-header">
+                <div class="card-icon">
+                    <svg viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+                </div>
+                <div class="card-title-group">
+                    <div class="card-number">Question 05</div>
+                    <h2>主流開發工具與 AI 輔助優缺點列示</h2>
+                </div>
+            </div>
+            <div class="question-box">
+                <p>各開發工具的優缺點列示，目前主流好用的開發工具?</p>
+            </div>
+            <div class="answer-box">
+                <p>以下為目前全球主流開發工具的橫向對比表：</p>
+                <ul>
+                    <li><strong>Cursor (AI 原生編輯器，目前主流首選)</strong>：
+                        <ul>
+                            <li><strong>優點</strong>：AI 整合度極深，其 Composer 模式可同時理解並編輯多個檔案，代碼補全極度流暢。</li>
+                            <li><strong>缺點</strong>：需要每月付費訂閱，且由於是閉源修改版的 VS Code，部分有嚴格資安稽核的企業會限制使用。</li>
+                        </ul>
+                    </li>
+                    <li><strong>Windsurf (新興 AI 原生編輯器)</strong>：
+                        <ul>
+                            <li><strong>優點</strong>：具備極強的 Agentic（代理人）模式，能自主於終端機執行測試、修復 Bug 並重跑，實現 Flow 狀態。</li>
+                            <li><strong>缺點</strong>：社群相對較新，生態系套件不如 VS Code 豐富。</li>
+                        </ul>
+                    </li>
+                    <li><strong>VS Code (傳統天王編輯器 + AI 插件)</strong>：
+                        <ul>
+                            <li><strong>優點</strong>：核心完全免費、插件生態系全球最龐大，資安風險低。</li>
+                            <li><strong>缺點</strong>：AI 只能在側邊欄或補全視窗單點式協作，缺乏多檔案自動重構的全域能力。</li>
+                        </ul>
+                    </li>
+                    <li><strong>JetBrains (專業級 IDE，如 WebStorm / IntelliJ)</strong>：
+                        <ul>
+                            <li><strong>優點</strong>：傳統的靜態代碼分析與安全重構（Refactoring）無懈可擊，對大型物件導向專案極為嚴謹。</li>
+                            <li><strong>缺點</strong>：極度消耗記憶體、專案載入慢，且授權費昂貴。</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Card 6: Senior Developer Perspective -->
+        <section class="card">
+            <div class="card-header">
+                <div class="card-icon">
+                    <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                </div>
+                <div class="card-title-group">
+                    <div class="card-number">Question 06</div>
+                    <h2>資深工程師對 AI 開發工具的看待與運用方式</h2>
+                </div>
+            </div>
+            <div class="question-box">
+                <p>資深工程師是如何看待這些工具?  他們運用方式跟我們有一樣嗎?</p>
+            </div>
+            <div class="answer-box">
+                <p>資深工程師不會把 AI 當作「代筆人」，而是將其定位為<strong>「高效率的程式碼實習生（Super Intern）」**。</strong>他們的核心原則是：<strong>「人類做架構決策，AI 做代碼填充」</strong>。</p>
+                <p><strong>運用方式的差異：</strong></p>
+                <ul>
+                    <li><strong>架構先行而非直接生成</strong>：資深工程師不會下「請幫我寫一個系統」這種大而無當的指令。他們會自己手寫好 Interface（介面定義）、Data Model（資料模型）與封裝邊界，然後指令 AI：「<em>請幫我實作這個介面，並用原生 JS 處理，確保寫出例外處理</em>」。</li>
+                    <li><strong>委託繁瑣重複的程式（Boilerplate）</strong>：他們會把時間花在核心業務邏輯設計上，而將單純的資料庫欄位對照（DTO mapping）、資料驗證規則、系統設定檔交給 AI 自動完成。</li>
+                    <li><strong>安全審查與反向思考</strong>：他們會寫好程式後丟給 AI 進行「破壞性測試」：「<em>假設我是駭客，這段代碼有什麼資安漏洞？請幫我寫 10 個能讓這段程式 Crash 的 Edge Cases 單元測試。</em>」</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Card 7: Hybrid Workflow -->
+        <section class="card">
+            <div class="card-header">
+                <div class="card-icon">
+                    <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><path d="M21 16V8a2 2 0 0 0-2-2h-5l-2.29-2.29A1 1 0 0 0 11 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2z"/></svg>
+                </div>
+                <div class="card-title-group">
+                    <div class="card-number">Question 07</div>
+                    <h2>美術設計與程式架構工具的混合搭配術</h2>
+                </div>
+            </div>
+            <div class="question-box">
+                <p>Codex編寫程式很強，但美術設計風格真的蠻直的，Gemini的Canvas美術設計風格不錯，程式架構不嚴謹，也非常不受控，我要怎麼跟其他工具搭配使用?</p>
+            </div>
+            <div class="answer-box">
+                <p>這是一個非常經典的「優勢互補」工程實踐。我們必須落實<strong>「視覺與邏輯分流」</strong>的協作工作流：</p>
+                <ul>
+                    <li><strong>階段 1：設計與切版發想（Gemini Canvas / Figma）</strong>：
+                        <ul>
+                            <li>利用 Gemini Canvas 對美感與 CSS 漸變、佈局的感知，產生出美觀的網頁靜態版面、RWD 排版與色系配置。</li>
+                        </ul>
+                    </li>
+                    <li><strong>階段 2：抽離與模組化（人工作業）</strong>：
+                        <ul>
+                            <li>將 Canvas 生成的 HTML 與 CSS 複製出來，主動抽離不具彈性的硬編碼，並確保樣式元件化。</li>
+                        </ul>
+                    </li>
+                    <li><strong>階段 3：邏輯工程化與注入（Codex / Antigravity）</strong>：
+                        <ul>
+                            <li>將乾難的靜態代碼輸入給 Codex 或 Antigravity，下達指令：
+                                <div class="code-block">
+這是已經切好的靜態 HTML/CSS，請幫我使用原生 ES Modules 寫法（Vanilla JS），將資料存取與 API 請求的邏輯抽離到獨立的 service.js 中。確保 UI 渲染與資料處理低耦合，並加入嚴密的錯誤重試機制。</div>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Card 8: Clean Dev Environment -->
+        <section class="card">
+            <div class="card-header">
+                <div class="card-icon">
+                    <svg viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+                </div>
+                <div class="card-title-group">
+                    <div class="card-number">Question 08</div>
+                    <h2>打造乾淨與可移植的本機開發環境</h2>
+                </div>
+            </div>
+            <div class="question-box">
+                <p>我們電腦開發環境  要怎麼做 才是乾淨的?  移動到其他台電腦安裝才能確保我們軟體沒問題?</p>
+            </div>
+            <div class="answer-box">
+                <p>為了完全杜絕「在我的電腦可以跑，但別人電腦就不行」的魔咒，必須落實以下三大開發環境管理：</p>
+                <ul>
+                    <li><strong>容器化（Docker）—— 業界絕對標準</strong>：
+                        <ul>
+                            <li>千萬不要在 Windows 或 macOS 全域安裝資料庫（MySQL, Redis）或後端軟體。</li>
+                            <li>將所有的基礎建設與相依套件寫在 <code>docker-compose.yml</code> 中。換電腦時，只需安裝 Docker 並執行 <code>docker compose up -d</code>，一秒即能重建完全一致的開發環境。</li>
+                        </ul>
+                    </li>
+                    <li><strong>使用語系版本管理器（Version Managers）</strong>：
+                        <ul>
+                            <li>使用 <code>nvm</code>/<code>fnm</code>（Node.js 版本管理）或 <code>pyenv</code>（Python 版本管理）來對不同專案進行環境隔離，不污染作業系統全域。</li>
+                        </ul>
+                    </li>
+                    <li><strong>導入 CI/CD（持續整合）虛擬化驗證</strong>：
+                        <ul>
+                            <li>利用 GitHub Actions 或 GitLab CI，在每次推送到 Git 時，在雲端開一台乾淨的虛擬機自動下載程式碼、安裝相依性並進行打包與單元測試。**只要 CI 跑得過，就說明程式絕對可以在任何乾淨的新電腦上運行。**</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Card 9: Code Scan and Security -->
+        <section class="card">
+            <div class="card-header">
+                <div class="card-icon">
+                    <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                </div>
+                <div class="card-title-group">
+                    <div class="card-number">Question 09</div>
+                    <h2>程式碼安全掃描與 SQL Injection 防禦</h2>
+                </div>
+            </div>
+            <div class="question-box">
+                <p>我要怎麼做程式碼掃描? 檢視邏輯 資安漏洞(例如: sql injection)相關問題?</p>
+            </div>
+            <div class="answer-box">
+                <p>軟體資安必須透過 **自動化工具（SAST）** 與 **安全編碼守則** 共同把關：</p>
+                <ul>
+                    <li><strong>靜態應用程式安全測試 (SAST) 工具：</strong>
+                        <ul>
+                            <li><strong>SonarQube / SonarCloud</strong>：最主流的代碼品質與資安邏輯掃描工具，能分析內存洩漏、未處理的 Edge Cases 以及常見安全威脅。</li>
+                            <li><strong>Snyk</strong>：極力推薦。專門掃描 npm 等專案第三方依賴套件是否存在已知安全漏洞。</li>
+                            <li><strong>GitHub CodeQL</strong>：GitHub 內建的安全分析工具，能在 Pull Request 時自動檢查程式碼中的潛在漏洞。</li>
+                        </ul>
+                    </li>
+                    <li><strong>防範 SQL 注入的結構性解法：</strong>
+                        <ul>
+                            <li><strong>參數化查詢 (Prepared Statements)</strong>：SQL Injection 來自將用戶輸入字串直接拼接進 SQL 語句。系統開發必須全面使用參數化，或採用現代 ORM 工具（如 Prisma, Sequelize），其底層均自動實施參數化綁定，能從根本阻絕 SQL 注入。</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Card 10: AI Scope Creep -->
+        <section class="card">
+            <div class="card-header">
+                <div class="card-icon">
+                    <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+                </div>
+                <div class="card-title-group">
+                    <div class="card-number">Question 10</div>
+                    <h2>防範 AI 技術越權與原生 Web 堆疊控制</h2>
+                </div>
+            </div>
+            <div class="question-box">
+                <p>如果我一開始指定HMTL5+CSS+JS來去做開發，會不會系統越做越大，他就自行亂加其他程式語言來做達成我的指令? 如果會，我們要怎麼讓他保證能順? 到時候變成AI開發系統，系統維護移轉工程師手上，反而難度變很高?</p>
+            </div>
+            <div class="answer-box">
+                <p><strong>答案是：會。</strong> 如果沒有適當約束，當系統邏輯變複雜時，AI 會因為網路上大宗的程式碼範本，自作主張引入 React、Vue 語法，或是載入 Webpack/Vite 等複雜建置工具，甚至引入 Node.js 後端語法到瀏覽器端，導致專案技術債爆棚。</p>
+                <p><strong>防範與確保順暢的對策：</strong></p>
+                <ul>
+                    <li><strong>設定強制的 Rule File</strong>：在專案中加入 <code>.clinerules</code> 或 <code>.cursorrules</code> 檔案，明定：
+                        <div class="code-block">
+本專案僅限使用原生 HTML5、CSS3 與原生 ES Modules（Vanilla JavaScript）。禁止引入 React、Vue、Angular、TypeScript 或任何前端打包/編譯工具（如 Vite, Webpack）。所有的模組拆分必須使用瀏覽器原生支援的 import/export。</div>
+                    </li>
+                    <li><strong>實施模組化架構（Vanilla JS 的長大心法）</strong>：不要把所有 JS 寫在一起。即使是用原生 JS，也要定義好清晰的目錄，例如：
+                        <ul>
+                            <li><code>/css/components/</code> 存放 UI 樣式</li>
+                            <li><code>/js/services/</code> 存放 API 串接邏輯</li>
+                            <li><code>/js/components/</code> 存放 UI 模組的 JS 互動</li>
+                        </ul>
+                    </li>
+                    <li><strong>落實 Git 程式碼審查 (Human-in-the-loop)</strong>：工程師在接受 AI 改動前，一定要親自檢視變更，把關系統維護性，不符合原生架構的變更直接要求 AI 重寫。</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Card 11: Systematic Maintenance -->
+        <section class="card">
+            <div class="card-header">
+                <div class="card-icon">
+                    <svg viewBox="0 0 24 24"><path d="M18 3a3 3 0 0 0-3 3v12a3 3 0 0 0 3 3 3 3 0 0 0 3-3V6a3 3 0 0 0-3-3zM6 3a3 3 0 0 0-3 3v12a3 3 0 0 0 3 3 3 3 0 0 0 3-3V6a3 3 0 0 0-3-3z"/></svg>
+                </div>
+                <div class="card-title-group">
+                    <div class="card-number">Question 11</div>
+                    <h2>系統性維護與規模化管理心法</h2>
+                </div>
+            </div>
+            <div class="question-box">
+                <p>日後維護一定會陸續增加很多功能，到底要怎麼樣有系統性維護??</p>
+            </div>
+            <div class="answer-box">
+                <p>隨著功能膨脹，系統要能永續維護，必須仰賴**流程規範、自動化測試與定期重構**：</p>
+                <ul>
+                    <li><strong>Git 分支管理策略（例如 GitHub Flow）：</strong>
+                        <ul>
+                            <li><code>main</code> 分支必須永遠保持穩定、可隨時上線部署的狀態。</li>
+                            <li><code>dev</code> 分支做為開發合併與測試。</li>
+                            <li>開發新功能時，必須切出 <code>feature/xxx</code>，開發測試完成後，發起 Pull Request (PR) 進行 Code Review 才能併入。</li>
+                        </ul>
+                    </li>
+                    <li><strong>撰寫單元測試 (Unit Tests) 建立防護網</strong>：
+                        <ul>
+                            <li>新功能增加時，手動測試是不可能測遍所有角落的。寫好單元測試（如使用 Vitest 測試原生 JS），在每次合併程式前自動跑一遍。確保新增功能沒有影響舊功能的正常運作。</li>
+                        </ul>
+                    </li>
+                    <li><strong>主動重構並定期清理技術債</strong>：
+                        <ul>
+                            <li>一旦發現某個 JavaScript 檔案超過 500 行，或是邏輯過於混亂，即主動委託 AI：「<em>請幫我將這個模組重構，抽離出單一職責的輔助函數，以提升可讀性與測試性。</em>」</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Card 12: Mobile App Dev -->
+        <section class="card">
+            <div class="card-header">
+                <div class="card-icon">
+                    <svg viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+                </div>
+                <div class="card-title-group">
+                    <div class="card-number">Question 12</div>
+                    <h2>ERP 系統的手機 App 開發與上架維護挑戰</h2>
+                </div>
+            </div>
+            <div class="question-box">
+                <p>我們開發APP 對於我們天心真的好維護嗎? 他不是也要上平台 被驗證和付費? APP開發概念 這領域很陌生 他會有很多手機規格 不同作業系統 受限程度有多高? 還是沒差異?</p>
+            </div>
+            <div class="answer-box">
+                <p>針對天心 ERP 這類企業協同/管理軟體，<strong>非常不建議直接開發傳統的原生 iOS / Android App</strong>。因為這會帶來極高的平台審查枷鎖與維護成本：</p>
+                <ul>
+                    <li><strong>平台上架與審查負擔</strong>：Apple App Store 與 Google Play 對 App 審查極嚴，每次修 Bug 改代碼都需要重新打包送審（Apple 通常需 1~3 天），若 App 內提供客戶加值訂閱功能，還會被抽 15%~30% 的平台稅。</li>
+                    <li><strong>手機硬體與作業系統碎片化</strong>：iOS 與 Android 對後台執行限制、推播通知機制以及手機權限（相機、定位）在不同作業系統版本上差異極大，測試與維護工作量常是 Web 專案的三倍以上。</li>
+                </ul>
+                <p><strong>💡 企業 ERP 系統的最佳替代方案：</strong></p>
+                <ul>
+                    <li><strong>首選方案：PWA (Progressive Web App)</strong>
+                        <ul>
+                            <li><strong>原理</strong>：PWA 本質上是寫得極好的響應式網頁，但使用者可以在手機瀏覽器點擊「加入主畫面」，它就會像 App 一樣在手機獨立運作，並支援離線快取、推播通知等。</li>
+                            <li><strong>優點</strong>：**完全不需要上架審查，也不用支付平台年費**。伺服器端一更新，使用者下次開啟即是最新版本，徹底繞過 App Store 的審查困境，維護極為簡單。</li>
+                        </ul>
+                    </li>
+                    <li><strong>次選方案：跨平台框架 (Flutter / Expo React Native)</strong>
+                        <ul>
+                            <li>若因商務因素一定要上架 App Store，應避免用 Swift/Kotlin 分開開發。採用 **Expo React Native** 可實現寫一套 JavaScript 代碼產出雙平台 App，且 Expo 支援 OTA (Over-The-Air) 熱更新，小規模修改 UI 邏輯不需要經過 Apple/Google 重複審查即可推播更新給用戶。</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Back Link -->
+        <a href="class03.html" class="btn-back">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+            返回 Class 03 課程大綱
+        </a>
+    </main>
+
+    <div class="logs-panel">
+        <p>
+            銀河 ERP 本次課程的操作、提問與架構日誌已歸檔於：
+            <a href="../../../logs.md" target="_blank">logs.md (變更日誌)</a> | 
+            <a href="../../../logs.json" target="_blank">logs.json (機器後設資料)</a>
+        </p>
+    </div>
+
+    <footer>
+        <p>銀河 ERP 內訓課程 Class 03 Q&A &copy; 2026 | 設計符合 AI (Markdown) 與人類 (Premium HTML) 雙重閱讀標準</p>
+        <p style="margin-top: 0.5rem;"><a href="class03_qas.md">檢視 AI 專用 Markdown 檔案</a> | <a href="../../../history.md">檢視歷史課程彙整 (Markdown)</a></p>
+    </footer>
+</body>
+</html>

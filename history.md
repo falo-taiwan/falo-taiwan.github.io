@@ -84,3 +84,35 @@
 
 ### Classroom 資訊
 * Google Classroom 課程代碼：`rtvxcb3e`
+
+---
+
+## Class 03：AI Agent 與 Vibe Coding 實戰及知識資產化
+
+* **上課時間**：2026/06/07 (日)
+* **核心連結**：[Class 03 課程主題導航](file:///Users/force/Google_Antigravity/attn-class/falo-taiwan/class/a01/class3/class03.html)
+* **本地主目錄**：`falo-taiwan/class/a01/class3/class03.md`
+
+### 核心技術與概念
+
+#### 1. AI Agent 協同討論與即時知識工程化
+* 探討「對話即生產」與動態共創筆記模式。讓 AI 在討論中即時進行結構化寫檔與決策軌跡記錄 (Logs)。
+* [對話與寫檔實務 (HTML)](file:///Users/force/Google_Antigravity/attn-class/falo-taiwan/class/a01/class3/class03_collaboration.html) | [Markdown](file:///Users/force/Google_Antigravity/attn-class/falo-taiwan/class/a01/class3/class03_collaboration.md)
+
+#### 2. AI Agent & Vibe Coding 工具分析與對比
+* 橫向對比四大開發模式（Antigravity、Claude Cowork、ChatGPT Codex、Gemini Canvas 模式），著重探討上下文視窗、本地操作能力、Diff 區塊替換等核心指標。
+* [開發工具對比 (HTML)](file:///Users/force/Google_Antigravity/attn-class/falo-taiwan/class/a01/class3/agent_tools.html) | [Markdown](file:///Users/force/Google_Antigravity/attn-class/falo-taiwan/class/a01/class3/agent_tools.md)
+
+#### 3. AI 時代的知識資產化案例實踐 (Gemini Chrome 解鎖)
+* 以「Chrome 內建 Gemini 解鎖」為案例，展示如何遵循 FALO 六層模型，將一個真實問題提煉為組織的能力包 (Capability Pack)。
+* [案例實作網頁 (HTML)](file:///Users/force/Google_Antigravity/attn-class/falo-taiwan/class/a01/class3/class03_gemini_chrome.html) | [Markdown](file:///Users/force/Google_Antigravity/attn-class/falo-taiwan/class/a01/class3/class03_gemini_chrome.md)
+
+#### 4. OCR 辨識策略與 HITL 人機協作實務 (台北郵局分揀案例)
+* 分析台北郵件處理中心 OCR 自動分揀誤判考生成績單事件，解析辨識信賴度、例外判定邏輯與人機協作 (HITL) 審核在 ERP 電子發票與排程系統中的應用。
+* [OCR 與 HITL 實務 (HTML)](file:///Users/force/Google_Antigravity/attn-class/falo-taiwan/class/a01/class3/class03_ocr_hitl.html) | [Markdown](file:///Users/force/Google_Antigravity/attn-class/falo-taiwan/class/a01/class3/class03_ocr_hitl.md)
+
+#### 5. 學員課前提問與技術解答 (QA)
+* 彙整學員提出的 12 個核心技術問題（如 API 效能、AI 命名失控、Token 分配、Docker 環境隔離、安全掃描、PWA APP 開發等）與深度解答。
+* [提問解答頁 (HTML)](file:///Users/force/Google_Antigravity/attn-class/falo-taiwan/class/a01/class3/class03_qas.html) | [Markdown](file:///Users/force/Google_Antigravity/attn-class/falo-taiwan/class/a01/class3/class03_qas.md)
+
+

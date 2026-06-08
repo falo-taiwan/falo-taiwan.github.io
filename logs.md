@@ -8,6 +8,9 @@
 
 | 時間戳記 | 操作類別 | 描述 | 操作者 | 影響檔案 |
 | :--- | :--- | :--- | :--- | :--- |
+| 2026-06-08 15:45:00 | 建立檔案 | 建立 Class 03 主題五教材 class03_computer_use.md 與 class03_computer_use.html，整合 LINE 防封鎖工具案例與 Computer Use 示範沙盒。 | AI (Antigravity) | `falo-taiwan/class/a01/class3/class03_computer_use.md`, `falo-taiwan/class/a01/class3/class03_computer_use.html`, `falo-taiwan/class/a01/class3/class03.md`, `falo-taiwan/class/a01/class3/class03.html` |
+| 2026-06-08 12:00:00 | 檔案更新 | 將 Class 03 學員提問解答 (QA) 併入歷史彙整與 Class 03 主導航目錄。 | AI (Antigravity) | `history.md`, `history.html`, `falo-taiwan/class/a01/class3/class03.md`, `falo-taiwan/class/a01/class3/class03.html` |
+| 2026-06-08 11:58:00 | 建立檔案 | 建立 Class 03 學員課前提問與解答 QA 檔案（包含 md + html 雙軌版本）。 | AI (Antigravity) | `falo-taiwan/class/a01/class3/class03_qas.md`, `falo-taiwan/class/a01/class3/class03_qas.html` |
 | 2026-06-07 19:35:00 | 檔案修正 | 修正主題四教材中「某郵局/某郵政」為「台北郵局」，並將「海科大」更正為「海洋大學」，以與原始新聞及學校名稱保持一致。 | AI (Antigravity) | `falo-taiwan/class/a01/class3/class03_ocr_hitl.md`, `falo-taiwan/class/a01/class3/class03_ocr_hitl.html` |
 | 2026-06-07 19:30:00 | 建立檔案 | 在主題四教材中新增原始新聞網址（自由時報）與重點內文摘要。 | AI (Antigravity) | `falo-taiwan/class/a01/class3/class03_ocr_hitl.md`, `falo-taiwan/class/a01/class3/class03_ocr_hitl.html` |
 | 2026-06-07 19:15:00 | 系統操作 | 解決 Git 推送權限問題（從 force-taiwan 切換為 falo-taiwan），並成功將 Class 03 課件推送至遠端儲存庫。 | AI (Antigravity) | 無 |

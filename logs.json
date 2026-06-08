@@ -111,5 +111,39 @@
       "falo-taiwan/class/a01/class3/class03_ocr_hitl.md",
       "falo-taiwan/class/a01/class3/class03_ocr_hitl.html"
     ]
+  },
+  {
+    "timestamp": "2026-06-08T11:58:00+08:00",
+    "action_type": "file_created",
+    "description": "建立 Class 03 學員課前提問與解答 QA 檔案（包含 md + html 雙軌版本）。",
+    "operator": "AI (Antigravity)",
+    "files_affected": [
+      "falo-taiwan/class/a01/class3/class03_qas.md",
+      "falo-taiwan/class/a01/class3/class03_qas.html"
+    ]
+  },
+  {
+    "timestamp": "2026-06-08T12:00:00+08:00",
+    "action_type": "file_updated",
+    "description": "將 Class 03 學員提問解答 (QA) 併入歷史彙整與 Class 03 主導航目錄。",
+    "operator": "AI (Antigravity)",
+    "files_affected": [
+      "history.md",
+      "history.html",
+      "falo-taiwan/class/a01/class3/class03.md",
+      "falo-taiwan/class/a01/class3/class03.html"
+    ]
+  },
+  {
+    "timestamp": "2026-06-08T15:45:00+08:00",
+    "action_type": "file_created",
+    "description": "建立 Class 03 主題五教材 class03_computer_use.md 與 class03_computer_use.html，整合 LINE 防封鎖工具案例與 Computer Use 示範沙盒。",
+    "operator": "AI (Antigravity)",
+    "files_affected": [
+      "falo-taiwan/class/a01/class3/class03_computer_use.md",
+      "falo-taiwan/class/a01/class3/class03_computer_use.html",
+      "falo-taiwan/class/a01/class3/class03.md",
+      "falo-taiwan/class/a01/class3/class03.html"
+    ]
   }
 ]
