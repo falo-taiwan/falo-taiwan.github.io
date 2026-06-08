@@ -155,5 +155,17 @@
       "falo-taiwan/class/a01/class3/class03_computer_use.md",
       "falo-taiwan/class/a01/class3/class03_computer_use.html"
     ]
+  },
+  {
+    "timestamp": "2026-06-08T18:15:00+08:00",
+    "action_type": "file_updated",
+    "description": "於主題二與主題五教材中新增其他參考資源，包含電腦王阿達對 Anthropic Academy 的介紹連結。",
+    "operator": "AI (Antigravity)",
+    "files_affected": [
+      "falo-taiwan/class/a01/class3/agent_tools.md",
+      "falo-taiwan/class/a01/class3/agent_tools.html",
+      "falo-taiwan/class/a01/class3/class03_computer_use.md",
+      "falo-taiwan/class/a01/class3/class03_computer_use.html"
+    ]
   }
 ]

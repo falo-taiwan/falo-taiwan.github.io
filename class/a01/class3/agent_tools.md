@@ -48,3 +48,9 @@
 | **最適合場景** | **SME/個人知識工程與本地專案開發**<br>需要高性價比、執行指令、建立完整變更日誌。 | **前端 UI 快速原型設計**<br>利用 Artifacts 進行即時視覺化預覽。 | **數據分析與演算法驗證**<br>在沙盒內運行 Python 進行資料繪圖與計算。 | **網頁端文案撰寫、報告編排與單檔代碼雙向編輯**<br>不依賴本地環境的協作編排。 |
 
 *註：本比較表為初步分析，後續可依據老師的實務經驗進行微調與充實。*
+
+---
+
+## 3. 其他參考資源
+* **學習平台推薦**：[電腦王阿達 - Anthropic Academy：Claude 官方 13 門線上課程免費上、可領官方證書](https://www.koc.com.tw/archives/645273)
+  - *簡介*：介紹 Anthropic 官方推出的線上學習平台 **Anthropic Academy**，包含 Claude API、Claude Code、MCP (Model Context Protocol)、Agent Skills (SKILL.md) 等核心開發者工具的官方免費課程與認證說明。

@@ -56,3 +56,9 @@
 > [!TIP]
 > **教學啟示：SOP 的「動態可視化」**
 > 未來的軟體不再只是靜態工具，而是「AI 代理可以自動操作的系統」。本案例展示了**「代理人友善介面 (Agent-Friendly UI)」**與**「操作動態播放」**的設計理念，幫助學員理解如何將複雜的軟體操作指南，轉化為 AI Agent 可直接播放、展示的「動態 SOP」。
+
+---
+
+## 5. 其他參考資源
+* **學習平台推薦**：[電腦王阿達 - Anthropic Academy：Claude 官方 13 門線上課程免費上、可領官方證書](https://www.koc.com.tw/archives/645273)
+  - *簡介*：詳細介紹 Anthropic 推出的官方線上學習平台 **Anthropic Academy**，涵蓋 Claude 101、Claude Cowork 協同操作，以及進階的 Claude API 整合、Claude Code 終端編碼代理與 MCP (Model Context Protocol) 伺服器建置等官方免費課程與結業證書說明。
