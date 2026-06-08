@@ -3,6 +3,7 @@
 * **課程模組**：Class 03 實務與演進
 * **核心案例**：LINE 防封鎖訊息變體生成器與 Computer Use 示範沙盒
 * **探討核心**：社群痛點轉化、Gemini Canvas 快速驗證、Antigravity 高規進化、文件變形輸出與 Computer Use 模擬機制
+* **實作工具網址**：[LINE 防封鎖訊息變體生成器 (Live Tool)](https://falo-taiwan.github.io/computer-use/)
 
 ---
 
