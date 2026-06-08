@@ -252,5 +252,15 @@
       "falo-taiwan/class/a01/class3/ig/index.html",
       "falo-taiwan/class/a01/class3/ig/falo_extension_tutorial.html"
     ]
+  },
+  {
+    "timestamp": "2026-06-08T23:38:00+08:00",
+    "action_type": "project_updated",
+    "description": "於外掛專案教學頁 Tab 2 新增「研發背景與二創聲明」，揭露此專案是基於解構「Progress Bar for Instagram」外掛、以 AI Agent（Antigravity、Claude）抽出程式碼理解後二次創作重構而成，作為 Vibe Coding 教學示範。",
+    "operator": "AI (Antigravity)",
+    "files_affected": [
+      "falo-taiwan/class/a01/class3/ig/index.html",
+      "falo-taiwan/class/a01/class3/ig/falo_extension_tutorial.html"
+    ]
   }
 ]

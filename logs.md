@@ -8,6 +8,7 @@
 
 | 時間戳記 | 操作類別 | 描述 | 操作者 | 影響檔案 |
 | :--- | :--- | :--- | :--- | :--- |
+| 2026-06-08 23:38:00 | 專案更新 | 於外掛專案教學頁 Tab 2 新增「研發背景與二創聲明」，揭露此專案是基於解構「Progress Bar for Instagram」外掛、以 AI Agent（Antigravity、Claude）抽出程式碼理解後二次創作重構而成，作為 Vibe Coding 教學示範。 | AI (Antigravity) | `falo-taiwan/class/a01/class3/ig/index.html`, `falo-taiwan/class/a01/class3/ig/falo_extension_tutorial.html` |
 | 2026-06-08 23:36:00 | 專案更新 | 新增外掛專案教學頁之 Tab 2 專區，深入說明外掛開發的核心技巧與卡頓優化原理（事件冒泡攔截、視區面積定位多影片、儲存適配器與 OLED 更新頻率優化），並將原本的 Chrome 架構與 AI 開發指南移至 Tab 3。 | AI (Antigravity) | `falo-taiwan/class/a01/class3/ig/index.html`, `falo-taiwan/class/a01/class3/ig/falo_extension_tutorial.html` |
 | 2026-06-08 23:20:00 | 專案更新 | 解耦外掛專案與 Class 03 教材：移除外掛專案中的返回大綱按鈕以防洩漏 class3，從 falo-taiwan.github.io 刪除 class/a01/class3/ig 目錄，並將 Class 03 大綱主題七連結修改為指向外部獨立專案 https://falo-taiwan.github.io/ig/ (開新視窗)。 | AI (Antigravity) | `falo-taiwan/class/a01/class3/index.html`, `falo-taiwan/class/a01/class3/index.md`, `falo-taiwan/class/a01/class3/ig/index.html`, `falo-taiwan/class/a01/class3/ig/falo_extension_tutorial.html`, `sync_and_push.py` |
 | 2026-06-08 23:18:00 | 專案更新 | 新增雙分頁 (Tabbed Navigation) 切換介面，將外掛部署實戰與 Chrome 外掛 (Manifest V3) 核心架構、通訊機制與 AI 協同開發指南分離，並推送到 GitHub。 | AI (Antigravity) | `falo-taiwan/class/a01/class3/ig/index.html`, `falo-taiwan/class/a01/class3/ig/falo_extension_tutorial.html` |
