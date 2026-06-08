@@ -166,6 +166,7 @@
       "falo-taiwan/class/a01/class3/agent_tools.html",
       "falo-taiwan/class/a01/class3/class03_computer_use.md",
       "falo-taiwan/class/a01/class3/class03_computer_use.html"
+    ]
   },
   {
     "timestamp": "2026-06-08T18:52:00+08:00",
@@ -183,6 +184,40 @@
       "falo-taiwan/class/a01/class3/class03_qas.html",
       "history.md",
       "history.html"
+    ]
+  },
+  {
+    "timestamp": "2026-06-08T23:05:00+08:00",
+    "action_type": "project_imported",
+    "description": "只把 ig 專案 clone 過來，變成 class3 下面的單獨專案目錄，並將其整合至 Class 03 課程導航主頁 index.html/md 中。",
+    "operator": "AI (Antigravity)",
+    "files_affected": [
+      "falo-taiwan/class/a01/class3/ig",
+      "falo-taiwan/class/a01/class3/index.html",
+      "falo-taiwan/class/a01/class3/index.md"
+    ]
+  },
+  {
+    "timestamp": "2026-06-08T23:08:00+08:00",
+    "action_type": "project_updated",
+    "description": "修正主題七外掛配色「一班」錯字為「一般」，移除教學頁之模擬測試區塊，並注入作者、SEO、GEO 與隱藏浮水印後推送到 GitHub。",
+    "operator": "AI (Antigravity)",
+    "files_affected": [
+      "falo-taiwan/class/a01/class3/ig/index.html",
+      "falo-taiwan/class/a01/class3/ig/falo_extension_tutorial.html",
+      "falo-taiwan/class/a01/class3/ig/ig-video-enhancer-extension/content.css",
+      "falo-taiwan/class/a01/class3/ig/ig-video-enhancer-extension/content.js",
+      "falo-taiwan/class/a01/class3/ig/FALO_Instagram_Video_Enhancer.zip"
+    ]
+  },
+  {
+    "timestamp": "2026-06-08T23:10:00+08:00",
+    "action_type": "project_updated",
+    "description": "修正「GEO」定義為 Generative Engine Optimization (AI 可捕捉 SEO) 中介資料與 JSON-LD 結構化資料，移除非 AI 之地理坐標中介資料後推送到 GitHub。",
+    "operator": "AI (Antigravity)",
+    "files_affected": [
+      "falo-taiwan/class/a01/class3/ig/index.html",
+      "falo-taiwan/class/a01/class3/ig/falo_extension_tutorial.html"
     ]
   }
 ]

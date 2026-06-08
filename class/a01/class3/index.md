@@ -41,7 +41,10 @@ Class 03 專注於讓學員理解最新的 **AI Agent 協同開發思維 (Vibe C
 * **詳細課件網頁**：[class03_qas.html](class03_qas.html)
 * **AI 專用文件**：[class03_qas.md](class03_qas.md)
 
-
+### 7. 主題七：Chrome 外掛程式載入與部署實戰教學
+* **簡介**：使用 FALO Instagram Video Enhancer v1.0.1 作為範例，手把手學習如何在開發者模式下部署、載入並測試 Chrome 擴充功能，包含智慧遙控器與 5 種主題切換、鍵盤快捷鍵等功能。
+* **詳細課件網頁**：[ig/index.html](ig/index.html)
+* **AI 專用文件**：[ig/README.md](ig/README.md)
 
 ---
 
