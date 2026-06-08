@@ -262,5 +262,15 @@
       "falo-taiwan/class/a01/class3/ig/index.html",
       "falo-taiwan/class/a01/class3/ig/falo_extension_tutorial.html"
     ]
+  },
+  {
+    "timestamp": "2026-06-08T23:39:00+08:00",
+    "action_type": "project_updated",
+    "description": "修正外掛專案教學頁 Tab 2 之「研發背景與二創聲明」描述，改為參考 Chrome Web Store 上的 Progress Bar for Instagram 外掛專案精神，並與 AI Agent 交流後全新改寫實作，避免抽出與反編譯等字眼誤解。",
+    "operator": "AI (Antigravity)",
+    "files_affected": [
+      "falo-taiwan/class/a01/class3/ig/index.html",
+      "falo-taiwan/class/a01/class3/ig/falo_extension_tutorial.html"
+    ]
   }
 ]
