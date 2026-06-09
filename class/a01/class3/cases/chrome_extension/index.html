@@ -869,10 +869,14 @@
           </p>
           
           <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--card-border); padding: 12px 18px; border-radius: 8px; margin-bottom: 12px;">
-            <div style="font-size: 0.82rem; font-weight: 700; color: #a78bfa; margin-bottom: 4px;">💬 一般小白簡單版 Prompt (直接發送給 AI)</div>
-            <div style="font-size: 0.88rem; color: var(--text-main); font-family: 'Noto Sans TC'; line-height: 1.6;">
-              我想寫一個 Chrome 側邊欄外掛，點擊外掛圖示可以在右邊滑出視窗。視窗裡有一個「採購單號」欄位，旁邊有「填入」跟「擷取」按鈕。點填入就可以把外掛的值填到 ERP 網頁的採購單號輸入框，點擷取可以把網頁採購單號的值抓回來外掛顯示。
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+              <div style="font-size: 0.82rem; font-weight: 700; color: #a78bfa;">💬 一般小白簡單版 Prompt (直接發送給 AI)</div>
+              <button class="btn-copy" id="copySimpleBtn1" style="padding: 2px 6px; font-size: 0.72rem; height: auto;">
+                <svg width="10" height="10" fill="currentColor" viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+                複製
+              </button>
             </div>
+            <div style="font-size: 0.88rem; color: var(--text-main); font-family: 'Noto Sans TC'; line-height: 1.6;" id="simpleText1">我想寫一個 Chrome 側邊欄外掛，點擊外掛圖示可以在右邊滑出視窗。視窗裡有一個「採購單號」欄位，旁邊有「填入」跟「擷取」按鈕。點填入就可以把外掛的值填到 ERP 網頁的採購單號輸入框，點擷取可以把網頁採購單號的值抓回來外掛顯示。</div>
           </div>
 
           <details style="margin-bottom: 0;">
@@ -913,10 +917,14 @@ https://falo-taiwan.github.io/class/a01/class3/cases/chrome_extension/erp.html
           </p>
           
           <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--card-border); padding: 12px 18px; border-radius: 8px; margin-bottom: 12px;">
-            <div style="font-size: 0.82rem; font-weight: 700; color: #a78bfa; margin-bottom: 4px;">💬 一般小白簡單版 Prompt (直接發送給 AI)</div>
-            <div style="font-size: 0.88rem; color: var(--text-main); font-family: 'Noto Sans TC'; line-height: 1.6;">
-              我想把外掛擴充到全部的欄位，包含採購單號、產品代碼、進貨數量、產品效期，還有進貨部門的下拉選單。每個欄位都可以單獨點填入和擷取。然後底部還要有一鍵全填、一鍵全擷取，以及把網頁和外掛表單全部清空的按鈕。
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+              <div style="font-size: 0.82rem; font-weight: 700; color: #a78bfa;">💬 一般小白簡單版 Prompt (直接發送給 AI)</div>
+              <button class="btn-copy" id="copySimpleBtn2" style="padding: 2px 6px; font-size: 0.72rem; height: auto;">
+                <svg width="10" height="10" fill="currentColor" viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+                複製
+              </button>
             </div>
+            <div style="font-size: 0.88rem; color: var(--text-main); font-family: 'Noto Sans TC'; line-height: 1.6;" id="simpleText2">我想把外掛擴充到全部的欄位，包含採購單號、產品代碼、進貨數量、產品效期，還有進貨部門的下拉選單。每個欄位都可以單獨點填入和擷取。然後底部還要有一鍵全填、一鍵全擷取，以及把網頁和外掛表單全部清空的按鈕。</div>
           </div>
 
           <details style="margin-bottom: 0;">
@@ -966,10 +974,14 @@ https://falo-taiwan.github.io/class/a01/class3/cases/chrome_extension/erp.html
           </p>
           
           <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--card-border); padding: 12px 18px; border-radius: 8px; margin-bottom: 12px;">
-            <div style="font-size: 0.82rem; font-weight: 700; color: #a78bfa; margin-bottom: 4px;">💬 一般小白簡單版 Prompt (直接發送給 AI)</div>
-            <div style="font-size: 0.88rem; color: var(--text-main); font-family: 'Noto Sans TC'; line-height: 1.6;">
-              我想把外掛功能做到最完整。新增一個「隨機產生資料」的按鈕，點了可以在側邊欄產生測試值。新增「匯出 CSV」和「匯入 CSV」按鈕，可以把資料下載成 CSV 檔備份，或是讀取 CSV 檔回填。最後再加兩個按鈕「檢核表單」跟「確認入庫」，點了可以直接遠端遙控網頁點按鈕，入庫成功後，外掛要能讀到網頁產生的流水號，並自動幫我下載一個 txt 的入庫報告。
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+              <div style="font-size: 0.82rem; font-weight: 700; color: #a78bfa;">💬 一般小白簡單版 Prompt (直接發送給 AI)</div>
+              <button class="btn-copy" id="copySimpleBtn3" style="padding: 2px 6px; font-size: 0.72rem; height: auto;">
+                <svg width="10" height="10" fill="currentColor" viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+                複製
+              </button>
             </div>
+            <div style="font-size: 0.88rem; color: var(--text-main); font-family: 'Noto Sans TC'; line-height: 1.6;" id="simpleText3">我想把外掛功能做到最完整。新增一個「隨機產生資料」的按鈕，點了可以在側邊欄產生測試值。新增「匯出 CSV」和「匯入 CSV」按鈕，可以把資料下載成 CSV 檔備份，或是讀取 CSV 檔回填。最後再加兩個按鈕「檢核表單」跟「確認入庫」，點了可以直接遠端遙控網頁點按鈕，入庫成功後，外掛要能讀到網頁產生的流水號，並自動幫我下載一個 txt 的入庫報告。</div>
           </div>
 
           <details style="margin-bottom: 0;">
@@ -1087,13 +1099,19 @@ function getCSSSelector(el) {
 
     // Copy Prompt Logic Helper
     const toast = document.getElementById('toast');
-    function setupCopyBtn(btnId, textId) {
+    function setupCopyBtn(btnId, targetId) {
       const btn = document.getElementById(btnId);
-      const txt = document.getElementById(textId);
-      if (btn && txt) {
+      const target = document.getElementById(targetId);
+      if (btn && target) {
         btn.addEventListener('click', () => {
-          txt.select();
-          navigator.clipboard.writeText(txt.value).then(() => {
+          let text = '';
+          if (target.tagName === 'TEXTAREA' || target.tagName === 'INPUT') {
+            target.select();
+            text = target.value;
+          } else {
+            text = target.innerText || target.textContent;
+          }
+          navigator.clipboard.writeText(text).then(() => {
             toast.classList.add('show');
             setTimeout(() => {
               toast.classList.remove('show');
@@ -1107,6 +1125,9 @@ function getCSSSelector(el) {
     setupCopyBtn('copyPromptBtn1', 'promptText1');
     setupCopyBtn('copyPromptBtn2', 'promptText2');
     setupCopyBtn('copyPromptBtn3', 'promptText3');
+    setupCopyBtn('copySimpleBtn1', 'simpleText1');
+    setupCopyBtn('copySimpleBtn2', 'simpleText2');
+    setupCopyBtn('copySimpleBtn3', 'simpleText3');
 
 
   </script>
