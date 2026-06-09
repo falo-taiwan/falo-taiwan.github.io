@@ -827,29 +827,235 @@
       <!-- Section V1 -->
       <h2 id="v1-extension">V1：Chrome Extension (幫人操作)</h2>
       <p>
-        我們實作的第一個階段是 **ERP 表單輔助器**。當我們載入一個 Chrome Extension 到任意網頁時，外掛主要做了兩件事：
+        我們實作的第一個階段是 **ERP 表單輔助器**。當我們載入一個 Chrome Extension 到網頁時，外掛主要進行雙向資料控制：
       </p>
       <ul style="margin-left: 24px; margin-bottom: 20px; color: var(--text-muted);">
-        <li><strong>讀取網頁 (Read DOM)</strong>：檢測頁面上的輸入欄位，計算總數，並把欄位唯一的 CSS Selector 找出來，產生網頁元素結構。</li>
-        <li><strong>修改網頁 (Write DOM)</strong>：在必填欄位加上粉紅色的磨砂玻璃發光外框，並提供「一鍵智慧填入測試資料」，直接修改節點的值。</li>
+        <li><strong>讀取網頁 (Read DOM)</strong>：檢測頁面上的輸入欄位與系統狀態，並讀取 DOM 節點的 value 值回傳至側邊欄中。</li>
+        <li><strong>修改網頁 (Write DOM)</strong>：在外掛側邊欄發送寫入指令，將數值填寫進對應的網頁 DOM 輸入框中，填值成功後伴隨亮黃色的填值閃爍視覺反饋。</li>
       </ul>
       <p>
-        這代表 Extension 可以完全控制網頁，但是它有一個重大致命傷：<strong>只要前端代碼重構、CSS Selector 改變，外掛的自動化腳本就會立刻崩潰。</strong>
+        這代表 Extension 可以完全控制網頁，但是它有一個<strong>技術特性與維護要點 (需注意事項)</strong>：<strong>外掛高度依賴網頁的 DOM 結構。只要前端代碼重構、CSS Selector 改變，外掛對應的定位邏輯就需要同步維護與更新，否則將會找不到目標元素而失效。</strong>
       </p>
 
       <!-- DOM Specification Mapping in V1 section -->
       <div style="background: rgba(2, 132, 199, 0.04); border: 1px solid rgba(2, 132, 199, 0.15); border-radius: 14px; padding: 20px; margin: 24px 0; backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur);">
-        <h3 style="font-size: 1.1rem; font-weight: 800; color: var(--primary); margin: 0 0 10px 0;">📡 外掛與網頁 DOM 控制規範對齊 (DOM Selector Mapping)</h3>
-        <p style="font-size: 0.92rem; margin-bottom: 12px; color: var(--text-muted);">
-          外掛之所以能精準控制網頁填單，是因為外掛開發與網頁結構之間必須嚴格遵守同一個 **DOM 規範契約**。當外掛被載入至我們的 <a href="erp.html" target="_blank" style="color: var(--primary); font-weight: 700; text-decoration: underline;">實體外掛測試頁 (erp.html)</a> 後，外掛的 content.js 會透過以下規格對齊控制：
+        <h3 style="font-size: 1.15rem; font-weight: 800; color: var(--primary); margin: 0 0 12px 0;">📡 實體測試網頁 DOM 欄位規格對齊 (DOM Selector Specifications)</h3>
+        <p style="font-size: 0.95rem; margin-bottom: 15px; color: var(--text-muted); line-height: 1.6;">
+          外掛之所以能精準控制網頁填單，是因為外掛開發與網頁結構之間遵守同一個 **DOM 規範契約**。當外掛被載入至我們的 <a href="erp.html" target="_blank" style="color: var(--primary); font-weight: 700; text-decoration: underline;">實體外掛測試頁 (erp.html)</a> 後，對齊的 DOM 規格定義如下，學員可在此對照網頁元件的定位資訊：
         </p>
-        <ul style="margin-left: 20px; font-size: 0.9rem; color: var(--text-muted); line-height: 1.7;">
-          <li><strong>採購單號輸入框：</strong> 網頁 ID 為 <code style="color: var(--primary);">#po-number</code>，外掛寫入對應的 <code>po</code> 欄位值。</li>
-          <li><strong>產品代碼輸入框：</strong> 網頁 ID 為 <code style="color: var(--primary);">#product-code</code>，外掛寫入對應的 <code>code</code> 欄位值。</li>
-          <li><strong>進貨數量輸入框：</strong> 網頁 ID 為 <code style="color: var(--primary);">#received-qty</code>，外掛寫入對應的 <code>qty</code> 欄位值。</li>
-          <li><strong>產品效期輸入框：</strong> 網頁 ID 為 <code style="color: var(--primary);">#expiry-date</code>，外掛寫入對應的 <code>expiry</code> 欄位值。</li>
-          <li><strong>現代框架防錯：</strong> 在 DOM 填值後，外掛必須手動派遣 <code>input</code> 與 <code>change</code> 事件，以防止現代網頁框架（React/Vue）狀態丟失。</li>
-        </ul>
+        
+        <!-- Table for DOM spec -->
+        <div style="overflow-x: auto; margin-bottom: 20px;">
+          <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 0.9rem;">
+            <thead>
+              <tr style="border-bottom: 2px solid var(--card-border); color: var(--text-main);">
+                <th style="padding: 10px; font-weight: 800;">元件名稱</th>
+                <th style="padding: 10px; font-weight: 800;">CSS Selector (ID)</th>
+                <th style="padding: 10px; font-weight: 800;">資料型態與說明</th>
+              </tr>
+            </thead>
+            <tbody style="color: var(--text-muted);">
+              <tr style="border-bottom: 1px solid var(--card-border);">
+                <td style="padding: 10px; font-weight: 700; color: var(--text-main);">採購單號輸入框</td>
+                <td style="padding: 10px;"><code style="color: var(--primary);">#po-number</code></td>
+                <td style="padding: 10px;">String 類型的文字輸入框</td>
+              </tr>
+              <tr style="border-bottom: 1px solid var(--card-border);">
+                <td style="padding: 10px; font-weight: 700; color: var(--text-main);">產品代碼輸入框</td>
+                <td style="padding: 10px;"><code style="color: var(--primary);">#product-code</code></td>
+                <td style="padding: 10px;">String 類型的文字輸入框</td>
+              </tr>
+              <tr style="border-bottom: 1px solid var(--card-border);">
+                <td style="padding: 10px; font-weight: 700; color: var(--text-main);">進貨部門選單</td>
+                <td style="padding: 10px;"><code style="color: var(--primary);">#dept-code</code></td>
+                <td style="padding: 10px;">select 元素，選項包含 PUR, WH, QC, RD</td>
+              </tr>
+              <tr style="border-bottom: 1px solid var(--card-border);">
+                <td style="padding: 10px; font-weight: 700; color: var(--text-main);">進貨數量輸入框</td>
+                <td style="padding: 10px;"><code style="color: var(--primary);">#received-qty</code></td>
+                <td style="padding: 10px;">Number 類型的數值輸入框</td>
+              </tr>
+              <tr style="border-bottom: 1px solid var(--card-border);">
+                <td style="padding: 10px; font-weight: 700; color: var(--text-main);">產品效期輸入框</td>
+                <td style="padding: 10px;"><code style="color: var(--primary);">#expiry-date</code></td>
+                <td style="padding: 10px;">Date 類型的日期選擇輸入框</td>
+              </tr>
+              <tr style="border-bottom: 1px solid var(--card-border);">
+                <td style="padding: 10px; font-weight: 700; color: var(--text-main);">系統流水序號</td>
+                <td style="padding: 10px;"><code style="color: var(--primary);">#system-serial-no</code></td>
+                <td style="padding: 10px;">入庫成功後動態生成的序號標記元件</td>
+              </tr>
+              <tr style="border-bottom: 1px solid var(--card-border);">
+                <td style="padding: 10px; font-weight: 700; color: var(--text-main);">檢核表單按鈕</td>
+                <td style="padding: 10px;"><code style="color: var(--primary);">#btn-check-form</code></td>
+                <td style="padding: 10px;">主網頁上用來驗證欄位是否非空與格式的按鈕</td>
+              </tr>
+              <tr>
+                <td style="padding: 10px; font-weight: 700; color: var(--text-main);">確認入庫按鈕</td>
+                <td style="padding: 10px;"><code style="color: var(--primary);">#btn-submit-entry</code></td>
+                <td style="padding: 10px;">主網頁上辦理正式資料寫入的入庫按鈕</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+         <h3 style="font-size: 1.25rem; font-weight: 800; color: var(--primary); margin: 30px 0 12px 0; border-top: 1px solid var(--card-border); padding-top: 25px; text-align: center;">🔌 Chrome 擴充功能元件劃分與架構剖析</h3>
+        <p style="font-size: 0.95rem; color: var(--text-muted); line-height: 1.6; margin-bottom: 24px; text-align: center;">
+          一個完整的瀏覽器自動化外掛，是由 Chrome 必備的核心設定檔與專案專屬 UI 共同協作完成。其功能與角色定位如下：
+        </p>
+
+        <!-- Grid Container for files taxonomy -->
+        <style>
+          .file-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+            margin-bottom: 24px;
+          }
+          @media (min-width: 768px) {
+            .file-grid {
+              grid-template-columns: 1fr 1fr;
+            }
+          }
+          .file-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 24px;
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
+            transition: transform 0.2s ease;
+          }
+          .file-card:hover {
+            transform: translateY(-2px);
+          }
+          .file-card-title {
+            font-size: 1.1rem;
+            font-weight: 800;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+          }
+          .file-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+          }
+          .file-item {
+            border-bottom: 1px dashed rgba(255, 255, 255, 0.05);
+            padding-bottom: 12px;
+          }
+          .file-item:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+          }
+          .file-name {
+            font-family: Consolas, Monaco, monospace;
+            font-weight: 700;
+            font-size: 0.92rem;
+            color: var(--primary);
+            display: inline-block;
+            margin-bottom: 6px;
+          }
+        </style>
+        
+        <div class="file-grid">
+          <!-- Left Card: Required Triad -->
+          <div class="file-card" style="border-top: 4px solid var(--accent-pink); background: rgba(236, 72, 153, 0.03);">
+            <div class="file-card-title" style="color: var(--accent-pink);">
+              <span>🛡️ Chrome 外掛必備三劍客（必備黨）</span>
+            </div>
+            <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 16px; line-height: 1.5;">
+              這是 Chrome 外掛得以加載並運行的**最基本身分與核心權限檔案**。缺一不可，是擴充功能的骨架。
+            </p>
+            <ul class="file-list">
+              <li class="file-item">
+                <span class="file-name" style="color: var(--accent-pink);">manifest.json</span> 
+                <span style="font-size: 0.75rem; background: rgba(236, 72, 153, 0.15); color: var(--accent-pink); padding: 1px 6px; border-radius: 4px; font-weight: 700; margin-left: 4px;">擴充功能身分證</span>
+                <div style="font-size: 0.88rem; color: var(--text-muted); margin-top: 4px;">
+                  外掛的主設定檔（JSON）。聲明外掛名稱、版本、權限（如 activeTab、sidePanel）、背景 Service Worker 以及要注入的內容腳本。瀏覽器全靠它來讀取擴充功能的規則。
+                </div>
+              </li>
+              <li class="file-item">
+                <span class="file-name" style="color: var(--accent-pink);">background.js</span>
+                <span style="font-size: 0.75rem; background: rgba(236, 72, 153, 0.15); color: var(--accent-pink); padding: 1px 6px; border-radius: 4px; font-weight: 700; margin-left: 4px;">後台守護程序</span>
+                <div style="font-size: 0.88rem; color: var(--text-muted); margin-top: 4px;">
+                  事件驅動的背景 Service Worker 腳本。它不在網頁內運行，也無法碰觸網頁 DOM，但負責全局調度。本專案中負責監聽點擊外掛 Icon 的事件，並命令瀏覽器開啟右側 Side Panel 面板。
+                </div>
+              </li>
+              <li class="file-item">
+                <span class="file-name" style="color: var(--accent-pink);">content.js</span>
+                <span style="font-size: 0.75rem; background: rgba(236, 72, 153, 0.15); color: var(--accent-pink); padding: 1px 6px; border-radius: 4px; font-weight: 700; margin-left: 4px;">網頁注入爪牙</span>
+                <div style="font-size: 0.88rem; color: var(--text-muted); margin-top: 4px;">
+                  唯一**直接注入到當前開啟網頁（Tab 宇宙）**中執行的 JavaScript 程式。它擁有直接讀寫網頁 DOM 節點的權力。本專案中負責執行「填值、派遣 input/change 事件以相容 Vue/React、讓網頁欄位黃色閃爍、回傳流水號與遙控點擊按鈕」。
+                </div>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Right Card: Project Supplements -->
+          <div class="file-card" style="border-top: 4px solid var(--primary); background: rgba(129, 140, 248, 0.03);">
+            <div class="file-card-title" style="color: var(--primary);">
+              <span>🔌 本專案專屬補充說明（額外組件）</span>
+            </div>
+            <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 16px; line-height: 1.5;">
+              本專案為了提供強大的 **ERP 表單自動填寫 UI 與資料備份** 所額外擴充的組件，負責呈現介面與實作高級輔助功能。
+            </p>
+            <ul class="file-list">
+              <li class="file-item">
+                <span class="file-name">sidepanel.html & sidepanel.js</span>
+                <span style="font-size: 0.75rem; background: rgba(129, 140, 248, 0.15); color: var(--primary); padding: 1px 6px; border-radius: 4px; font-weight: 700; margin-left: 4px;">控制台 UI 與邏輯</span>
+                <div style="font-size: 0.88rem; color: var(--text-muted); margin-top: 4px;">
+                  外掛側邊欄的面板頁面與控制腳本。運行在獨立的 Extension 宇宙中，無法直接存取網頁 DOM，因此必須與 content.js 進行訊息通訊。這裡實作了隨機產生、CSV 匯出匯入、遙控控制與生成下載入庫報告。
+                </div>
+              </li>
+              <li class="file-item">
+                <span class="file-name">content.css</span>
+                <span style="font-size: 0.75rem; background: rgba(129, 140, 248, 0.15); color: var(--primary); padding: 1px 6px; border-radius: 4px; font-weight: 700; margin-left: 4px;">動態樣式注入</span>
+                <div style="font-size: 0.88rem; color: var(--text-muted); margin-top: 4px;">
+                  隨 content.js 一起注入到目標網頁的 CSS 樣式。專門用來宣告閃爍的 CSS 動畫（例如 `faloHighlightYellow` 與 `faloHighlightPink`），讓 content.js 能為輸入框動態加上閃爍類別。
+                </div>
+              </li>
+              <li class="file-item">
+                <span class="file-name">icon.png</span>
+                <span style="font-size: 0.75rem; background: rgba(129, 140, 248, 0.15); color: var(--primary); padding: 1px 6px; border-radius: 4px; font-weight: 700; margin-left: 4px;">外掛圖示</span>
+                <div style="font-size: 0.88rem; color: var(--text-muted); margin-top: 4px;">
+                  外掛在瀏覽器工具列上所顯示的視覺標誌，也是點擊啟動側邊欄的按鈕。
+                </div>
+              </li>
+              <li class="file-item">
+                <span class="file-name">erp.html (外掛演練靶機)</span>
+                <span style="font-size: 0.75rem; background: rgba(129, 140, 248, 0.15); color: var(--primary); padding: 1px 6px; border-radius: 4px; font-weight: 700; margin-left: 4px;">課程專屬網頁</span>
+                <div style="font-size: 0.88rem; color: var(--text-muted); margin-top: 4px;">
+                  **本次課程的實體測試網頁**。模擬企業 ERP 的採購單表單（具備欄位檢核、儲存入庫以及動態流水序號生成）。外掛即是在這張網頁上進行讀寫控制演練。
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Messaging Architecture Diagram -->
+        <div style="background: rgba(99, 102, 241, 0.04); border: 1px solid rgba(99, 102, 241, 0.15); border-radius: 14px; padding: 20px; margin: 24px 0;">
+          <h4 style="font-size: 1.05rem; font-weight: 800; color: #a5b4fc; margin-bottom: 10px; text-align: center;">📡 跨宇宙雙向通訊（Message Passing）架構圖</h4>
+          <p style="font-size: 0.88rem; color: var(--text-muted); line-height: 1.6; margin-bottom: 14px; text-align: center;">
+            由於外掛側邊欄（Side Panel）與當前網頁（Tab DOM）屬於不同的執行空間（宇宙），兩者要完成控制，必須透過 `chrome.tabs.sendMessage` 與 `chrome.runtime.onMessage` 來互寄信件：
+          </p>
+          <div style="font-family: Consolas, Monaco, monospace; font-size: 0.82rem; background: var(--code-bg); padding: 16px; border-radius: 8px; border: 1px solid var(--card-border); color: #818cf8; overflow-x: auto; line-height: 1.5; text-align: left;">
+┌─────────────────────────────────┐            📡 跨宇宙通訊 (Message Passing)           ┌────────────────────────────────┐
+│   外掛側邊欄 (Side Panel 宇宙)   │ ◄─────────────────────────────────────────────────► │   目標網頁注入 (Content 宇宙)  │
+│  [sidepanel.html/sidepanel.js]  │   chrome.tabs.sendMessage (發信通知填值/讀取)        │          [content.js]          │
+└──────────────┬──────────────────┘   sendResponse (回信告知流水號與結果)                └───────────────┬────────────────┘
+               │                                                                                        │
+               │ 1. 產生/匯入資料                                                                       │ 2. 直接讀寫控制 DOM
+               ▼                                                                                        ▼
+┌─────────────────────────────────┐                                                     ┌────────────────────────────────┐
+│      CSV 資料庫 / 隨機生成器     │                                                     │   實體 ERP 測試網頁 (erp.html)  │
+│  (本地端 sidepanel.js 管理處理)  │                                                     │   [#po-number, #btn-check-form]│
+└─────────────────────────────────┘                                                     └────────────────────────────────┘
+          </div>
+        </div>
       </div>
 
       <!-- Section AI Agent Prompt -->
@@ -865,7 +1071,7 @@
             <div class="prompt-copy-title" style="color: var(--accent-pink);">🎯 Step 1：單欄雙向讀寫控制 (小白入門)</div>
           </div>
           <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 12px;">
-            <strong>功能目標</strong>：最簡單的一進一出，側邊欄僅包含一個「採購單號」欄位以及獨立的填入與擷取按鈕。
+            <strong>功能目標</strong>：最簡單的一進一出，側邊欄僅包含一個「採購單號」輸入欄位以及對應的填入與擷取按鈕。
           </p>
           
           <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--card-border); padding: 12px 18px; border-radius: 8px; margin-bottom: 12px;">
@@ -876,11 +1082,11 @@
                 複製
               </button>
             </div>
-            <div style="font-size: 0.88rem; color: var(--text-main); font-family: 'Noto Sans TC'; line-height: 1.6;" id="simpleText1">我想寫一個 Chrome 側邊欄外掛，點擊外掛圖示可以在右邊滑出視窗。視窗裡有一個「採購單號」欄位，旁邊有「填入」跟「擷取」按鈕。點填入就可以把外掛的值填到 ERP 網頁的採購單號輸入框，點擷取可以把網頁採購單號的值抓回來外掛顯示。</div>
+            <div style="font-size: 0.88rem; color: var(--text-main); font-family: 'Noto Sans TC'; line-height: 1.6;" id="simpleText1">我有一個線上 ERP 測試網頁：https://falo-taiwan.github.io/class/a01/class3/cases/chrome_extension/erp.html。我想寫一個 Chrome 瀏覽器外掛，外掛打開後在右側滑出側邊欄，側邊欄有一個填「採購單號」的格子。點一下格子旁邊的「填入」按鈕，網頁上的採購單號欄位就會自動填好；如果網頁上已經有寫字，我點「擷取」按鈕，Chrome 外掛就能把我網頁上寫的字抓回來外掛顯示。請幫我寫出外掛程式碼。</div>
           </div>
 
           <details style="margin-bottom: 0;">
-            <summary style="font-size: 0.85rem; font-weight: 700; color: var(--primary); cursor: pointer;">⚡ 點此展開 ── 專家指點版完整 Prompt (精準代碼生成)</summary>
+            <summary style="font-size: 0.85rem; font-weight: 700; color: var(--primary); cursor: pointer;">⚡ 點此展開 ── 專家指點版完整 Prompt (精確代碼生成)</summary>
             <div class="details-content" style="padding: 12px 0 0 0; background: none; border-top: none;">
               <div class="prompt-box" style="margin: 0;">
                 <div class="prompt-header" style="padding: 6px 12px;">
@@ -893,15 +1099,14 @@
                 <textarea class="prompt-textarea" readonly id="promptText1" style="height: 180px;">我有一個線上 ERP 測試網頁：
 https://falo-taiwan.github.io/class/a01/class3/cases/chrome_extension/erp.html
 
-請你讀取並解析這張網頁的結構，找出「採購單號」欄位的 CSS Selector。
-接著，在目前的目錄下建立一個 Chrome 側邊欄（Side-panel）外掛，包含以下檔案：
-1. manifest.json：設定 Manifest V3 規格，註冊 background.js、content.js，包含 sidePanel 與 activeTab 權限。
-2. background.js：當點擊外掛 Icon 時，自動在右側滑出側邊欄。
-3. sidepanel.html：側邊欄 UI。提供一個「採購單號」輸入框，旁邊配有「填入」與「擷取」按鈕。
-4. sidepanel.js：處理按鈕事件，發送通訊訊息給網頁 content.js。
-5. content.js：注入網頁運行。當收到「填入」指令時，將採購單號值寫入網頁對應的輸入框，並派遣 input/change 事件以相容 Vue/React；當收到「擷取」指令時，讀取網頁採購單號輸入框的值並回傳給側邊欄。
+請幫我開發一個 Chrome 瀏覽器擴充功能。功能需求與技術規範如下：
+1. 使用 Manifest V3 規格，點擊外掛 Icon 時在右側開啟側邊欄（Side Panel）介面。
+2. 側邊欄內提供一個「採購單號」的文字輸入框，旁邊配有獨立的「填入」與「擷取」按鈕。
+3. 請先讀取並解析該網頁結構，自主尋找與定位「採購單號」輸入框的 CSS Selector。
+4. 當點擊「填入」時，側邊欄發送指令將值寫入網頁對應的輸入框。為了相容 Vue/React 等前端框架，填值後必須主動派發原生的 input 與 change 事件以同步框架狀態。
+5. 當點擊「擷取」時，讀取網頁中採購單號輸入框的當前值，並將其回傳填入外掛側邊欄的輸入框中。
 
-所有程式碼請附上中文逐行註解。</textarea>
+請為我規劃合適的檔案結構並生成完整程式碼，附上繁體中文逐行註解。</textarea>
               </div>
             </div>
           </details>
@@ -913,7 +1118,7 @@ https://falo-taiwan.github.io/class/a01/class3/cases/chrome_extension/erp.html
             <div class="prompt-copy-title" style="color: var(--accent-pink);">🎯 Step 2：全部欄位單獨讀寫 ＋ 一鍵全填與清空 (多點控制)</div>
           </div>
           <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 12px;">
-            <strong>功能目標</strong>：對齊真實 ERP 網頁五個欄位（含下拉選單），各欄具備獨立讀寫，並有全域批次寫入、擷取與清空重置。
+            <strong>功能目標</strong>：直接從零開發一個 Chrome 瀏覽器外掛，對齊真實 ERP 網頁五個欄位（含下拉選單），各欄具備獨立讀寫，並有全局一鍵寫入、擷取與清空重置。
           </p>
           
           <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--card-border); padding: 12px 18px; border-radius: 8px; margin-bottom: 12px;">
@@ -924,11 +1129,11 @@ https://falo-taiwan.github.io/class/a01/class3/cases/chrome_extension/erp.html
                 複製
               </button>
             </div>
-            <div style="font-size: 0.88rem; color: var(--text-main); font-family: 'Noto Sans TC'; line-height: 1.6;" id="simpleText2">我想把外掛擴充到全部的欄位，包含採購單號、產品代碼、進貨數量、產品效期，還有進貨部門的下拉選單。每個欄位都可以單獨點填入和擷取。然後底部還要有一鍵全填、一鍵全擷取，以及把網頁和外掛表單全部清空的按鈕。</div>
+            <div style="font-size: 0.88rem; color: var(--text-main); font-family: 'Noto Sans TC'; line-height: 1.6;" id="simpleText2">我有一個線上 ERP 測試網頁：https://falo-taiwan.github.io/class/a01/class3/cases/chrome_extension/erp.html。我想開發一個 Chrome 瀏覽器側邊欄外掛，外掛打開後有 5 個輸入欄位，分別是「採購單號」、「產品代碼」、「進貨數量」、「產品效期」和「進貨部門」下拉選單（部門選項包含 PUR, WH, QC, RD）。每個欄位旁邊都要有獨立的「填入」與「擷取」按鈕。點填入就填入對應的網頁欄位，點擷取就抓取網頁的值回填。另外，側邊欄底部要提供「一鍵全填入」（將外掛 5 個值全寫入網頁）、「一鍵全擷取」（將網頁 5 個值抓回外掛）與「清空表單」（將網頁與外掛的 5 個欄位值全部清空）按鈕。請幫我寫出完整的 Chrome 外掛程式碼與檔案結構。</div>
           </div>
 
           <details style="margin-bottom: 0;">
-            <summary style="font-size: 0.85rem; font-weight: 700; color: var(--primary); cursor: pointer;">⚡ 點此展開 ── 專家指點版完整 Prompt (精準代碼生成)</summary>
+            <summary style="font-size: 0.85rem; font-weight: 700; color: var(--primary); cursor: pointer;">⚡ 點此展開 ── 專家指點版完整 Prompt (精確代碼生成)</summary>
             <div class="details-content" style="padding: 12px 0 0 0; background: none; border-top: none;">
               <div class="prompt-box" style="margin: 0;">
                 <div class="prompt-header" style="padding: 6px 12px;">
@@ -941,24 +1146,15 @@ https://falo-taiwan.github.io/class/a01/class3/cases/chrome_extension/erp.html
                 <textarea class="prompt-textarea" readonly id="promptText2" style="height: 220px;">我有一個線上 ERP 測試網頁：
 https://falo-taiwan.github.io/class/a01/class3/cases/chrome_extension/erp.html
 
-請你讀取並解析這張網頁的結構，找出以下五個輸入控制項的 CSS Selector：
-1. 採購單號
-2. 產品代碼
-3. 進貨數量
-4. 產品效期
-5. 進貨部門 (這是一個 select 元素)
+請幫我開發一個 Chrome 瀏覽器外掛。功能需求與技術規範如下：
+1. 使用 Manifest V3 規格，點擊外掛 Icon 時在右側開啟側邊欄（Side Panel）介面。
+2. 側邊欄內提供 5 個輸入控制項（採購單號、產品代碼、進貨數量、產品效期、進貨部門下拉選單），每個控制項旁邊配有獨立的「填入」與「擷取」按鈕。
+3. 側邊欄底部提供三個全局按鈕：「一鍵全填入」、「一鍵全擷取」與「清空表單」。
+4. 請先解析該網頁結構，自主定位五個欄位在網頁中的 CSS Selector。
+5. 填值與清空規範：向網頁填值時，必須派遣 input/change 事件以相容 React/Vue 框架，並對被填入的網頁元素進行短暫黃色背景閃爍反饋（CSS 動畫需於 content.css 處理）。點擊「清空表單」時，同步清空網頁與側邊欄的 5 個欄位值。
+6. 跨空間通訊：使用 Message Passing 在 sidepanel.js 與注入網頁的 content.js 之間進行訊息傳遞。
 
-接著，在目前的目錄下建立一個 Chrome 側邊欄（Side-panel）外掛，包含以下功能：
-1. manifest.json & background.js：設定 MV3 側邊欄模式。
-2. sidepanel.html & sidepanel.js：
-   - 提供與網頁對應的 5 個輸入控制項（採購單號、產品代碼、進貨數量、產品效期、進貨部門下拉選單，部門選項與網頁一致），每個控制項旁配有獨立的「填入」與「擷取」按鈕。
-   - 底部新增三個大按鈕：「一鍵全填入」、「一鍵全擷取」與「清空表單」。
-3. content.js：
-   - 實作單欄寫入（填值後亮黃色背景閃爍 800ms 的視覺反饋，並派遣 input/change 事件）與單欄擷取。
-   - 實作一鍵全填與一鍵全擷。
-   - 實作清空表單（重置網頁 5 個欄位值與狀態，並通知側邊欄同步清空）。
-
-所有程式碼請附上中文逐行註解。</textarea>
+請生成完整程式碼與檔案結構，並附上繁體中文逐行註解。</textarea>
               </div>
             </div>
           </details>
@@ -981,7 +1177,7 @@ https://falo-taiwan.github.io/class/a01/class3/cases/chrome_extension/erp.html
                 複製
               </button>
             </div>
-            <div style="font-size: 0.88rem; color: var(--text-main); font-family: 'Noto Sans TC'; line-height: 1.6;" id="simpleText3">我想把外掛功能做到最完整。新增一個「隨機產生資料」的按鈕，點了可以在側邊欄產生測試值。新增「匯出 CSV」和「匯入 CSV」按鈕，可以把資料下載成 CSV 檔備份，或是讀取 CSV 檔回填。最後再加兩個按鈕「檢核表單」跟「確認入庫」，點了可以直接遠端遙控網頁點按鈕，入庫成功後，外掛要能讀到網頁產生的流水號，並自動幫我下載一個 txt 的入庫報告。</div>
+            <div style="font-size: 0.88rem; color: var(--text-main); font-family: 'Noto Sans TC'; line-height: 1.6;" id="simpleText3">我有一個線上 ERP 測試網頁：https://falo-taiwan.github.io/class/a01/class3/cases/chrome_extension/erp.html。我想開發一個功能完整的 Chrome 瀏覽器外掛，外掛打開後在右側滑出側邊欄。側邊欄上包含 5 個 ERP 欄位（採購單號、產品代碼、進貨數量、產品效期、進貨部門下拉選單），每個欄位有獨立的「填入」與「擷取」按鈕，底部有一鍵全填、一鍵全擷與一鍵清空。此外，請為外掛加入以下高階功能：1. 點「隨機產生資料」按鈕，能在外掛欄位產生測試值。2. 點「匯出 CSV」和「匯入 CSV」按鈕，可將外掛的 5 欄資料下載成 CSV 備份，或讀取上傳的 CSV 回填外掛。3. 點「檢核表單」與「確認入庫」按鈕，可遠端遙控點擊網頁上對應的按鈕。網頁入庫成功後，Chrome 外掛要能讀取網頁產生的流水號，並自動幫我下載一個 txt 的入庫報告（檔名含時間戳記）。請幫我寫出完整的 Chrome 外掛程式碼與檔案結構。</div>
           </div>
 
           <details style="margin-bottom: 0;">
@@ -998,15 +1194,16 @@ https://falo-taiwan.github.io/class/a01/class3/cases/chrome_extension/erp.html
                 <textarea class="prompt-textarea" readonly id="promptText3" style="height: 260px;">我有一個線上 ERP 測試網頁：
 https://falo-taiwan.github.io/class/a01/class3/cases/chrome_extension/erp.html
 
-請你讀取並解析這張網頁的結構，找出五個欄位採購單號、產品代碼、進貨數量、產品效期、進貨部門的 CSS Selector。
-接著，請在目前的目錄下建立一個 Chrome 側邊欄（Side-panel）外掛，並在 Step 2 的基礎上，加入隨機生成、CSV 備份閉環與遠端流程控制：
-1. 新增「隨機產生資料」按鈕：於側邊欄本地端生成測試數值（單號以 PO-2026- 開頭，數量在 10-500，效期設為台北時間今天），僅填入側邊欄不自動寫入網頁。
-2. 新增「匯出 CSV」按鈕：將側邊欄 5 欄位數值序列化為 CSV 字串，加入 UTF-8 BOM \uFEFF 避免 Excel 亂碼，以下載檔案存檔。
-3. 新增「匯入 CSV」按鈕：透過隱藏的 <input type="file">，使用 FileReader 讀取並解析上傳的 CSV 檔案，回填至外掛控制項。
-4. 新增「檢核表單」與「確認入庫」遠端遙控按鈕：發送訊息通知 content.js 遙控點擊網頁對應的 #btn-check-form 與 #btn-submit-entry 按鈕。
-5. 實作流水號捕捉與報告下載：網頁入庫成功後，content.js 讀取網頁的 #system-serial-no 流水號（並使該元素閃爍亮粉色背景 800ms 提供視覺反饋）回傳外掛。側邊欄接收後，自動生成含台北時間戳記的入庫報告，並動態生成名為 report_YYYYMMDD_HHMMSS.txt 的檔案供瀏覽器自動下載。
+請幫我開發一個 Chrome 瀏覽器外掛。功能需求與技術規範如下：
+1. 使用 Manifest V3 規格，點擊外掛 Icon 時在右側開啟側邊欄（Side Panel）介面。
+2. 側邊欄內提供 5 個輸入控制項（採購單號、產品代碼、進貨數量、產品效期、進貨部門下拉選單），每個控制項旁配有獨立的「填入」與「擷取」按鈕，底部有一鍵全填、一鍵全擷與清空表單按鈕。
+3. 新增「隨機產生資料」按鈕：於側邊欄本地生成測試數值（採購單號以 PO-2026- 開頭，數量在 10-500，效期設為台北時間今天），僅填入側邊欄不自動寫入網頁。
+4. 新增「匯出 CSV」與「匯入 CSV」按鈕：支持將外掛資料下載備份（加入 UTF-8 BOM \uFEFF）或上傳 CSV 還原至外掛控制項。
+5. 新增「檢核表單」與「確認入庫」按鈕：通知 content.js 遠端遙控點擊網頁上的檢核與入庫按鈕。
+6. 實作流水號捕捉與報告下載：主網頁入庫成功後，content.js 讀取網頁生成的系統流水序號回傳側邊欄，側邊欄接收後，自動生成含台北時間戳記的入庫報告 (.txt) 供瀏覽器自動下載。
+7. 請先讀取並解析該網頁結構，自主尋找與定位五個欄位、檢核按鈕、入庫按鈕及流水序號元素的 CSS Selector，不可在 Prompt 中劇透。
 
-所有程式碼請附上中文逐行註解。</textarea>
+請為我生成完整的專案程式碼與檔案結構，附上繁體中文逐行註解。</textarea>
               </div>
             </div>
           </details>
