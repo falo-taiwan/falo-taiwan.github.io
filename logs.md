@@ -1,4 +1,4 @@
-# 天心 ERP 內訓課程專案：Falo 變更與決策日誌 (logs.md)
+# 銀河 ERP 內訓課程專案：Falo 變更與決策日誌 (logs.md)
 
 本文件依據 Falo 方法論建立，旨在記錄本專案開發過程中的所有操作、決策與技術變更脈絡，確保教學與維護過程皆有跡可循。
 
@@ -8,7 +8,7 @@
 
 | 時間戳記 | 操作類別 | 描述 | 操作者 | 影響檔案 |
 | :--- | :--- | :--- | :--- | :--- |
-| 2026-06-09 12:35:00 | 專案重構 | 更新主題十「從 ERP 外掛到 AI Agent」教材，對齊天心 ERP 顧問開發視角，加入 Event-Rule-Action 的 Workflow 模式案例與 6 階段演進，深化 AI 治理白箱優勢。 | AI (Antigravity) | `falo-taiwan/class/a01/class3/index.html`, `falo-taiwan/class/a01/class3/index.md`, `falo-taiwan/class/a01/class3/class03_rpa_to_agent.html`, `falo-taiwan/class/a01/class3/class03_rpa_to_agent.md`, `history.md`, `history.html`, `logs.md`, `logs.json` |
+| 2026-06-09 12:35:00 | 專案重構 | 更新主題十「從 ERP 外掛到 AI Agent」教材，對齊銀河 ERP 顧問開發視角，加入 Event-Rule-Action 的 Workflow 模式案例與 6 階段演進，深化 AI 治理白箱優勢。 | AI (Antigravity) | `falo-taiwan/class/a01/class3/index.html`, `falo-taiwan/class/a01/class3/index.md`, `falo-taiwan/class/a01/class3/class03_rpa_to_agent.html`, `falo-taiwan/class/a01/class3/class03_rpa_to_agent.md`, `history.md`, `history.html`, `logs.md`, `logs.json` |
 | 2026-06-09 12:20:00 | 專案重構 | 新增主題十「從 RPA 到 AI Agent」教材，梳理人工流程到 Multi-Agent 的演進路線與 Workflow 治理觀念，並整合進主頁大綱與歷史彙整頁面。 | AI (Antigravity) | `falo-taiwan/class/a01/class3/index.html`, `falo-taiwan/class/a01/class3/index.md`, `falo-taiwan/class/a01/class3/class03_rpa_to_agent.html`, `falo-taiwan/class/a01/class3/class03_rpa_to_agent.md`, `history.md`, `history.html`, `sync_and_push.py` |
 | 2026-06-09 11:48:00 | 專案更新 | 於主題一教材最上方新增「常用工具的熟悉重點＋運用技巧」備註區塊（標記為：內容，撰稿中...）。 | AI (Antigravity) | `falo-taiwan/class/a01/class3/class03_coexistence.md`, `falo-taiwan/class/a01/class3/class03_coexistence.html` |
 | 2026-06-09 11:20:00 | 專案重構 | 新增主題一「人與 AI 的共創共生」教材，並將其餘主題順延為主題二至主題八。調整相關課件之標題與頁尾，更新 `history.md` 與 `history.html` 彙整列表，並升級 Git 同步腳本。 | AI (Antigravity) | `falo-taiwan/class/a01/class3/index.html`, `falo-taiwan/class/a01/class3/index.md`, `falo-taiwan/class/a01/class3/class03_coexistence.html`, `falo-taiwan/class/a01/class3/class03_coexistence.md`, `falo-taiwan/class/a01/class3/agent_tools.html`, `falo-taiwan/class/a01/class3/class03_gemini_chrome.md`, `falo-taiwan/class/a01/class3/class03_qas.md`, `history.md`, `history.html`, `sync_and_push.py` |

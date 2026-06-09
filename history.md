@@ -1,6 +1,6 @@
-# 天心 ERP 內訓課程：歷史課程彙整 (Class 01 & Class 02)
+# 銀河 ERP 內訓課程：歷史課程彙整 (Class 01 & Class 02)
 
-本文件彙整了天心 ERP 內訓課程的前兩堂課內容、原始簡報連結與核心技術概念，供 AI (LLM) 快速檢索並理解本專案的歷史脈絡。
+本文件彙整了銀河 ERP 內訓課程的前兩堂課內容、原始簡報連結與核心技術概念，供 AI (LLM) 快速檢索並理解本專案的歷史脈絡。
 
 ---
 
@@ -132,7 +132,7 @@
 * [實戰武器庫網頁 (HTML)](file:///Users/force/Google_Antigravity/attn-class/falo-taiwan/class/a01/class3/class03_tools.html) | [Markdown](file:///Users/force/Google_Antigravity/attn-class/falo-taiwan/class/a01/class3/class03_tools.md)
 
 #### 10. 從 ERP 外掛到 AI Agent
-* 理清企業自動化演進六階段（人工 ➔ ERP 客製 ➔ RPA ➔ Workflow ➔ AI Agent ➔ Multi-Agent）。立足天心 ERP 顧問熟悉之 Workflow 模式（Event-Rule-Action），探討白箱架構 n8n 在 AI 治理中的全新優勢與 AI Review Workflow 新觀念。
+* 理清企業自動化演進六階段（人工 ➔ ERP 客製 ➔ RPA ➔ Workflow ➔ AI Agent ➔ Multi-Agent）。立足銀河 ERP 顧問簡化之 Workflow 模式（Event-Rule-Action），探討白箱架構 n8n 在 AI 治理中的全新優勢與 AI Review Workflow 新觀念。
 * [從 ERP 外掛到 AI Agent 網頁 (HTML)](file:///Users/force/Google_Antigravity/attn-class/falo-taiwan/class/a01/class3/class03_rpa_to_agent.html) | [Markdown](file:///Users/force/Google_Antigravity/attn-class/falo-taiwan/class/a01/class3/class03_rpa_to_agent.md)
 
 

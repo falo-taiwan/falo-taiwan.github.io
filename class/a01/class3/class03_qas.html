@@ -100,13 +100,17 @@
             background: var(--card-bg);
             border: 1px solid var(--card-border);
             border-radius: 16px;
-            padding: 2.25rem;
+            padding: 1.25rem 2.25rem;
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             box-shadow: 0 12px 35px rgba(0, 0, 0, 0.4);
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
             overflow: hidden;
+        }
+
+        .card.active {
+            padding-bottom: 2.25rem;
         }
 
         .card:hover {
@@ -130,9 +134,33 @@
             display: flex;
             align-items: center;
             gap: 0.75rem;
-            margin-bottom: 1.25rem;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            cursor: pointer;
+            position: relative;
+            padding-right: 2rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
             padding-bottom: 0.75rem;
+            margin-bottom: 0;
+        }
+
+        .card.active .card-header {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            margin-bottom: 1.25rem;
+        }
+
+        .card-header::after {
+            content: "▼";
+            position: absolute;
+            right: 0.5rem;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            transition: transform 0.2s ease;
+        }
+
+        .card.active .card-header::after {
+            transform: translateY(-50%) rotate(180deg);
+            color: var(--primary);
         }
 
         .card-icon {
@@ -169,27 +197,33 @@
             color: #ffffff;
         }
 
-        .question-box {
+        .card .question-box,
+        .card .answer-box {
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            margin-bottom: 0;
+            padding-top: 0;
+            padding-bottom: 0;
+        }
+
+        .card.active .question-box {
+            max-height: 500px;
+            opacity: 1;
+            margin-bottom: 1.25rem;
+            padding-top: 0.75rem;
+            padding-bottom: 0.75rem;
             background: rgba(255, 255, 255, 0.02);
             border-left: 3px solid var(--secondary);
-            padding: 0.75rem 1.25rem;
-            margin-bottom: 1.25rem;
+            padding-left: 1.25rem;
             border-radius: 0 8px 8px 0;
         }
 
-        .question-box p {
-            color: #e5e7eb;
-            font-weight: 500;
-            font-size: 1rem;
-        }
-
-        .answer-box {
-            color: var(--text-secondary);
-            font-size: 0.95rem;
-        }
-
-        .answer-box p {
-            margin-bottom: 1rem;
+        .card.active .answer-box {
+            max-height: 5000px;
+            opacity: 1;
+            margin-bottom: 0.5rem;
         }
 
         ul {
@@ -727,10 +761,10 @@
                 </div>
             </div>
             <div class="question-box">
-                <p>我們開發APP 對於我們天心真的好維護嗎? 他不是也要上平台 被驗證和付費? APP開發概念 這領域很陌生 他會有很多手機規格 不同作業系統 受限程度有多高? 還是沒差異?</p>
+                <p>我們開發APP 對於我們銀河真的好維護嗎? 他不是也要上平台 被驗證和付費? APP開發概念 這領域很陌生 他會有很多手機規格 不同作業系統 受限程度有多高? 還是沒差異?</p>
             </div>
             <div class="answer-box">
-                <p>針對天心 ERP 這類企業協同/管理軟體，<strong>非常不建議直接開發傳統的原生 iOS / Android App</strong>。因為這會帶來極高的平台審查枷鎖與維護成本：</p>
+                <p>針對於去識別化的<strong>銀河 ERP</strong> 這類企業協同/管理軟體，<strong>非常不建議直接開發傳統的原生 iOS / Android App</strong>。因為這會帶來極高的平台審查枷鎖與維護成本：</p>
                 <ul>
                     <li><strong>平台上架與審查負擔</strong>：Apple App Store 與 Google Play 對 App 審查極嚴，每次修 Bug 改代碼都需要重新打包送審（Apple 通常需 1~3 天），若 App 內提供客戶加值訂閱功能，還會被抽 15%~30% 的平台稅。</li>
                     <li><strong>手機硬體與作業系統碎片化</strong>：iOS 與 Android 對後台執行限制、推播通知機制以及手機權限（相機、定位）在不同作業系統版本上差異極大，測試與維護工作量常是 Web 專案的三倍以上。</li>
@@ -771,5 +805,15 @@
         <p>銀河 ERP 內訓課程 Class 03 主題七 (QA) &copy; 2026 | 設計符合 AI (Markdown) 與人類 (Premium HTML) 雙重閱讀標準</p>
         <p style="margin-top: 0.5rem;"><a href="class03_qas.md">檢視 AI 專用 Markdown 檔案</a> | <a href="../../../history.md">檢視歷史課程彙整 (Markdown)</a></p>
     </footer>
+    <script>
+        document.querySelectorAll('.card').forEach(card => {
+            const header = card.querySelector('.card-header');
+            if (header) {
+                header.addEventListener('click', () => {
+                    card.classList.toggle('active');
+                });
+            }
+        });
+    </script>
 </body>
 </html>

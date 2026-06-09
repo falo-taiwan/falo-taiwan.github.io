@@ -329,7 +329,7 @@
   {
     "timestamp": "2026-06-09T12:35:00+08:00",
     "action_type": "project_restructured",
-    "description": "更新主題十「從 ERP 外掛到 AI Agent」教材，對齊天心 ERP 顧問開發視角，加入 Event-Rule-Action 的 Workflow 模式案例與 6 階段演進，深化 AI 治理白箱優勢。",
+    "description": "更新主題十「從 ERP 外掛到 AI Agent」教材，對齊銀河 ERP 顧問開發視角，加入 Event-Rule-Action 的 Workflow 模式案例與 6 階段演進，深化 AI 治理白箱優勢。",
     "operator": "AI (Antigravity)",
     "files_affected": [
       "falo-taiwan/class/a01/class3/index.html",
