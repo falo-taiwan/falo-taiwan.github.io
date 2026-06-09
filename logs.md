@@ -8,6 +8,7 @@
 
 | 時間戳記 | 操作類別 | 描述 | 操作者 | 影響檔案 |
 | :--- | :--- | :--- | :--- | :--- |
+| 2026-06-09 11:20:00 | 專案重構 | 新增主題一「人與 AI 的共創共生」教材，並將其餘主題順延為主題二至主題八。調整相關課件之標題與頁尾，更新 `history.md` 與 `history.html` 彙整列表，並升級 Git 同步腳本。 | AI (Antigravity) | `falo-taiwan/class/a01/class3/index.html`, `falo-taiwan/class/a01/class3/index.md`, `falo-taiwan/class/a01/class3/class03_coexistence.html`, `falo-taiwan/class/a01/class3/class03_coexistence.md`, `falo-taiwan/class/a01/class3/agent_tools.html`, `falo-taiwan/class/a01/class3/class03_gemini_chrome.md`, `falo-taiwan/class/a01/class3/class03_qas.md`, `history.md`, `history.html`, `sync_and_push.py` |
 | 2026-06-08 23:40:00 | 專案更新 | 於外掛專案教學頁 Tab 2 新增「致謝與功能重點對照卡片」，列出 Progress Bar for Instagram 外掛之原版核心功能，並將其與 FALO 進化重構版（Tooltip、Hover 音量控制條、懸浮遙控器與 HUD）進行對照與致謝。 | AI (Antigravity) | `falo-taiwan/class/a01/class3/ig/index.html`, `falo-taiwan/class/a01/class3/ig/falo_extension_tutorial.html` |
 | 2026-06-08 23:39:00 | 專案更新 | 修正外掛專案教學頁 Tab 2 之「研發背景與二創聲明」描述，改為參考 Chrome Web Store 上的 Progress Bar for Instagram 外掛專案精神，並與 AI Agent 交流後全新改寫實作，避免抽出與反編譯等字眼誤解。 | AI (Antigravity) | `falo-taiwan/class/a01/class3/ig/index.html`, `falo-taiwan/class/a01/class3/ig/falo_extension_tutorial.html` |
 | 2026-06-08 23:38:00 | 專案更新 | 於外掛專案教學頁 Tab 2 新增「研發背景與二創聲明」，揭露此專案是基於解構「Progress Bar for Instagram」外掛、以 AI Agent（Antigravity、Claude）抽出程式碼理解後二次創作重構而成，作為 Vibe Coding 教學示範。 | AI (Antigravity) | `falo-taiwan/class/a01/class3/ig/index.html`, `falo-taiwan/class/a01/class3/ig/falo_extension_tutorial.html` |

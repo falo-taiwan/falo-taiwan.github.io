@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Class 03 主題一 | 人與 AI 的共創共生</title>
+    <meta name="description" content="建立正確的「人與 AI 的協作與治理觀念」：AI 時代我們不是被取代，而是學習如何與 AI 共同協作，放大個人與組織能力。">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-gradient: radial-gradient(circle at 50% 50%, #080c1e 0%, #01030a 100%);
+            --primary: #8b5cf6;
+            --primary-glow: rgba(139, 92, 246, 0.15);
+            --secondary: #3b82f6;
+            --accent: #10b981;
+            --card-bg: rgba(17, 24, 48, 0.5);
+            --card-border: rgba(255, 255, 255, 0.07);
+            --card-hover-border: rgba(139, 92, 246, 0.4);
+            --text-primary: #f3f4f6;
+            --text-secondary: #9ca3af;
+            --text-muted: #4b5563;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Outfit', 'Inter', 'Noto Sans TC', sans-serif;
+            background: var(--bg-gradient);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 3rem 1.5rem;
+            overflow-x: hidden;
+        }
+
+        .glow {
+            position: absolute;
+            width: 450px;
+            height: 450px;
+            border-radius: 50%;
+            background: radial-gradient(circle, var(--primary-glow) 0%, transparent 70%);
+            z-index: -1;
+            filter: blur(60px);
+        }
+        .glow-1 { top: 8%; left: 5%; }
+        .glow-2 { bottom: 12%; right: 5%; }
+
+        header {
+            max-width: 1000px;
+            margin: 0 auto 3.5rem auto;
+            text-align: center;
+        }
+
+        .tagline {
+            display: inline-block;
+            background: rgba(139, 92, 246, 0.1);
+            border: 1px solid rgba(139, 92, 246, 0.25);
+            color: #c084fc;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            padding: 0.4rem 1.2rem;
+            border-radius: 9999px;
+            margin-bottom: 1.25rem;
+        }
+
+        h1 {
+            font-size: 2.6rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #ffffff 40%, #c084fc 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.75rem;
+            letter-spacing: -0.01em;
+        }
+
+        header p {
+            color: var(--text-secondary);
+            font-size: 1.15rem;
+        }
+
+        main {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 2.5rem;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 2.25rem;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.45);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            border-color: var(--card-hover-border);
+            box-shadow: 0 15px 40px rgba(139, 92, 246, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            opacity: 0.6;
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        h2 svg {
+            width: 24px;
+            height: 24px;
+            fill: none;
+            stroke: var(--primary);
+            stroke-width: 2;
+        }
+
+        .positioning-box {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            color: var(--text-secondary);
+            font-size: 1.05rem;
+        }
+
+        .positioning-box strong {
+            color: #ffffff;
+        }
+
+        /* 3-Column Concept Grid */
+        .concept-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        @media (min-width: 768px) {
+            .concept-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .concept-item {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: all 0.2s ease;
+        }
+
+        .concept-item:hover {
+            background: rgba(139, 92, 246, 0.04);
+            border-color: rgba(139, 92, 246, 0.2);
+        }
+
+        .concept-title {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .concept-title span.number {
+            background: rgba(139, 92, 246, 0.15);
+            color: #c084fc;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .concept-item p {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        /* Table Styling */
+        .table-wrapper {
+            overflow-x: auto;
+            margin-top: 1rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        th, td {
+            padding: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            font-size: 0.95rem;
+        }
+
+        th {
+            font-weight: 600;
+            color: var(--primary);
+            border-bottom: 2px solid rgba(139, 92, 246, 0.3);
+        }
+
+        td strong {
+            color: #ffffff;
+        }
+
+        /* Scenario Cards Grid */
+        .scenarios-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+
+        @media (min-width: 900px) {
+            .scenarios-grid {
+                grid-template-columns: 1fr 1fr 1fr;
+            }
+        }
+
+        .scenario-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            border-radius: 12px;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .scenario-badge {
+            align-self: flex-start;
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            color: var(--accent);
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 0.25rem 0.65rem;
+            border-radius: 4px;
+            text-transform: uppercase;
+        }
+
+        .scenario-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #ffffff;
+        }
+
+        .scenario-list {
+            list-style: none;
+            padding: 0;
+            font-size: 0.92rem;
+            color: var(--text-secondary);
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .scenario-list li {
+            position: relative;
+            padding-left: 1.25rem;
+        }
+
+        .scenario-list li::before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            color: var(--primary);
+            font-weight: bold;
+        }
+
+        /* Quote Card */
+        .quote-card {
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.08) 0%, rgba(59, 130, 246, 0.08) 100%);
+            border: 1px solid rgba(139, 92, 246, 0.25);
+            border-left: 5px solid var(--primary);
+        }
+
+        .quote-card blockquote {
+            font-size: 1.2rem;
+            font-style: italic;
+            color: #e2e8f0;
+            padding-left: 1rem;
+            line-height: 1.6;
+        }
+
+        .quote-author {
+            margin-top: 1rem;
+            font-size: 0.95rem;
+            font-weight: bold;
+            color: var(--primary);
+            text-align: right;
+        }
+
+        /* Back Button */
+        .btn-back {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            color: #ffffff;
+            font-size: 0.9rem;
+            font-weight: 600;
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            margin-top: 1rem;
+            align-self: center;
+        }
+
+        .btn-back:hover {
+            background: rgba(139, 92, 246, 0.1);
+            border-color: rgba(139, 92, 246, 0.3);
+            color: #c084fc;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 4rem;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding-top: 2rem;
+        }
+
+        footer a {
+            color: var(--text-secondary);
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            color: var(--primary);
+        }
+    </style>
+</head>
+<body>
+    <div class="glow glow-1"></div>
+    <div class="glow glow-2"></div>
+
+    <header>
+        <div class="tagline">Class 03 Topic 01</div>
+        <h1>主題一：人與 AI 的共創共生</h1>
+        <p>AI 時代，我們不是被取代，而是學習如何協作</p>
+    </header>
+
+    <main>
+        <!-- Section 1: Positioning -->
+        <section class="card">
+            <h2>
+                <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+                <span>本章定位</span>
+            </h2>
+            <div class="positioning-box">
+                <p>
+                    目前市面上大多數 AI 課程，都著重在教工具操作、提示詞（Prompt）技巧或底層模型。但我們認為，<strong>「工具會一直改版，功能會不斷更新，唯有深刻的協作觀念，才能長期留存下來。」</strong>
+                </p>
+                <p>
+                    因此，在進入具體的技術操作前，我們希望學員先建立起正確的<strong>「人與 AI 協作與治理觀念」</strong>，以便未來無論工具如何演變，皆能遊刃有餘。
+                </p>
+            </div>
+        </section>
+
+        <!-- Section 2: Core Concepts -->
+        <section class="card">
+            <h2>
+                <svg viewBox="0 0 24 24"><path d="M9.663 17h4.673M12 3v1m6.364.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <span>核心協作觀念</span>
+            </h2>
+            <div class="concept-grid">
+                <div class="concept-item">
+                    <div class="concept-title">
+                        <span class="number">1</span>
+                        <span>AI 不是「答案機」</span>
+                    </div>
+                    <p>AI 像高效助理、顧問、工程師或設計師，而不是不容置疑的「神諭」或「最終決策者」。人類依然對最終結果與商業決策負起全部責任。</p>
+                </div>
+                <div class="concept-item">
+                    <div class="concept-title">
+                        <span class="number">2</span>
+                        <span>AI 是「能力放大器」</span>
+                    </div>
+                    <p>過去單兵作戰「1人=1人產能」已是極限。現在透過「1人 + 多個 AI」，便能發揮相當於小型專案團隊的強大產能，釋放人類的創造力。</p>
+                </div>
+                <div class="concept-item">
+                    <div class="concept-title">
+                        <span class="number">3</span>
+                        <span>人類角色正在改變</span>
+                    </div>
+                    <p>傳統工作流中人類主要負責「執行」。未來，人類應升級為「治理者與決策者」，專注在規劃、判斷與驗收；AI 則負責搜集、整理、產出與自動化打雜。</p>
+                </div>
+                <div class="concept-item">
+                    <div class="concept-title">
+                        <span class="number">4</span>
+                        <span>AI 也有其先天弱點</span>
+                    </div>
+                    <p>AI 存在幻覺、可能理解偏差，且缺乏特定企業背景與潛規則。因此，AI 產出絕對不能直接採用，必須落實 <strong>HITL（Human-in-the-Loop，人機協作）</strong> 審核。</p>
+                </div>
+                <div class="concept-item" style="grid-column: 1 / -1;">
+                    <div class="concept-title">
+                        <span class="number">5</span>
+                        <span>AI 時代的核心競爭力</span>
+                    </div>
+                    <p>未來的重要能力不再是「自己動手做完所有事」，而是<strong>「知道什麼事情該交給 AI」</strong>（任務拆解與指派能力），以及<strong>「知道如何驗收 AI 的成果」</strong>（安全審查與例外測試能力）。</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: Division of Labor -->
+        <section class="card">
+            <h2>
+                <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                <span>人機職能分工對比</span>
+            </h2>
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="width: 20%;">工作流程</th>
+                            <th style="width: 40%;">人類負責（決策與治理）</th>
+                            <th style="width: 40%;">AI 負責（執行與產出）</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>需求與定義</strong></td>
+                            <td><strong>規劃 (Planning)</strong>：設定專案目標、系統邊界、安全合規規則。</td>
+                            <td><strong>搜集 (Gathering)</strong>：快速搜尋規格、提取相關歷史日誌與檔案。</td>
+                        </tr>
+                        <tr>
+                            <td><strong>分析與實作</strong></td>
+                            <td><strong>判斷 (Judgment)</strong>：評估架構的合理性，做出商業價值決定。</td>
+                            <td><strong>產出與重構 (Generating)</strong>：自動生成代碼、撰寫文案草案、重構結構。</td>
+                        </tr>
+                        <tr>
+                            <td><strong>驗收與發佈</strong></td>
+                            <td><strong>驗收與治理 (Governance)</strong>：代碼安全掃描、異常測試、例外審核 (HITL)。</td>
+                            <td><strong>自動化測試 (Automation)</strong>：執行批量測試、自動部署、整理發佈日誌。</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Section 4: Scenarios -->
+        <section class="card">
+            <h2>
+                <svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-2-2h-5l-2.29-2.29A1 1 0 0 0 11 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2z"/></svg>
+                <span>三大實務協作場景</span>
+            </h2>
+            <div class="scenarios-grid">
+                <div class="scenario-card">
+                    <span class="scenario-badge">生活場景</span>
+                    <div class="scenario-title">GPS 衛星導航</div>
+                    <ul class="scenario-list">
+                        <li><strong>AI (GPS)</strong>：動態分析路況，提供最短避開塞車的最佳推薦路線。</li>
+                        <li><strong>人類 (駕駛員)</strong>：雙手控制方向盤防範突發路況，並決定是否採納路線建議。</li>
+                    </ul>
+                </div>
+                <div class="scenario-card">
+                    <span class="scenario-badge">企業場景</span>
+                    <div class="scenario-title">智能客服與主管</div>
+                    <ul class="scenario-list">
+                        <li><strong>AI (客服 Bot)</strong>：24小時解答 80% 常見且高重複性的退換貨 FAQ。</li>
+                        <li><strong>人類 (客服主管)</strong>：處理 20% 涉及複雜客訴或例外退款，並審查 Bot 行為。</li>
+                    </ul>
+                </div>
+                <div class="scenario-card">
+                    <span class="scenario-badge">工作場景</span>
+                    <div class="scenario-title">銀河 ERP 客製開發</div>
+                    <ul class="scenario-list">
+                        <li><strong>AI (Antigravity)</strong>：依照需求快速生成資料表 DDL 與 API controller 結構代碼。</li>
+                        <li><strong>人類 (工程師)</strong>：設計核心 Interface，對 AI 代碼進行安全掃描與例外測試驗收。</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 5: Quote -->
+        <section class="card quote-card">
+            <blockquote>
+                "AI 不會取代所有人。但善用 AI 的人，很可能取代不會使用 AI 的人。"
+            </blockquote>
+            <div class="quote-author">—— Force 觀點</div>
+        </section>
+
+        <!-- Navigation back -->
+        <a href="index.html" class="btn-back">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+            返回 Class 03 課程大綱
+        </a>
+    </main>
+
+    <footer>
+        <p>銀河 ERP 內訓課程 Class 03 主題一 &copy; 2026 | 設計符合 AI (Markdown) 與人類 (Premium HTML) 雙重閱讀標準</p>
+        <p style="margin-top: 0.5rem;"><a href="class03_coexistence.md">檢視 AI 專用 Markdown 檔案</a> | <a href="../../../logs.md">檢視 FALO 軌跡日誌</a></p>
+    </footer>
+</body>
+</html>

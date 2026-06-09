@@ -1,4 +1,4 @@
-# 主題一：AI Agent 協同討論與即時知識工程化 (class03_collaboration.md)
+# 主題二：AI Agent 協同討論與即時知識工程化 (class03_collaboration.md)
 
 * **課程模組**：Class 03 實戰與概念
 * **探討核心**：對話即生產、動態共創筆記、即時軌跡與決策記錄 (Logs)

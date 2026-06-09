@@ -1,4 +1,4 @@
-# 主題五：從社群痛點到 AI 代理協作：LINE 防封鎖工具與 Computer Use 模擬實務 (class03_computer_use.md)
+# 主題六：從社群痛點到 AI 代理協作：LINE 防封鎖工具與 Computer Use 模擬實務 (class03_computer_use.md)
 
 * **課程模組**：Class 03 實務與演進
 * **核心案例**：LINE 防封鎖訊息變體生成器與 Computer Use 示範沙盒

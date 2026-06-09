@@ -95,24 +95,34 @@
 
 ### 核心技術與概念
 
-#### 1. AI Agent 協同討論與即時知識工程化
+#### 1. 人與 AI 的共創共生
+* 探討 AI 時代的「協作與治理觀念」基礎。理解為什麼我們不是被取代，而是學習與 AI 助理、顧問、副駕駛進行高效人機協作 (HITL) 與放大個人能力。
+* [共創共生觀念 (HTML)](file:///Users/force/Google_Antigravity/attn-class/falo-taiwan/class/a01/class3/class03_coexistence.html) | [Markdown](file:///Users/force/Google_Antigravity/attn-class/falo-taiwan/class/a01/class3/class03_coexistence.md)
+
+#### 2. AI Agent 協同討論與即時知識工程化
 * 探討「對話即生產」與動態共創筆記模式。讓 AI 在討論中即時進行結構化寫檔與決策軌跡記錄 (Logs)。
 * [對話與寫檔實務 (HTML)](file:///Users/force/Google_Antigravity/attn-class/falo-taiwan/class/a01/class3/class03_collaboration.html) | [Markdown](file:///Users/force/Google_Antigravity/attn-class/falo-taiwan/class/a01/class3/class03_collaboration.md)
 
-#### 2. AI Agent & Vibe Coding 工具分析與對比
+#### 3. AI Agent & Vibe Coding 工具分析與對比
 * 橫向對比四大開發模式（Antigravity、Claude Cowork、ChatGPT Codex、Gemini Canvas 模式），著重探討上下文視窗、本地操作能力、Diff 區塊替換等核心指標。
 * [開發工具對比 (HTML)](file:///Users/force/Google_Antigravity/attn-class/falo-taiwan/class/a01/class3/agent_tools.html) | [Markdown](file:///Users/force/Google_Antigravity/attn-class/falo-taiwan/class/a01/class3/agent_tools.md)
 
-#### 3. AI 時代的知識資產化案例實踐 (Gemini Chrome 解鎖)
+#### 4. AI 時代的知識資產化案例實踐 (Gemini Chrome 解鎖)
 * 以「Chrome 內建 Gemini 解鎖」為案例，展示如何遵循 FALO 六層模型，將一個真實問題提煉為組織的能力包 (Capability Pack)。
 * [案例實作網頁 (HTML)](file:///Users/force/Google_Antigravity/attn-class/falo-taiwan/class/a01/class3/class03_gemini_chrome.html) | [Markdown](file:///Users/force/Google_Antigravity/attn-class/falo-taiwan/class/a01/class3/class03_gemini_chrome.md)
 
-#### 4. OCR 辨識策略與 HITL 人機協作實務 (台北郵局分揀案例)
+#### 5. OCR 辨識策略與 HITL 人機協作實務 (台北郵局分揀案例)
 * 分析台北郵件處理中心 OCR 自動分揀誤判考生成績單事件，解析辨識信賴度、例外判定邏輯與人機協作 (HITL) 審核在 ERP 電子發票與排程系統中的應用。
 * [OCR 與 HITL 實務 (HTML)](file:///Users/force/Google_Antigravity/attn-class/falo-taiwan/class/a01/class3/class03_ocr_hitl.html) | [Markdown](file:///Users/force/Google_Antigravity/attn-class/falo-taiwan/class/a01/class3/class03_ocr_hitl.md)
 
-#### 5. 學員課前提問與技術解答 (QA)
+#### 6. LINE 防封鎖工具與 Computer Use 模擬實務
+* 解析 LINE 防封鎖工具開發歷程，展示從社群痛點出發、經由 Gemini Canvas PoC、Antigravity 高規進化，再到文件變形輸出與 Computer Use 模擬操作之完整知識工程實踐。
+* [Computer Use 與防封鎖 (HTML)](file:///Users/force/Google_Antigravity/attn-class/falo-taiwan/class/a01/class3/class03_computer_use.html) | [Markdown](file:///Users/force/Google_Antigravity/attn-class/falo-taiwan/class/a01/class3/class03_computer_use.md)
+
+#### 7. 學員課前提問與技術解答 (QA)
 * 彙整學員提出的 12 個核心技術問題（如 API 效能、AI 命名失控、Token 分配、Docker 環境隔離、安全掃描、PWA APP 開發等）與深度解答。
 * [提問解答頁 (HTML)](file:///Users/force/Google_Antigravity/attn-class/falo-taiwan/class/a01/class3/class03_qas.html) | [Markdown](file:///Users/force/Google_Antigravity/attn-class/falo-taiwan/class/a01/class3/class03_qas.md)
 
-
+#### 8. Chrome 外掛程式載入與部署實戰教學
+* 使用 FALO Instagram Video Enhancer v1.0.1 作為範例，手把手學習如何在開發者模式下部署、載入並測試 Chrome 擴充功能，包含智慧遙控器與 5 種色彩主題。
+* [外掛部署與教學 (HTML)](file:///Users/force/Google_Antigravity/attn-class/falo-taiwan/class/a01/class3/ig/index.html) | [Markdown (README)](file:///Users/force/Google_Antigravity/attn-class/falo-taiwan/class/a01/class3/ig/README.md)
