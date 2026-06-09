@@ -930,16 +930,19 @@
           <p style="font-size: 0.9rem; margin-bottom: 12px; color: var(--text-muted);">
             請複製以下結構化提示詞，並直接貼給 AI 編輯器或 Agent 終端機，它將會直接在你的工作區生成整個 Chrome 外掛：
           </p>
-          <textarea class="prompt-textarea" readonly id="promptText">請在目前的 `chrome-extension` 目錄下，建立一個最精簡的 Manifest V3 規格「銀河 ERP 填單助手」擴充功能。這個外掛需要支援側邊欄（Side-panel）介面。請一次性生成以下 6 個檔案，並在所有程式碼頂部加上 `Falo x Force Cheng 2026/6/6` 的版權與水印宣告（HTML、CSS 採用對應註解格式），且所有代碼都必須附上極為詳盡的繁體中文逐行教學註解：
+          <textarea class="prompt-textarea" readonly id="promptText">我有一個線上 ERP 測試網頁：
+https://falo-taiwan.github.io/class/a01/class3/cases/chrome_extension/erp.html
 
-1. `manifest.json`：設定 MV3 配置，包含 sidePanel 與 activeTab 權限，註冊 background.js、content.js 與 content.css，並使用私有屬性 `_watermark` 標記作者。
-2. `background.js`：只需 3 行程式碼。監聽外掛點擊事件，當點擊瀏覽器工具列的外掛圖示時，呼叫 `chrome.sidePanel.setPanelBehavior` 讓側邊欄直接在右側滑出。
-3. `sidepanel.html`：側邊欄 UI，採用 Outfit 與 Noto Sans TC 字體、軟水彩漸層與磨砂玻璃風格。提供「高亮主網頁欄位」按鈕。包含四組可由使用者修改輸入的文字框（採購單號、產品代碼、進貨數量、產品效期），每個文字框旁邊配有「✍️ 填入」與「🔍 擷取」兩個小按鈕。底部包含「一鍵全填入」與「一鍵全擷取」大按鈕。
-4. `sidepanel.js`：當點擊按鈕時，先定位 active 網頁分頁，再向該分頁發送通訊訊息（動作指令包括：單欄寫入 `fillField`、單欄讀取 `readField`、一鍵全填 `fillForm`、一鍵全擷 `readForm`）。若為讀取擷取指令，需以非同步 callback 接收 content.js 回傳的 DOM 值，並反填回對應的外掛文字框。
-5. `content.js`：注入主網頁運行。監聽來自外掛側邊欄的信件：收到高亮指令時切換欄位邊框 glows；收到寫入指令時將值寫入對應的 input 框並主動派發 `input` 與 `change` 事件以相容 Vue/React；收到讀取擷取指令時，抓取網頁上 input 元素的 value，並將其傳回給側邊欄。
-6. `content.css`：定義 `.falo-highlighted-field` 的發光粉紅邊框樣式，使用 `box-shadow` 與 `!important` 權重。
+請你讀取並解析這張網頁的結構，找出「採購單號」輸入框的 CSS Selector。
 
-請確保程式碼結構最簡化、變數名稱與 ID 直觀（如 `#po-number`），去除所有不必要的複雜底層演算法，以利初學者臨摹與教學。</textarea>
+接著，請在目前的目錄下建立一個 Chrome 側邊欄（Side-panel）外掛，包含以下 5 個檔案：
+1. `manifest.json`（Manifest V3 規格，包含 sidePanel 與 activeTab 權限）
+2. `background.js`（點擊外掛圖示時在右側開啟側邊欄）
+3. `sidepanel.html`（包含一個文字輸入框，以及『填入』與『擷取』兩顆按鈕）
+4. `sidepanel.js`（點擊『填入』時發送訊息將外掛文字框的值寫入網頁；點擊『擷取』時從網頁讀值更新回外掛文字框）
+5. `content.js`（注入網頁運行，負責執行採購單號欄位的 DOM 讀寫通訊，寫入值時需發送 `input` 事件以防止狀態丟失）
+
+所有程式碼請附上中文逐行註解。</textarea>
         </div>
 
         <!-- Agent Terminal Simulator -->
