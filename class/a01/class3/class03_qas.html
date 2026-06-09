@@ -1024,29 +1024,66 @@
             </div>
             <div class="strategy-note">
                 <div class="note-label">Force 顧問對銀河軟體 ERP 的拿捏</div>
-                <p>安全掃描的最佳解是工具鏈與流程治理，但銀河軟體 ERP 同仁最先要學的是問對問題：有沒有客戶資料？有沒有密碼或 token？會不會寫回正式系統？出錯能不能撤回？重要程式不要只靠 AI 自評，應請工程師或 Force 顧問一起 review。</p>
+                <p>這題不要先從 SonarQube、Snyk、CodeQL 這些工具名稱開始。工具當然重要，但對銀河軟體 ERP 顧問、SME 與 AI 使用者而言，更重要的是建立 <strong>AI 時代的安全檢查思維</strong>：AI 可以寫、AI 可以 review、AI 可以反向測試，但最後仍要有人類驗收。</p>
+                <p><strong>第一層：AI × AI Review。</strong>現在最容易落地的方式，不一定是先架掃描平台，而是讓第二個 AI 做 review。例如：Codex 寫程式，Claude Review，ChatGPT 找漏洞，最後由人類確認。AI Review 的成本已經非常低，善用第二個 AI，通常比單靠人工更有效率。</p>
+                <p>但要拿捏清楚：<strong>AI Review 是低成本第一道防線，不是正式保證。</strong>它適合做第一輪檢查、找明顯漏洞、補 checklist、產生反向測試案例；但凡是會碰到正式 ERP、SQL Server、客戶資料、權限或批次更新的內容，仍然要進入人類驗收與專業 review。</p>
+                <p>這就是 <strong>Cross-AI Validation</strong>：不要只相信同一個 AI 的第一版答案，而是讓不同 AI 扮演不同角色。過去可能是工程師 A 寫、工程師 B review、主管驗收；現在可以是 AI 1 寫、AI 2 review、AI 3 反向測試，最後由人類批准。</p>
+                <p><strong>第二層：Checklist 思維。</strong>很多人以為 AI 最重要的是寫程式；但在 AI 時代，更重要的是知道要檢查什麼。銀河軟體 ERP 顧問不一定要背熟所有資安工具，但要能要求 AI 針對必查清單與禁止清單逐項檢查。</p>
+                <p><strong>Force 必查清單：至少要檢查</strong></p>
+                <ul>
+                    <li>SQL Injection、XSS、API Key、Token、權限問題。</li>
+                    <li>資料刪除、錯誤處理、還原機制、log、正式資料保護。</li>
+                </ul>
+                <p><strong>Force 禁止清單：禁止出現</strong></p>
+                <ul>
+                    <li>帳密寫死、API Key 寫死、HTML 直接碰 DB。</li>
+                    <li>AI 直接改正式資料、不可回復的批次更新、無 log 的重要操作。</li>
+                </ul>
+                <p><strong>第三層：AI 其實已經很強。</strong>目前許多優秀 AI，例如 Codex、Claude Code、Gemini Agent，在特定領域其實已經比大多數開發人員更穩定，甚至部分情況下比許多資深工程師更能遵守規範。因此這題不要塑造成「AI 很危險」，而應該理解成：AI 很強，但仍然需要驗證機制。</p>
+                <p>更務實的做法，是把 <span class="inline-warning">有經驗的顧問（如 Force）、老師、工程師或資安專業公司</span> 也放進協作流程。銀河軟體 ERP 顧問可以用強大的 AI 工具寫出或操作接近專業級的軟體，但重要案子仍應找懂 ERP、懂資安、懂客戶現場的人一起討論如何搭配，確認哪些可以交給 AI，哪些需要專家 review，哪些必須進入正式驗收。</p>
+                <p><strong>HITL（Human-in-the-Loop）。</strong>AI 可產生、AI 可 review、AI 可測試，但最終批准仍由人類負責。尤其是 ERP、SQL Server、Excel、外掛與 workflow 場景，真正常見的風險未必是高階 Zero-Day，而是共用帳號、帳密寫死、SQL 直接拼接、正式資料誤更新、無法還原、權限過大。</p>
                 <div class="risk-list">
-                    <div class="risk-item"><span class="risk-tag risk-green">綠燈</span><span>檢查文件、SOP、靜態頁是否含有敏感資訊。</span></div>
-                    <div class="risk-item"><span class="risk-tag risk-yellow">黃燈</span><span>外掛、API、上傳檔案或登入流程，需要安全檢查表與 review。</span></div>
-                    <div class="risk-item"><span class="risk-tag risk-red">紅燈</span><span>把密鑰放在 HTML、直接拼接 SQL、或讓未審查程式接正式客戶資料。</span></div>
+                    <div class="risk-item"><span class="risk-tag risk-green">綠燈</span><span>用第二個 AI 檢查文件、SOP、靜態頁、查詢頁與非正式 demo 是否含敏感資訊或明顯邏輯漏洞。</span></div>
+                    <div class="risk-item"><span class="risk-tag risk-yellow">黃燈</span><span>外掛、API、上傳檔案、登入流程、SQL 查詢與 workflow，需要必查清單/禁止清單檢查、Cross-AI Review 與人類驗收。</span></div>
+                    <div class="risk-item"><span class="risk-tag risk-red">紅燈</span><span>帳密或 API Key 寫死、HTML 直接碰 DB、AI 直接改正式資料、不可回復批次更新、重要操作無 log。</span></div>
                 </div>
+                <p>一句話：不要追求 AI 永遠不犯錯，而是建立一套即使 AI 犯錯，也能快速發現與修正的治理機制。這才是 AI 時代真正的安全觀念。</p>
             </div>
             <div class="answer-box">
-                <p>軟體資安必須透過 <strong>自動化工具（SAST）</strong> 與 <strong>安全編碼守則</strong> 共同把關：</p>
+                <p><strong>有資源的最佳解（企業版參考）：</strong>成熟企業仍然會搭配 SonarQube、Snyk、GitHub CodeQL、SAST、DAST、依賴套件掃描與 CI/CD 安全檢查。AI Review 與專業工具並非互斥，而是互補：工具負責穩定掃描，AI 負責解讀、分類、補測試、產生修補建議與整理治理報告，人類與專家負責批准與治理。</p>
                 <ul>
-                    <li><strong>靜態應用程式安全測試 (SAST) 工具：</strong>
+                    <li><strong>工具層：企業常見安全與品質工具</strong>：
                         <ul>
-                            <li><strong>SonarQube / SonarCloud</strong>：最主流的代碼品質與資安邏輯掃描工具，能分析內存洩漏、未處理的 Edge Cases 以及常見安全威脅。</li>
-                            <li><strong>Snyk</strong>：極力推薦。專門掃描 npm 等專案第三方依賴套件是否存在已知安全漏洞。</li>
-                            <li><strong>GitHub CodeQL</strong>：GitHub 內建的安全分析工具，能在 Pull Request 時自動檢查程式碼中的潛在漏洞。</li>
+                            <li><strong>SonarQube / SonarCloud</strong>：用於程式品質、Code Smell、維護風險、常見安全問題與技術債檢查。</li>
+                            <li><strong>Snyk / Dependabot</strong>：用於第三方套件漏洞管理、開源元件風險管理與相依套件升級提醒。</li>
+                            <li><strong>GitHub CodeQL</strong>：用於 Pull Request 安全分析、自動化程式碼檢查與潛在漏洞查詢。</li>
+                            <li><strong>SAST（Static Application Security Testing）</strong>：對原始碼做靜態分析，在系統尚未執行前找出可能的安全問題。</li>
+                            <li><strong>DAST（Dynamic Application Security Testing）</strong>：對執行中的系統做安全測試，觀察實際請求、回應、登入、權限與弱點暴露情況。</li>
                         </ul>
                     </li>
-                    <li><strong>防範 SQL 注入的結構性解法：</strong>
+                    <li><strong>流程層：工具不能取代治理</strong>：
                         <ul>
-                            <li><strong>參數化查詢 (Prepared Statements)</strong>：SQL Injection 來自將用戶輸入字串直接拼接進 SQL 語句。系統開發必須全面使用參數化，或採用現代 ORM 工具（如 Prisma, Sequelize），其底層均自動實施參數化綁定，能從根本阻絕 SQL 注入。</li>
+                            <li>建議流程：AI 產生 → 第二 AI Review → Checklist → 測試環境驗證 → 人類批准（HITL）→ 正式發布。</li>
+                            <li>工具可以協助找問題，但不能替企業決定風險是否可接受、資料是否可寫回、權限是否合理、客戶承諾是否成立。</li>
+                            <li>重要變更必須留下 log、測試資料、回復方式、審查紀錄與批准者。</li>
+                        </ul>
+                    </li>
+                    <li><strong>ERP 特別注意：高風險通常在資料與權限</strong>：
+                        <ul>
+                            <li>銀河軟體 ERP 情境下，真正高風險的通常是 SQL Server、ERP 權限、Excel 批次更新、API 寫回與客戶資料。</li>
+                            <li>涉及正式資料時，建議使用測試環境、脫敏資料、回復機制與審查紀錄，避免把測試動作變成正式事故。</li>
+                            <li>對 ERP 顧問而言，安全不只是漏洞掃描，也包含流程權限、資料責任、操作紀錄與能否復原。</li>
+                        </ul>
+                    </li>
+                    <li><strong>SQL Injection 結構性防禦：寫得簡單，但要做得嚴格</strong>：
+                        <ul>
+                            <li>不要將使用者輸入直接拼接進 SQL。</li>
+                            <li>優先使用參數化查詢、Stored Procedure、受控 View、API Gateway 與權限控管。</li>
+                            <li>HTML 前端不應直接碰資料庫，帳號、密碼、API Key 與 Token 不應放在前端。</li>
                         </ul>
                     </li>
                 </ul>
+                <p>AI 時代最大的改變，不是工具變強而已，而是 Code Review、安全檢查、流程驗證與邏輯驗證的成本大幅下降。對銀河軟體 ERP 顧問而言，最重要的能力是善用第二個 AI 做 review，建立必查清單與禁止清單，建立 HITL 驗收流程，並知道哪些地方一定要驗證；成熟企業則應同時搭配 SonarQube、Snyk、CodeQL、SAST、DAST 等專業工具，形成 AI Review + 工具掃描 + 人類治理的完整安全流程。</p>
             </div>
         </section>
 
@@ -1066,30 +1103,50 @@
             </div>
             <div class="strategy-note">
                 <div class="note-label">Force 顧問對銀河軟體 ERP 的拿捏</div>
-                <p>分公司外掛可以從 HTML、CSS、JS 這種輕量技術開始，但必須控制邊界。AI 亂加框架不是小事，代表未來交接、維護、部署與資安審查都會變複雜。重要外掛建議先與 Force 確認技術棧、資料來源與維護責任。</p>
+                <p>Q10、Q11、Q12 其實不是三個獨立技術題，而是在問同一件事：<strong>AI 時代的專案治理與產品治理</strong>。不要先從 HTML、React、Docker、Git 或 App 開始講，而要先做專案分級。不同等級專案，治理強度應該不同。</p>
+                <p><strong>Project Tier：先判斷這是哪一級專案</strong></p>
+                <ul>
+                    <li><strong>Tier 1：個人工具</strong>：查詢頁、Dashboard、報表、SOP、Demo。壞掉影響有限，可以快速驗證。</li>
+                    <li><strong>Tier 2：部門工具</strong>：OCR、ETL、Workflow、AI 助手。開始需要 README、版本、負責人。</li>
+                    <li><strong>Tier 3：客戶工具</strong>：ERP 外掛、API、客戶入口。開始需要模組化、版本管理、權限管理、驗收流程。</li>
+                    <li><strong>Tier 4：正式系統</strong>：ERP 核心、財務、庫存、正式 DB。需要 review、governance、HITL 與專業顧問協作。</li>
+                </ul>
+                <p><strong>Q10 的核心：AI 如何避免技術失控。</strong>Force 的看法很直接：AI 一定會亂長。問題不是「會不會」，而是「如何管理」。如果任務一直追加，AI 很容易為了完成需求，自行引入新框架、新後端、新套件或新資料儲存方式。</p>
+                <p><strong>兩條路線要分清楚：</strong></p>
+                <ul>
+                    <li><strong>路線 A：先求有 → 後治理</strong>。適合 PoC、概念驗證、快速打樣。可以讓 AI 快速成長，但要承認它只是探索，不是正式交付架構。</li>
+                    <li><strong>路線 B：先規範 → 後開發</strong>。適合正式案、客戶案、長期維護案。必須先建立技術必用清單、技術禁止清單與開發規範。</li>
+                </ul>
+                <p>PoC 可以快速長大；正式案不能讓 AI 自由長大。正式案一開始就要寫清楚：允許哪些技術、禁止哪些技術、資料能不能保存、能不能登入、能不能接 API、能不能寫回 ERP、誰驗收、誰維護。</p>
                 <div class="risk-list">
-                    <div class="risk-item"><span class="risk-tag risk-green">綠燈</span><span>單頁工具、靜態報表、非正式資料整理與操作教學頁。</span></div>
-                    <div class="risk-item"><span class="risk-tag risk-yellow">黃燈</span><span>需要登入、API、資料保存或多人使用的外掛。</span></div>
-                    <div class="risk-item"><span class="risk-tag risk-red">紅燈</span><span>AI 自行引入不明框架、後端服務或正式 ERP 寫回機制。</span></div>
+                    <div class="risk-item"><span class="risk-tag risk-green">綠燈</span><span>Tier 1 PoC、Demo、單頁工具，可以先求有，但要標示為非正式交付。</span></div>
+                    <div class="risk-item"><span class="risk-tag risk-yellow">黃燈</span><span>Tier 2 / Tier 3 部門工具與客戶工具，需要技術清單、資料邊界、負責人與驗收方式。</span></div>
+                    <div class="risk-item"><span class="risk-tag risk-red">紅燈</span><span>Tier 4 正式系統、正式 DB、財務、庫存、ERP 核心，不可讓 AI 自行決定架構或寫回流程。</span></div>
                 </div>
             </div>
             <div class="answer-box">
-                <p><strong>答案是：會。</strong> 如果沒有適當約束，當系統邏輯變複雜時，AI 會因為網路上大宗的程式碼範本，自作主張引入 React、Vue 語法，或是載入 Webpack/Vite 等複雜建置工具，甚至引入 Node.js 後端語法到瀏覽器端，導致專案技術債爆棚。</p>
-                <p><strong>防範與確保順暢的對策：</strong></p>
+                <p><strong>有資源的最佳解（企業版參考）：</strong>正式團隊會把「AI 技術越權」當成架構治理問題，而不只是 prompt 問題。AI 可以很會寫，但它必須在明確的 architecture boundary 裡寫。</p>
                 <ul>
-                    <li><strong>設定強制的 Rule File</strong>：在專案中加入 <code>.clinerules</code> 或 <code>.cursorrules</code> 檔案，明定：
-                        <div class="code-block">
-本專案僅限使用原生 HTML5、CSS3 與原生 ES Modules（Vanilla JavaScript）。禁止引入 React、Vue、Angular、TypeScript 或任何前端打包/編譯工具（如 Vite, Webpack）。所有的模組拆分必須使用瀏覽器原生支援的 import/export。</div>
-                    </li>
-                    <li><strong>實施模組化架構（Vanilla JS 的長大心法）</strong>：不要把所有 JS 寫在一起。即使是用原生 JS，也要定義好清晰的目錄，例如：
+                    <li><strong>技術必用清單 / 禁止清單</strong>：
                         <ul>
-                            <li><code>/css/components/</code> 存放 UI 樣式</li>
-                            <li><code>/js/services/</code> 存放 API 串接邏輯</li>
-                            <li><code>/js/components/</code> 存放 UI 模組的 JS 互動</li>
+                            <li>明定可用技術，例如 HTML、RWD、GAS、API Gateway、SQL View、Python Runtime、指定套件版本。</li>
+                            <li>明定禁止技術，例如未批准框架、未批准資料庫、未批准後端服務、未批准雲端儲存、直接寫回正式 ERP。</li>
                         </ul>
                     </li>
-                    <li><strong>落實 Git 程式碼審查 (Human-in-the-loop)</strong>：工程師在接受 AI 改動前，一定要親自檢視變更，把關系統維護性，不符合原生架構的變更直接要求 AI 重寫。</li>
+                    <li><strong>開發規範與 AI 規則檔</strong>：
+                        <ul>
+                            <li>在 README、PROJECT.md、AI_RULES.md 或 coding agent 規則中寫清楚專案 Tier、允許技術、資料邊界與驗收條件。</li>
+                            <li>AI 每次改動後，要檢查是否新增未批准的框架、套件、後端、DB、權限或寫回能力。</li>
+                        </ul>
+                    </li>
+                    <li><strong>模組化與 HITL</strong>：
+                        <ul>
+                            <li>正式案要把 UI、API、資料存取、權限、log、錯誤處理分開，避免 AI 把所有邏輯塞在一起。</li>
+                            <li>涉及 Tier 3 / Tier 4 的變更，必須由人類或專業顧問 review，不能只靠 AI 自評。</li>
+                        </ul>
+                    </li>
                 </ul>
+                <p>結論：Q10 不是在問要不要用 React 或 Docker，而是在問 AI 開發如何不失控。PoC 可以快，正式案要有規範；AI 可以寫，技術邊界要由人類治理。</p>
             </div>
         </section>
 
@@ -1109,38 +1166,53 @@
             </div>
             <div class="strategy-note">
                 <div class="note-label">Force 顧問對銀河軟體 ERP 的拿捏</div>
-                <p>系統性維護不是叫每位員工都會 Git，而是每個案子都要有負責人、版本、資料來源、修改原因、驗收方式、回復方案與接手文件。這題會延伸 Q8 的環境治理：環境是否乾淨，會直接影響日後維護、移轉、接手、客戶部署、版本管理與資安治理。</p>
-                <p>外掛越貼近客戶營運，就越不能靠個人熱心和 AI 一次生成，必須變成可管理的小專案。至少要能回答：這個系統在哪裡跑？誰有權限？用哪個 Python / Node / API 版本？資料從哪裡來？密鑰放哪裡？換一台電腦能不能重建？換一位顧問能不能接手？</p>
+                <p>Q11 的重點不是 Git、PR、Branch，而是 <strong>如何避免專案失控</strong>。AI 時代功能長得很快，客製也會變快；真正的風險不是做不出來，而是每個客戶最後都變成一套新系統，沒有人能維護。</p>
+                <p><strong>專案生命週期治理：</strong></p>
+                <ul>
+                    <li><strong>第一階段：PoC</strong>：先驗證價值，不急著變正式系統。</li>
+                    <li><strong>第二階段：收斂</strong>：找出共通功能，判斷哪些需求其實可以共用。</li>
+                    <li><strong>第三階段：標準化</strong>：建立元件庫，例如 OCR、Workflow、Dashboard、查詢模組、通知模組。</li>
+                    <li><strong>第四階段：治理</strong>：進入版本管理、差異管理、定期 Review 與 SLA。</li>
+                </ul>
+                <p>Force 的核心觀點是：不要急著統一所有客戶版本，而是建立 <strong>標準版、客製版、元件庫</strong>。標準版由銀河軟體維護；客製版獨立管理；客戶需求盡量建立在標準元件之上，避免每個客戶都從零變成一套新系統。</p>
+                <p><strong>客製化治理：</strong>客製功能不是不能做，但要明確管理。定期 Review 時要判斷：要收斂回標準版？保持客製版？還是退役？AI 讓客製速度變快，但維護成本沒有消失。</p>
+                <p><strong>SLA 與共同責任：</strong>標準功能可納入服務水準；客製功能要另行約定維護責任、相容性、測試責任、升級策略與支援範圍。系統維護不是單方面責任，銀河軟體負責開發、文件、建議與維護；客戶也要負責測試、驗收與回報。</p>
                 <div class="risk-list">
-                    <div class="risk-item"><span class="risk-tag risk-green">綠燈</span><span>用表格或文件記錄需求、版本、修改原因、操作人、環境條件與驗收結果。</span></div>
-                    <div class="risk-item"><span class="risk-tag risk-yellow">黃燈</span><span>多人使用、客戶會看到、或要長期維護的外掛，需要專案管理、安裝文件、測試資料與移轉清單。</span></div>
-                    <div class="risk-item"><span class="risk-tag risk-red">紅燈</span><span>無負責人、無版本紀錄、無環境說明、無測試資料、無回復方案就交付或接正式流程。</span></div>
+                    <div class="risk-item"><span class="risk-tag risk-green">綠燈</span><span>PoC、內部工具、單一部門使用，可先用簡單版本紀錄與負責人管理。</span></div>
+                    <div class="risk-item"><span class="risk-tag risk-yellow">黃燈</span><span>客戶工具、多人使用、長期維護案，需要標準版/客製版、元件庫、驗收紀錄與 SLA。</span></div>
+                    <div class="risk-item"><span class="risk-tag risk-red">紅燈</span><span>每個客戶各做一套、無版本紀錄、無測試紀錄、無維護責任、無退役機制。</span></div>
                 </div>
             </div>
             <div class="answer-box">
-                <p><strong>有資源的最佳解（參考用）：</strong>隨著功能膨脹，系統要能永續維護，必須同時管理程式碼、環境、資料、權限、部署與交接。Q8 是環境基礎，Q11 則是長期維運與移轉治理。</p>
+                <p><strong>有資源的最佳解（企業版參考）：</strong>成熟企業會把維護問題做成產品治理，不只是程式碼管理。Q8 是環境基礎，Q10 是技術治理，Q11 則是版本治理、客製治理與長期維運治理。</p>
                 <ul>
-                    <li><strong>版本與變更管理</strong>：
+                    <li><strong>標準版 / 客製版 / 元件庫</strong>：
                         <ul>
-                            <li><code>main</code> 分支必須永遠保持穩定、可隨時上線部署的狀態。</li>
-                            <li><code>dev</code> 分支做為開發合併與測試。</li>
-                            <li>開發新功能時，必須切出 <code>feature/xxx</code>，開發測試完成後，發起 Pull Request (PR) 進行 Code Review 才能併入。</li>
+                            <li><strong>標準版</strong>：銀河軟體維護，納入服務水準與升級策略。</li>
+                            <li><strong>客製版</strong>：獨立管理，需明確記錄客戶、版本、差異、責任與支援範圍。</li>
+                            <li><strong>元件庫</strong>：OCR、Workflow、Dashboard、查詢模組、通知模組等共通能力，盡量重用而不是重做。</li>
                         </ul>
                     </li>
-                    <li><strong>維護與移轉包</strong>：
+                    <li><strong>定期 HITL Review</strong>：
                         <ul>
-                            <li>每個長期專案都應保留 <code>README.md</code>、<code>INSTALL.md</code>、<code>CHANGELOG.md</code>、<code>config.sample.json</code>、測試資料、啟動腳本、部署位置、帳號權限說明與回復方式。</li>
-                            <li>若有 Python / Node / API / SQL Gateway，必須記錄版本、安裝方式、相依套件、環境變數、log 位置與如何在新機器上重建。</li>
+                            <li>建議每季或半年進行一次，檢查是否仍在使用、是否偏離標準、是否需要重構、是否需要退役。</li>
+                            <li>Review 不只是工程檢查，也包含客戶流程、權限、資料責任、SLA 與維護成本。</li>
                         </ul>
                     </li>
-                    <li><strong>測試與驗收防護網</strong>：
+                    <li><strong>SLA 與客戶共同責任</strong>：
                         <ul>
-                            <li>新功能增加時，手動測試不可能測遍所有角落。至少要有操作驗收清單、測試資料、回歸測試步驟；重要系統再加入單元測試、自動化測試與 CI。</li>
-                            <li>一旦發現某個模組過大、流程過亂或環境太依賴個人電腦，就應主動重構，讓 AI 協助拆分模組、補文件、補測試，但最後仍由人類驗收。</li>
+                            <li>標準功能可納入維護合約；客製功能需另行約定相容性、測試責任、升級策略與支援範圍。</li>
+                            <li>重要功能應留下測試紀錄、驗收紀錄與回報紀錄。這不只是保護客戶，也是保護銀河軟體。</li>
+                        </ul>
+                    </li>
+                    <li><strong>Git / PR / Branch 是輔助，不是起點</strong>：
+                        <ul>
+                            <li>當專案進入 Tier 3 / Tier 4，才需要把 Git 分支、Pull Request、Code Review、自動化測試與 release note 做完整。</li>
+                            <li>工具是治理的載體；真正重要的是版本責任、差異責任與客戶承諾。</li>
                         </ul>
                     </li>
                 </ul>
-                <p>長期來看，能不能維護不是看第一版功能多漂亮，而是看它能不能被重建、被理解、被測試、被移轉、被接手。這就是 Q8 環境治理在 Q11 的延伸。</p>
+                <p>長期來看，能不能維護不是看第一版功能多漂亮，而是看它能不能被重建、被理解、被測試、被移轉、被接手、被退役。AI 時代客製速度變快，但維護成本沒有消失，所以客製功能要被管理，而不是被放任生長。</p>
             </div>
         </section>
 
@@ -1160,33 +1232,52 @@
             </div>
             <div class="strategy-note">
                 <div class="note-label">Force 顧問對銀河軟體 ERP 的拿捏</div>
-                <p>銀河軟體 ERP 若要強化行動化服務，優先考慮 PWA、行動版報表、客戶入口頁與輕量外掛，不要一開始就把目標放在正式上架 App。App 一旦涉及帳務、庫存、客戶資料或正式流程，就需要完整專案治理與 Force/工程團隊共同規劃。</p>
+                <p>Q12 不要先問「要不要開發 App」，而要先問：<strong>真的需要 App 嗎？</strong>對大部分 ERP 客戶需求來說，HTML、RWD、PWA 就能解決很多行動化問題。App 是最後手段，不是第一選項。</p>
+                <p><strong>Force 建議：HTML First。</strong></p>
+                <div class="flow-diagram">
+                    <div class="flow-node">HTML</div> <div class="flow-arrow">→</div>
+                    <div class="flow-node">RWD</div> <div class="flow-arrow">→</div>
+                    <div class="flow-node">PWA</div> <div class="flow-arrow">→</div>
+                    <div class="flow-node">特殊需求才 App</div>
+                </div>
+                <p>先把報表、查詢、表單、Dashboard、客戶入口與內部 workflow 做成手機可讀、手機可操作的 Web。若需要接近 App 的體驗，再考慮 PWA。只有遇到推播深度整合、離線能力、特殊硬體、特殊手機能力、背景工作或平台整合時，才認真評估原生 App 或跨平台 App。</p>
+                <p>這題其實是 Q10、Q11 的延伸：Q10 是技術治理，Q11 是版本治理，Q12 是交付治理。交付型態越重，治理責任越高。App 一旦上架，就會牽涉審查、版本、相容性、手機型號、作業系統、權限、更新、客服與 SLA。</p>
                 <div class="risk-list">
-                    <div class="risk-item"><span class="risk-tag risk-green">綠燈</span><span>手機可讀報表、PWA demo、內部查詢頁、文件入口。</span></div>
-                    <div class="risk-item"><span class="risk-tag risk-yellow">黃燈</span><span>客戶可登入的外掛或行動工作流，需要權限、紀錄與驗收設計。</span></div>
-                    <div class="risk-item"><span class="risk-tag risk-red">紅燈</span><span>未經治理就上架 App，或讓 App 直接處理正式 ERP 寫回與敏感資料。</span></div>
+                    <div class="risk-item"><span class="risk-tag risk-green">綠燈</span><span>HTML、RWD、手機可讀報表、查詢頁、Dashboard、文件入口、PWA demo。</span></div>
+                    <div class="risk-item"><span class="risk-tag risk-yellow">黃燈</span><span>客戶登入、行動 workflow、PWA、API 寫回，需要權限、紀錄、驗收與支援範圍。</span></div>
+                    <div class="risk-item"><span class="risk-tag risk-red">紅燈</span><span>未經治理就上架 App，或讓 App 直接處理正式 ERP、財務、庫存、敏感資料與不可回復流程。</span></div>
                 </div>
             </div>
             <div class="answer-box">
-                <p>針對銀河軟體 ERP 這類企業協同/管理軟體，<strong>非常不建議直接開發傳統的原生 iOS / Android App</strong>。因為這會帶來極高的平台審查枷鎖與維護成本：</p>
+                <p><strong>有資源的最佳解（企業版參考）：</strong>行動化不是只有 App 一種交付型態。成熟企業會先做 delivery channel matrix，判斷每個功能適合 Web、RWD、PWA、內部入口、客戶入口、原生 App 或跨平台 App。</p>
                 <ul>
-                    <li><strong>平台上架與審查負擔</strong>：Apple App Store 與 Google Play 對 App 審查極嚴，每次修 Bug 改代碼都需要重新打包送審（Apple 通常需 1~3 天），若 App 內提供客戶加值訂閱功能，還會被抽 15%~30% 的平台稅。</li>
-                    <li><strong>手機硬體與作業系統碎片化</strong>：iOS 與 Android 對後台執行限制、推播通知機制以及手機權限（相機、定位）在不同作業系統版本上差異極大，測試與維護工作量常是 Web 專案的三倍以上。</li>
-                </ul>
-                <p><strong>💡 企業 ERP 系統的最佳替代方案：</strong></p>
-                <ul>
-                    <li><strong>首選方案：PWA (Progressive Web App)</strong>
+                    <li><strong>HTML / RWD</strong>：
                         <ul>
-                            <li><strong>原理</strong>：PWA 本質上是寫得極好的響應式網頁，但使用者可以在手機瀏覽器點擊「加入主畫面」，它就會像 App 一樣在手機獨立運作，並支援離線快取、推播通知等。</li>
-                            <li><strong>優點</strong>：<strong>完全不需要上架審查，也不用支付平台年費</strong>。伺服器端一更新，使用者下次開啟即是最新版本，徹底繞過 App Store 的審查困境，維護極為簡單。</li>
+                            <li>最適合報表、查詢、表單、Dashboard、SOP、客戶入口與內部 workflow。</li>
+                            <li>優點是部署快、更新快、維護成本低、客戶不用上架 App。</li>
                         </ul>
                     </li>
-                    <li><strong>次選方案：跨平台框架 (Flutter / Expo React Native)</strong>
+                    <li><strong>PWA</strong>：
                         <ul>
-                            <li>若因商務因素一定要上架 App Store，應避免用 Swift/Kotlin 分開開發。採用 <strong>Expo React Native</strong> 可實現寫一套 JavaScript 代碼產出雙平台 App，且 Expo 支援 OTA (Over-The-Air) 熱更新，小規模修改 UI 邏輯不需要經過 Apple/Google 重複審查即可推播更新給用戶。</li>
+                            <li>適合需要類 App 體驗、加入主畫面、部分離線快取、手機友善操作的情境。</li>
+                            <li>仍保有 Web 更新快速、免商店審查的優勢，但權限、離線與推播能力要依平台限制評估。</li>
+                        </ul>
+                    </li>
+                    <li><strong>特殊需求才 App</strong>：
+                        <ul>
+                            <li>App 適合推播深度整合、離線能力、特殊硬體、相機/定位/藍牙/NFC 等特殊手機能力，或需要企業 MDM / 平台政策整合的案子。</li>
+                            <li>一旦走 App，就要管理平台審查、版本發布、手機規格、OS 相容性、權限、客服、SLA 與資安責任。</li>
+                        </ul>
+                    </li>
+                    <li><strong>Q10~Q12 共同治理目標</strong>：
+                        <ul>
+                            <li><strong>Q10 技術治理</strong>：避免 AI 技術失控。</li>
+                            <li><strong>Q11 版本治理</strong>：避免客製失控與維護失控。</li>
+                            <li><strong>Q12 交付治理</strong>：避免交付型態過重、SLA 不清、客戶支援成本失控。</li>
                         </ul>
                     </li>
                 </ul>
+                <p>AI 時代最大的風險，不是 AI 不夠強，而是專案長太快、客製太快、技術太多、沒有人治理。因此 Q10~Q12 的共同目標，是建立規範、模組化、AI 管理、專案分級、SLA 與 HITL Review，讓系統能持續成長，而不會失控。</p>
             </div>
         </section>
 
