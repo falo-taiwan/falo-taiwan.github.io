@@ -310,5 +310,36 @@
       "falo-taiwan/class/a01/class3/class03_coexistence.md",
       "falo-taiwan/class/a01/class3/class03_coexistence.html"
     ]
+  },
+  {
+    "timestamp": "2026-06-09T12:20:00+08:00",
+    "action_type": "project_restructured",
+    "description": "新增主題十「從 RPA 到 AI Agent」教材，梳理人工流程到 Multi-Agent 的演進路線與 Workflow 治理觀念，並整合進主頁大綱與歷史彙整頁面。",
+    "operator": "AI (Antigravity)",
+    "files_affected": [
+      "falo-taiwan/class/a01/class3/index.html",
+      "falo-taiwan/class/a01/class3/index.md",
+      "falo-taiwan/class/a01/class3/class03_rpa_to_agent.html",
+      "falo-taiwan/class/a01/class3/class03_rpa_to_agent.md",
+      "history.md",
+      "history.html",
+      "sync_and_push.py"
+    ]
+  },
+  {
+    "timestamp": "2026-06-09T12:35:00+08:00",
+    "action_type": "project_restructured",
+    "description": "更新主題十「從 ERP 外掛到 AI Agent」教材，對齊天心 ERP 顧問開發視角，加入 Event-Rule-Action 的 Workflow 模式案例與 6 階段演進，深化 AI 治理白箱優勢。",
+    "operator": "AI (Antigravity)",
+    "files_affected": [
+      "falo-taiwan/class/a01/class3/index.html",
+      "falo-taiwan/class/a01/class3/index.md",
+      "falo-taiwan/class/a01/class3/class03_rpa_to_agent.html",
+      "falo-taiwan/class/a01/class3/class03_rpa_to_agent.md",
+      "history.md",
+      "history.html",
+      "logs.md",
+      "logs.json"
+    ]
   }
 ]

@@ -1,6 +1,6 @@
-# 銀河軟體 ERP 內訓課程：Class 03 課程大綱 (index.md)
+# 天心軟體 ERP 內訓課程：Class 03 課程大綱 (index.md)
 
-* **課程名稱**：銀河軟體 ERP 企業 AI 應用與導入策略
+* **課程名稱**：天心軟體 ERP 企業 AI 應用與導入策略
 * **模組代號**：Class 03
 * **課程主題**：AI Agent 與 Vibe Coding 實戰及知識資產化
 * **授課教師**：鄭穎臨 老師
@@ -50,6 +50,16 @@ Class 03 專注於讓學員理解最新的 **AI Agent 協同開發思維 (Vibe C
 * **簡介**：使用 FALO Instagram Video Enhancer v1.0.1 作為範例，手把手學習如何在開發者模式下部署、載入並測試 Chrome 擴充功能，包含智慧遙控器與 5 種主題切換、鍵盤快捷鍵等功能。
 * **詳細課件網頁**：[ig/index.html](ig/index.html)
 * **AI 專用文件**：[ig/README.md](ig/README.md)
+
+### 9. 主題九：Vibe Coding 實戰武器庫與地雲整合工具清單
+* **簡介**：盤點並分類 Class 03 核心實戰工具，涵蓋 AI 原型開發（Antigravity、Claude Code）、知識提煉（NotebookLM、Perplexity）與地雲整合實作（GAS、地端 Python 伺服器、ngrok 穿透），為 Class 04 系統整合奠定地基。
+* **詳細課件網頁**：[class03_tools.html](class03_tools.html)
+* **AI 專用文件**：[class03_tools.md](class03_tools.md)
+
+### 10. 主題十：從 ERP 外掛到 AI Agent
+* **簡介**：理清企業自動化演進六階段（人工 ➔ ERP 客製 ➔ RPA ➔ Workflow ➔ AI Agent ➔ Multi-Agent）。立足天心 ERP 顧問熟悉之 Workflow 模式（Event-Rule-Action），探討白箱架構 n8n 在 AI 治理中的全新優勢與 AI Review Workflow 新觀念。
+* **詳細課件網頁**：[class03_rpa_to_agent.html](class03_rpa_to_agent.html)
+* **AI 專用文件**：[class03_rpa_to_agent.md](class03_rpa_to_agent.md)
 
 ---
 

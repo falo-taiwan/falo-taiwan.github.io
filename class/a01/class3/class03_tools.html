@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Class 03 主題九 | Vibe Coding 實戰武器庫與地雲整合工具</title>
+    <meta name="description" content="盤點並分類 Class 03 核心實戰工具，涵蓋 AI 原型開發、知識提煉與地雲整合實作，為 Class 04 系統整合奠定地基。">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-gradient: radial-gradient(circle at 50% 50%, #060919 0%, #010207 100%);
+            --primary: #8b5cf6;
+            --primary-glow: rgba(139, 92, 246, 0.12);
+            --secondary: #3b82f6;
+            --secondary-glow: rgba(59, 130, 246, 0.12);
+            --accent: #10b981;
+            --card-bg: rgba(15, 23, 42, 0.55);
+            --card-border: rgba(255, 255, 255, 0.06);
+            --card-hover-border: rgba(139, 92, 246, 0.35);
+            --text-primary: #f3f4f6;
+            --text-secondary: #9ca3af;
+            --text-muted: #4b5563;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Outfit', 'Inter', 'Noto Sans TC', sans-serif;
+            background: var(--bg-gradient);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 3rem 1.5rem;
+            overflow-x: hidden;
+        }
+
+        .glow {
+            position: absolute;
+            width: 450px;
+            height: 450px;
+            border-radius: 50%;
+            background: radial-gradient(circle, var(--primary-glow) 0%, transparent 70%);
+            z-index: -1;
+            filter: blur(60px);
+        }
+        .glow-1 { top: 5%; left: 8%; }
+        .glow-2 { bottom: 10%; right: 8%; }
+
+        header {
+            max-width: 1000px;
+            margin: 0 auto 3.5rem auto;
+            text-align: center;
+        }
+
+        .tagline {
+            display: inline-block;
+            background: rgba(139, 92, 246, 0.08);
+            border: 1px solid rgba(139, 92, 246, 0.2);
+            color: #c084fc;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            padding: 0.4rem 1.2rem;
+            border-radius: 9999px;
+            margin-bottom: 1.25rem;
+        }
+
+        h1 {
+            font-size: 2.6rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #ffffff 40%, #c084fc 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.75rem;
+            letter-spacing: -0.01em;
+        }
+
+        header p {
+            color: var(--text-secondary);
+            font-size: 1.15rem;
+        }
+
+        main {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 2.5rem;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 2.25rem;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.45);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            border-color: var(--card-hover-border);
+            box-shadow: 0 15px 40px rgba(139, 92, 246, 0.12);
+            transform: translateY(-2px);
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            opacity: 0.6;
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        h2 svg {
+            width: 24px;
+            height: 24px;
+            fill: none;
+            stroke: var(--primary);
+            stroke-width: 2;
+        }
+
+        /* 3-Column Concept Grid */
+        .tools-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        @media (min-width: 768px) {
+            .tools-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .tool-item {
+            background: rgba(255, 255, 255, 0.015);
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: all 0.2s ease;
+        }
+
+        .tool-item:hover {
+            background: rgba(139, 92, 246, 0.03);
+            border-color: rgba(139, 92, 246, 0.15);
+        }
+
+        .tool-title {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .tool-title span.badge {
+            background: rgba(139, 92, 246, 0.15);
+            color: #c084fc;
+            padding: 0.15rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .tool-title span.badge.badge-cyan {
+            background: rgba(59, 130, 246, 0.15);
+            color: #60a5fa;
+        }
+
+        .tool-title span.badge.badge-green {
+            background: rgba(16, 185, 129, 0.15);
+            color: #34d399;
+        }
+
+        .tool-desc {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+            margin-bottom: 0.5rem;
+        }
+
+        .tool-spec {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            border-left: 2px solid rgba(255, 255, 255, 0.1);
+            padding-left: 0.5rem;
+            margin-top: 0.5rem;
+        }
+
+        /* Back Button */
+        .btn-back {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            color: #ffffff;
+            font-size: 0.9rem;
+            font-weight: 600;
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            margin-top: 1rem;
+            align-self: center;
+        }
+
+        .btn-back:hover {
+            background: rgba(139, 92, 246, 0.1);
+            border-color: rgba(139, 92, 246, 0.3);
+            color: #c084fc;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 4rem;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding-top: 2rem;
+        }
+
+        footer a {
+            color: var(--text-secondary);
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            color: var(--primary);
+        }
+    </style>
+</head>
+<body>
+    <div class="glow glow-1"></div>
+    <div class="glow glow-2"></div>
+
+    <header>
+        <div class="tagline">Class 03 Topic 09</div>
+        <h1>主題九：Vibe Coding 實戰武器庫</h1>
+        <p>盤點並分類 Class 03 核心實戰工具，為 Class 04 系統整合奠定工具地基</p>
+    </header>
+
+    <main>
+        <!-- Section 1: AI Coding & Prototyping -->
+        <section class="card">
+            <h2>
+                <svg viewBox="0 0 24 24"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+                <span>AI 程式開發與原型代理 (Coding & Prototyping)</span>
+            </h2>
+            <div class="tools-grid">
+                <div class="tool-item">
+                    <div class="tool-title">
+                        <span>Antigravity / Codex</span>
+                        <span class="badge">Agent</span>
+                    </div>
+                    <div class="tool-desc">具備地端終端指令執行與精密檔案 Diff 補丁修改能力的 AI 代理。</div>
+                    <div class="tool-spec"><strong>實務重點：</strong>自動化執行規劃、執行與驗收三部曲，避免整檔覆寫造成的 Token 浪費與錯誤。</div>
+                </div>
+                <div class="tool-item">
+                    <div class="tool-title">
+                        <span>Claude Code</span>
+                        <span class="badge">Agent</span>
+                    </div>
+                    <div class="tool-desc">Anthropic 推出的 Terminal 命令行代碼代理人，直接對本地代碼庫進行對話式編輯。</div>
+                    <div class="tool-spec"><strong>實務重點：</strong>在 CLI 下快速發起程式重構、直接執行本機單元測試並自動產生 Git 提交。</div>
+                </div>
+                <div class="tool-item" style="grid-column: 1 / -1;">
+                    <div class="tool-title">
+                        <span>Claude Artifacts / v0.dev</span>
+                        <span class="badge">Prototyping</span>
+                    </div>
+                    <div class="tool-desc">網頁端 UI 快速互動原型設計工具，可即時渲染出前端元件畫面。</div>
+                    <div class="tool-spec"><strong>實務重點：</strong>在進階寫檔前，先透過對話調整出漂亮的前端網頁，再將代碼直接匯出以節省刻介面時間。</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: Knowledge & Research -->
+        <section class="card">
+            <h2>
+                <svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+                <span>知識工程與即時研究 (Knowledge & Research)</span>
+            </h2>
+            <div class="tools-grid">
+                <div class="tool-item">
+                    <div class="tool-title">
+                        <span>NotebookLM</span>
+                        <span class="badge badge-cyan">Refinery</span>
+                    </div>
+                    <div class="tool-desc">專案理解與知識提煉煉油廠。</div>
+                    <div class="tool-spec"><strong>實務重點：</strong>倒入 legacy 程式碼、SQL DDL、ERP 手冊等「原油」，提煉出精準問答、FAQ 或中文大綱，做為 AI 輔助規格提煉。</div>
+                </div>
+                <div class="tool-item">
+                    <div class="tool-title">
+                        <span>Perplexity</span>
+                        <span class="badge badge-cyan">Research</span>
+                    </div>
+                    <div class="tool-desc">即時聯網技術搜尋引擎與 AI 瀏覽器。</div>
+                    <div class="tool-spec"><strong>實務重點：</strong>秒查第三方 API 最新官方規格、第三方依賴改版細節或特定的程式報錯解決偏方。</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: Local-Cloud Bridging -->
+        <section class="card">
+            <h2>
+                <svg viewBox="0 0 24 24"><path d="M12 22v-9m0 0l-4 4m4-4l4 4M5 12a7 7 0 0 1 14 0s-1 2-3 2h-8c-2 0-3-2-3-2z"/></svg>
+                <span>地雲整合與通信橋樑 (Integration & Bridging)</span>
+            </h2>
+            <div class="tools-grid">
+                <div class="tool-item">
+                    <div class="tool-title">
+                        <span>Google Apps Script (GAS)</span>
+                        <span class="badge badge-green">Cloud Server</span>
+                    </div>
+                    <div class="tool-desc">Google 生態系輕量 Serverless API 後端，支援無縫存取 Sheet、Mail 與 Calendar。</div>
+                    <div class="tool-spec"><strong>實務重點：</strong>藉由 HTML Fetch API 連接 GAS，實現網頁前端數據即時寫入雲端 Sheet 的超低阻礙對接。</div>
+                </div>
+                <div class="tool-item">
+                    <div class="tool-title">
+                        <span>地端 HTML Server & Python 呼叫</span>
+                        <span class="badge badge-green">Local Server</span>
+                    </div>
+                    <div class="tool-desc">地端 full-stack 自動化架構，以 Web UI 觸發本機 Python 執行作業系統層任務。</div>
+                    <div class="tool-spec"><strong>實務重點：</strong>使用 HTML 按鈕觸發 Python 呼叫本機 CLI、執行大宗檔案重新命名或 OCR 辨識排程。</div>
+                </div>
+                <div class="tool-item" style="grid-column: 1 / -1;">
+                    <div class="tool-title">
+                        <span>ngrok / LocalTunnel</span>
+                        <span class="badge badge-green">Tunnel</span>
+                    </div>
+                    <div class="tool-desc">地端 Webhook 穿透聯測工具。</div>
+                    <div class="tool-spec"><strong>實務重點：</strong>將地端 `localhost` 服務秒變 HTTPS 公網網址，以便在本地直接接收 LINE Bot 訊息或外部 ERP webhooks 回傳，省去雲端部署時間。</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Navigation back -->
+        <a href="index.html" class="btn-back">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+            返回 Class 03 課程大綱
+        </a>
+    </main>
+
+    <footer>
+        <p>銀河 ERP 內訓課程 Class 03 主題九 &copy; 2026 | 設計符合 AI (Markdown) 與人類 (Premium HTML) 雙重閱讀標準</p>
+        <p style="margin-top: 0.5rem;">
+            <a href="index.html">返回 Class 03 課程大綱</a> |
+            <a href="class03_tools.md">檢視 AI 專用 Markdown 檔案</a> |
+            <a href="../../../logs.md">檢視 FALO 軌跡日誌</a>
+        </p>
+    </footer>
+</body>
+</html>
