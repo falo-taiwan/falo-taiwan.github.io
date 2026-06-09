@@ -673,25 +673,44 @@
             </div>
             <div class="strategy-note">
                 <div class="note-label">Force 顧問對銀河軟體 ERP 的拿捏</div>
-                <p>高價值模型要用在高價值判斷：需求拆解、風險辨識、架構審查、交付文件與重要案型討論。一般摘要、初稿、分類與格式整理可以用較便宜或較快的工具處理；重要客戶案與正式外掛，建議多與 Force 交流，避免把 token 花在大量試錯。</p>
+                <p>這題表面上是在問「Codex 付費後還是有限制，怎麼分配？」但 Force 真正想帶出的不是省 token，而是 <strong>AI 團隊與 AI 資源治理</strong>。未來企業真正需要的不是學會某一個 AI，而是管理一群 AI，讓人與 AI、AI 與 AI 可以共同協作，並且可治理、可交接、可追溯、可維護。</p>
+                <p>銀河軟體 ERP 同仁目前可能會各自使用 ChatGPT、Gemini、Claude、Codex、Antigravity。這些工具如果各自獨立使用，短期會很方便，長期卻容易出現知識分散、紀錄斷裂、客戶資料混用、帳號無法交接與成本失控。因此 Q3 不應只回答「怎麼省 Codex 用量」，而要建立 <strong>AI Portfolio（AI 組合管理）</strong> 的觀念。</p>
+                <p><strong>Force 建議的 AI 主力與輔助策略：</strong></p>
+                <ul>
+                    <li><strong>主力：Antigravity</strong>：適合長文件、教材、SOP、標案、專案文件。它可以作為知識工程與文件產出的主要工作台。</li>
+                    <li><strong>輔助 1：Codex</strong>：適合程式、架構、review、debug、agent runtime。它不是拿來取代所有 AI，而是用在高價值工程判斷與技術審查。</li>
+                    <li><strong>輔助 2：Claude</strong>：適合第二意見、長文驗證、特殊觀點補充。當重要文件或策略需要不同模型視角時，可作為交叉驗證角色。</li>
+                    <li><strong>Google 生態觀察</strong>：Google AI Pro / Ultra、Gemini、NotebookLM、Deep Research、Deep Think、Antigravity 與 Workspace 整合，值得觀察的重點不是單一模型能力，而是協作、文件、workflow、KM 與 agent 生態是否能成為顧問團隊的標準平台。</li>
+                </ul>
+                <p><strong>Force 認為最重要的是共用 Context，不是共用模型。</strong>對個人、分公司或 SME 來說，最方便的 cowork 工具不是昂貴平台，而是一個穩定的專案資料夾。未來專案應建立共用 context，讓 Antigravity、Codex、Claude、Gemini 都讀同一套文件，例如 <code>README.md</code>、<code>PROJECT.md</code>、<code>TASK.md</code>、<code>MEETING.md</code>、<code>SOP.md</code>、<code>DECISION_LOG.md</code>。這樣不同 AI 才不會各自猜測背景，而是圍繞同一份 context 協作。</p>
+                <p><strong>md + html 雙格式治理</strong>適合放在 Force 建議裡。Markdown 作為 AI 可讀、可維護、可版本化的源文件；HTML 作為人類閱讀、課程展示、客戶 handoff 與內部交付版本。這種做法成本低、可移植、工具相容性高，特別適合尚未建立企業級 AI 平台的團隊。</p>
+                <p><strong>NotebookLM 可作為知識整合層。</strong>當專案累積會議紀錄、SOP、需求文件、決策紀錄、QA、案例與教材後，可以把經過整理與脫敏的文件匯入 NotebookLM，用來做問答、摘要、FAQ、學習導讀與知識驗證。它不是取代專案資料夾，而是讓同一套 context 更容易被團隊吸收。</p>
+                <p>帳號治理也要提早建立。未來真正麻煩的不是 token 不夠，而是多人共用帳號、專案交接、客戶資料隔離、離職管理、費用歸屬、AI 使用紀錄與稽核證據。這些都應從 ISO 27001、ISO 42001 與 Computer Audit 的角度思考。</p>
                 <div class="risk-list">
-                    <div class="risk-item"><span class="risk-tag risk-green">綠燈</span><span>用 AI 整理會議紀錄、SOP、QA 初稿、客戶需求摘要。</span></div>
-                    <div class="risk-item"><span class="risk-tag risk-yellow">黃燈</span><span>用 AI 協助規劃外掛或自動化流程，但要保留人類驗收與顧問審查。</span></div>
-                    <div class="risk-item"><span class="risk-tag risk-red">紅燈</span><span>把正式客戶資料、核心程式或未脫敏營運資訊大量丟進不受控工具。</span></div>
+                    <div class="risk-item"><span class="risk-tag risk-green">綠燈</span><span>建立共用專案資料夾、任務文件、會議紀錄、SOP、決策紀錄，讓不同 AI 讀同一套 context。</span></div>
+                    <div class="risk-item"><span class="risk-tag risk-yellow">黃燈</span><span>多 AI 協作處理客戶案、外掛、文件與程式時，要先定義主力 AI、輔助 AI、review 角色與資料邊界。</span></div>
+                    <div class="risk-item"><span class="risk-tag risk-red">紅燈</span><span>多人共用私人帳號、把正式客戶資料丟進不受控 AI、沒有紀錄誰用哪個 AI 做了什麼決策。</span></div>
                 </div>
             </div>
             <div class="answer-box">
-                <p>不論付費與否，大模型都有 <strong>Token 上限（Context Window）</strong> 以及 <strong>速率限制（Rate Limits）</strong>。要妥善分配額度，應掌握以下心法：</p>
+                <p><strong>有資源的最佳解（參考用）：</strong>成熟企業會優先採購企業版 AI 帳號與正式協作平台，而不是讓員工長期使用私人帳號或共用帳密。企業版的價值不只是模型比較強，而是提供管理主控台、權限、資料保護、稽核紀錄、團隊協作、費用管理與供應商合約責任。</p>
+                <p>在有資源的情況下，AI 使用會從「個人工具」提升成 <strong>Enterprise AI Operating Model</strong>。它不是只管 token，而是同時管理 AI portfolio、帳號權限、資料分類、使用紀錄、成本、稽核與知識交接。</p>
                 <ul>
-                    <li><strong>精確提供 Context（拒絕程式碼大鍋炒）</strong>：不要把整個專案的程式碼塞進 Prompt。每次只需餵給 AI 當前需要修改或呼叫的檔案；若需調用其他模組，僅提供該模組的介面或型態定義，不提供實作程式。</li>
-                    <li><strong>任務原子化（Task Chunking）</strong>：不要讓 AI 一口氣寫完「整個購物車功能」，改為將任務拆成極小、職責單一的函數。如「請幫我寫一個驗證電子郵件格式的 Function」。這能省下極多的 Token 消耗，並降低出錯率。</li>
-                    <li><strong>大模型與本地模型分流</strong>：
+                    <li><strong>AI Portfolio Management</strong>：定義不同 AI 的角色分工，例如文件型、工程型、研究型、審查型、會議型、客服型。重點不是哪個 AI 最強，而是哪個 AI 適合哪類任務。</li>
+                    <li><strong>Enterprise Account & Access Governance</strong>：以企業版帳號集中管理使用者、群組、角色、權限、客戶資料隔離、離職停權、專案交接與費用歸屬，避免不受控多人共用帳號。</li>
+                    <li><strong>Collaboration Platform</strong>：優先使用能支援共享空間、團隊知識庫、專案權限、文件協作、審批流程與管理者可視性的企業平台。</li>
+                    <li><strong>Data Classification</strong>：依資料敏感度決定能否給 AI 使用，例如公開資料、內部資料、客戶資料、個資、財務資料、原始程式、密鑰與正式營運資料，應有不同使用規則。</li>
+                    <li><strong>Usage Log & Audit Trail</strong>：重要 AI 使用應留下紀錄：誰使用、用在哪個專案、輸入哪些資料類型、產出什麼文件、是否經過人類審查、是否進入正式交付。</li>
+                    <li><strong>Cost / Token Governance</strong>：token 管理只是其中一環。企業應追蹤模型費用、專案費用、團隊額度、使用價值與浪費來源，把昂貴模型用在高價值判斷。</li>
+                    <li><strong>ISO / Audit 對齊</strong>：
                         <ul>
-                            <li><strong>日常打雜（Inline 補全、修復語法錯誤）</strong>：交給本地運行的輕量模型（如 Ollama 運行的 Llama 3 或是 Gemini Flash 插件）。</li>
-                            <li><strong>架構設計與重構（複雜演算法、全域架構分析）</strong>：才使用付費的 Codex、Gemini Pro 或 Claude 3.5。</li>
+                            <li><strong>ISO 27001</strong>：關注資訊安全、存取控制、資料分類、供應商風險與稽核紀錄。</li>
+                            <li><strong>ISO 42001</strong>：關注 AI 管理系統、風險、責任、治理流程與持續改善。</li>
+                            <li><strong>Computer Audit</strong>：關注操作紀錄、權限、變更管理、交接與可追溯性。</li>
                         </ul>
                     </li>
                 </ul>
+                <p>這種有資源版的核心目標，是把 AI 從「每個人各自使用的工具」變成企業可管理的 AI 團隊。未來企業競爭力不只來自模型能力，而來自人與 AI、AI 與 AI 能否在同一套 context、規則與治理框架下協作。</p>
             </div>
         </section>
 
@@ -711,19 +730,29 @@
             </div>
             <div class="strategy-note">
                 <div class="note-label">Force 顧問對銀河軟體 ERP 的拿捏</div>
-                <p>工具介面語言不是最核心的問題，真正重要的是任務紀錄能不能被追蹤、交接與複盤。銀河軟體 ERP 同仁可以使用不同 AI 工具，但每個重要討論都要留下中文任務名稱、需求背景、決策原因與下一步，讓分公司累積的是知識資產，而不是零散聊天紀錄。</p>
+                <p><strong>核心答覆：</strong>Antigravity 的中文問題，不只是「介面能不能翻譯」而已。介面改成中文其實不難，前端 UI 翻譯就能做到；但 Force 不建議把開發工具完全包成中文舒適圈，因為開發者仍然需要逐步習慣英文原生技術環境。真正要治理的是：人類決策者如何用中文清楚下指令、留紀錄、做交接，而不是要求底層技術世界完全中文化。</p>
+                <p><strong>Force 顧問的過渡方案：</strong>銀河軟體 ERP 同仁可以採取「中文決策、英文執行、文件留痕」的方式。也就是互動需求、任務目標、Implementation Plan、驗收條件與決策紀錄盡量用中文；工具執行、程式碼、log、錯誤訊息與技術名詞則逐步接受英文原生語境。</p>
+                <ul>
+                    <li><strong>互動與計畫書指定中文</strong>：一開始就要求 AI 用繁體中文整理任務名稱、需求背景、實作計畫、風險與驗收項目，確保主管、顧問與非工程同仁都能理解核心意圖。</li>
+                    <li><strong>英文 log 外移翻譯</strong>：遇到英文錯誤訊息、console log、commit message 或工具輸出時，不需要硬背。可以複製到外部翻譯工具、NotebookLM、ChatGPT、Claude 或另一個 AI 中整理成中文摘要。</li>
+                    <li><strong>工具鏈分流</strong>：若英文與高階工程介面一開始太吃力，可以先用對話更親和的 AI 工具做需求拆解、中文摘要與思維整理；本地高階執行、專案操作與工程任務再交給 Antigravity 或其他 coding agent。</li>
+                    <li><strong>任務紀錄要中文可讀</strong>：每個重要任務都應留下中文標題、案例編號、需求背景、決策原因與下一步，讓分公司累積的是可交接的知識資產，而不是零散聊天紀錄。</li>
+                </ul>
                 <div class="risk-list">
-                    <div class="risk-item"><span class="risk-tag risk-green">綠燈</span><span>用中文標題、案例編號與摘要整理內部 AI 對話。</span></div>
-                    <div class="risk-item"><span class="risk-tag risk-yellow">黃燈</span><span>跨工具協作與外掛需求討論，需要固定紀錄格式與負責人。</span></div>
-                    <div class="risk-item"><span class="risk-tag risk-red">紅燈</span><span>只有 AI 聊天紀錄，沒有需求確認、風險紀錄與驗收標準。</span></div>
+                    <div class="risk-item"><span class="risk-tag risk-green">綠燈</span><span>用中文任務名稱、中文計畫書、中文驗收清單整理 AI 對話與操作紀錄。</span></div>
+                    <div class="risk-item"><span class="risk-tag risk-yellow">黃燈</span><span>跨工具協作、外掛需求與英文 log 判讀，需要固定紀錄格式、負責人與中文摘要。</span></div>
+                    <div class="risk-item"><span class="risk-tag risk-red">紅燈</span><span>只看不懂的英文輸出就直接接受 AI 修改，或只有聊天紀錄、沒有需求確認、風險紀錄與驗收標準。</span></div>
                 </div>
             </div>
             <div class="answer-box">
-                <p>Antigravity 2.0 是 Google DeepMind 針對高階工程師設計的協作 Agent。目前為了確保在不同語系的開發環境、檔案系統及 Git 紀錄中的最大相容性，其系統 UI 與自動命名的對話 Title 預設會以英文生成。</p>
-                <p><strong>💡 實用對應方式：</strong></p>
+                <p><strong>核心答覆：</strong>Antigravity 這類高階 AI coding agent，中文互動通常沒有問題；真正限制不在於「它聽不聽得懂中文」，而在於開發工具、程式碼、套件、生態文件、錯誤訊息、模型推理語料與底層工具鏈，大量仍以英文為主。</p>
+                <p><strong>痛點與物理限制：</strong>介面中文化只是 UX 層問題，技術上相對容易；但思考過程、工具輸出、程式碼語境與錯誤訊息英文化，是更深層的生態限制。從 tokenizer 與模型訓練角度看，英文在 token 使用效率、程式語料密度、API 文件、開源討論與程式碼網絡中通常更有優勢。簡單說：AI 可以用中文跟你溝通，但很多底層技術路徑仍然是英文高速公路。</p>
+                <p><strong>推薦替代路徑：</strong>不要把目標設定成「所有介面都變中文」，而是建立中文決策層與英文技術層的橋接方式。</p>
                 <ul>
-                    <li><strong>全面中文溝通</strong>：雖然介面是英文，但您可以直接用繁體中文與它交談，它的程式碼理解與文字回答將完全維持流暢的繁體中文。</li>
-                    <li><strong>指定標題生成</strong>：每次開始新話題時，您可以在第一句話指令加上：「<em>請以繁體中文與我協作，並為這次的任務生成一個中文標題作為對話開始，例如：『[修正發票 OCR 邏輯]』</em>」，這能強迫 AI 在對話起手式就以中文來為您標記，便於日後回顧。</li>
+                    <li><strong>人類決策層中文化</strong>：需求、計畫、風險、驗收、會議紀錄與交接文件，用繁體中文保存。</li>
+                    <li><strong>技術執行層保留英文</strong>：程式碼、log、API、錯誤訊息、套件文件與 Git 紀錄，逐步習慣英文原生環境。</li>
+                    <li><strong>翻譯與摘要工具輔助</strong>：遇到英文輸出時，請 AI 幫忙翻譯、摘要、分類與標註風險，而不是要求所有工具都改成中文。</li>
+                    <li><strong>工具分工</strong>：前期用中文親和的工具做思考整理，後期用高階 coding agent 做本地執行、專案操作與工程落地。</li>
                 </ul>
             </div>
         </section>
@@ -744,41 +773,58 @@
             </div>
             <div class="strategy-note">
                 <div class="note-label">Force 顧問對銀河軟體 ERP 的拿捏</div>
-                <p>工具比較不是要選出一個最強神器，而是要知道不同角色該用什麼工具。銀河軟體 ERP 全體員工的重點不是直接寫正式程式，而是用 AI 產生文件、流程圖、需求草稿、測試案例與客戶溝通材料；正式開發工具則留給有培訓與審查流程的人使用。</p>
+                <p>這題不應停留在「Cursor、Windsurf、VS Code、JetBrains 哪個比較好」。那比較像 2024 到 2025 年的 AI Coding 工具比較。Force 想帶出的重點，是 2026 到 2030 年的 <strong>AI Agent 工作模式</strong>：未來真正工作的主體會越來越像數位員工，而不是單純的編輯器外掛。</p>
+                <p><strong>第一個觀念：AI Agent 才是主角。</strong>Antigravity、Codex、Claude Code、Gemini Agent、OpenAI Agent 這類工具，定位比較接近「數位員工」。它們能協助撰寫程式、撰寫文件、review、debug、研究、規劃與測試。真正重要的是它能不能理解任務、讀取 context、操作工具、留下紀錄、接受人類審查。</p>
+                <p><strong>第二個觀念：AI IDE 是辦公桌。</strong>Cursor、Windsurf、VS Code、JetBrains 這類工具，比較像 AI 工作的辦公桌、工作檯或操作環境。IDE 很重要，但 IDE 不等於 AI。用一個好理解的比喻：Cursor 比較像辦公室，Codex 或 Claude Code 比較像工程師。辦公室再漂亮，如果沒有清楚任務、資料、流程與人類驗收，工作仍然不會自動變好。</p>
+                <p><strong>Force 對 ERP 顧問公司與 SME 的建議：</strong>多數企業目前缺的不是最強 Agent，而是 <strong>KM、Workflow、AI 協作能力</strong>。因此不建議一開始就追求 Multi-Agent、Agent Cluster 或 Enterprise Agent。比較合理的成熟度路線是：</p>
+                <div class="flow-diagram">
+                    <div class="flow-node">Excel</div> <div class="flow-arrow">→</div>
+                    <div class="flow-node">KM / NotebookLM</div> <div class="flow-arrow">→</div>
+                    <div class="flow-node">Workflow / GAS / n8n</div> <div class="flow-arrow">→</div>
+                    <div class="flow-node">AI 協作</div> <div class="flow-arrow">→</div>
+                    <div class="flow-node">Agent</div> <div class="flow-arrow">→</div>
+                    <div class="flow-node">Multi-Agent</div>
+                </div>
+                <p>當 KM 與 Workflow 都沒有建立時，再強的 Agent 也很難發揮價值。對銀河軟體 ERP 這類顧問與服務型組織而言，先把文件、會議、SOP、案例、客戶需求、決策紀錄整理起來，再用 NotebookLM、Gemini、ChatGPT、Antigravity、GAS、n8n 等工具串成可運作的 AI 協作流程，通常比直接追逐最強 Agent 更有價值。</p>
                 <div class="risk-list">
-                    <div class="risk-item"><span class="risk-tag risk-green">綠燈</span><span>用 AI 工具整理文件、比較方案、生成教學素材與內部知識庫。</span></div>
-                    <div class="risk-item"><span class="risk-tag risk-yellow">黃燈</span><span>用 AI 編輯器做外掛雛形或自動化腳本，需要工程或顧問 review。</span></div>
-                    <div class="risk-item"><span class="risk-tag risk-red">紅燈</span><span>未受訓員工直接用 AI 工具改正式系統或交付客戶核心功能。</span></div>
+                    <div class="risk-item"><span class="risk-tag risk-green">綠燈</span><span>用 NotebookLM、Gemini、ChatGPT、Antigravity、GAS、n8n 建立 KM、文件整理、流程草稿與內部 AI 協作。</span></div>
+                    <div class="risk-item"><span class="risk-tag risk-yellow">黃燈</span><span>用 AI Agent 或 AI IDE 做外掛雛形、自動化腳本、測試工具，需要工程或顧問 review。</span></div>
+                    <div class="risk-item"><span class="risk-tag risk-red">紅燈</span><span>在 KM、Workflow、驗收與權限都未建立前，直接追求多 Agent 自動開發或交付客戶核心功能。</span></div>
                 </div>
             </div>
             <div class="answer-box">
-                <p>以下為目前全球主流開發工具的橫向對比表：</p>
+                <p><strong>有資源的最佳解（參考用）：</strong>大型企業與 AI 公司通常不會只問「哪個 IDE 最好用」，而會把工具分成兩層：<strong>AI Agent Tool</strong> 與 <strong>AI IDE</strong>。</p>
                 <ul>
-                    <li><strong>Cursor (AI 原生編輯器，目前主流首選)</strong>：
+                    <li><strong>AI Agent Tool（主角）</strong>：
                         <ul>
-                            <li><strong>優點</strong>：AI 整合度極深，其 Composer 模式可同時理解並編輯多個檔案，代碼補全極度流暢。</li>
-                            <li><strong>缺點</strong>：需要每月付費訂閱，且由於是閉源修改版的 VS Code，部分有嚴格資安稽核的企業會限制使用。</li>
+                            <li><strong>代表</strong>：Antigravity、Codex、Claude Code、Gemini Agent、OpenAI Agent 等。</li>
+                            <li><strong>定位</strong>：數位員工，能協助撰寫程式、文件、review、debug、研究、規劃與測試。</li>
+                            <li><strong>評估重點</strong>：能否讀取 context、操作工具、處理多檔案任務、產生可審查紀錄、支援權限與企業治理。</li>
                         </ul>
                     </li>
-                    <li><strong>Windsurf (新興 AI 原生編輯器)</strong>：
+                    <li><strong>AI IDE（配角）</strong>：
                         <ul>
-                            <li><strong>優點</strong>：具備極強的 Agentic（代理人）模式，能自主於終端機執行測試、修復 Bug 並重跑，實現 Flow 狀態。</li>
-                            <li><strong>缺點</strong>：社群相對較新，生態系套件不如 VS Code 豐富。</li>
+                            <li><strong>代表</strong>：Cursor、Windsurf、VS Code、JetBrains 等。</li>
+                            <li><strong>定位</strong>：AI 工作的辦公桌，提供編輯器、檔案、終端機、插件、diff、測試與專案操作環境。</li>
+                            <li><strong>評估重點</strong>：是否符合企業資安、工程師習慣、既有 repo 流程、插件生態、review 與維護方式。</li>
                         </ul>
                     </li>
-                    <li><strong>VS Code (傳統天王編輯器 + AI 插件)</strong>：
+                    <li><strong>大型企業 / AI 公司適合方向</strong>：
                         <ul>
-                            <li><strong>優點</strong>：核心完全免費、插件生態系全球最龐大，資安風險低。</li>
-                            <li><strong>缺點</strong>：AI 只能在側邊欄或補全視窗單點式協作，缺乏多檔案自動重構的全域能力。</li>
+                            <li><strong>情境</strong>：大量工程師、大量專案、大量程式碼、大量預算。</li>
+                            <li><strong>做法</strong>：導入高階 Agent、企業版 coding agent、內部 agent team、權限治理、CI/CD、測試平台與 code review 流程。</li>
+                            <li><strong>目標</strong>：讓 Agent 進入正式工程流程，但所有變更仍需測試、審查、權限與稽核。</li>
                         </ul>
                     </li>
-                    <li><strong>JetBrains (專業級 IDE，如 WebStorm / IntelliJ)</strong>：
+                    <li><strong>SME / ERP 顧問公司適合方向</strong>：
                         <ul>
-                            <li><strong>優點</strong>：傳統的靜態代碼分析與安全重構（Refactoring）無懈可擊，對大型物件導向專案極為嚴謹。</li>
-                            <li><strong>缺點</strong>：極度消耗記憶體、專案載入慢，且授權費昂貴。</li>
+                            <li><strong>情境</strong>：工程資源有限，真正痛點常常是文件分散、流程不清、經驗沒有沉澱。</li>
+                            <li><strong>做法</strong>：優先建立 KM、NotebookLM、Google Workspace / Gemini、ChatGPT、Antigravity、GAS、n8n 與共用專案資料夾。</li>
+                            <li><strong>目標</strong>：先讓人與 AI 能協作，再逐步導入 Agent；不要在基礎 KM 與 Workflow 尚未建立時，就追求複雜的 Multi-Agent。</li>
                         </ul>
                     </li>
                 </ul>
+                <p>結論不是「哪個工具最強」，而是「哪個工具最適合目前階段」。對大部分 ERP 顧問與 SME 而言，先建立 KM、Workflow 與 AI 協作，通常比直接追逐最強 Agent 更有價值。</p>
             </div>
         </section>
 
@@ -798,21 +844,35 @@
             </div>
             <div class="strategy-note">
                 <div class="note-label">Force 顧問對銀河軟體 ERP 的拿捏</div>
-                <p>銀河軟體 ERP 同仁不需要模仿資深工程師寫程式，而是要學資深工程師的工作方式：先定義問題、邊界、資料來源、風險與驗收，再讓 AI 或工程師協助執行。這會讓員工從「被動處理需求」升級為「能把需求講清楚的策略夥伴」。</p>
+                <p>這題不應只回答「資深工程師如何使用 AI」。那是矽谷與大型科技公司的角度。Force 更想帶出的，是 <strong>AI 時代的人才角色正在重新洗牌</strong>，尤其要放回台灣 SME 與 ERP 顧問公司的實際情境來看。</p>
+                <p>AI 正在快速降低部分技術門檻，例如程式設計、網頁開發、文件整理、測試案例、報表產生。這不代表專業消失，而是專業價值的位置正在改變。過去大家容易把資深工程師理解成「很會寫程式的人」；未來更重要的是架構能力、驗收能力、治理能力與 AI 管理能力。</p>
+                <p>台灣本質上是中小企業社會。許多企業是 10 到 100 人公司，可能有 ERP 導入顧問、一人資訊部門、老闆兼業務、行政兼資訊。這些組織不一定會變成大型科技公司，但很可能變成 <strong>精緻化企業</strong>：過去 20 人完成的工作，未來可能 10 人加 AI 完成，甚至 5 人加 AI 完成。</p>
+                <p>Force 對台灣 SME 與 ERP 顧問公司的建議，不是盲目追逐最貴工具，而是願意<strong>精準投資 AI</strong>：把較好的模型與工具用在需求判斷、流程拆解、文件治理、測試規劃、風險辨識與重要客戶案，而不是把 token 花在大量沒有紀錄、沒有驗收、沒有交接價值的試錯。</p>
+                <p>同時，也要選擇願意使用 AI、願意整理資料、願意改善流程的公司與客戶一起合作。AI 轉型不是單方面技術表演，如果客戶完全不願意留下資料、整理流程、配合驗收與建立規則，再好的 AI 也很難產生長期價值。</p>
+                <p>因此銀河軟體 ERP 同仁不需要誤以為「未來每個人都要變成資深工程師」。真正重要的是會定義問題、拆解需求、驗收成果、管理 AI、管理 workflow、管理風險。這些能力會讓 ERP 顧問從功能回答者，升級成能整合資源與創造商業價值的 AI 時代顧問。</p>
+                <p><strong>AI 時代的新工作型態：</strong>過去是人執行工作；現在是人管理 AI；未來會是人管理多個 AI。例如：AI 1 產生內容，AI 2 review，AI 3 測試，最後由人類批准、治理與負責。這就是 Cross-AI Validation 與 HITL（Human-in-the-Loop）的核心精神。</p>
                 <div class="risk-list">
-                    <div class="risk-item"><span class="risk-tag risk-green">綠燈</span><span>用 AI 幫忙整理需求、建立檢查清單、產出測試情境。</span></div>
-                    <div class="risk-item"><span class="risk-tag risk-yellow">黃燈</span><span>讓 AI 協助拆流程或規劃外掛，需要人類確認業務邏輯。</span></div>
-                    <div class="risk-item"><span class="risk-tag risk-red">紅燈</span><span>把 AI 當成可以自行決定架構、權限、資料寫回的正式工程師。</span></div>
+                    <div class="risk-item"><span class="risk-tag risk-green">綠燈</span><span>用 AI 整理需求、建立檢查清單、產出測試情境、整理文件與報表草稿。</span></div>
+                    <div class="risk-item"><span class="risk-tag risk-yellow">黃燈</span><span>讓 AI 協助拆流程、規劃外掛、產生原型或交叉 review，需要人類驗收與業務邏輯確認。</span></div>
+                    <div class="risk-item"><span class="risk-tag risk-red">紅燈</span><span>把 AI 當成可以自行決定架構、權限、資料寫回、客戶承諾或正式交付責任的角色。</span></div>
                 </div>
             </div>
             <div class="answer-box">
-                <p>資深工程師不會把 AI 當作「代筆人」，而是將其定位為<strong>「高效率的程式碼實習生（Super Intern）」</strong>。他們的核心原則是：<strong>「人類做架構決策，AI 做代碼填充」</strong>。</p>
-                <p><strong>運用方式的差異：</strong></p>
+                <p><strong>有資源的最佳解（參考用）：</strong>全球 AI 導入正在出現兩極化。第一極是超大型企業，例如 NVIDIA、Google、Microsoft、Apple 這類公司，會發展 Agent Team、Digital Twin、AI Factory、Enterprise Agent，讓 AI 進入研發、供應鏈、產品、資料中心與內部營運。</p>
+                <p>第二極是超小型團隊，例如 OPC（One Person Company）、顧問與自由工作者。這類團隊可能是一個人加多個 AI Agent，形成小型團隊產能：一個 AI 寫內容、一個 AI review、一個 AI 測試、一個 AI 做研究，最後由人類決策與交付。</p>
+                <p>真正資深的工程師或顧問，通常不會只是排斥 AI。相反地，他們會更願意相信好模型的能力，也更敢在關鍵問題上使用高階模型、投入較多 token，因為他們知道複雜問題的判斷成本本來就高。差別在於：他們不會把 AI 當神諭，而是會用更深入的領域知識、批判能力與思考能力，提出更尖銳的問題，要求 AI 說明假設、列出風險、提供反例、補上測試，最後自己扮演守護者，守住架構、資料、權限、客戶承諾與正式交付邊界。</p>
+                <p>在 ERP 顧問場景裡，這種領域知識尤其重要。AI 可能會寫出看似合理的流程或程式，但它不一定懂客戶現場的權限習慣、帳務邏輯、部門責任、導入限制、歷史客製與老闆真正想解決的問題。資深者的價值，是能看出 AI 答案哪裡漂亮但不落地、哪裡有效但有風險、哪裡需要再問一次。</p>
+                <p><strong>資深能力的定義正在改變：</strong></p>
                 <ul>
-                    <li><strong>架構先行而非直接生成</strong>：資深工程師不會下「請幫我寫一個系統」這種大而無當的指令。他們會自己手寫好 Interface（介面定義）、Data Model（資料模型）與封裝邊界，然後指令 AI：「<em>請幫我實作這個介面，並用原生 JS 處理，確保寫出例外處理</em>」。</li>
-                    <li><strong>委託繁瑣重複的程式（Boilerplate）</strong>：他們會把時間花在核心業務邏輯設計上，而將單純的資料庫欄位對照（DTO mapping）、資料驗證規則、系統設定檔交給 AI 自動完成。</li>
-                    <li><strong>安全審查與反向思考</strong>：他們會寫好程式後丟給 AI 進行「破壞性測試」：「<em>假設我是駭客，這段代碼有什麼資安漏洞？請幫我寫 10 個能讓這段程式 Crash 的 Edge Cases 單元測試。</em>」</li>
+                    <li><strong>過去的資深工程師</strong>：重點常被放在寫程式能力、熟悉框架、解 bug、處理系統細節。</li>
+                    <li><strong>未來的資深人才</strong>：更重視架構能力、需求拆解、驗收能力、治理能力、風險判斷、AI 管理能力，以及足以判斷 AI 答案品質的領域知識。</li>
+                    <li><strong>真正資深的 AI 用法</strong>：更相信高模型在複雜問題上的價值，願意把 token 花在架構、風險、review、debug、測試與反例推演上；同時提出更尖銳的問題，要求 AI 自我檢查，而不是只接受第一版答案。</li>
+                    <li><strong>批判與思考能力</strong>：資深者不只是問 AI「怎麼做」，還會追問「為什麼這樣做」「有沒有反例」「哪裡可能失敗」「是否符合客戶流程」「是否會影響維護與治理」。</li>
+                    <li><strong>守護者角色</strong>：資深者最後要守住系統邊界，包括資料、權限、正式流程、客戶承諾、維護責任與交付品質。AI 可以加速，但人類仍要負責批准與治理。</li>
+                    <li><strong>Cross-AI Validation</strong>：用不同 AI 互相產生、審查、測試與補充觀點，避免單一 AI 的盲點。</li>
+                    <li><strong>HITL（Human-in-the-Loop）</strong>：AI 可以產出、分析與建議，但正式決策、客戶承諾、資料寫回與風險承擔仍需要人類批准。</li>
                 </ul>
+                <p>結論是：AI 並不是讓所有人都變成工程師，而是讓更多人有能力完成過去需要工程師才能完成的工作。對台灣企業而言，真正重要的不一定是成為最強工程師，而是成為能與 AI 協作、管理 AI、驗收 AI、整合資源、創造商業價值的人。</p>
             </div>
         </section>
 
@@ -832,35 +892,38 @@
             </div>
             <div class="strategy-note">
                 <div class="note-label">Force 顧問對銀河軟體 ERP 的拿捏</div>
-                <p>視覺工具很適合拿來做概念展示、客戶溝通頁與內部教學頁，但美觀不等於可維護。正式外掛需要有人把資料流、權限、錯誤處理與維護責任補上；重要案子最好先用畫面說清楚，再與 Force 或工程團隊討論如何落地。</p>
+                <p>這題的重點不是「哪個 AI 最強」，而是「哪個 AI 最適合目前階段」。對銀河軟體 ERP 顧問來說，真正好用的做法，是把工作拆成 POC、工程化、美化與驗收，而不是期待同一個 AI 同時變成最好的設計師、工程師與文件專家。</p>
+                <p><strong>銀河軟體實戰版流程：</strong></p>
+                <ul>
+                    <li><strong>POC 階段：用 Gemini Canvas 先畫出來。</strong>適合做流程圖、UI 草稿、Demo 頁面、客戶提案展示與內部討論。這一階段的重點是先讓大家看到畫面，不要太早追求正式程式品質。</li>
+                    <li><strong>正式開發階段：交給 Codex 與 Antigravity 工程化。</strong>把 API、資料流、權限、錯誤處理、維護性、版本管理與交付邊界補齊，讓漂亮畫面變成可維護的系統。</li>
+                    <li><strong>上線前修飾：畫面不滿意再回到 Gemini。</strong>針對配色、排版、視覺層次、卡片密度與展示效果做最後調整，但不要讓視覺修飾越權改動正式邏輯。</li>
+                </ul>
+                <p><strong>Force 最常用的方法是樣板驅動（Template Driven）。</strong>不是叫 AI 從零開始幻想，而是先找一個喜歡的網站、系統、GitHub 頁面或 Dashboard，請 AI 參考它的留白、配色、卡片設計與排版方式，但不要複製內容，重新設計成自己的 ERP 顧問情境。</p>
+                <p>原因很簡單：AI 最強的不一定是憑空創造，而是理解、模仿、重構、客製化。這其實也很像 ERP 導入：不是從零發明一套 ERP，而是參考最佳實務，再依照客戶流程做合適的客製化。很多時候，好的樣板比更長的 Prompt 更有效。</p>
+                <p><strong>AI 分工建議：</strong></p>
+                <ul>
+                    <li><strong>Gemini</strong>：美感、視覺、Demo、簡報、客戶看得懂的畫面。</li>
+                    <li><strong>Codex</strong>：程式、架構、重構、測試、維護性與工程品質。</li>
+                    <li><strong>Antigravity</strong>：文件、SOP、教材、專案紀錄與任務整理。</li>
+                </ul>
                 <div class="risk-list">
-                    <div class="risk-item"><span class="risk-tag risk-green">綠燈</span><span>做靜態展示頁、流程說明、客戶 demo mockup。</span></div>
-                    <div class="risk-item"><span class="risk-tag risk-yellow">黃燈</span><span>把 mockup 變成可操作外掛，需要資料與權限設計。</span></div>
-                    <div class="risk-item"><span class="risk-tag risk-red">紅燈</span><span>直接把 AI 生成的漂亮頁面接上正式 ERP 寫入或客戶資料。</span></div>
+                    <div class="risk-item"><span class="risk-tag risk-green">綠燈</span><span>用 Gemini 做 POC、流程展示、客戶 demo、內部討論稿與視覺樣板。</span></div>
+                    <div class="risk-item"><span class="risk-tag risk-yellow">黃燈</span><span>把 mockup 變成可操作外掛時，需要 Codex / Antigravity 補上資料、權限、錯誤處理與維護設計。</span></div>
+                    <div class="risk-item"><span class="risk-tag risk-red">紅燈</span><span>直接把 AI 生成的漂亮頁面接上正式 ERP 寫入、客戶資料或核心流程。</span></div>
                 </div>
+                <p>一句話：<strong>Gemini 畫，Codex 做，Antigravity 整理，人類驗收。</strong>這比單押一個工具更符合台灣 SME、ERP 顧問與 OPC 的實務環境。</p>
             </div>
             <div class="answer-box">
-                <p>這是一個非常經典的「優勢互補」工程實踐。我們必須落實<strong>「視覺與邏輯分流」</strong>的協作工作流：</p>
+                <p><strong>有資源的最佳解（參考用）：</strong>如果企業資源較完整，可以把這件事升級成正式的「Design to Engineering Workflow」，讓設計、POC、工程、測試與文件都有清楚責任分工。</p>
                 <ul>
-                    <li><strong>階段 1：設計與切版發想（Gemini Canvas / Figma）</strong>：
-                        <ul>
-                            <li>利用 Gemini Canvas 對美感與 CSS 漸變、佈局的感知，產生出美觀的網頁靜態版面、RWD 排版與色系配置。</li>
-                        </ul>
-                    </li>
-                    <li><strong>階段 2：抽離與模組化（人工作業）</strong>：
-                        <ul>
-                            <li>將 Canvas 生成的 HTML 與 CSS 複製出來，主動抽離不具彈性的硬編碼，並確保樣式元件化。</li>
-                        </ul>
-                    </li>
-                    <li><strong>階段 3：邏輯工程化與注入（Codex / Antigravity）</strong>：
-                        <ul>
-                            <li>將乾淨的靜態代碼輸入給 Codex 或 Antigravity，下達指令：
-                                <div class="code-block">
-這是已經切好的靜態 HTML/CSS，請幫我使用原生 ES Modules 寫法（Vanilla JS），將資料存取與 API 請求的邏輯抽離到獨立的 service.js 中。確保 UI 渲染與資料處理低耦合，並加入嚴密的錯誤重試機制。</div>
-                            </li>
-                        </ul>
-                    </li>
+                    <li><strong>樣板庫與設計系統</strong>：先建立企業常用版型、配色、元件、報表樣式、Dashboard 風格與提案頁模板，讓 AI 不必每次從零開始。</li>
+                    <li><strong>POC 工作區</strong>：允許顧問用 Gemini Canvas 或類似工具快速產生展示頁，但明確標示為 demo，不直接連正式資料。</li>
+                    <li><strong>工程審查清單</strong>：正式化前必須檢查 API、資料流、權限、稽核紀錄、錯誤處理、效能、測試與部署方式。</li>
+                    <li><strong>UX / QA 驗收</strong>：上線前由使用者、顧問、工程師共同驗收，確認畫面好看之外，也真的符合流程、權限與操作習慣。</li>
+                    <li><strong>文件與交接</strong>：將最終決策、樣板來源、AI 生成內容、人工調整與交付版本留下紀錄，方便後續維護。</li>
                 </ul>
+                <p>成熟企業不會只比較工具名稱，而會建立一條穩定流程：視覺 AI 負責讓想法被看見，工程 AI 負責讓系統可運作，文件 AI 負責讓知識可交接，最後由人類負責商業判斷與正式批准。</p>
             </div>
         </section>
 
@@ -1098,14 +1161,14 @@
     <div class="logs-panel">
         <p>
             銀河軟體 ERP 本次課程的操作、提問與架構日誌已歸檔於：
-            <a href="../../../logs.md" target="_blank">logs.md (變更日誌)</a> | 
-            <a href="../../../logs.json" target="_blank">logs.json (機器後設資料)</a>
+            <a href="../../../../logs.md" target="_blank">logs.md (變更日誌)</a> | 
+            <a href="../../../../logs.json" target="_blank">logs.json (機器後設資料)</a>
         </p>
     </div>
 
     <footer>
         <p>銀河軟體 ERP 內訓課程 Class 03 Q&A &copy; 2026 | 設計符合 AI (Markdown) 與人類 (Premium HTML) 雙重閱讀標準</p>
-        <p style="margin-top: 0.5rem;"><a href="class03_qas.md">檢視 AI 專用 Markdown 檔案</a> | <a href="../../../history.md">檢視歷史課程彙整 (Markdown)</a></p>
+        <p style="margin-top: 0.5rem;"><a href="class03_qas.md">檢視 AI 專用 Markdown 檔案</a> | <a href="../../../../history.md">檢視歷史課程彙整 (Markdown)</a></p>
     </footer>
     <script>
         document.querySelectorAll('.card').forEach((card, index) => {
