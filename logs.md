@@ -8,6 +8,7 @@
 
 | 時間戳記 | 操作類別 | 描述 | 操作者 | 影響檔案 |
 | :--- | :--- | :--- | :--- | :--- |
+| 2026-06-09 12:40:00 | 專案更新 | 導入使用者與 Codex 協作的最新版學員 Q&A 課件（class03_qas.html），支援帶有時間戳記與折疊功能之 FAQ 交互面板，並完成去識別化。 | AI (Antigravity) | `falo-taiwan/class/a01/class3/class03_qas.html`, `logs.md`, `logs.json` |
 | 2026-06-09 12:35:00 | 專案重構 | 更新主題十「從 ERP 外掛到 AI Agent」教材，對齊銀河 ERP 顧問開發視角，加入 Event-Rule-Action 的 Workflow 模式案例與 6 階段演進，深化 AI 治理白箱優勢。 | AI (Antigravity) | `falo-taiwan/class/a01/class3/index.html`, `falo-taiwan/class/a01/class3/index.md`, `falo-taiwan/class/a01/class3/class03_rpa_to_agent.html`, `falo-taiwan/class/a01/class3/class03_rpa_to_agent.md`, `history.md`, `history.html`, `logs.md`, `logs.json` |
 | 2026-06-09 12:20:00 | 專案重構 | 新增主題十「從 RPA 到 AI Agent」教材，梳理人工流程到 Multi-Agent 的演進路線與 Workflow 治理觀念，並整合進主頁大綱與歷史彙整頁面。 | AI (Antigravity) | `falo-taiwan/class/a01/class3/index.html`, `falo-taiwan/class/a01/class3/index.md`, `falo-taiwan/class/a01/class3/class03_rpa_to_agent.html`, `falo-taiwan/class/a01/class3/class03_rpa_to_agent.md`, `history.md`, `history.html`, `sync_and_push.py` |
 | 2026-06-09 11:48:00 | 專案更新 | 於主題一教材最上方新增「常用工具的熟悉重點＋運用技巧」備註區塊（標記為：內容，撰稿中...）。 | AI (Antigravity) | `falo-taiwan/class/a01/class3/class03_coexistence.md`, `falo-taiwan/class/a01/class3/class03_coexistence.html` |
