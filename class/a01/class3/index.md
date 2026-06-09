@@ -5,6 +5,8 @@
 * **課程主題**：AI Agent 與 Vibe Coding 實戰及知識資產化
 * **授課教師**：鄭穎臨 老師
 * **上課地點**：台南市安平區育平九街49號 二樓教室
+* **最新線上發佈網址**：
+  * 🔗 📖 教學案例首頁 (原本的教學文件)：[https://falo-taiwan.github.io/class/a01/class3/cases/ipas-etl/](https://falo-taiwan.github.io/class/a01/class3/cases/ipas-etl/)
 
 ---
 
