@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Class 03 主題十一 | WWDC 26 全局重點與台灣 SaaS 因應的 Deep Research 實戰 Prompt</title>
+    <meta name="description" content="Yinhe Class03 專案教材：利用高階 Prompt 驅動 AI 進行技術全局盤點與企業自動化因應戰略分析，附帶 WWDC 26 重點觀察圖與複製功能。">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-gradient: radial-gradient(circle at 50% 50%, #080a21 0%, #010207 100%);
+            --primary: #8b5cf6;
+            --primary-glow: rgba(139, 92, 246, 0.15);
+            --secondary: #3b82f6;
+            --accent: #10b981;
+            --card-bg: rgba(18, 20, 46, 0.5);
+            --card-border: rgba(255, 255, 255, 0.06);
+            --card-hover-border: rgba(139, 92, 246, 0.45);
+            --text-primary: #f3f4f6;
+            --text-secondary: #9ca3af;
+            --text-muted: #5e6478;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Outfit', 'Inter', 'Noto Sans TC', sans-serif;
+            background: var(--bg-gradient);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 3rem 1.5rem;
+            overflow-x: hidden;
+        }
+
+        .glow {
+            position: absolute;
+            width: 450px;
+            height: 450px;
+            border-radius: 50%;
+            background: radial-gradient(circle, var(--primary-glow) 0%, transparent 70%);
+            z-index: -1;
+            filter: blur(60px);
+        }
+        .glow-1 { top: 8%; left: 8%; }
+        .glow-2 { bottom: 12%; right: 8%; }
+
+        header {
+            max-width: 1000px;
+            margin: 0 auto 3.5rem auto;
+            text-align: center;
+        }
+
+        .tagline {
+            display: inline-block;
+            background: rgba(139, 92, 246, 0.08);
+            border: 1px solid rgba(139, 92, 246, 0.25);
+            color: #c084fc;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            padding: 0.4rem 1.2rem;
+            border-radius: 9999px;
+            margin-bottom: 1.25rem;
+        }
+
+        h1 {
+            font-size: 2.6rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #ffffff 40%, #c084fc 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.75rem;
+            letter-spacing: -0.01em;
+        }
+
+        header p {
+            color: var(--text-secondary);
+            font-size: 1.15rem;
+        }
+
+        main {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 2.5rem;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 2.25rem;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.45);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            border-color: var(--card-hover-border);
+            box-shadow: 0 15px 40px rgba(139, 92, 246, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            opacity: 0.6;
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        h2 svg {
+            width: 24px;
+            height: 24px;
+            fill: none;
+            stroke: var(--primary);
+            stroke-width: 2;
+        }
+
+        /* Image Container */
+        .image-container {
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            margin: 1.5rem 0;
+            background: rgba(0, 0, 0, 0.2);
+            transition: border-color 0.3s ease;
+        }
+
+        .image-container:hover {
+            border-color: rgba(139, 92, 246, 0.35);
+        }
+
+        .image-container img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* Prompt Box */
+        .prompt-wrapper {
+            position: relative;
+            margin-top: 1.5rem;
+        }
+
+        .prompt-box {
+            background: rgba(0, 0, 0, 0.35);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 1.5rem;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.9rem;
+            color: #e2e8f0;
+            white-space: pre-wrap;
+            overflow-x: auto;
+            max-height: 500px;
+            overflow-y: auto;
+            line-height: 1.5;
+        }
+
+        .btn-copy {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: linear-gradient(135deg, var(--primary) 0%, #7c3aed 100%);
+            border: none;
+            color: #ffffff;
+            font-size: 0.8rem;
+            font-weight: 600;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+        }
+
+        .btn-copy:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 16px rgba(139, 92, 246, 0.45);
+        }
+
+        .btn-copy:active {
+            transform: translateY(1px);
+        }
+
+        /* Success Toast */
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%) translateY(1rem);
+            background: rgba(16, 185, 129, 0.95);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            color: #ffffff;
+            padding: 0.75rem 2rem;
+            border-radius: 9999px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            box-shadow: 0 10px 25px rgba(16, 185, 129, 0.3);
+            z-index: 1000;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        /* Back Button */
+        .btn-back {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            color: #ffffff;
+            font-size: 0.9rem;
+            font-weight: 600;
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            margin-top: 1rem;
+            align-self: center;
+        }
+
+        .btn-back:hover {
+            background: rgba(139, 92, 246, 0.1);
+            border-color: rgba(139, 92, 246, 0.3);
+            color: #c084fc;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 4rem;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding-top: 2rem;
+        }
+
+        footer a {
+            color: var(--text-secondary);
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            color: var(--primary);
+        }
+    </style>
+</head>
+<body>
+    <div class="glow glow-1"></div>
+    <div class="glow glow-2"></div>
+
+    <header>
+        <div class="tagline">Yinhe Class 03 Topic 11</div>
+        <h1>主題十一：WWDC 26 Deep Research 實戰 Prompt</h1>
+        <p>利用高階兩部式 Prompt 驅動 AI 進行技術全局盤點與企業自動化應變戰略分析</p>
+    </header>
+
+    <main>
+        <!-- Section 1: Positioning -->
+        <section class="card">
+            <h2>
+                <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+                <span>本章定位</span>
+            </h2>
+            <p style="color: var(--text-secondary); font-size: 1.05rem;">
+                在 AI 時代的 <strong>Vibe Coding</strong> 與 <strong>知識工程</strong> 實踐中，如何向 AI 提問，決定了您獲取知識的上限與深度。本章做為一個實戰範例，展示如何撰寫一份「無遺漏、有深度、且能緊密對接企業現況」的 <strong>Deep Research Prompt</strong>。我們以 Apple WWDC 26 發表會為調研對象，引導 AI 先進行全局大盤點（Part 1：在講啥），再深度挖潛其對台灣 SaaS 廠商與企業 ERP 流程治理的因應之道（Part 2：怎麼辦）。
+            </p>
+        </section>
+
+        <!-- Section 2: WWDC 26 Observe Chart -->
+        <section class="card">
+            <h2>
+                <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
+                <span>WWDC 26 「工作流重組」重點觀察圖</span>
+            </h2>
+            <p style="color: var(--text-secondary); margin-bottom: 1rem;">
+                在開始執行 AI 深度調研前，可以先參考 Force 顧問團隊針對 WWDC 26 所整理之 AI 工作流重組地圖：
+            </p>
+            <div class="image-container">
+                <img src="images/wwdc26_observe.jpg" alt="WWDC 26 重點觀察圖">
+            </div>
+        </section>
+
+        <!-- Section 3: The Prompt -->
+        <section class="card">
+            <h2>
+                <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                <span>Deep Research 實戰 Prompt 複製專區</span>
+            </h2>
+            <p style="color: var(--text-secondary); margin-bottom: 1rem;">
+                請點擊右上角一鍵複製下方 Prompt，並直接投放至具備深度搜尋能力的 AI 瀏覽器或模型中（如 Perplexity Pro, ChatGPT Deep Research, Claude 等）：
+            </p>
+
+            <div class="prompt-wrapper">
+                <button class="btn-copy" id="btn-copy">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                    <span>複製提示詞</span>
+                </button>
+                <pre class="prompt-box" id="prompt-content"># Role & Expertise
+你是一位享譽國際的「科技產業戰術分析師」與「SaaS 產品架構治理專家」。你精通 Apple 生態系技術、全球軟體產業趨勢，以及台灣中小企業（SME）的 ERP 導入與流程治理。
+
+# Research Objective
+請針對「WWDC 26（Apple 全球開發者大會）」展開深度搜尋與研究，並將報告明確切分為以下兩大部分：
+
+---
+
+## Part 1: WWDC 26 全局發表會重點完整盤點（大會到底講了啥？）
+
+請無偏差、無遺漏地全面搜集並整理 WWDC 26 大會的「所有核心重點」，建立完整的全局技術圖譜：
+
+1. 【各大作業系統重大更新 (OS Updates)】：
+   - iOS, macOS, iPadOS, watchOS, visionOS 等最新系統的核心功能演進、全新 UI 互動邏輯與非 AI 的重要技術變更。
+2. 【Apple Intelligence (AI) 全局架構與隱私防線】：
+   - Apple Intelligence 這次公布了哪些全新功能、模型架構與跨 App 運作方式？
+   - 隱私保護機制（如 Private Cloud Compute 私有雲端運算）的技術細節與資料安全邊界是什麼？
+3. 【開發者工具與技術生態 (Developer Tools & SDKs)】：
+   - 最新版 Xcode 釋出了哪些功能（特別是 AI 輔助、Agentic Coding、Playgrounds 等）？
+   - 這次大會新增或修改了哪些關鍵的 SDK、API 框架（如 App Intents, Swift, SwiftUI）？
+4. 【其他硬體、服務與生態系整合亮點】：
+   - 大會上發表的其他重要服務 or 生態系整合重點。
+
+---
+
+## Part 2: 針對台灣 SaaS / ERP 服務商的生存與因應戰略（台灣 SaaS 廠商該如何因應？）
+
+基於 Part 1 蒐集到的全局重點，從中篩選出對「企業工作流、SaaS 開發、流程自動化與治理」有深遠影響的技術。結合台灣中小企業（SME）預算有限、高客製化、且重視「白箱流程治理（去識別化、例外處理、Audit Trail）」的現場，探討台灣 SaaS 廠商的因應策略：
+
+1. 【從全局更新看「介面消亡與能力包化」的必要性】：
+   - 結合 iOS/macOS 的全局代理化更新，台灣 SaaS/ERP 廠商是否應該徹底放棄開發原生 App，轉而將 ERP 功能封裝為「App Intents / Shortcuts 能力包」與 OpenAPI，供 OS 級 Agent 在背景調用？
+   - ERP 應如何設計 Schema 與 API 邊界？
+2. 【AI Governance（流程治理）新防線】：
+   - 當員工開始用 Apple Intelligence 的系統級代理功能自動操作 ERP 流程時，如何防範 AI 越權與個資洩漏？
+   - ERP 廠商應如何架構其「例外處理機制（HITL）」與「稽核軌跡（Audit Trail）」以把關安全？
+3. 【Xcode 新功能對台灣 ERP 客製外掛開發的實務衝擊】：
+   - ERP 廠商如何運用最新 Xcode 的 AI 輔助與 Agentic Coding 提升外掛開發產能？
+   - 如何確保 AI 自動產生的外掛符合「白箱可視化（如 n8n 工作流結構）」特徵，以便於日後維護與交接？
+4. 【商業模式轉型】：
+   - 台灣 SaaS 廠商如何防止自己被 OS 級 Agent 邊緣化？
+   - 如何將 Part 1 提到的技術變革，轉化為「工作流治理與 API 調用訂閱」的獲利新機會？
+
+---
+
+# Output Requirements
+1. 【語系要求】：請完全使用流暢的繁體中文（台灣習慣用語）輸出，技術專有名詞保留英文。
+2. 【格式結構】：條理清晰，Part 1 請提供結構化的「全局重點彙整表」，Part 2 則提供針對台灣 SaaS 的「實務應變指引」。</pre>
+            </div>
+        </section>
+
+        <!-- Navigation back -->
+        <a href="index.html" class="btn-back">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+            返回 Class 03 課程大綱
+        </a>
+    </main>
+
+    <div class="toast" id="toast">提示詞已成功複製到剪貼簿！</div>
+
+    <footer>
+        <p>銀河軟體 ERP 內訓課程 Class 03 主題十一 &copy; 2026 | 設計符合 AI (Markdown) 與人類 (Premium HTML) 雙重閱讀標準</p>
+        <p style="margin-top: 0.5rem;">
+            <a href="index.html">返回 Class 03 課程大綱</a> |
+            <a href="class03_wwdc_prompt.md">檢視 AI 專用 Markdown 檔案</a> |
+            <a href="../../../logs.md">檢視 FALO 軌跡日誌</a>
+        </p>
+    </footer>
+
+    <script>
+        const btnCopy = document.getElementById('btn-copy');
+        const promptContent = document.getElementById('prompt-content');
+        const toast = document.getElementById('toast');
+
+        btnCopy.addEventListener('click', () => {
+            // Copy text
+            navigator.clipboard.writeText(promptContent.textContent).then(() => {
+                // Show toast
+                toast.classList.add('show');
+                setTimeout(() => {
+                    toast.classList.remove('show');
+                }, 2000);
+            }).catch(err => {
+                console.error('無法複製文字: ', err);
+            });
+        });
+    </script>
+</body>
+</html>

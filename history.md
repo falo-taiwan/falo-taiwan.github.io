@@ -135,4 +135,8 @@
 * 理清企業自動化演進六階段（人工 ➔ ERP 客製 ➔ RPA ➔ Workflow ➔ AI Agent ➔ Multi-Agent）。立足銀河 ERP 顧問簡化之 Workflow 模式（Event-Rule-Action），探討白箱架構 n8n 在 AI 治理中的全新優勢與 AI Review Workflow 新觀念。
 * [從 ERP 外掛到 AI Agent 網頁 (HTML)](file:///Users/force/Google_Antigravity/attn-class/falo-taiwan/class/a01/class3/class03_rpa_to_agent.html) | [Markdown](file:///Users/force/Google_Antigravity/attn-class/falo-taiwan/class/a01/class3/class03_rpa_to_agent.md)
 
+#### 11. WWDC 26 Deep Research 實戰 Prompt 示範
+* 分享高階兩部式 Prompt（全局技術盤點 ➔ 台灣 SaaS 企業因應）。嵌入 WWDC 26 「工作流重組」重點觀察圖，做為學員進行 AI 戰略與技術研究的知識工程實戰範本。
+* [WWDC 26 Prompt 網頁 (HTML)](file:///Users/force/Google_Antigravity/attn-class/falo-taiwan/class/a01/class3/class03_wwdc_prompt.html) | [Markdown](file:///Users/force/Google_Antigravity/attn-class/falo-taiwan/class/a01/class3/class03_wwdc_prompt.md)
+
 

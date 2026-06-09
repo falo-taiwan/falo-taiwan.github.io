@@ -61,6 +61,11 @@ Class 03 專注於讓學員理解最新的 **AI Agent 協同開發思維 (Vibe C
 * **詳細課件網頁**：[class03_rpa_to_agent.html](class03_rpa_to_agent.html)
 * **AI 專用文件**：[class03_rpa_to_agent.md](class03_rpa_to_agent.md)
 
+### 11. 主題十一：WWDC 26 Deep Research 實戰 Prompt 示範
+* **簡介**：分享高階兩部式 Prompt（全局技術盤點 ➔ 台灣 SaaS 企業因應）。嵌入 WWDC 26 「工作流重組」重點觀察圖，做為學員進行 AI 戰略與技術研究的知識工程實戰範本。
+* **詳細課件網頁**：[class03_wwdc_prompt.html](class03_wwdc_prompt.html)
+* **AI 專用文件**：[class03_wwdc_prompt.md](class03_wwdc_prompt.md)
+
 ---
 
 ## 學習日誌與軌跡 (Logs)

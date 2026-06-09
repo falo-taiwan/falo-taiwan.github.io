@@ -352,5 +352,23 @@
       "logs.md",
       "logs.json"
     ]
+  },
+  {
+    "timestamp": "2026-06-09T14:10:00+08:00",
+    "action_type": "project_restructured",
+    "description": "新增主題十一「WWDC 26 Deep Research 實戰 Prompt 示範」教材，嵌入 WWDC 26 重點觀察圖表與 Prompt 一鍵複製功能，並整合至主大綱首頁、歷史彙整頁與 Git 同步腳本中。",
+    "operator": "AI (Antigravity)",
+    "files_affected": [
+      "falo-taiwan/class/a01/class3/class03_wwdc_prompt.md",
+      "falo-taiwan/class/a01/class3/class03_wwdc_prompt.html",
+      "falo-taiwan/class/a01/class3/images/wwdc26_observe.jpg",
+      "falo-taiwan/class/a01/class3/index.html",
+      "falo-taiwan/class/a01/class3/index.md",
+      "history.md",
+      "history.html",
+      "logs.md",
+      "logs.json",
+      "sync_and_push.py"
+    ]
   }
 ]
