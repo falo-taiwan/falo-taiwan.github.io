@@ -1,0 +1,1306 @@
+<!--
+  Project: AI Control the Digital World - Practice & Simulation Arena (Galaxy Software)
+  Author: Falo x Force Cheng
+  Date: 2026/06/08
+  License: Copyright (c) 2026 Falo x Force Cheng. All rights reserved.
+-->
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <!-- WATERMARK: Falo x Force Cheng 2026/6/6 -->
+  <meta name="author" content="Falo x Force Cheng">
+  <meta name="copyright" content="Falo x Force Cheng 2026/6/6">
+  <meta name="robots" content="index, follow">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "FALO 模擬操作競技場 - 銀河軟體",
+    "description": "Chrome Extension (DOM 控制) 與 Computer Use (視覺滑鼠控制) 互動式模擬操作平台，以銀河軟體進貨入庫為實務場景。",
+    "author": {
+      "@type": "Person",
+      "name": "Falo x Force Cheng"
+    }
+  }
+  </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🧪 FALO 模擬操作競技場：銀河軟體 V1 外掛與 V2 Computer Use 實作模擬</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Outfit:wght@400;700&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --bg-gradient: linear-gradient(135deg, #0f172a 0%, #0f172a 50%, #020617 100%);
+      --card-bg: rgba(30, 41, 59, 0.4);
+      --card-border: rgba(255, 255, 255, 0.08);
+      --text-main: #f1f5f9;
+      --text-muted: #94a3b8;
+      --primary: #818cf8;
+      --primary-glow: rgba(129, 140, 248, 0.15);
+      --accent-pink: #ec4899;
+      --accent-pink-glow: rgba(236, 72, 153, 0.15);
+      --success: #10b981;
+      --code-bg: #0b0f19;
+      --shadow-main: 0 20px 40px -15px rgba(0, 0, 0, 0.4);
+      --glass-blur: blur(20px);
+
+      /* ERP specific light theme variables */
+      --erp-bg: #f8fafc;
+      --erp-border: #e2e8f0;
+      --erp-text: #1e293b;
+      --erp-primary: #0284c7; /* Galaxy Blue color style */
+      --erp-primary-hover: #0369a1;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Noto Sans TC', 'Outfit', sans-serif;
+      background: var(--bg-gradient);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Soft Watercolor Ambient Blobs */
+    .watercolor-blob {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(90px);
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    .blob-1 {
+      width: 450px;
+      height: 450px;
+      background: rgba(236, 72, 153, 0.08);
+      top: -150px;
+      right: -100px;
+    }
+
+    .blob-2 {
+      width: 400px;
+      height: 400px;
+      background: rgba(56, 189, 248, 0.08);
+      bottom: -100px;
+      left: -50px;
+    }
+
+    /* Top Bar */
+    header {
+      background: rgba(15, 23, 42, 0.7);
+      border-bottom: 1px solid var(--card-border);
+      padding: 16px 40px;
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 5;
+    }
+
+    .header-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-tag {
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 800;
+      color: var(--accent-pink);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+
+    h1 {
+      font-size: 1.15rem;
+      font-weight: 900;
+      color: #f1f5f9;
+    }
+
+    .btn-back {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 700;
+      transition: color 0.2s;
+    }
+
+    .btn-back:hover {
+      color: var(--text-main);
+    }
+
+    /* Main Container */
+    .arena-container {
+      display: flex;
+      flex: 1;
+      padding: 30px;
+      gap: 30px;
+      max-width: 1400px;
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    @media (max-width: 1024px) {
+      .arena-container {
+        flex-direction: column;
+      }
+    }
+
+    /* Left Column: Target ERP Application Sandbox */
+    .app-sandbox-card {
+      flex: 1.2;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 24px;
+      padding: 30px;
+      box-shadow: var(--shadow-main);
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    .card-title {
+      font-size: 1.25rem;
+      font-weight: 800;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* Simulated ERP Webpage UI */
+    .erp-container {
+      background: var(--erp-bg);
+      color: var(--erp-text);
+      border-radius: 16px;
+      border: 1px solid var(--erp-border);
+      padding: 24px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      box-shadow: inset 0 2px 8px rgba(0,0,0,0.05);
+      transition: all 0.3s ease;
+      min-height: 520px;
+    }
+
+    .erp-header {
+      border-bottom: 2px solid var(--erp-border);
+      padding-bottom: 12px;
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .erp-logo {
+      font-family: 'Noto Sans TC', 'Outfit', sans-serif;
+      font-weight: 900;
+      font-size: 1.15rem;
+      color: var(--erp-primary);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .erp-status-badge {
+      font-size: 0.75rem;
+      background: #fee2e2;
+      color: #ef4444;
+      padding: 2px 8px;
+      border-radius: 20px;
+      font-weight: 700;
+    }
+
+    .erp-status-badge.logged-in {
+      background: #d1fae5;
+      color: #10b981;
+    }
+
+    /* Form Fields Styling */
+    .erp-form-group {
+      margin-bottom: 14px;
+      position: relative;
+    }
+
+    .erp-label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: #475569;
+      margin-bottom: 6px;
+    }
+
+    .erp-label .required-star {
+      color: #ef4444;
+      margin-left: 2px;
+    }
+
+    .erp-input {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      font-family: inherit;
+      font-size: 0.92rem;
+      color: #1e293b;
+      background: white;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .erp-input:focus {
+      outline: none;
+      border-color: var(--erp-primary);
+      box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.15);
+    }
+
+    .erp-btn {
+      width: 100%;
+      padding: 12px;
+      background: var(--erp-primary);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.2s;
+      margin-top: 10px;
+    }
+
+    .erp-btn:hover {
+      background: var(--erp-primary-hover);
+    }
+
+    /* Journal Voucher Entry view (Simulated Logged-in state) */
+    .erp-report-view {
+      display: none;
+      flex-direction: column;
+      flex-grow: 1;
+      animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(5px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .voucher-split-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+      margin-bottom: 12px;
+    }
+
+    /* Right Column: AI Demonstration Panel */
+    .ai-control-card {
+      flex: 0.8;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 24px;
+      padding: 30px;
+      box-shadow: var(--shadow-main);
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .simulator-modes {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      margin-top: 10px;
+      flex-grow: 1;
+    }
+
+    .mode-section {
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 20px;
+      background: rgba(255, 255, 255, 0.01);
+      transition: background 0.3s;
+    }
+
+    .mode-section.active {
+      background: rgba(255, 255, 255, 0.03);
+      border-color: rgba(129, 140, 248, 0.25);
+    }
+
+    .mode-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .mode-title {
+      font-size: 1.05rem;
+      font-weight: 800;
+    }
+
+    .mode-desc {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+      margin-bottom: 16px;
+    }
+
+    /* Elegant Custom Toggle Switch */
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 48px;
+      height: 24px;
+    }
+
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #475569;
+      transition: .3s;
+      border-radius: 24px;
+    }
+
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 18px;
+      width: 18px;
+      left: 3px;
+      bottom: 3px;
+      background-color: white;
+      transition: .3s;
+      border-radius: 50%;
+    }
+
+    input:checked + .slider {
+      background-color: var(--accent-pink);
+    }
+
+    input:checked + .slider:before {
+      transform: translateX(24px);
+    }
+
+    /* V2 Run Button */
+    .btn-run-v2 {
+      width: 100%;
+      padding: 12px;
+      background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-weight: 700;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: transform 0.2s, box-shadow 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      box-shadow: 0 4px 14px rgba(99, 102, 241, 0.2);
+    }
+
+    .btn-run-v2:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 18px rgba(99, 102, 241, 0.35);
+    }
+
+    .btn-run-v2:disabled {
+      background: #475569;
+      box-shadow: none;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    /* Terminal Console Log */
+    .console-container {
+      margin-top: 15px;
+      background: var(--code-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 15px;
+      font-family: Consolas, Monaco, monospace;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      height: 160px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      box-shadow: inset 0 2px 8px rgba(0,0,0,0.5);
+    }
+
+    .console-line {
+      line-height: 1.5;
+      animation: lineIn 0.25s ease forwards;
+    }
+
+    @keyframes lineIn {
+      from { opacity: 0; transform: translateY(2px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .console-sys { color: #f43f5e; }
+    .console-vision { color: #38bdf8; }
+    .console-action { color: #a78bfa; }
+    .console-success { color: #34d399; }
+
+    /* Virtual Pointer (For V2 Computer Use Simulator) */
+    #virtual-pointer {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: rgba(236, 72, 153, 0.6);
+      border: 2px solid white;
+      border-radius: 50%;
+      top: 50%;
+      left: 50%;
+      z-index: 99999;
+      pointer-events: none;
+      transform: translate(-10px, -10px);
+      box-shadow: 0 0 10px rgba(236, 72, 153, 0.8);
+      display: none;
+      transition: left 1s cubic-bezier(0.25, 0.8, 0.25, 1), top 1s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+
+    #virtual-pointer.clicking {
+      animation: pointerClick 0.4s ease;
+    }
+
+    @keyframes pointerClick {
+      0% { transform: translate(-10px, -10px) scale(1); }
+      50% { transform: translate(-10px, -10px) scale(0.6); background: rgba(236, 72, 153, 0.9); }
+      100% { transform: translate(-10px, -10px) scale(1); }
+    }
+
+    /* Vision Bounding Box Overlay */
+    .vision-box-overlay {
+      position: absolute;
+      border: 2px dashed #ec4899;
+      border-radius: 4px;
+      pointer-events: none;
+      box-shadow: 0 0 8px rgba(236, 72, 153, 0.3);
+      z-index: 9999;
+      animation: dashBlink 1s infinite alternate;
+      display: none;
+    }
+
+    @keyframes dashBlink {
+      from { opacity: 0.4; }
+      to { opacity: 1; }
+    }
+
+    /* V1 Injected elements simulation styles */
+    .falo-highlighted-field {
+      outline: none !important;
+      border: 2px solid #ec4899 !important;
+      box-shadow: 0 0 14px rgba(236, 72, 153, 0.45) !important;
+      background-color: rgba(254, 242, 242, 0.5) !important;
+      transition: all 0.3s ease !important;
+    }
+
+    .falo-field-badge {
+      display: inline-block !important;
+      background: linear-gradient(135deg, #ec4899 0%, #d946ef 100%) !important;
+      color: white !important;
+      font-family: 'Outfit', sans-serif !important;
+      font-size: 9px !important;
+      font-weight: 700 !important;
+      padding: 1px 5px !important;
+      border-radius: 3px !important;
+      margin-left: 6px !important;
+      vertical-align: middle !important;
+      pointer-events: none !important;
+    }
+
+    /* Floating mock extension sidebar (Sidepanel Mockup) */
+    #mock-extension-sidebar {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      width: 270px;
+      max-height: calc(100% - 30px);
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.6);
+      border-radius: 16px;
+      padding: 16px;
+      font-size: 0.8rem;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.12);
+      z-index: 100;
+      display: none;
+      flex-direction: column;
+      animation: slideInSidebar 0.3s forwards;
+    }
+
+    @keyframes slideInSidebar {
+      from { transform: translateX(20px); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+
+    .mock-sb-header {
+      margin-bottom: 10px;
+      border-bottom: 1px solid #e2e8f0;
+      padding-bottom: 8px;
+    }
+    
+    .mock-sb-brand {
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.65rem;
+      font-weight: 800;
+      color: var(--accent-pink);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .mock-sb-title {
+      font-weight: 900;
+      color: #1e293b;
+      font-size: 0.95rem;
+    }
+
+    .mock-sb-list {
+      list-style: none;
+      overflow-y: auto;
+      max-height: 330px;
+      margin-top: 10px;
+    }
+
+    .mock-card {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 10px;
+      margin-bottom: 10px;
+      transition: all 0.2s;
+    }
+    .mock-card:hover {
+      border-color: #cbd5e1;
+      background: white;
+    }
+
+    .mock-card-header {
+      display: flex;
+      justify-content: space-between;
+      font-weight: 700;
+      font-size: 0.78rem;
+      color: #334155;
+      margin-bottom: 6px;
+    }
+
+    .mock-card-badge {
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.65rem;
+      color: var(--erp-primary);
+    }
+
+    .mock-card-body {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      line-height: 1.4;
+      margin-bottom: 8px;
+    }
+
+    .mock-card-btn {
+      width: 100%;
+      padding: 6px;
+      background: var(--erp-primary);
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .mock-card-btn:hover {
+      background: var(--erp-primary-hover);
+    }
+
+    /* Screen Ripple Effect */
+    .click-ripple {
+      position: absolute;
+      border: 2px solid #ec4899;
+      border-radius: 50%;
+      pointer-events: none;
+      animation: ripple 0.6s cubic-bezier(0.1, 0.8, 0.3, 1) forwards;
+    }
+
+    @keyframes ripple {
+      0% { width: 0; height: 0; opacity: 1; transform: translate(0, 0); }
+      100% { width: 40px; height: 40px; opacity: 0; transform: translate(-20px, -20px); }
+    }
+
+    /* Status Alert Message */
+    .status-alert {
+      position: absolute;
+      top: 15px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #d1fae5;
+      color: #065f46;
+      border: 1px solid #10b981;
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      z-index: 1000;
+      display: none;
+      animation: slideDown 0.3s forwards;
+    }
+
+    @keyframes slideDown {
+      from { top: -40px; opacity: 0; }
+      to { top: 15px; opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="watercolor-blob blob-1"></div>
+  <div class="watercolor-blob blob-2"></div>
+
+  <header>
+    <div class="header-logo">
+      <div class="brand-tag">Falo x Force Cheng</div>
+      <h1>FALO 模擬操作競技場 (Class03 展示專用)</h1>
+    </div>
+    <a href="index.html" class="btn-back">⬅ 回教學首頁</a>
+  </header>
+
+  <div class="arena-container">
+    
+    <!-- Left Column: Sandbox Application -->
+    <div class="app-sandbox-card" id="erp-app-card">
+      <div class="card-title">
+        <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>
+        銀河軟體 ── 採購進貨單登錄系統 (模擬網頁)
+      </div>
+
+      <!-- Toast Alert -->
+      <div class="status-alert" id="status-toast">已驗證成功！進貨單已順利入庫。</div>
+
+      <!-- Visual helper layers (pointer, overlays) -->
+      <div id="virtual-pointer"></div>
+      <div class="vision-box-overlay" id="vision-box"></div>
+
+      <!-- ERP Sandbox UI wrapper -->
+      <div class="erp-container" id="erp-ui-container">
+        
+        <!-- ERP Goods Receipt Form View -->
+        <div id="erp-dashboard-view" class="erp-report-view" style="display: flex;">
+          <div class="erp-header">
+            <div class="erp-logo">
+              <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/></svg>
+              新建採購進貨入庫單
+            </div>
+            <div class="erp-status-badge" id="erp-status-badge" style="background: #cbd5e1; color: #475569;">待檢核</div>
+          </div>
+
+          <div class="voucher-split-row">
+            <div class="erp-form-group">
+              <label class="erp-label" for="po-number">採購單號 <span class="required-star">*</span></label>
+              <input type="text" id="po-number" class="erp-input" placeholder="例: PO-2026-XXXX" required>
+            </div>
+            <div class="erp-form-group">
+              <label class="erp-label" for="product-code">產品代碼 <span class="required-star">*</span></label>
+              <input type="text" id="product-code" class="erp-input" placeholder="例: FALO-XX" required>
+            </div>
+          </div>
+
+          <div class="voucher-split-row">
+            <div class="erp-form-group">
+              <label class="erp-label" for="received-qty">進貨數量 <span class="required-star">*</span></label>
+              <input type="number" id="received-qty" class="erp-input" placeholder="0" required>
+            </div>
+            <div class="erp-form-group">
+              <label class="erp-label" for="expiry-date">產品效期 <span class="required-star">*</span></label>
+              <input type="date" id="expiry-date" class="erp-input" required>
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px; width: 100%;">
+            <button class="erp-btn" id="btn-check-form" style="margin-top: 0;">1. 檢核表單</button>
+            <button class="erp-btn" id="btn-submit-entry" style="margin-top: 0; background: #94a3b8; cursor: not-allowed;" disabled>2. 確認入庫</button>
+          </div>
+        </div>
+
+        <!-- Simulated Floating Extension Sidebar (V1 Sidepanel Mockup) -->
+        <div id="mock-extension-sidebar">
+          <div class="mock-sb-header">
+            <div class="mock-sb-brand">Falo Academy</div>
+            <div class="mock-sb-title">銀河 ERP 填單助手 (V1)</div>
+          </div>
+          <div style="font-size:0.7rem; color:#64748b; line-height: 1.3;">
+            外掛側邊欄預載進貨明細，點選自動跨視窗寫入主網頁 DOM：
+          </div>
+          <ul class="mock-sb-list" id="mock-sb-list">
+            <!-- cards injected dynamically -->
+          </ul>
+        </div>
+
+      </div>
+
+      <!-- DOM Interaction Specification (DOM 互動規範說明書) -->
+      <details style="margin-top: 20px; border: 1px solid var(--card-border); border-radius: 12px; background: rgba(255,255,255,0.02); overflow: hidden;">
+        <summary style="padding: 12px 16px; font-weight: 700; font-size: 0.9rem; cursor: pointer; user-select: none; color: var(--primary); display: flex; justify-content: space-between; align-items: center;">
+          <span>🛠️ 外掛與網頁 DOM 互動通訊規範 (API & Selector Specifications)</span>
+          <span style="font-size: 0.75rem; opacity: 0.8;">▼ 展開檢視</span>
+        </summary>
+        <div style="padding: 16px; font-size: 0.82rem; line-height: 1.6; border-top: 1px solid var(--card-border); background: rgba(0,0,0,0.2);">
+          <p style="margin-bottom: 10px; color: var(--text-muted);">
+            當您將外掛安裝於 Chrome 並造訪此網頁時，外掛與本網頁是透過以下 DOM 節點規範與跨視窗訊息協議來進行互動填值的。這也是實作網頁自動化的底層標準：
+          </p>
+          <table style="width: 100%; border-collapse: collapse; margin-bottom: 15px; font-size: 0.8rem; text-align: left; color: var(--text-muted);">
+            <thead>
+              <tr style="border-bottom: 1px solid rgba(255,255,255,0.15); color: var(--accent-pink);">
+                <th style="padding: 6px;">欄位名稱</th>
+                <th style="padding: 6px;">DOM Selector</th>
+                <th style="padding: 6px;">資料格式</th>
+                <th style="padding: 6px;">外掛通訊 Key</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+                <td style="padding: 6px; color: var(--text-main); font-weight: 500;">採購單號</td>
+                <td style="padding: 6px; font-family: monospace; color: #38bdf8;">#po-number</td>
+                <td style="padding: 6px;">String (PO-YYYY-XXXX)</td>
+                <td style="padding: 6px; font-family: monospace;">po</td>
+              </tr>
+              <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+                <td style="padding: 6px; color: var(--text-main); font-weight: 500;">產品代碼</td>
+                <td style="padding: 6px; font-family: monospace; color: #38bdf8;">#product-code</td>
+                <td style="padding: 6px;">String (FALO-XX)</td>
+                <td style="padding: 6px; font-family: monospace;">code</td>
+              </tr>
+              <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+                <td style="padding: 6px; color: var(--text-main); font-weight: 500;">進貨數量</td>
+                <td style="padding: 6px; font-family: monospace; color: #38bdf8;">#received-qty</td>
+                <td style="padding: 6px;">Number</td>
+                <td style="padding: 6px; font-family: monospace;">qty</td>
+              </tr>
+              <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+                <td style="padding: 6px; color: var(--text-main); font-weight: 500;">產品效期</td>
+                <td style="padding: 6px; font-family: monospace; color: #38bdf8;">#expiry-date</td>
+                <td style="padding: 6px;">Date (YYYY-MM-DD)</td>
+                <td style="padding: 6px; font-family: monospace;">expiry</td>
+              </tr>
+            </tbody>
+          </table>
+          <div style="background: rgba(236, 72, 153, 0.08); border-left: 3px solid var(--accent-pink); padding: 10px; border-radius: 4px; margin-bottom: 10px;">
+            <strong style="color: var(--accent-pink);">⚠️ 現代網頁框架 (React/Vue/Angular) 事件派遣防錯規範：</strong><br>
+            直接以 <code>input.value = value</code> 寫入值後，必須手動派遣 <code>input</code> 與 <code>change</code> 事件。否則，前端框架的 Virtual DOM 無法捕捉到狀態更新，在提交表單時會導致資料丟失：
+            <pre style="margin: 8px 0 0 0; padding: 8px; font-size: 0.75rem; background: #05070c; border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; color: #a78bfa;">
+input.dispatchEvent(new Event('input', { bubbles: true }));
+input.dispatchEvent(new Event('change', { bubbles: true }));</pre>
+          </div>
+          <div style="background: rgba(129, 140, 248, 0.08); border-left: 3px solid var(--primary); padding: 10px; border-radius: 4px; color: var(--text-muted);">
+            <strong style="color: var(--primary);">📡 跨分頁訊息通訊規範 (Extension Message Spec)：</strong><br>
+            外掛側邊欄發送指令至 Content Script 時，必須遵循以下格式：
+            <pre style="margin: 8px 0 0 0; padding: 8px; font-size: 0.75rem; background: #05070c; border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; color: #34d399;">
+// 高亮指示
+chrome.tabs.sendMessage(tabId, { action: "toggleHighlight" });
+// 填寫指示
+chrome.tabs.sendMessage(tabId, { action: "fillForm", data: { po, code, qty, expiry } });</pre>
+          </div>
+        </div>
+      </details>
+    </div>
+
+    <!-- Right Column: Control Console & Log -->
+    <div class="ai-control-card">
+      <div class="card-title">
+        <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z"/></svg>
+        AI 自動操作展示控制台
+      </div>
+      
+      <div class="simulator-modes">
+        
+        <!-- Mode V1 Section -->
+        <div class="mode-section" id="v1-section">
+          <div class="mode-header">
+            <span class="mode-title">V1 外掛互動 (DOM 讀寫側邊欄)</span>
+            <label class="switch">
+              <input type="checkbox" id="toggle-v1-sim">
+              <span class="slider"></span>
+            </label>
+          </div>
+          <p class="mode-desc">
+            啟用以開啟「網頁內建的側邊欄模擬器」。<br>
+            <span style="color: var(--primary); font-weight: 700;">💡 真實外掛實測：</span>您可以關閉此模擬開關，將本專案的 <code>chrome-extension/</code> 資料夾以「開發者模式」載入 Chrome，即可點擊瀏覽器外掛圖示開啟真實的右側邊欄進行實地互動填單！
+          </p>
+        </div>
+
+        <!-- Mode V2 Section -->
+        <div class="mode-section" id="v2-section">
+          <div class="mode-header">
+            <span class="mode-title">V2 Computer Use 模擬 (視覺 + 滑鼠)</span>
+          </div>
+          <p class="mode-desc">
+            展示 AI Agent 脫離網頁原始碼限制，直接透過<strong>「視覺定位 (Vision) ➔ 計算物體 (X, Y) 座標 ➔ 移動滑鼠 click / 虛擬鍵盤輸入」</strong>的完整跨程式自動化。
+          </p>
+          <button class="btn-run-v2" id="btn-run-v2-flow">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/><path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            啟動 V2 電腦操作模擬
+          </button>
+        </div>
+
+        <!-- System Logs / AI Agent thoughts -->
+        <div>
+          <div style="font-size: 0.85rem; font-weight: 700; color: var(--text-muted); margin-bottom: 6px; display: flex; justify-content: space-between;">
+            <span>🤖 AI Console Terminal Log (中英文對照)</span>
+            <span id="agent-state" style="color: var(--accent-pink); font-weight: 800;">IDLE</span>
+          </div>
+          <div class="console-container" id="terminal-console">
+            <div class="console-line console-sys">[System] Console ready. Toggle V1 or run V2 above.</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    // State indicators
+    let isV1Enabled = false;
+    let isV2Running = false;
+    let highlightActive = false;
+
+    // DOM Elements
+    const toggleV1Sim = document.getElementById('toggle-v1-sim');
+    const btnRunV2Flow = document.getElementById('btn-run-v2-flow');
+    const terminalConsole = document.getElementById('terminal-console');
+    const agentState = document.getElementById('agent-state');
+
+    const poNumberInput = document.getElementById('po-number');
+    const productCodeInput = document.getElementById('product-code');
+    const receivedQtyInput = document.getElementById('received-qty');
+    const expiryDateInput = document.getElementById('expiry-date');
+    const btnCheckForm = document.getElementById('btn-check-form');
+    const btnSubmitEntry = document.getElementById('btn-submit-entry');
+
+    const erpDashboardView = document.getElementById('erp-dashboard-view');
+    const erpStatusBadge = document.getElementById('erp-status-badge');
+
+    const virtualPointer = document.getElementById('virtual-pointer');
+    const visionBox = document.getElementById('vision-box');
+    const mockExtensionSidebar = document.getElementById('mock-extension-sidebar');
+    const mockSbList = document.getElementById('mock-sb-list');
+
+    const erpUiContainer = document.getElementById('erp-ui-container');
+
+    // Mock Goods Receipt Data
+    const mockShipments = [
+      { po: "PO-2026-9918", code: "FALO-R1", qty: "120", expiry: "2027-06-09", title: "廠商 A (紅光商品)" },
+      { po: "PO-2026-4412", code: "FALO-G2", qty: "80", expiry: "2027-08-15", title: "廠商 B (綠光商品)" },
+      { po: "PO-2026-1188", code: "FALO-B3", qty: "250", expiry: "2027-12-01", title: "廠商 C (藍光商品)" }
+    ];
+
+    // Logger Helper
+    function logMessage(text, type = '') {
+      const line = document.createElement('div');
+      line.className = 'console-line';
+      if (type) {
+        line.classList.add(`console-${type}`);
+      }
+      line.textContent = `[${new Date().toLocaleTimeString()}] ${text}`;
+      terminalConsole.appendChild(line);
+      terminalConsole.scrollTop = terminalConsole.scrollHeight;
+    }
+
+    // Ripple click visual helper
+    function createRipple(x, y) {
+      const containerRect = erpUiContainer.getBoundingClientRect();
+      const ripple = document.createElement('div');
+      ripple.className = 'click-ripple';
+      ripple.style.left = `${x}px`;
+      ripple.style.top = `${y}px`;
+      erpUiContainer.appendChild(ripple);
+      setTimeout(() => ripple.remove(), 600);
+    }
+
+    // --- V1 EXTENSION SIMULATION ---
+    toggleV1Sim.addEventListener('change', (e) => {
+      isV1Enabled = e.target.checked;
+      
+      if (isV1Enabled) {
+        if (isV2Running) {
+          logMessage("警告：無法在 V2 運作時啟用 V1 外掛", "sys");
+          toggleV1Sim.checked = false;
+          isV1Enabled = false;
+          return;
+        }
+
+        document.getElementById('v1-section').classList.add('active');
+        logMessage("銀河填單助手側邊欄 (Side-panel) 載入中...", "sys");
+        logMessage("外掛與網頁已建立連線通訊通道。", "sys");
+
+        // Render Cards inside Mock Sidebar
+        mockSbList.innerHTML = '';
+        mockShipments.forEach((item, idx) => {
+          const card = document.createElement('li');
+          card.className = 'mock-card';
+          card.innerHTML = `
+            <div class="mock-card-header">
+              <span>📦 ${item.title}</span>
+              <span class="mock-card-badge">${item.code}</span>
+            </div>
+            <div class="mock-card-body">
+              單號：${item.po}<br>
+              數量：${item.qty} 件<br>
+              效期：${item.expiry}
+            </div>
+            <button class="mock-card-btn" data-index="${idx}">✍️ 自動填入此筆資料</button>
+          `;
+          mockSbList.appendChild(card);
+        });
+
+        // Event delegation for fill buttons
+        mockSbList.querySelectorAll('.mock-card-btn').forEach(btn => {
+          btn.addEventListener('click', (ev) => {
+            const idx = ev.target.dataset.index;
+            const data = mockShipments[idx];
+            logMessage(`外掛 Side-panel ➔ 發送填值命令，寫入 ${data.po} 至主視窗 DOM...`, "action");
+            autofillFields(data);
+          });
+        });
+
+        // Show sidebar
+        mockExtensionSidebar.style.display = 'flex';
+      } else {
+        disableV1();
+      }
+    });
+
+    function autofillFields(data) {
+      // 填入進貨表單欄位
+      poNumberInput.value = data.po;
+      productCodeInput.value = data.code;
+      receivedQtyInput.value = data.qty;
+      expiryDateInput.value = data.expiry;
+
+      // 派遣事件通知前端框架更新
+      poNumberInput.dispatchEvent(new Event('input', { bubbles: true }));
+      productCodeInput.dispatchEvent(new Event('input', { bubbles: true }));
+      receivedQtyInput.dispatchEvent(new Event('input', { bubbles: true }));
+      expiryDateInput.dispatchEvent(new Event('input', { bubbles: true }));
+
+      // 欄位高亮與閃爍反饋
+      flashField(poNumberInput);
+      flashField(productCodeInput);
+      flashField(receivedQtyInput);
+      flashField(expiryDateInput);
+
+      logMessage("自動跨分錄填單完成！ (V1 幫人操作)", "success");
+    }
+
+    function flashField(input) {
+      input.classList.add('falo-highlighted-field');
+      const originalBg = input.style.backgroundColor;
+      input.style.backgroundColor = '#fef08a'; // bright yellow
+      setTimeout(() => {
+        input.style.backgroundColor = originalBg;
+        if (!highlightActive) {
+          input.classList.remove('falo-highlighted-field');
+        }
+      }, 800);
+    }
+
+    function disableV1() {
+      document.getElementById('v1-section').classList.remove('active');
+      logMessage("外掛側邊欄關閉，卸載 Content CSS & JS 資源。", "sys");
+      mockExtensionSidebar.style.display = 'none';
+      highlightActive = false;
+      
+      const inputs = erpUiContainer.querySelectorAll('input, select');
+      inputs.forEach(input => {
+        input.classList.remove('falo-highlighted-field');
+      });
+    }
+
+    // --- V2 COMPUTER USE SIMULATION ---
+    btnRunV2Flow.addEventListener('click', () => {
+      if (isV2Running) return;
+      
+      if (isV1Enabled) {
+        toggleV1Sim.checked = false;
+        disableV1();
+        isV1Enabled = false;
+      }
+
+      runV2Simulation();
+    });
+
+    async function runV2Simulation() {
+      isV2Running = true;
+      btnRunV2Flow.disabled = true;
+      toggleV1Sim.disabled = true;
+      agentState.textContent = "EXECUTING";
+      logMessage("V2 OSWorld Computer Use 模擬啟動！", "sys");
+      logMessage("AI Agent 開始讀取螢幕畫面與表單欄位...", "vision");
+
+      // 重置欄位值
+      poNumberInput.value = '';
+      productCodeInput.value = '';
+      receivedQtyInput.value = '';
+      expiryDateInput.value = '';
+
+      virtualPointer.style.display = 'block';
+      
+      // Step 1: Locate and Input PO Number
+      await delay(1000);
+      showVisionBox(poNumberInput);
+      logMessage("👁️ [AI Vision] 偵測『採購單號』欄位位置：(X: 110, Y: 115), 信心值 96%", "vision");
+      await delay(800);
+      await movePointerTo(poNumberInput);
+      clickElement(poNumberInput);
+      logMessage("✍️ [AI Action] 模擬輸入單號 'PO-2026-9918'...", "action");
+      await typeValue(poNumberInput, "PO-2026-9918");
+      hideVisionBox();
+
+      // Step 2: Locate and Input Product Code
+      await delay(1200);
+      showVisionBox(productCodeInput);
+      logMessage("👁️ [AI Vision] 偵測『產品代碼』輸入框：(X: 280, Y: 115), 信心值 98%", "vision");
+      await delay(800);
+      await movePointerTo(productCodeInput);
+      clickElement(productCodeInput);
+      logMessage("✍️ [AI Action] 模擬輸入代碼 'FALO-R1'...", "action");
+      await typeValue(productCodeInput, "FALO-R1");
+      hideVisionBox();
+
+      // Step 3: Locate and Input Received Qty
+      await delay(1200);
+      showVisionBox(receivedQtyInput);
+      logMessage("👁️ [AI Vision] 偵測『進貨數量』輸入框：(X: 110, Y: 180), 信心值 97%", "vision");
+      await delay(800);
+      await movePointerTo(receivedQtyInput);
+      clickElement(receivedQtyInput);
+      logMessage("✍️ [AI Action] 模擬輸入數量 '120'...", "action");
+      await typeValue(receivedQtyInput, "120");
+      hideVisionBox();
+
+      // Step 4: Locate and Input Expiry Date
+      await delay(1200);
+      showVisionBox(expiryDateInput);
+      logMessage("👁️ [AI Vision] 偵測『產品效期』輸入框：(X: 280, Y: 180), 信心值 97%", "vision");
+      await delay(800);
+      await movePointerTo(expiryDateInput);
+      clickElement(expiryDateInput);
+      logMessage("✍️ [AI Action] 模擬鍵盤輸入效期 '2027-06-09'...", "action");
+      await typeValue(expiryDateInput, "2027-06-09");
+      hideVisionBox();
+
+      // Step 5: Locate and Click Check Form Button
+      await delay(1200);
+      showVisionBox(btnCheckForm);
+      logMessage("👁️ [AI Vision] 偵測到『1. 檢核表單』按鈕位置：(X: 100, Y: 245), 信心值 99%", "vision");
+      await delay(800);
+      await movePointerTo(btnCheckForm);
+      clickElement(btnCheckForm);
+      logMessage("✍️ [AI Action] 模擬點擊檢核按鈕，執行業務規則檢核...", "action");
+      
+      // Trigger check response
+      await delay(1000);
+      showToast("✅ 表單欄位檢核成功！格式正確無誤。");
+      erpStatusBadge.textContent = '檢核成功';
+      erpStatusBadge.style.background = '#d1fae5'; // 綠色
+      erpStatusBadge.style.color = '#065f46';
+      
+      btnSubmitEntry.disabled = false;
+      btnSubmitEntry.style.background = '#10b981'; // 啟用綠色
+      btnSubmitEntry.style.cursor = 'pointer';
+
+      logMessage("👁️ [AI Vision] 偵測到狀態更新為『檢核成功』，且確認入庫按鈕已解除禁用！", "vision");
+      hideVisionBox();
+
+      // Step 6: Locate and Click Confirm Submit Button
+      await delay(1500);
+      showVisionBox(btnSubmitEntry);
+      logMessage("👁️ [AI Vision] 偵測到『2. 確認入庫』按鈕位置：(X: 290, Y: 245), 信心值 99%", "vision");
+      await delay(800);
+      await movePointerTo(btnSubmitEntry);
+      clickElement(btnSubmitEntry);
+      logMessage("✍️ [AI Action] 模擬點擊確認入庫按鈕，確認提交數據入庫...", "action");
+
+      // Trigger final success notification
+      await delay(1000);
+      showToast("🎉 進貨單 PO-2026-9918 驗證通過，產品已順利確認入庫！");
+      logMessage("💾 [System] 進貨單 PO-2026-9918 已驗證成功，產品 FALO-R1 順利完成提交與入庫。", "sys");
+      
+      erpStatusBadge.textContent = '已入庫';
+      erpStatusBadge.style.background = '#dbeafe'; // 藍色
+      erpStatusBadge.style.color = '#1e40af';
+      hideVisionBox();
+
+      // End Simulation
+      await delay(1000);
+      virtualPointer.style.display = 'none';
+      isV2Running = false;
+      btnRunV2Flow.disabled = false;
+      toggleV1Sim.disabled = false;
+      agentState.textContent = "IDLE";
+      logMessage("🎉 [AI Agent] 填單、檢核與入庫提交流程全部完成！(V2 AI 幫人操作)", "success");
+    }
+
+    // Vision Helper: Highlight element with bounding box
+    function showVisionBox(el) {
+      const parentRect = erpUiContainer.getBoundingClientRect();
+      const elRect = el.getBoundingClientRect();
+      
+      visionBox.style.width = `${elRect.width + 8}px`;
+      visionBox.style.height = `${elRect.height + 8}px`;
+      visionBox.style.left = `${elRect.left - parentRect.left - 4}px`;
+      visionBox.style.top = `${elRect.top - parentRect.top - 4}px`;
+      visionBox.style.display = 'block';
+    }
+
+    function hideVisionBox() {
+      visionBox.style.display = 'none';
+    }
+
+    // Pointer Helper: Move virtual cursor to element center
+    async function movePointerTo(el) {
+      const parentRect = erpUiContainer.getBoundingClientRect();
+      const elRect = el.getBoundingClientRect();
+      
+      const targetX = elRect.left - parentRect.left + (elRect.width / 2);
+      const targetY = elRect.top - parentRect.top + (elRect.height / 2);
+      
+      virtualPointer.style.left = `${targetX}px`;
+      virtualPointer.style.top = `${targetY}px`;
+      
+      await delay(1000);
+    }
+
+    // Click Helper: Trigger click ripple animation
+    function clickElement(el) {
+      virtualPointer.classList.add('clicking');
+      setTimeout(() => virtualPointer.classList.remove('clicking'), 400);
+      
+      const rect = el.getBoundingClientRect();
+      const parentRect = erpUiContainer.getBoundingClientRect();
+      createRipple(rect.left - parentRect.left + rect.width/2, rect.top - parentRect.top + rect.height/2);
+      
+      el.focus();
+    }
+
+    // Keyboard type simulator
+    async function typeValue(el, text) {
+      el.value = '';
+      for(let char of text) {
+        el.value += char;
+        el.dispatchEvent(new Event('input', { bubbles: true }));
+        await delay(50);
+      }
+      el.dispatchEvent(new Event('change', { bubbles: true }));
+    }
+
+    // Toast Alert Helper
+    function showToast(text, isError = false) {
+      const toast = document.getElementById('status-toast');
+      toast.textContent = text;
+      toast.style.display = 'block';
+      if (isError) {
+        toast.style.background = '#fee2e2';
+        toast.style.color = '#991b1b';
+        toast.style.borderColor = '#ef4444';
+      } else {
+        toast.style.background = '#d1fae5';
+        toast.style.color = '#065f46';
+        toast.style.borderColor = '#10b981';
+      }
+      setTimeout(() => {
+        toast.style.display = 'none';
+      }, 3000);
+    }
+
+    // 1. 人類手動點選檢核表單
+    btnCheckForm.addEventListener('click', () => {
+      const po = poNumberInput.value.trim();
+      const code = productCodeInput.value.trim();
+      const qty = receivedQtyInput.value.trim();
+      const expiry = expiryDateInput.value;
+
+      if (!po || !code || !qty || !expiry) {
+        showToast("❌ 檢核失敗：所有欄位皆為必填，不可留空！", true);
+        logMessage("👤 人類手動檢核失敗：欄位未填滿。", "sys");
+        return;
+      }
+
+      if (!po.toUpperCase().startsWith('PO')) {
+        showToast("❌ 檢核失敗：採購單號格式必須以 'PO' 開頭！", true);
+        logMessage(`👤 人類手動檢核失敗：單號 ${po} 未以 PO 開頭。`, "sys");
+        return;
+      }
+
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      const expiryDate = new Date(expiry);
+      expiryDate.setHours(0, 0, 0, 0);
+
+      if (expiryDate < today) {
+        showToast("❌ 檢核失敗：產品效期不能早於今日！", true);
+        logMessage("👤 人類手動檢核失敗：產品效期早於今日。", "sys");
+        return;
+      }
+
+      showToast("✅ 表單欄位檢核成功！格式正確無誤。");
+      logMessage(`👤 人類手動檢核成功：採購單 ${po} 欄位資料合格。`, "sys");
+      erpStatusBadge.textContent = '檢核成功';
+      erpStatusBadge.style.background = '#d1fae5';
+      erpStatusBadge.style.color = '#065f46';
+
+      btnSubmitEntry.disabled = false;
+      btnSubmitEntry.style.background = '#10b981';
+      btnSubmitEntry.style.cursor = 'pointer';
+    });
+
+    // 2. 人類手動點選確認提交入庫
+    btnSubmitEntry.addEventListener('click', () => {
+      if (btnSubmitEntry.disabled) return;
+
+      showToast(`🎉 進貨單 ${poNumberInput.value} 驗證通過，產品已順利確認入庫！`);
+      logMessage(`👤 人類手動確認入庫：採購單 ${poNumberInput.value} 提交存檔。`, "sys");
+      
+      erpStatusBadge.textContent = '已入庫';
+      erpStatusBadge.style.background = '#dbeafe';
+      erpStatusBadge.style.color = '#1e40af';
+
+      btnSubmitEntry.disabled = true;
+      btnSubmitEntry.style.background = '#94a3b8';
+      btnSubmitEntry.style.cursor = 'not-allowed';
+    });
+
+  </script>
+</body>
+</html>
