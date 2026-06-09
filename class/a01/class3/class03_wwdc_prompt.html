@@ -4,7 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Class 03 主題十一 | WWDC 26 全局重點與台灣 SaaS 因應的 Deep Research 實戰 Prompt</title>
-    <meta name="description" content="Yinhe Class03 專案教材：利用高階 Prompt 驅動 AI 進行技術全局盤點與企業自動化因應戰略分析，附帶 WWDC 26 重點觀察圖與複製功能。">
+    <meta name="description" content="Yinhe Class03 專案教材：由 Antigravity 知識工程體建構，展示 AI 擴散與長文件收斂技術。包含 WWDC 26 全局盤點與台灣 SaaS 應變戰略分析，附帶 Force 顧問重點觀察圖。">
+    
+    <!-- SEO & Metadata | Falo x Force Cheng 2026/6/8 -->
+    <meta name="author" content="Falo x Force Cheng">
+    <meta name="copyright" content="Falo x Force Cheng 2026/6/8">
+    <meta name="robots" content="index, follow">
+    <meta name="keywords" content="Antigravity, 知識工程, AI擴散與收斂, 長文件工程, WWDC 26, Yinhe ERP, Falo x Force Cheng">
+    
+    <!-- GEO Tags | Falo x Force Cheng 2026/6/8 -->
+    <meta name="geo.region" content="TW-TPE">
+    <meta name="geo.placename" content="Taipei City">
+    <meta name="geo.position" content="25.0330;121.5654">
+    <meta name="ICBM" content="25.0330, 121.5654">
+
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -282,14 +295,31 @@
         footer a:hover {
             color: var(--primary);
         }
+
+        /* Watermark | Falo x Force Cheng 2026/6/8 */
+        .watermark {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+            opacity: 0.03;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Ctext x='50%25' y='50%25' fill='%23ffffff' font-family='sans-serif' font-size='12' font-weight='bold' text-anchor='middle' transform='rotate(-25 150 100)'%3EFalo x Force Cheng 2026/6/8%3C/text%3E%3C/svg%3E");
+            background-repeat: repeat;
+        }
     </style>
 </head>
 <body>
+    <!-- Watermark container -->
+    <div class="watermark"></div>
+
     <div class="glow glow-1"></div>
     <div class="glow glow-2"></div>
 
     <header>
-        <div class="tagline">Yinhe Class 03 Topic 11</div>
+        <div class="tagline">Yinhe Class 03 Topic 11 | Falo x Force Cheng</div>
         <h1>主題十一：WWDC 26 Deep Research 實戰 Prompt</h1>
         <p>利用高階兩部式 Prompt 驅動 AI 進行技術全局盤點與企業自動化應變戰略分析</p>
     </header>
@@ -299,11 +329,27 @@
         <section class="card">
             <h2>
                 <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
-                <span>本章定位</span>
+                <span>本章定位：AI 擴散與長文件知識工程</span>
             </h2>
-            <p style="color: var(--text-secondary); font-size: 1.05rem;">
-                在 AI 時代的 <strong>Vibe Coding</strong> 與 <strong>知識工程</strong> 實踐中，如何向 AI 提問，決定了您獲取知識的上限與深度。本章做為一個實戰範例，展示如何撰寫一份「無遺漏、有深度、且能緊密對接企業現況」的 <strong>Deep Research Prompt</strong>。我們以 Apple WWDC 26 發表會為調研對象，引導 AI 先進行全局大盤點（Part 1：在講啥），再深度挖潛其對台灣 SaaS 廠商與企業 ERP 流程治理的因應之道（Part 2：怎麼辦）。
+            <p style="color: var(--text-secondary); font-size: 1.05rem; margin-bottom: 1rem;">
+                在 AI 時代的 <strong>Vibe Coding</strong> 與 <strong>知識工程</strong> 實踐中，如何引導 AI 進行「資訊擴散」後的高密度「框架收斂」，是決定長文件知識工程成敗的關鍵。本案例特別展示由擅長處理大規模複雜程式與知識網絡的 <strong>Antigravity</strong> 智能體精細建構的實戰範本。
             </p>
+            <p style="color: var(--text-secondary); font-size: 1.05rem;">
+                我們以 Apple WWDC 26 發表會為調研對象，引導 AI 先進行不受限的全局資訊擴散（Part 1：大會到底講了啥），再透過精準的流程治理框架將其強行收斂（Part 2：台灣 SaaS 廠商與企業 ERP 該怎麼辦）。這套工作流能將網路上零散的資訊轉化為結構化的企業治理戰略。
+            </p>
+        </section>
+
+        <!-- Section 1.5: IP & Notes Card -->
+        <section class="card">
+            <h2>
+                <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+                <span>智慧財產權與備註說明 (IP & Notes)</span>
+            </h2>
+            <div style="color: var(--text-secondary); font-size: 0.95rem;">
+                <p style="margin-bottom: 0.75rem;"><strong>版權所有：</strong>Falo x Force Cheng 2026/6/8</p>
+                <p style="margin-bottom: 0.75rem;"><strong>文件備註：</strong>本教材所載之 Deep Research 兩部式分析架構、工作流重組地圖及知識工程方法論，均屬 Falo 與 Force Cheng 顧問團隊之核心智財。本教材作為銀河軟體（Yinhe ERP）企業內部訓練專用，未經書面授權禁止對外傳播與拷貝。</p>
+                <p><strong>防偽浮水印聲明：</strong>本網頁背景已佈署 <code>Falo x Force Cheng 2026/6/8</code> 防偽與版權識別浮水印。</p>
+            </div>
         </section>
 
         <!-- Section 2: WWDC 26 Observe Chart -->
@@ -395,7 +441,7 @@
     <div class="toast" id="toast">提示詞已成功複製到剪貼簿！</div>
 
     <footer>
-        <p>銀河軟體 ERP 內訓課程 Class 03 主題十一 &copy; 2026 | 設計符合 AI (Markdown) 與人類 (Premium HTML) 雙重閱讀標準</p>
+        <p>銀河軟體 ERP 內訓課程 Class 03 主題十一 | 版權所有 Falo x Force Cheng 2026/6/8 | 知識工程由 Antigravity 驅動</p>
         <p style="margin-top: 0.5rem;">
             <a href="index.html">返回 Class 03 課程大綱</a> |
             <a href="class03_wwdc_prompt.md">檢視 AI 專用 Markdown 檔案</a> |
