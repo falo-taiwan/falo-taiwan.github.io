@@ -357,6 +357,16 @@
         .risk-yellow { color: #fde68a; background: rgba(245, 158, 11, 0.12); }
         .risk-red { color: #fca5a5; background: rgba(239, 68, 68, 0.12); }
 
+        .inline-warning {
+            color: #fde68a;
+            background: rgba(245, 158, 11, 0.14);
+            border: 1px solid rgba(245, 158, 11, 0.24);
+            border-radius: 6px;
+            padding: 0.08rem 0.28rem;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
         ul {
             list-style: none;
             padding: 0;
@@ -943,33 +953,58 @@
             </div>
             <div class="strategy-note">
                 <div class="note-label">Force 顧問對銀河軟體 ERP 的拿捏</div>
-                <p>乾淨環境的最高標準可以是 Docker 與 CI/CD，但全體員工第一步不是學會維運容器，而是建立「不要污染正式資料、不要把秘密寫進檔案、不要只在個人電腦成立」的觀念。分公司可先用固定範本、脫敏資料與測試資料夾做外掛打樣。</p>
+                <p>開宗明義：如果問工程標準答案，乾淨與可移植的環境通常會走向 <strong>Docker + 受規範的軟硬體環境</strong>。Docker 負責讓 runtime 一致，受規範的軟硬體環境則負責降低客戶現場差異，例如 Windows 版本、主機規格、瀏覽器、Office、IIS / .NET、SQL Server 連線、權限、備份與 log。</p>
+                <p>但 Force 對銀河軟體 ERP 台西分公司目前的建議，不是先把大家推進 Docker 操作，而是先把 <strong>AI 可以開發的軟體型態</strong>約束清楚。先決定「能做哪幾種案子」，再決定「需要什麼環境」。如果軟體邊界沒定義清楚，標準化環境也只是讓錯誤更穩定地被複製。</p>
+                <p><strong>以目前狀態，Force 建議先只做到三種開發方式：</strong></p>
+                <ul>
+                    <li><strong>第一種：HTML + GAS。</strong>適合查詢、表單、Dashboard、教材、Demo 與簡易 workflow。這是最穩、最少環境問題的方式，客戶通常只需要瀏覽器，不需要安裝 Python，也不需要理解 Docker。</li>
+                    <li><strong>第二種：HTML + API / SQL Gateway。</strong>適合 ERP 資料查詢、SQL Server、報表與二創應用。重點是 HTML 不直接碰資料庫，而是透過 API、權限、log，再進到 DB。這種方式要注意資料權限、API 維護責任與查詢紀錄。</li>
+                    <li><strong>第三種：HTML + Python Runtime。</strong>適合 OCR、ETL、SQLite、Excel、Polars、AI 處理與本機資料夾監控。但這一種不確定性最高，因為會受到 <span class="inline-warning">Python 版本、套件版本</span>、Office、作業系統、檔案路徑、權限與客戶電腦狀態影響。因此若要採用，就必須對軟硬體環境提出明確要求，才會比較穩。</li>
+                </ul>
+                <p>所以順序應該是：<strong>先約束軟體開發方式，再用標準化軟硬體環境與 Docker 提高可靠度。</strong>內部開發時就要遵守這個規範，避免做出只適合某台工程師電腦、最後反過來要求客戶調整環境的方案。</p>
+                <p><strong>Force 建議銀河軟體可以思考標準化軟硬體與部署邊界。</strong>與其讓每個客戶現場都變成開盲盒，不如建立建議規格，甚至讓客戶透過銀河軟體或合作系統商取得標準環境。這可以形成「資源環境部署包」，把可開發範圍、可部署環境、API Gateway、log、備份、監控、資安設定、版本更新、移轉與維護 SLA 一起包進去。</p>
+                <p><strong>Docker 的定位：</strong>Docker 不是讓程式變快的工具，而是環境標準化工具。它最大的價值，是讓開發、測試與部署環境一致，降低「我電腦可以跑，你電腦不能跑」的問題。但 Docker 仍要搭配受規範的軟硬體環境，才適合正式交付。</p>
+                <p><strong>AI Agent 時代的新觀念：</strong>過去是人學 Docker、人寫 Dockerfile、人維護 Docker。現在可以是人理解 Docker，由 Codex、Claude Code、Antigravity 等 AI Agent 協助產生 Dockerfile、docker-compose 與除錯建議。但 AI 能建立 Docker，不代表環境治理消失。</p>
+                <p>真正重要的是先定義標準：Python 版本、Node 版本、套件版本、DB 版本與安裝方式。<strong>AI 負責建立環境，人類負責定義標準。</strong></p>
+                <p><strong>Python 版本策略：</strong>Force 建議以 <strong>Python 3.11.x</strong> 作為主要標準版本。原因是穩定、AI 與資料處理相關套件支援成熟、套件相容性高，也比較適合 SME 情境。重點不是追最新版本，而是追穩定版本。</p>
+                <p><strong>客戶不用管環境。</strong>這是本題最重要的核心。理想情況下，客戶只需要開網址、上傳檔案、按按鈕、看結果，不需要理解 Python、Docker、CI/CD、venv 或 requirements。後端可以在銀河軟體主機、客戶主機、Google GAS、Cloud VM 或 Local Runtime 執行，但客戶面對的應該是服務，而不是環境建置。</p>
                 <div class="risk-list">
-                    <div class="risk-item"><span class="risk-tag risk-green">綠燈</span><span>用範本資料夾、脫敏範例資料、固定檔名與操作紀錄做練習。</span></div>
-                    <div class="risk-item"><span class="risk-tag risk-yellow">黃燈</span><span>要搬到客戶現場或多人共用時，需要環境檢查表。</span></div>
-                    <div class="risk-item"><span class="risk-tag risk-red">紅燈</span><span>在個人電腦直接操作正式資料、正式密鑰或不可回復的批次更新。</span></div>
+                    <div class="risk-item"><span class="risk-tag risk-green">綠燈</span><span>HTML、GAS、GitHub Pages、靜態頁、Google Sheet / Drive 整合、脫敏 demo 與只讀查詢。</span></div>
+                    <div class="risk-item"><span class="risk-tag risk-yellow">黃燈</span><span>HTML + API / SQL Gateway、Python Runtime、Docker，需要先定義版本、權限、log、安裝方式與維護責任。</span></div>
+                    <div class="risk-item"><span class="risk-tag risk-red">紅燈</span><span>HTML 直接連資料庫、帳密寫在前端、依賴個人電腦環境、沒有負責人就交付客戶。</span></div>
                 </div>
+                <p>結論：乾淨環境的核心不是 Docker，而是可重建、可移植、可交接、可維護。AI Agent 正在降低環境建置門檻，但環境治理、版本標準與維護責任，仍然需要人類決定。</p>
             </div>
             <div class="answer-box">
-                <p>為了完全杜絕「在我的電腦可以跑，但別人電腦就不行」的魔咒，必須落實以下三大開發環境管理：</p>
+                <p><strong>有資源的最佳解（參考用）：</strong>有資源的企業不會只套一個固定答案，而是根據客戶現場狀態做最佳化配置。先盤點客戶的主機、作業系統、資料庫版本、網路權限、資安要求、備份能力、內部 IT 能力與維護預算，再決定使用 Web / Cloud / Local Runtime / Docker / API Gateway / GAS 等組合。</p>
+                <p>成熟服務商的價值，是提供完整的環境建議細節，而不是只交付程式。例如：建議硬體規格、OS 版本、DB 版本、Python / Node 標準、部署架構、權限模型、log 保存、備份策略、監控方式、更新週期、回復方案與移轉流程。客戶可以再透過 AI 與專家一起檢查這份建議，逐步最佳化自家環境。</p>
                 <ul>
-                    <li><strong>容器化（Docker）—— 業界絕對標準</strong>：
+                    <li><strong>環境標準定義</strong>：
                         <ul>
-                            <li>千萬不要在 Windows 或 macOS 全域安裝資料庫（MySQL, Redis）或後端軟體。</li>
-                            <li>將所有的基礎建設與相依套件寫在 <code>docker-compose.yml</code> 中。換電腦時，只需安裝 Docker 並執行 <code>docker compose up -d</code>，一秒即能重建完全一致的開發環境。</li>
+                            <li>明確記錄 Python / Node / DB / API / 套件版本，以及安裝方式與升級週期。</li>
+                            <li>避免使用「我這台電腦剛好可以」當成專案交付標準。</li>
                         </ul>
                     </li>
-                    <li><strong>使用語系版本管理器（Version Managers）</strong>：
+                    <li><strong>Docker / Container</strong>：
                         <ul>
-                            <li>使用 <code>nvm</code>/<code>fnm</code>（Node.js 版本管理）或 <code>pyenv</code>（Python 版本管理）來對不同專案進行環境隔離，不污染作業系統全域。</li>
+                            <li>適合多人協作、正式維運、伺服器部署、多服務組合與 CI/CD。</li>
+                            <li>Docker 的價值是讓環境一致，而不是取代架構設計、權限治理或人類驗收。</li>
                         </ul>
                     </li>
-                    <li><strong>導入 CI/CD（持續整合）虛擬化驗證</strong>：
+                    <li><strong>AI Agent 輔助建置</strong>：
                         <ul>
-                            <li>利用 GitHub Actions 或 GitLab CI，在每次推送到 Git 時，在雲端開一台乾淨的虛擬機自動下載程式碼、安裝相依性並進行打包與單元測試。<strong>只要 CI 跑得過，就代表可移植性大幅提高；但仍需確認 OS、硬體、密鑰與外部服務條件。</strong></li>
+                            <li>讓 AI Agent 協助產生 Dockerfile、docker-compose、安裝腳本、環境檢查清單與除錯建議。</li>
+                            <li>但 AI 只能協助建立環境，不能替企業決定誰負責維護、哪些版本標準、哪些資料可以連接、哪些流程可以上線。</li>
+                        </ul>
+                    </li>
+                    <li><strong>服務商建議書與最佳化配置</strong>：
+                        <ul>
+                            <li>依客戶規模、資料敏感度、內網限制、IT 人力、維護能力與預算，提供不同等級的部署建議。</li>
+                            <li>讓客戶不是被迫自己摸索環境，而是拿到可被 AI、專家與內部 IT 共同檢查的治理底稿。</li>
                         </ul>
                     </li>
                 </ul>
+                <p>所以這題不是 Docker 教學，而是 AI 時代的環境治理思維。工具可以越來越自動化，但標準、責任、風險與交付邊界，仍然要由人類治理。</p>
             </div>
         </section>
 
@@ -1074,34 +1109,38 @@
             </div>
             <div class="strategy-note">
                 <div class="note-label">Force 顧問對銀河軟體 ERP 的拿捏</div>
-                <p>系統性維護不是叫每位員工都會 Git，而是每個案子都要有負責人、版本、資料來源、修改原因、驗收方式與回復方案。外掛越貼近客戶營運，就越不能靠個人熱心和 AI 一次生成，必須變成可管理的小專案。</p>
+                <p>系統性維護不是叫每位員工都會 Git，而是每個案子都要有負責人、版本、資料來源、修改原因、驗收方式、回復方案與接手文件。這題會延伸 Q8 的環境治理：環境是否乾淨，會直接影響日後維護、移轉、接手、客戶部署、版本管理與資安治理。</p>
+                <p>外掛越貼近客戶營運，就越不能靠個人熱心和 AI 一次生成，必須變成可管理的小專案。至少要能回答：這個系統在哪裡跑？誰有權限？用哪個 Python / Node / API 版本？資料從哪裡來？密鑰放哪裡？換一台電腦能不能重建？換一位顧問能不能接手？</p>
                 <div class="risk-list">
-                    <div class="risk-item"><span class="risk-tag risk-green">綠燈</span><span>用表格記錄需求、版本、修改原因、操作人與驗收結果。</span></div>
-                    <div class="risk-item"><span class="risk-tag risk-yellow">黃燈</span><span>多人使用、客戶會看到、或要長期維護的外掛，需要專案管理。</span></div>
-                    <div class="risk-item"><span class="risk-tag risk-red">紅燈</span><span>無負責人、無版本紀錄、無測試資料就交付或接正式流程。</span></div>
+                    <div class="risk-item"><span class="risk-tag risk-green">綠燈</span><span>用表格或文件記錄需求、版本、修改原因、操作人、環境條件與驗收結果。</span></div>
+                    <div class="risk-item"><span class="risk-tag risk-yellow">黃燈</span><span>多人使用、客戶會看到、或要長期維護的外掛，需要專案管理、安裝文件、測試資料與移轉清單。</span></div>
+                    <div class="risk-item"><span class="risk-tag risk-red">紅燈</span><span>無負責人、無版本紀錄、無環境說明、無測試資料、無回復方案就交付或接正式流程。</span></div>
                 </div>
             </div>
             <div class="answer-box">
-                <p>隨著功能膨脹，系統要能永續維護，必須仰賴<strong>流程規範、自動化測試與定期重構</strong>：</p>
+                <p><strong>有資源的最佳解（參考用）：</strong>隨著功能膨脹，系統要能永續維護，必須同時管理程式碼、環境、資料、權限、部署與交接。Q8 是環境基礎，Q11 則是長期維運與移轉治理。</p>
                 <ul>
-                    <li><strong>Git 分支管理策略（例如 GitHub Flow）：</strong>
+                    <li><strong>版本與變更管理</strong>：
                         <ul>
                             <li><code>main</code> 分支必須永遠保持穩定、可隨時上線部署的狀態。</li>
                             <li><code>dev</code> 分支做為開發合併與測試。</li>
                             <li>開發新功能時，必須切出 <code>feature/xxx</code>，開發測試完成後，發起 Pull Request (PR) 進行 Code Review 才能併入。</li>
                         </ul>
                     </li>
-                    <li><strong>撰寫單元測試 (Unit Tests) 建立防護網</strong>：
+                    <li><strong>維護與移轉包</strong>：
                         <ul>
-                            <li>新功能增加時，手動測試是不可能測遍所有角落的。寫好單元測試（如使用 Vitest 測試原生 JS），在每次合併程式前自動跑一遍。確保新增功能沒有影響舊功能的正常運作。</li>
+                            <li>每個長期專案都應保留 <code>README.md</code>、<code>INSTALL.md</code>、<code>CHANGELOG.md</code>、<code>config.sample.json</code>、測試資料、啟動腳本、部署位置、帳號權限說明與回復方式。</li>
+                            <li>若有 Python / Node / API / SQL Gateway，必須記錄版本、安裝方式、相依套件、環境變數、log 位置與如何在新機器上重建。</li>
                         </ul>
                     </li>
-                    <li><strong>主動重構並定期清理技術債</strong>：
+                    <li><strong>測試與驗收防護網</strong>：
                         <ul>
-                            <li>一旦發現某個 JavaScript 檔案超過 500 行，或是邏輯過於混亂，即主動委託 AI：「<em>請幫我將這個模組重構，抽離出單一職責的輔助函數，以提升可讀性與測試性。</em>」</li>
+                            <li>新功能增加時，手動測試不可能測遍所有角落。至少要有操作驗收清單、測試資料、回歸測試步驟；重要系統再加入單元測試、自動化測試與 CI。</li>
+                            <li>一旦發現某個模組過大、流程過亂或環境太依賴個人電腦，就應主動重構，讓 AI 協助拆分模組、補文件、補測試，但最後仍由人類驗收。</li>
                         </ul>
                     </li>
                 </ul>
+                <p>長期來看，能不能維護不是看第一版功能多漂亮，而是看它能不能被重建、被理解、被測試、被移轉、被接手。這就是 Q8 環境治理在 Q11 的延伸。</p>
             </div>
         </section>
 
