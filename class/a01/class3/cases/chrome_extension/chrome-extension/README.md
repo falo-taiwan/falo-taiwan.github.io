@@ -2,7 +2,7 @@
 > **版權所有 © 2026 Falo x Force Cheng. All rights reserved. (Released: 2026/6/6)**
 
 本資料夾包含 Class03 課程中 V1 階段所使用的 **「銀河 ERP 填單助手」實體 Chrome 外掛**。
-本外掛是專為控制與填寫特定的 ERP 模擬網頁（[erp.html](file:///Users/force/Google_Antigravity/attn-class3-demo/chrome-computer-use/erp.html)、[practice.html](file:///Users/force/Google_Antigravity/attn-class3-demo/chrome-computer-use/practice.html) 或其 GitHub Pages 部署網址）所設計。
+本外掛是專為控制與填寫特定的 ERP 模擬網頁（[erp.html](file:///Users/force/Google_Antigravity/attn-class3-demo/chrome-computer-use/erp.html) 或其 GitHub Pages 部署網址）所設計。
 
 ---
 
