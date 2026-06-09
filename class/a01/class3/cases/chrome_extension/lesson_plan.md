@@ -3,7 +3,7 @@
 > [!NOTE]
 > **作者**：Falo x Force Cheng  
 > **發佈日期**：2026/06/08  
-> **教案宗旨**：引導學員掌握 Chrome 側邊欄外掛開發，實現網頁 DOM 節點的雙向控制（寫入、擷取、隨機產生、一鍵清空、CSV 備份與還原），並深入理解 Manifest V3 規範、背景腳本（Service Worker）、側邊欄與網頁 Content Script 之間的通訊（Message Passing）底層機制。
+> **教案宗旨**：引導學員掌握 Chrome 側邊欄外掛開發，實現網頁 DOM 節點的雙向控制（寫入、擷取、隨機產生、一鍵清空、CSV 備份與還原），並深入理解 Manifest V3 規格、背景腳本（Service Worker）、側邊欄與網頁 Content Script 之間的通訊（Message Passing）底層機制。
 
 ---
 
@@ -13,24 +13,30 @@
 
 ```mermaid
 graph TD
-    Start[課前準備/暖身] --> Step1[實作階段 1：基礎外掛 DOM 控制]
-    Step1 --> Step2[實作階段 2：雙向控制與 CSV 備份閉環]
+    Start[課前準備/暖身] --> Step1[實作階段 1：單欄雙向讀寫控制]
+    Step1 --> Step2[實作階段 2：全部欄位單獨讀寫與一鍵控制]
+    Step2 --> Step3[實作階段 3：完整自動化與資料備份]
     
     subgraph 課前準備/暖身
         Start -->|體驗| IG[IG Video Enhancer v1.0.1]
         IG -->|學習點| DOM_Modify[人藉由外掛「修改」網頁體驗]
     end
     
-    subgraph 實作階段 1：基礎外掛 DOM 控制
-        Step1 -->|寫入網頁| Write_DOM[外掛 ➔ 網頁：fillField & fillForm]
-        Step1 -->|擷取資料| Read_DOM[網頁 ➔ 外掛：readField & readForm]
-        Step1 -->|相容性| Reactivity[Dispatch input/change 事件相容 Vue/React]
+    subgraph 實作階段 1：單欄雙向讀寫控制
+        Step1 -->|小白意圖| S1_Easy[一般口語需求描述]
+        Step1 -->|專家指點| S1_Exp[精準 Manifest V3 與單欄讀寫通訊]
     end
     
-    subgraph 實作階段 2：雙向控制與 CSV 備份閉環
-        Step2 -->|隨機與清空| Random_Clear[隨機資料產生與一鍵清空]
-        Step2 -->|CSV 備份| CSV_Backup[匯出/匯入 CSV 實現資料閉環]
-        Step2 -->|遠端遙控| Remote_Action[側邊欄遙控網頁表單檢核與入庫]
+    subgraph 實作階段 2：全部欄位單獨讀寫與一鍵控制
+        Step2 -->|寫入與擷取| Write_Read_All[五大欄位單獨雙向控制與亮黃色閃爍]
+        Step2 -->|全域批次| Batch_Clear[一鍵全填入、一鍵全擷取與清空表單]
+        Step2 -->|相容性| Reactivity[Dispatch input/change 事件相容 Vue/React]
+    end
+    
+    subgraph 實作階段 3：完整自動化與資料備份
+        Step3 -->|隨機資料| Random[台北時間隨機產生]
+        Step3 -->|CSV 備份| CSV[匯出 BOM CSV 與 FileReader 讀取]
+        Step3 -->|遠端遙控| Remote[遠端檢核/入庫與流水號捕捉報告下載]
     end
 ```
 
@@ -38,82 +44,108 @@ graph TD
 
 ## 🎨 二、暖身專案：FALO Instagram Video Enhancer
 
+<details>
+<summary>📂 點此展開 ── 暖身專案定位與技術原理</summary>
+
 ### 1. 暖身專案定位
 在進入 ERP 自動化前，先用一個學員日常接觸得到的痛點（IG Reels 無法倒帶、調速）作為起點，建立外掛開發的基礎體感。
-
 *   **暖身專案路徑**：`ig-video-enhancer-extension`
 *   **教學核心**：讓學員在 Chrome 開啟開發者模式，載入未封裝項目，直接運行外掛。理解外掛能讀寫瀏覽器的 tab 權限，並「注入」代碼來修改第三方網頁 UI。
 
 ### 2. 技術原理說明
 *   **Manifest V3**：透過 `content_scripts` 匹配 `https://*.instagram.com/*`，在網頁加載完畢時注入 `content.js` 與 `content.css`。
 *   **DOM 修改**：外掛腳本會尋找網頁中的 `<video>` 標籤，動態在下方 append 進度條與速度控制器，並監聽鍵盤事件來實現快捷鍵控制。
+</details>
 
 ---
 
-## ⚙️ 三、實作專案：銀河 ERP 填單助手 (V1.5)
+## ⚙️ 三、實作專案：銀河 ERP 填單助手 (3階段實戰)
 
-### 1. 教學核心
-透過開發一個具備完整功能的 Chrome 側邊欄（Side-panel）填單助手，讓學員理解外掛如何精確定位網頁元素，並實現與網頁 DOM 的雙向互動及通訊。
+本課程設計了三套 Prompt，引導學員從小白口語意圖，升級到進階技術控制，再到能夠一鍵生成完整自動化外掛的專家版：
 
-*   **專案路徑**：`chrome-computer-use/` (發布對照的遠端子目錄為 `class/a01/class3/cases/chrome_extension/`)
-*   **主要網頁**：[index.html](file:///Users/force/Google_Antigravity/attn-class3-demo/chrome-computer-use/index.html) (教學導讀) 與 [erp.html](file:///Users/force/Google_Antigravity/attn-class3-demo/chrome-computer-use/erp.html) (實體外掛測試網頁)。
+<details>
+<summary>📂 點此展開 ── Step 1：單欄雙向讀寫控制 Prompt 演化對照</summary>
 
-### 2. 關鍵技術與程式碼剖析
+*   **💬 一般小白簡單版**：
+    > 我想寫一個 Chrome 側邊欄外掛，點擊外掛圖示可以在右邊滑出視窗。視窗裡有一個「採購單號」欄位，旁邊有「填入」跟「擷取」按鈕。點填入就可以把外掛的值填到 ERP 網頁的採購單號輸入框，點擷取可以把網頁採購單號的值抓回來外掛顯示。
+*   **⚡ 專家指點版**：
+    > 我有一個線上 ERP 測試網頁：
+    > https://falo-taiwan.github.io/class/a01/class3/cases/chrome_extension/erp.html
+    > 
+    > 請你讀取並解析這張網頁的結構，找出「採購單號」欄位的 CSS Selector。
+    > 接著，在目前的目錄下建立一個 Chrome 側邊欄（Side-panel）外掛，包含以下檔案：
+    > 1. manifest.json：設定 Manifest V3 規格，註冊 background.js、content.js，包含 sidePanel 與 activeTab 權限。
+    > 2. background.js：當點擊外掛 Icon 時，自動在右側滑出側邊欄。
+    > 3. sidepanel.html：側邊欄 UI。提供一個「採購單號」輸入框，旁邊配有「填入」與「擷取」按鈕。
+    > 4. sidepanel.js：處理按鈕事件，發送通訊訊息給網頁 content.js。
+    > 5. content.js：注入網頁運行。當收到「填入」指令時，將採購單號值寫入網頁對應的輸入框，並派遣 input/change 事件以相容 Vue/React；當收到「擷取」指令時，讀取網頁採購單號輸入框的值並回傳給側邊欄。
+    > 所有程式碼請附上中文逐行註解。
+</details>
 
-#### (A) 解決現代前端框架的 Reactivity 填值問題
-僅修改 `input.value = "val"` 會導致 React/Vue 雙向資料綁定失效（畫面上變更了，但點擊確認時系統仍判定為空）。我們在 `content.js` 中透過主動 dispatch 觸發 `input` 與 `change` 原生事件：
-```javascript
-input.dispatchEvent(new Event('input', { bubbles: true }));
-input.dispatchEvent(new Event('change', { bubbles: true }));
-```
+<details>
+<summary>📂 點此展開 ── Step 2：全部欄位單獨讀寫 ＋ 一鍵全填與清空 Prompt 演化對照</summary>
 
-#### (B) 跨視窗/Context 隔離通訊 (Message Passing)
-由於側邊欄 `sidepanel.js` 與網頁 `content.js` 屬於不同的 Context，因此必須使用 `chrome.tabs.sendMessage` 向網頁發送指令，網頁端則以 `chrome.runtime.onMessage.addListener` 監聽並執行 DOM 操作：
-```javascript
-// sidepanel.js 發送
-chrome.tabs.sendMessage(tabId, { action: "fillForm", data: { ... } });
+*   **💬 一般小白簡單版**：
+    > 我想把外掛擴充到全部的欄位，包含採購單號、產品代碼、進貨數量、產品效期，還有進貨部門的下拉選單。每個欄位都可以單獨點填入和擷取。然後底部還要有一鍵全填、一鍵全擷取，以及把網頁和外掛表單全部清空的按鈕。
+*   **⚡ 專家指點版**：
+    > 我有一個線上 ERP 測試網頁：
+    > https://falo-taiwan.github.io/class/a01/class3/cases/chrome_extension/erp.html
+    > 
+    > 請你讀取並解析這張網頁的結構，找出以下五個輸入控制項的 CSS Selector：
+    > 1. 採購單號
+    > 2. 產品代碼
+    > 3. 進貨數量
+    > 4. 產品效期
+    > 5. 進貨部門 (這是一個 select 元素)
+    > 
+    > 接著，在目前的目錄下建立一個 Chrome 側邊欄（Side-panel）外掛，包含以下功能：
+    > 1. manifest.json & background.js：設定 MV3 側邊欄模式。
+    > 2. sidepanel.html & sidepanel.js：
+    >    - 提供與網頁對應的 5 個輸入控制項（採購單號、產品代碼、進貨數量、產品效期、進貨部門下拉選單，部門選項與網頁一致），每個控制項旁配有獨立的「填入」與「擷取」按鈕。
+    >    - 底部新增三個大按鈕：「一鍵全填入」、「一鍵全擷取」與「清空表單」。
+    > 3. content.js：
+    >    - 實作單欄寫入（填值後亮黃色背景閃爍 800ms 的視覺反饋，並派遣 input/change 事件）與單欄擷取。
+    >    - 實作一鍵全填與一鍵全擷。
+    >    - 實作清空表單（重置網頁 5 個欄位值與狀態，並通知側邊欄同步清空）。
+    > 所有程式碼請附上中文逐行註解。
+</details>
 
-// content.js 接收
-chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-  if (message.action === "fillForm") {
-    // 執行 DOM 寫入
-  }
-});
-```
+<details>
+<summary>📂 點此展開 ── Step 3：完整自動化與資料備份 Prompt 演化對照</summary>
 
-#### (C) 資料 CSV 備份與還原閉環
-在側邊欄中提供將當前欄位值匯出為 CSV 檔案下載的備份功能（為防止中文亂碼，加上了 UTF-8 BOM `\uFEFF`），並使用 `FileReader` 讀取並還原上傳的 CSV 資料。
+*   **💬 一般小白簡單版**：
+    > 我想把外掛功能做到最完整。新增一個「隨機產生資料」的按鈕，點了可以在側邊欄產生測試值。新增「匯出 CSV」和「匯入 CSV」按鈕，可以把資料下載成 CSV 檔備份，或是讀取 CSV 檔回填。最後再加兩個按鈕「檢核表單」跟「確認入庫」，點了可以直接遠端遙控網頁點按鈕，入庫成功後，外掛要能讀到網頁產生的流水號，並自動幫我下載一個 txt 的入庫報告。
+*   **⚡ 專家指點版**：
+    > 我有一個線上 ERP 測試網頁：
+    > https://falo-taiwan.github.io/class/a01/class3/cases/chrome_extension/erp.html
+    > 
+    > 請你讀取並解析這張網頁的結構，找出五個欄位採購單號、產品代碼、進貨數量、產品效期、進貨部門的 CSS Selector。
+    > 接著，請在目前的目錄下建立一個 Chrome 側邊欄（Side-panel）外掛，並在 Step 2 的基礎上，加入隨機生成、CSV 備份閉環與遠端流程控制：
+    > 1. 新增「隨機產生資料」按鈕：於側邊欄本地端生成測試數值（單號以 PO-2026- 開頭，數量在 10-500，效期設為台北時間今天），僅填入側邊欄不自動寫入網頁。
+    > 2. 新增「匯出 CSV」按鈕：將側邊欄 5 欄位數值序列化為 CSV 字串，加入 UTF-8 BOM \uFEFF 避免 Excel 亂碼，以下載檔案存檔。
+    > 3. 新增「匯入 CSV」按鈕：透過隱藏的 <input type="file">，使用 FileReader 讀取並解析上傳的 CSV 檔案，回填至外掛控制項。
+    > 4. 新增「檢核表單」與「確認入庫」遠端遙控按鈕：發送訊息通知 content.js 遙控點擊網頁對應的 #btn-check-form 與 #btn-submit-entry 按鈕。
+    > 5. 實作流水號捕捉與報告下載：網頁入庫成功後，content.js 讀取網頁的 #system-serial-no 流水號（並使該元素閃爍亮粉色背景 800ms 提供視覺反饋）回傳外掛。側邊欄接收後，自動生成含台北時間戳記的入庫報告，並動態生成名為 report_YYYYMMDD_HHMMSS.txt 的檔案供瀏覽器自動下載。
+    > 所有程式碼請附上中文逐行註解。
+</details>
 
 ---
 
-## ⚡ 四、實戰 Prompt 演化對照表
-
-本教案設計了三套 Prompt，引導學員從口語意圖的描述，升級到進階技術控制，再到能夠一鍵生成完整外掛的終極 Prompt：
-
-*   💬 **V1.1 基礎口語意圖 Prompt**：
-    > 我想要寫一個 Chrome 外掛，當我進入 ERP 網頁時，可以自動幫我把所有的輸入框偵測出來，在必填欄位旁邊加上高亮標示，並且加一個按鈕讓我點一下就能把測試資料填進去。
-*   ⚡ **V1.2 進階技術控制 Prompt**：
-    > 請建立一個 Manifest V3 規格的 Chrome 外掛。編寫 content.js，在網頁加載時以 document.querySelectorAll 篩選所有未隱藏的 input, select, textarea。在 required 的欄位加上 glows-pink 的 CSS border highlighters。在網頁右上角動態 inject 一個玻璃質感的 sidebar 面板，列出偵測到的所有欄位標籤與其唯一 CSS selector，並提供 'Focus' 與 'Smart Fill' 觸發事件。
-*   🚀 **V1.5 終極完整功能 Prompt**：
-    > (請參閱教學首頁 `#promptText` 中提供的一鍵生成 Prompt，其包含完整的 5 欄位雙向讀寫、隨機、清空、CSV匯出匯入、下拉部門選項對齊以及 Vue/React 事件相容性與黃色填值閃爍反饋設計。)
-
----
-
-## 🚀 五、Class03 課堂引導腳本設計 (教案執行流程)
+## 🚀 四、Class03 課堂引導腳本設計 (教案執行流程)
 
 | 階段 | 教學時間 | 教師操作步驟 | 學員互動與思考引導 |
 | :--- | :--- | :--- | :--- |
 | **暖身體驗** | 10 mins | 1. 載入 `ig-video-enhancer-extension`<br>2. 開啟 IG reels 頁面並播放。<br>3. 調整播放速度，展示進度條。 | **引導問答**：「大家常用的外掛都是為了解決什麼問題？（如去廣告、下載）外掛是怎麼做到的？答案是：因為外掛有權限可以改動網頁代碼。」 |
-| **載入外掛** | 15 mins | 1. 在 Chrome 中開啟開發者模式，載入 `chrome-extension/` 外掛資料夾。<br>2. 開啟 [erp.html](file:///Users/force/Google_Antigravity/attn-class3-demo/chrome-computer-use/erp.html) 並點擊外掛 Icon 滑出側邊欄。 | **思考點**：「外掛側邊欄的 HTML/JS 和原本的網頁 DOM 是互相隔離的，他們要怎麼溝通？➔ 透過 Chrome API 進行跨宇宙通訊。」 |
-| **功能實戰** | 20 mins | 1. 演示「隨機產生資料」及「一鍵全填入」（黃色閃爍反饋）。<br>2. 演示「一鍵全擷取」將網頁欄位同步回側邊欄。<br>3. 演示「匯出 CSV」與「匯入 CSV」的資料備份閉環。<br>4. 演示「檢核表單」與「確認入庫」遙控動作。 | **核心震撼點**：「為什麼外掛填完值後，Vue/React 能讀到新資料？因為 content.js 派發了 input/change 事件，這解決了現代前端框架的 Reactivity 狀態同步問題。」 |
-| **總結** | 10 mins | 1. 切換回 [index.html](file:///Users/force/Google_Antigravity/attn-class3-demo/chrome-computer-use/index.html)。<br>2. 導讀雙向控制觀念。<br>3. 引導思考 DOM 控制的侷限性（Selector 變更即失效）。 | **總結性反思**：「外掛是利用 `CSS Selector` 精確讀寫 DOM 欄位。只要網頁結構改變（如 po-number 變為 po-id），外掛就需要重新維護。這就是 DOM 控制自動化的必經之路。」 |
+| **Step 1 實作** | 15 mins | 1. 引導學員體驗「單欄讀寫」外掛。<br>2. 比較 Step 1 的一般口語版與專家指點版 Prompt，讓學員看 AI 產出的程式碼結構。 | **思考點**：「外掛側邊欄的 HTML/JS 和原本的網頁 DOM 是互相隔離的，他們要怎麼溝通？➔ 透過 `chrome.runtime` 進行跨宇宙通訊。」 |
+| **Step 2 實作** | 20 mins | 1. 擴展至 ERP 五個欄位與一鍵全填/全擷及清空。<br>2. 比較 Step 2 的兩個 Prompt 版本，演示亮黃色填值閃爍動畫。 | **核心震撼點**：「為什麼外掛填完值後，Vue/React 能讀到新資料？因為專家版 Prompt 要求 content.js 派發了 input/change 事件，這解決了框架的 Reactivity 狀態同步問題。」 |
+| **Step 3 實作** | 20 mins | 1. 導入 CSV 資料備份、隨機數產生、遠端按鈕點擊、流水號捕捉與下載 TXT 報告。<br>2. 比較 Step 3 的 Prompt。 | **技術特性與維護要點**：「如果網頁上的欄位 ID 改變了（如 `po-number` 改成 `po-id`），外掛會發生什麼事？➔ 找不到 Selector，外掛會失效。所以 DOM 自動化必須與前端結構規格對齊。」 |
 
 ---
 
-## 🛡️ 六、教材開發規範對照 (Developer Guide Compliance)
+## 🛡️ 五、教材開發規範對照 (Developer Guide Compliance)
 
 本專案之開發完全落實 `developer_guide.md` 所要求的高品質標準：
-- [x] **Tutorial as Entrypoint**：根目錄 `index.html` 為概念教學導讀，測試頁面與實作分開。
+- [x] **Tutorial as Entrypoint**：根目錄 `index.html` 為概念教學導讀，測試頁面與實作分開，並使用細節折疊維持版面整潔。
 - [x] **CORS Bypass**：完全使用本機/靜態網頁邏輯，離線雙擊即可執行與測試。
 - [x] **SEO & Schema**：在 HTML 結構中宣告 JSON-LD `TechArticle` / `WebPage`，標明作者 `Falo x Force Cheng`。
 - [x] **Watercolor Aesthetic**：介面全面採用 Outfit 字體、Pastel 漸層及半透明玻璃磨砂設計，確保視覺體驗高階。

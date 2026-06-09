@@ -852,75 +852,155 @@
         </ul>
       </div>
 
-      <!-- Prompt V1 Box -->
-      <div style="margin: 28px 0 20px 0;">
-        <h3 style="font-size: 1.15rem; font-weight: 800; color: var(--accent-pink); margin-bottom: 8px;">💡 V1 實戰 Prompt 模擬：表單輔助開發</h3>
-        <p style="font-size: 0.95rem;">要做出表單輔助器，以下是我們指令的兩個階段：</p>
-      </div>
-
-      <div class="prompt-box">
-        <div class="prompt-header">
-          <span>💬 V1.1 基礎口語意圖 Prompt (V1-v1)</span>
-        </div>
-        <div class="prompt-content">我想要寫一個 Chrome 外掛，當我進入 ERP 網頁時，可以自動幫我把所有的輸入框偵測出來，在必填欄位旁邊加上高亮標示，並且加一個按鈕讓我點一下就能把測試資料填進去。</div>
-      </div>
-
-      <div class="prompt-box" style="border-color: rgba(99, 102, 241, 0.2);">
-        <div class="prompt-header prompt-v2-header">
-          <span>⚡ V1.2 進階技術控制 Prompt (V1-v2)</span>
-        </div>
-        <div class="prompt-content prompt-v2-content">請建立一個 Manifest V3 規格的 Chrome 外掛。
-編寫 content.js，在網頁加載時以 document.querySelectorAll 篩選所有未隱藏的 input, select, textarea。
-在 required 的欄位加上 glows-pink 的 CSS border highlighters。
-在網頁右上角動態 inject 一個玻璃質感的 sidebar 面板，列出偵測到的所有欄位標籤與其唯一 CSS selector，並提供 'Focus' 與 'Smart Fill' 觸發事件。</div>
-      </div>
-
-      <details>
-        <summary>🧠 檢視 AI Agent 內部的自主剖析與隱性執行工作 (V1)</summary>
-        <div class="details-content">
-          <ul>
-            <li><strong>自動生成 Manifest V3 規格</strong>：解析開發者意圖，自動編寫 background.js 與 content_scripts 宣告。</li>
-            <li><strong>處理框架相容性 (Event Dispatching)</strong>：由於現代 ERP 可能使用 Vue 或 React，AI 自動在 content.js 中對填入的值調用 <code>dispatchEvent(new Event('input'))</code> 以觸發雙向綁定。</li>
-            <li><strong>防禦性 CSS 注入</strong>：為避免 host 網頁 CSS 污染，AI 在 content_scripts 裡特別宣告 CSS 權重 <code>!important</code> 隔離 sidebar 樣式。</li>
-          </ul>
-        </div>
-      </details>
-
       <!-- Section AI Agent Prompt -->
       <section id="ai-agent-prompt" class="agent-prompt-section">
         <h2>🤖 AI Agent 實戰：一鍵生成外掛 Prompt 指南</h2>
-        <div class="prompt-box">
-          <div class="prompt-header">
-            <span>💬 一鍵生成「銀河 ERP 填單助手」完整外掛 Prompt</span>
-            <button class="btn-copy" id="copyPromptBtn">
-              <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
-              複製 Prompt
-            </button>
+        <p style="font-size: 1.02rem; margin-bottom: 24px; color: var(--text-muted);">
+          本實戰引導學員從最簡單的「單欄讀寫」開始，逐步擴展至「全表單批次操作與清空」，最終躍升至具備「CSV 備份與遠端遙控」的完整自動化外掛。在每個練習中，您可以對比一般口語與專業術語的描述差異。
+        </p>
+
+        <!-- Step 1 Card -->
+        <div class="prompt-card" style="margin-bottom: 20px;">
+          <div class="prompt-copy-header" style="border: none; margin-bottom: 5px; padding-bottom: 0;">
+            <div class="prompt-copy-title" style="color: var(--accent-pink);">🎯 Step 1：單欄雙向讀寫控制 (小白入門)</div>
           </div>
-          <p style="font-size: 0.9rem; margin-bottom: 12px; color: var(--text-muted);">
-            請複製以下結構化提示詞，並直接貼給 AI 編輯器或 Agent 終端機，它將會自動讀取並解析線上網頁結構，在你的工作區生成整個 Chrome 外掛：
+          <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 12px;">
+            <strong>功能目標</strong>：最簡單的一進一出，側邊欄僅包含一個「採購單號」欄位以及獨立的填入與擷取按鈕。
           </p>
-          <textarea class="prompt-textarea" readonly id="promptText">我有一個線上 ERP 測試網頁：
+          
+          <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--card-border); padding: 12px 18px; border-radius: 8px; margin-bottom: 12px;">
+            <div style="font-size: 0.82rem; font-weight: 700; color: #a78bfa; margin-bottom: 4px;">💬 一般小白簡單版 Prompt (直接發送給 AI)</div>
+            <div style="font-size: 0.88rem; color: var(--text-main); font-family: 'Noto Sans TC'; line-height: 1.6;">
+              我想寫一個 Chrome 側邊欄外掛，點擊外掛圖示可以在右邊滑出視窗。視窗裡有一個「採購單號」欄位，旁邊有「填入」跟「擷取」按鈕。點填入就可以把外掛的值填到 ERP 網頁的採購單號輸入框，點擷取可以把網頁採購單號的值抓回來外掛顯示。
+            </div>
+          </div>
+
+          <details style="margin-bottom: 0;">
+            <summary style="font-size: 0.85rem; font-weight: 700; color: var(--primary); cursor: pointer;">⚡ 點此展開 ── 專家指點版完整 Prompt (精準代碼生成)</summary>
+            <div class="details-content" style="padding: 12px 0 0 0; background: none; border-top: none;">
+              <div class="prompt-box" style="margin: 0;">
+                <div class="prompt-header" style="padding: 6px 12px;">
+                  <span>💬 複製以下結構化提示詞貼給 AI</span>
+                  <button class="btn-copy" id="copyPromptBtn1" style="padding: 3px 8px; font-size: 0.75rem;">
+                    <svg width="12" height="12" fill="currentColor" viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+                    複製 Prompt
+                  </button>
+                </div>
+                <textarea class="prompt-textarea" readonly id="promptText1" style="height: 180px;">我有一個線上 ERP 測試網頁：
+https://falo-taiwan.github.io/class/a01/class3/cases/chrome_extension/erp.html
+
+請你讀取並解析這張網頁的結構，找出「採購單號」欄位的 CSS Selector。
+接著，在目前的目錄下建立一個 Chrome 側邊欄（Side-panel）外掛，包含以下檔案：
+1. manifest.json：設定 Manifest V3 規格，註冊 background.js、content.js，包含 sidePanel 與 activeTab 權限。
+2. background.js：當點擊外掛 Icon 時，自動在右側滑出側邊欄。
+3. sidepanel.html：側邊欄 UI。提供一個「採購單號」輸入框，旁邊配有「填入」與「擷取」按鈕。
+4. sidepanel.js：處理按鈕事件，發送通訊訊息給網頁 content.js。
+5. content.js：注入網頁運行。當收到「填入」指令時，將採購單號值寫入網頁對應的輸入框，並派遣 input/change 事件以相容 Vue/React；當收到「擷取」指令時，讀取網頁採購單號輸入框的值並回傳給側邊欄。
+
+所有程式碼請附上中文逐行註解。</textarea>
+              </div>
+            </div>
+          </details>
+        </div>
+
+        <!-- Step 2 Card -->
+        <div class="prompt-card" style="margin-bottom: 20px;">
+          <div class="prompt-copy-header" style="border: none; margin-bottom: 5px; padding-bottom: 0;">
+            <div class="prompt-copy-title" style="color: var(--accent-pink);">🎯 Step 2：全部欄位單獨讀寫 ＋ 一鍵全填與清空 (多點控制)</div>
+          </div>
+          <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 12px;">
+            <strong>功能目標</strong>：對齊真實 ERP 網頁五個欄位（含下拉選單），各欄具備獨立讀寫，並有全域批次寫入、擷取與清空重置。
+          </p>
+          
+          <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--card-border); padding: 12px 18px; border-radius: 8px; margin-bottom: 12px;">
+            <div style="font-size: 0.82rem; font-weight: 700; color: #a78bfa; margin-bottom: 4px;">💬 一般小白簡單版 Prompt (直接發送給 AI)</div>
+            <div style="font-size: 0.88rem; color: var(--text-main); font-family: 'Noto Sans TC'; line-height: 1.6;">
+              我想把外掛擴充到全部的欄位，包含採購單號、產品代碼、進貨數量、產品效期，還有進貨部門的下拉選單。每個欄位都可以單獨點填入和擷取。然後底部還要有一鍵全填、一鍵全擷取，以及把網頁和外掛表單全部清空的按鈕。
+            </div>
+          </div>
+
+          <details style="margin-bottom: 0;">
+            <summary style="font-size: 0.85rem; font-weight: 700; color: var(--primary); cursor: pointer;">⚡ 點此展開 ── 專家指點版完整 Prompt (精準代碼生成)</summary>
+            <div class="details-content" style="padding: 12px 0 0 0; background: none; border-top: none;">
+              <div class="prompt-box" style="margin: 0;">
+                <div class="prompt-header" style="padding: 6px 12px;">
+                  <span>💬 複製以下結構化提示詞貼給 AI</span>
+                  <button class="btn-copy" id="copyPromptBtn2" style="padding: 3px 8px; font-size: 0.75rem;">
+                    <svg width="12" height="12" fill="currentColor" viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+                    複製 Prompt
+                  </button>
+                </div>
+                <textarea class="prompt-textarea" readonly id="promptText2" style="height: 220px;">我有一個線上 ERP 測試網頁：
 https://falo-taiwan.github.io/class/a01/class3/cases/chrome_extension/erp.html
 
 請你讀取並解析這張網頁的結構，找出以下五個輸入控制項的 CSS Selector：
-1. 採購單號：網頁 ID 應為 #po-number
-2. 產品代碼：網頁 ID 應為 #product-code
-3. 進貨數量：網頁 ID 應為 #received-qty
-4. 產品效期：網頁 ID 應為 #expiry-date
-5. 進貨部門：網頁 ID 應為 #dept-code (這是一個 select 元素)
+1. 採購單號
+2. 產品代碼
+3. 進貨數量
+4. 產品效期
+5. 進貨部門 (這是一個 select 元素)
 
-接著，請在目前的目錄下建立一個 Chrome 側邊欄（Side-panel）外掛，包含以下 5 個檔案：
-1. `manifest.json`：設定 MV3 規格，註冊 background.js、content.js，包含 sidePanel 與 activeTab 權限。
-2. `background.js`：當點擊外掛 Icon 時，自動在右側滑出側邊欄。
-3. `sidepanel.html`：側邊欄 UI。提供與網頁對應的 5 個輸入控制項（採購單號、產品代碼、進貨部門下拉、進貨數量、產品效期），且進貨部門下拉應包含與網頁一致的選項。每個控制項旁配有「填入」與「擷取」按鈕。底部包含「隨機產生資料」（在側邊欄產生隨機值，不自動推送到網頁）、「清空表單」（清空側邊欄與發送清空通知給網頁）、「一鍵全填入」與「一鍵全擷取」大按鈕。此外，新增「匯出 CSV」與「匯入 CSV」按鈕，實作將側邊欄數值備份為 CSV 下載，與讀取 CSV 回填外掛的閉環功能。
-4. `sidepanel.js`：實作與 content.js 的訊息通訊，處理隨機產生（日期設為台北時間今天）、清空外掛、CSV 匯出（UTF-8 BOM）與匯入解析、以及遠端遙控網頁的檢核與入庫。
-5. `content.js`：注入網頁運行。處理 `fillField`（寫值並發送 input/change 事件以相容 Vue/React，填值後黃色閃爍）、`readField`（讀值回傳）、`fillForm`、`readForm`、`clearForm`（重置輸入與狀態，恢復待檢核 badge）等 DOM 操作。
+接著，在目前的目錄下建立一個 Chrome 側邊欄（Side-panel）外掛，包含以下功能：
+1. manifest.json & background.js：設定 MV3 側邊欄模式。
+2. sidepanel.html & sidepanel.js：
+   - 提供與網頁對應的 5 個輸入控制項（採購單號、產品代碼、進貨數量、產品效期、進貨部門下拉選單，部門選項與網頁一致），每個控制項旁配有獨立的「填入」與「擷取」按鈕。
+   - 底部新增三個大按鈕：「一鍵全填入」、「一鍵全擷取」與「清空表單」。
+3. content.js：
+   - 實作單欄寫入（填值後亮黃色背景閃爍 800ms 的視覺反饋，並派遣 input/change 事件）與單欄擷取。
+   - 實作一鍵全填與一鍵全擷。
+   - 實作清空表單（重置網頁 5 個欄位值與狀態，並通知側邊欄同步清空）。
 
 所有程式碼請附上中文逐行註解。</textarea>
+              </div>
+            </div>
+          </details>
         </div>
 
-        <!-- Action Buttons to Arena and Test Form -->
+        <!-- Step 3 Card -->
+        <div class="prompt-card" style="margin-bottom: 20px;">
+          <div class="prompt-copy-header" style="border: none; margin-bottom: 5px; padding-bottom: 0;">
+            <div class="prompt-copy-title" style="color: var(--accent-pink);">🎯 Step 3：完整自動化與資料備份 (V1.5 完整版)</div>
+          </div>
+          <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 12px;">
+            <strong>功能目標</strong>：加入隨機產生資料（配合台北時間）、CSV 資料匯出/匯入備份還原，以及遠端遙控檢核、入庫、流水號捕捉與自動下載報告。
+          </p>
+          
+          <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--card-border); padding: 12px 18px; border-radius: 8px; margin-bottom: 12px;">
+            <div style="font-size: 0.82rem; font-weight: 700; color: #a78bfa; margin-bottom: 4px;">💬 一般小白簡單版 Prompt (直接發送給 AI)</div>
+            <div style="font-size: 0.88rem; color: var(--text-main); font-family: 'Noto Sans TC'; line-height: 1.6;">
+              我想把外掛功能做到最完整。新增一個「隨機產生資料」的按鈕，點了可以在側邊欄產生測試值。新增「匯出 CSV」和「匯入 CSV」按鈕，可以把資料下載成 CSV 檔備份，或是讀取 CSV 檔回填。最後再加兩個按鈕「檢核表單」跟「確認入庫」，點了可以直接遠端遙控網頁點按鈕，入庫成功後，外掛要能讀到網頁產生的流水號，並自動幫我下載一個 txt 的入庫報告。
+            </div>
+          </div>
+
+          <details style="margin-bottom: 0;">
+            <summary style="font-size: 0.85rem; font-weight: 700; color: var(--primary); cursor: pointer;">⚡ 點此展開 ── 專家指點版完整 Prompt (精準代碼生成)</summary>
+            <div class="details-content" style="padding: 12px 0 0 0; background: none; border-top: none;">
+              <div class="prompt-box" style="margin: 0;">
+                <div class="prompt-header" style="padding: 6px 12px;">
+                  <span>💬 複製以下結構化提示詞貼給 AI</span>
+                  <button class="btn-copy" id="copyPromptBtn3" style="padding: 3px 8px; font-size: 0.75rem;">
+                    <svg width="12" height="12" fill="currentColor" viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+                    複製 Prompt
+                  </button>
+                </div>
+                <textarea class="prompt-textarea" readonly id="promptText3" style="height: 260px;">我有一個線上 ERP 測試網頁：
+https://falo-taiwan.github.io/class/a01/class3/cases/chrome_extension/erp.html
+
+請你讀取並解析這張網頁的結構，找出五個欄位採購單號、產品代碼、進貨數量、產品效期、進貨部門的 CSS Selector。
+接著，請在目前的目錄下建立一個 Chrome 側邊欄（Side-panel）外掛，並在 Step 2 的基礎上，加入隨機生成、CSV 備份閉環與遠端流程控制：
+1. 新增「隨機產生資料」按鈕：於側邊欄本地端生成測試數值（單號以 PO-2026- 開頭，數量在 10-500，效期設為台北時間今天），僅填入側邊欄不自動寫入網頁。
+2. 新增「匯出 CSV」按鈕：將側邊欄 5 欄位數值序列化為 CSV 字串，加入 UTF-8 BOM \uFEFF 避免 Excel 亂碼，以下載檔案存檔。
+3. 新增「匯入 CSV」按鈕：透過隱藏的 <input type="file">，使用 FileReader 讀取並解析上傳的 CSV 檔案，回填至外掛控制項。
+4. 新增「檢核表單」與「確認入庫」遠端遙控按鈕：發送訊息通知 content.js 遙控點擊網頁對應的 #btn-check-form 與 #btn-submit-entry 按鈕。
+5. 實作流水號捕捉與報告下載：網頁入庫成功後，content.js 讀取網頁的 #system-serial-no 流水號（並使該元素閃爍亮粉色背景 800ms 提供視覺反饋）回傳外掛。側邊欄接收後，自動生成含台北時間戳記的入庫報告，並動態生成名為 report_YYYYMMDD_HHMMSS.txt 的檔案供瀏覽器自動下載。
+
+所有程式碼請附上中文逐行註解。</textarea>
+              </div>
+            </div>
+          </details>
+        </div>
+
+        <!-- Action Buttons to Test Form and Zip Download -->
         <div style="display: grid; grid-template-columns: 1fr; gap: 20px; margin: 40px 0;">
           <a href="erp.html" target="_blank" class="arena-cta" style="margin: 0; background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%); box-shadow: 0 10px 30px rgba(2, 132, 199, 0.25);">
             🧪 進入 ── 實體外掛測試網頁 (erp.html) ➔
@@ -1005,22 +1085,28 @@ function getCSSSelector(el) {
       });
     });
 
-    // Copy Prompt Logic
-    const copyPromptBtn = document.getElementById('copyPromptBtn');
-    const promptText = document.getElementById('promptText');
+    // Copy Prompt Logic Helper
     const toast = document.getElementById('toast');
-
-    copyPromptBtn.addEventListener('click', () => {
-      promptText.select();
-      navigator.clipboard.writeText(promptText.value).then(() => {
-        toast.classList.add('show');
-        setTimeout(() => {
-          toast.classList.remove('show');
-        }, 2500);
-      }).catch(err => {
-        console.error('無法複製文字: ', err);
-      });
-    });
+    function setupCopyBtn(btnId, textId) {
+      const btn = document.getElementById(btnId);
+      const txt = document.getElementById(textId);
+      if (btn && txt) {
+        btn.addEventListener('click', () => {
+          txt.select();
+          navigator.clipboard.writeText(txt.value).then(() => {
+            toast.classList.add('show');
+            setTimeout(() => {
+              toast.classList.remove('show');
+            }, 2500);
+          }).catch(err => {
+            console.error('無法複製文字: ', err);
+          });
+        });
+      }
+    }
+    setupCopyBtn('copyPromptBtn1', 'promptText1');
+    setupCopyBtn('copyPromptBtn2', 'promptText2');
+    setupCopyBtn('copyPromptBtn3', 'promptText3');
 
 
   </script>
