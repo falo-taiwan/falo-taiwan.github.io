@@ -9,7 +9,7 @@
 ---
 
 ## 課程簡介
-Class 03 專注於讓學員理解最新的 **AI Agent 協同開發思維 (Vibe Coding)**，以及如何將排障或客製流程提煉封裝成企業知識資產。本課程由八個核心主題組成：
+Class 03 專注於讓學員理解最新的 **AI Agent 協同開發思維 (Vibe Coding)**，以及如何將排障或客製流程提煉封裝成企業知識資產。本課程由十二個核心主題組成：
 
 ### 1. 主題一：人與 AI 的共創共生
 * **簡介**：探討 AI 時代的「協作與治理觀念」基礎。理解為什麼我們不是被取代，而是學習與 AI 助理、顧問、副駕駛進行高效人機協作 (HITL) 與放大個人能力。
@@ -65,6 +65,11 @@ Class 03 專注於讓學員理解最新的 **AI Agent 協同開發思維 (Vibe C
 * **簡介**：分享高階兩部式 Prompt（全局技術盤點 ➔ 台灣 SaaS 企業因應）。嵌入 WWDC 26 「工作流重組」重點觀察圖，做為學員進行 AI 戰略與技術研究的知識工程實戰範本。
 * **詳細課件網頁**：[class03_wwdc_prompt.html](class03_wwdc_prompt.html)
 * **AI 專用文件**：[class03_wwdc_prompt.md](class03_wwdc_prompt.md)
+
+### 12. 主題十二：Google NotebookLM 重磅升級與 Antigravity 實戰
+* **簡介**：解構 NotebookLM 升級 Gemini 3.5 Flash 核心與內建 Antigravity 代理推理引擎、雲端安全電腦實作 Python 繪圖（正弦波）的真實運行案例與媒體報導。
+* **詳細課件網頁**：[class03_notebooklm_upgrade.html](class03_notebooklm_upgrade.html)
+* **AI 專用文件**：[class03_notebooklm_upgrade.md](class03_notebooklm_upgrade.md)
 
 ---
 

@@ -1,14 +1,20 @@
 [
   {
-    "timestamp": "2026-06-09T16:00:00+08:00",
-    "action_type": "file_updated",
-    "description": "整合 Google NotebookLM 升級 Gemini 3.5 核心與 Antigravity 代理推理引擎、雲端安全電腦之 2026 6月重大升級新聞與原始媒體連結至主題四（class03_gemini_chrome）中。",
+    "timestamp": "2026-06-09T16:15:00+08:00",
+    "action_type": "project_restructured",
+    "description": "將 Google NotebookLM 升級內容與實戰對話 Sine Wave 圖片從主題四剝離，單獨建立主題十二「Google NotebookLM 重磅升級與 Antigravity 實戰」課件，並同步更新大綱主頁、歷史彙整頁及同步腳本。",
     "operator": "AI (Antigravity)",
     "files_affected": [
-      "falo-taiwan/class/a01/class3/class03_gemini_chrome.md",
-      "falo-taiwan/class/a01/class3/class03_gemini_chrome.html",
+      "falo-taiwan/class/a01/class3/class03_notebooklm_upgrade.md",
+      "falo-taiwan/class/a01/class3/class03_notebooklm_upgrade.html",
+      "falo-taiwan/class/a01/class3/images/notebooklm_sine_wave.png",
+      "falo-taiwan/class/a01/class3/index.html",
+      "falo-taiwan/class/a01/class3/index.md",
+      "history.md",
+      "history.html",
       "logs.md",
-      "logs.json"
+      "logs.json",
+      "sync_and_push.py"
     ]
   },
   {

@@ -139,4 +139,6 @@
 * 分享高階兩部式 Prompt（全局技術盤點 ➔ 台灣 SaaS 企業因應）。嵌入 WWDC 26 「工作流重組」重點觀察圖，做為學員進行 AI 戰略與技術研究的知識工程實戰範本。
 * [WWDC 26 Prompt 網頁 (HTML)](file:///Users/force/Google_Antigravity/attn-class/falo-taiwan/class/a01/class3/class03_wwdc_prompt.html) | [Markdown](file:///Users/force/Google_Antigravity/attn-class/falo-taiwan/class/a01/class3/class03_wwdc_prompt.md)
 
-
+#### 12. Google NotebookLM 重磅升級與 Antigravity 實戰
+* 解構 NotebookLM 升級 Gemini 3.5 Flash 核心與內建 Antigravity 代理推理引擎、雲端安全電腦實作 Python 繪圖（正弦波）的真實運行案例與媒體報導。
+* [NotebookLM 升級實務 (HTML)](file:///Users/force/Google_Antigravity/attn-class/falo-taiwan/class/a01/class3/class03_notebooklm_upgrade.html) | [Markdown](file:///Users/force/Google_Antigravity/attn-class/falo-taiwan/class/a01/class3/class03_notebooklm_upgrade.md)

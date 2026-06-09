@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Class 03 主題十二 | Google NotebookLM 重磅升級與 Antigravity 實務</title>
+    <meta name="description" content="Yinhe Class03 專案教材：解構 NotebookLM Gemini 3.5 與 Antigravity 代理推理引擎整合，包含安全雲端電腦、Python 程式碼自動執行與資料分析實務。">
+    
+    <!-- SEO & Metadata | Falo x Force Cheng 2026/6/8 -->
+    <meta name="author" content="Falo x Force Cheng">
+    <meta name="copyright" content="Falo x Force Cheng 2026/6/8">
+    <meta name="robots" content="index, follow">
+    <meta name="keywords" content="Antigravity, NotebookLM, Gemini 3.5, 代理推理引擎, 雲端電腦, 知識工程, Falo x Force Cheng">
+    
+    <!-- GEO Tags | Falo x Force Cheng 2026/6/8 -->
+    <meta name="geo.region" content="TW-TPE">
+    <meta name="geo.placename" content="Taipei City">
+    <meta name="geo.position" content="25.0330;121.5654">
+    <meta name="ICBM" content="25.0330, 121.5654">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-gradient: radial-gradient(circle at 50% 50%, #0a081c 0%, #010105 100%);
+            --primary: #8b5cf6;
+            --primary-glow: rgba(139, 92, 246, 0.15);
+            --secondary: #3b82f6;
+            --accent: #10b981;
+            --card-bg: rgba(16, 14, 40, 0.45);
+            --card-border: rgba(255, 255, 255, 0.05);
+            --card-hover-border: rgba(139, 92, 246, 0.4);
+            --text-primary: #f3f4f6;
+            --text-secondary: #9ca3af;
+            --text-muted: #5e6478;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Outfit', 'Inter', 'Noto Sans TC', sans-serif;
+            background: var(--bg-gradient);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 3rem 1.5rem;
+            overflow-x: hidden;
+        }
+
+        /* Watermark | Falo x Force Cheng 2026/6/8 */
+        .watermark {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+            opacity: 0.03;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Ctext x='50%25' y='50%25' fill='%23ffffff' font-family='sans-serif' font-size='12' font-weight='bold' text-anchor='middle' transform='rotate(-25 150 100)'%3EFalo x Force Cheng 2026/6/8%3C/text%3E%3C/svg%3E");
+            background-repeat: repeat;
+        }
+
+        .glow {
+            position: absolute;
+            width: 450px;
+            height: 450px;
+            border-radius: 50%;
+            background: radial-gradient(circle, var(--primary-glow) 0%, transparent 70%);
+            z-index: -1;
+            filter: blur(60px);
+        }
+        .glow-1 { top: 8%; left: 8%; }
+        .glow-2 { bottom: 12%; right: 8%; }
+
+        header {
+            max-width: 1000px;
+            margin: 0 auto 3.5rem auto;
+            text-align: center;
+        }
+
+        .tagline {
+            display: inline-block;
+            background: rgba(139, 92, 246, 0.08);
+            border: 1px solid rgba(139, 92, 246, 0.25);
+            color: #c084fc;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            padding: 0.4rem 1.2rem;
+            border-radius: 9999px;
+            margin-bottom: 1.25rem;
+        }
+
+        h1 {
+            font-size: 2.6rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #ffffff 40%, #c084fc 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.75rem;
+            letter-spacing: -0.01em;
+        }
+
+        header p {
+            color: var(--text-secondary);
+            font-size: 1.15rem;
+        }
+
+        main {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 2.5rem;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 2.25rem;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.45);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            border-color: var(--card-hover-border);
+            box-shadow: 0 15px 40px rgba(139, 92, 246, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            opacity: 0.6;
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        h2 svg {
+            width: 24px;
+            height: 24px;
+            fill: none;
+            stroke: var(--primary);
+            stroke-width: 2;
+        }
+
+        /* Image Container */
+        .image-container {
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.55);
+            margin: 1.5rem 0;
+            background: rgba(0, 0, 0, 0.3);
+            transition: border-color 0.3s ease;
+        }
+
+        .image-container:hover {
+            border-color: rgba(139, 92, 246, 0.3);
+        }
+
+        .image-container img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* Lists */
+        .highlight-list {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.25rem;
+            margin-top: 1rem;
+        }
+
+        .highlight-item {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            border-radius: 12px;
+            padding: 1.25rem;
+            transition: all 0.2s ease;
+        }
+
+        .highlight-item:hover {
+            background: rgba(139, 92, 246, 0.02);
+            border-color: rgba(139, 92, 246, 0.2);
+        }
+
+        .highlight-item h4 {
+            color: #ffffff;
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .highlight-item h4 span {
+            color: var(--primary);
+        }
+
+        /* Warning Card */
+        .warning-box {
+            background: rgba(139, 92, 246, 0.04);
+            border: 1px solid rgba(139, 92, 246, 0.15);
+            border-radius: 12px;
+            padding: 1.25rem;
+            margin-top: 1rem;
+        }
+
+        /* Back Button */
+        .btn-back {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            color: #ffffff;
+            font-size: 0.9rem;
+            font-weight: 600;
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            margin-top: 1rem;
+            align-self: center;
+        }
+
+        .btn-back:hover {
+            background: rgba(139, 92, 246, 0.1);
+            border-color: rgba(139, 92, 246, 0.3);
+            color: #c084fc;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 4rem;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding-top: 2rem;
+        }
+
+        footer a {
+            color: var(--text-secondary);
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            color: var(--primary);
+        }
+    </style>
+</head>
+<body>
+    <!-- Watermark container -->
+    <div class="watermark"></div>
+
+    <div class="glow glow-1"></div>
+    <div class="glow glow-2"></div>
+
+    <header>
+        <div class="tagline">Yinhe Class 03 Topic 12 | Falo x Force Cheng</div>
+        <h1>主題十二：Google NotebookLM 重磅升級與 Antigravity 實戰</h1>
+        <p>從被動答詢到主動執行：Gemini 3.5 Flash 核心與專屬雲端安全電腦實務</p>
+    </header>
+
+    <main>
+        <!-- Section 1: Positioning -->
+        <section class="card">
+            <h2>
+                <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+                <span>本章定位：AI 代理執行與知識收斂</span>
+            </h2>
+            <p style="color: var(--text-secondary); font-size: 1.05rem; margin-bottom: 1rem;">
+                在 FALO 方法論模型中，NotebookLM 被定位為高價值的「知識煉油廠」（第五層）。然而，隨著 2026 年 6 月 Google 釋出的重磅升級，這款產品迎來了最關鍵的技術變革：<strong>它內建支援了 Antigravity 代理開發平台與安全雲端電腦，使其從被動的「知識問答庫」正式升級為「具備實作與推理能力的主動 AI 研究助理」</strong>。
+            </p>
+            <p style="color: var(--text-secondary); font-size: 1.05rem;">
+                本章將透過最新發布的升級亮點，結合真實的對話實作，向學員示範 AI 代理式執行（Agentic Execution）的底層架構，並探討這套「自動跑計算、自寫程式解決問題」的能力如何啟發銀河 ERP（Yinhe ERP）未來的自動化與流程治理。
+            </p>
+        </section>
+
+        <!-- Section 1.5: IP & Notes Card -->
+        <section class="card">
+            <h2>
+                <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+                <span>智慧財產權與備註說明 (IP & Notes)</span>
+            </h2>
+            <div style="color: var(--text-secondary); font-size: 0.95rem;">
+                <p style="margin-bottom: 0.75rem;"><strong>版權所有：</strong>Falo x Force Cheng 2026/6/8</p>
+                <p style="margin-bottom: 0.75rem;"><strong>文件備註：</strong>本教材所載之 NotebookLM 代理升級架構、ASCII 運作圖表及知識工程方法論，均屬 Falo 與 Force Cheng 顧問團隊之核心智財。本教材作為銀河軟體（Yinhe ERP）企業內部訓練專用，未經書面授權禁止對外傳播與拷貝。</p>
+                <p><strong>防偽浮水印聲明：</strong>本網頁背景已佈署 <code>Falo x Force Cheng 2026/6/8</code> 防偽與版權識別浮水印。</p>
+            </div>
+        </section>
+
+        <!-- Section 2: Real Action Image -->
+        <section class="card">
+            <h2>
+                <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
+                <span>NotebookLM 實戰運行：雲端 Python 自動繪圖與知識防線</span>
+            </h2>
+            <p style="color: var(--text-secondary); margin-bottom: 1rem;">
+                下圖為 NotebookLM 升級後，調用 <strong>Antigravity 推理引擎</strong> 與 <strong>雲端電腦</strong> 的真實運作情況。
+            </p>
+            <div class="image-container">
+                <img src="images/notebooklm_sine_wave.png" alt="NotebookLM 雲端 Python 繪製 Sine Wave">
+            </div>
+            <div style="color: var(--text-secondary); font-size: 0.95rem; margin-top: 1rem; padding-left: 1rem; border-left: 3px solid var(--primary);">
+                <p style="margin-bottom: 0.5rem;"><strong>✦ 實戰案例解析：</strong></p>
+                <p style="margin-bottom: 0.5rem;"><strong>1. Antigravity 代理自動化：</strong>使用者下達指令 <em>「啟用 antigravity 新能力，畫個三角函數的教學圖～」</em>，NotebookLM 隨即在後台自動撰寫一段 Python 程式碼，並在每本筆記配備的「安全雲端電腦」中自動執行該程式，繪製出 ASCII 的正弦波 (Sine Wave) 示意圖，實現了「寫完即跑」的閉環操作。</p>
+                <p><strong>2. 知識工程防線 (Grounding constraints)：</strong>當使用者要求精美圖表（如 PNG、SVG）時，NotebookLM 明確拒絕無中生有。它指出：「<em>這是因為 NotebookLM 的產出是依據你上傳的來源資料...</em>」這展現了極高的知識工程操守——<strong>嚴格依據 Grounding 資料，拒絕幻覺（Hallucination），確保一切輸出有跡可循</strong>。這也是銀河 ERP 流程治理必備的白箱原則。</p>
+            </div>
+        </section>
+
+        <!-- Section 3: Upgrade Highlights -->
+        <section class="card">
+            <h2>
+                <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                <span>NotebookLM 四大升級亮點與變革</span>
+            </h2>
+            <div class="highlight-list">
+                <div class="highlight-item">
+                    <h4><span>✦</span> 內建專屬雲端電腦（Antigravity 驅動）</h4>
+                    <p style="color: var(--text-secondary); font-size: 0.95rem;">
+                        每本 Notebook 獲得一個獨立且安全的虛擬沙盒執行環境，預裝超過 100 種軟體技能。AI 可以自主編寫 Python 等程式碼並在雲端運行，清洗數據或分析銷售報表，實際扮演「會動手實作的研究員」。
+                    </p>
+                </div>
+                
+                <div class="highlight-item">
+                    <h4><span>✦</span> Agentic Chat 模糊想法起手式</h4>
+                    <p style="color: var(--text-secondary); font-size: 0.95rem;">
+                        使用者不需事先上傳檔案，只要輸入模糊的調研想法，系統便會透過 Google 搜尋主動挖掘、比對並推薦高品質的網路來源加入知識庫。一邊聊天一邊建立專案知識庫，並在 Deep Research 模式下顯示完整推理步驟。
+                    </p>
+                </div>
+
+                <div class="highlight-item">
+                    <h4><span>✦</span> 推理核心換裝與高推理勝率</h4>
+                    <p style="color: var(--text-secondary); font-size: 0.95rem;">
+                        核心模型升級為 Gemini 3.5 Flash。官方與內部測試數據顯示，其在長文件分析勝率達 69.9%，進階網路研究與來源發掘更達 78.2%。新版本支援直接輸出資料視覺化圖表。
+                    </p>
+                </div>
+                
+                <div class="highlight-item">
+                    <h4><span>✦</span> 多格式成果匯出</h4>
+                    <p style="color: var(--text-secondary); font-size: 0.95rem;">
+                        新增支援一鍵將資料分析成果匯出為視覺化圖表（PNG/SVG）、PDF 報告、Microsoft Word (docx)、Excel (xlsx)、PowerPoint (pptx) 等多種格式，便於向非技術關係人做技術交接與商業簡報。
+                    </p>
+                </div>
+
+                <div class="warning-box">
+                    <h4 style="color: #ffffff; margin-bottom: 0.5rem;">⚠️ 體驗權限與方案限制</h4>
+                    <p style="color: var(--text-secondary); font-size: 0.95rem;">
+                        此次升級<strong>優先對 Google AI Ultra 訂閱用戶，以及擁有 AI Ultra 權限的 Workspace 商用客戶開放</strong>，其他方案用戶需等候後續陸續推出。
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 4: Media Links -->
+        <section class="card">
+            <h2>
+                <svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
+                <span>原始媒體報導連結</span>
+            </h2>
+            <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.75rem; margin-top: 0.5rem;">
+                <li style="display: flex; align-items: center; gap: 0.5rem;">
+                    <span style="color: var(--accent);">🔗</span> 
+                    <a href="https://www.bnext.com.tw/article/91202/google-notebooklm-upgrade-gemini-3-5-antigravity-research-tools" target="_blank" style="color: #60a5fa; text-decoration: none; font-weight: 500;">
+                        數位時代 (BNext) 報導：NotebookLM 大更新！模型升級 Gemini 3.5，還內建雲端電腦幫你跑分析：4大升級亮點一次看
+                    </a>
+                </li>
+                <li style="display: flex; align-items: center; gap: 0.5rem;">
+                    <span style="color: var(--accent);">🔗</span> 
+                    <a href="https://www.blocktempo.com/google-notebooklm-gemini-upgrade-antigravity-cloud-computer-agentic-research-skills/" target="_blank" style="color: #60a5fa; text-decoration: none; font-weight: 500;">
+                        動區動趨 (BlockTempo) 報導：NotebookLM 重大升級：支援 Antigravity 幫你寫程式跑分析，換上 Gemini 3.5 Flash 引擎
+                    </a>
+                </li>
+            </ul>
+        </section>
+
+        <!-- Navigation back -->
+        <a href="index.html" class="btn-back">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+            返回 Class 03 課程大綱
+        </a>
+    </main>
+
+    <footer>
+        <p>銀河軟體 ERP 內訓課程 Class 03 主題十二 | 版權所有 Falo x Force Cheng 2026/6/8 | 知識工程由 Antigravity 驅動</p>
+        <p style="margin-top: 0.5rem;">
+            <a href="index.html">返回 Class 03 課程大綱</a> |
+            <a href="class03_notebooklm_upgrade.md">檢視 AI 專用 Markdown 檔案</a> |
+            <a href="../../../logs.md">檢視 FALO 軌跡日誌</a>
+        </p>
+    </footer>
+</body>
+</html>
