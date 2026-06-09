@@ -1,5 +1,17 @@
 [
   {
+    "timestamp": "2026-06-09T21:52:00+08:00",
+    "action_type": "file_updated",
+    "description": "首頁新增最新線上發佈網址連結，並同步與推送所有異動至 GitHub。",
+    "operator": "AI (Antigravity)",
+    "files_affected": [
+      "falo-taiwan/class/a01/class3/index.html",
+      "falo-taiwan/class/a01/class3/index.md",
+      "logs.md",
+      "logs.json"
+    ]
+  },
+  {
     "timestamp": "2026-06-09T16:15:00+08:00",
     "action_type": "project_restructured",
     "description": "將 Google NotebookLM 升級內容與實戰對話 Sine Wave 圖片從主題四剝離，單獨建立主題十二「Google NotebookLM 重磅升級與 Antigravity 實戰」課件，並同步更新大綱主頁、歷史彙整頁及同步腳本。",

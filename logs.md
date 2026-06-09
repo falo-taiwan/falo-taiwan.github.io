@@ -8,6 +8,7 @@
 
 | 時間戳記 | 操作類別 | 描述 | 操作者 | 影響檔案 |
 | :--- | :--- | :--- | :--- | :--- |
+| 2026-06-09 21:52:00 | 專案更新 | 首頁新增最新線上發佈網址連結，並同步同步與推送所有異動至 GitHub。 | AI (Antigravity) | `falo-taiwan/class/a01/class3/index.html`, `falo-taiwan/class/a01/class3/index.md`, `logs.md`, `logs.json` |
 | 2026-06-09 16:15:00 | 專案重構 | 將 Google NotebookLM 升級內容與實戰對話 Sine Wave 圖片從主題四剝離，單獨建立主題十二「Google NotebookLM 重磅升級與 Antigravity 實戰」課件，並同步更新大綱主頁、歷史彙整頁及同步腳本。 | AI (Antigravity) | `falo-taiwan/class/a01/class3/class03_notebooklm_upgrade.md`, `falo-taiwan/class/a01/class3/class03_notebooklm_upgrade.html`, `falo-taiwan/class/a01/class3/images/notebooklm_sine_wave.png`, `falo-taiwan/class/a01/class3/index.html`, `falo-taiwan/class/a01/class3/index.md`, `history.md`, `history.html`, `logs.md`, `logs.json`, `sync_and_push.py` |
 | 2026-06-09 14:10:00 | 專案重構 | 新增主題十一「WWDC 26 Deep Research 實戰 Prompt 示範」教材，嵌入 WWDC 26 重點觀察圖表與 Prompt 一鍵複製功能，並整合至主大綱首頁、歷史彙整頁與 Git 同步腳本中。 | AI (Antigravity) | `falo-taiwan/class/a01/class3/class03_wwdc_prompt.md`, `falo-taiwan/class/a01/class3/class03_wwdc_prompt.html`, `falo-taiwan/class/a01/class3/images/wwdc26_observe.jpg`, `falo-taiwan/class/a01/class3/index.html`, `falo-taiwan/class/a01/class3/index.md`, `history.md`, `history.html`, `logs.md`, `logs.json`, `sync_and_push.py` |
 | 2026-06-09 12:40:00 | 專案更新 | 導入使用者與 Codex 協作的最新版學員 Q&A 課件（class03_qas.html），支援帶有時間戳記與折疊功能之 FAQ 交互面板，並完成去識別化。 | AI (Antigravity) | `falo-taiwan/class/a01/class3/class03_qas.html`, `logs.md`, `logs.json` |
