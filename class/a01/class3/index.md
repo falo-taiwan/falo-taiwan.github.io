@@ -38,7 +38,6 @@
 
 ### 4. md / html 雙軌文檔策略
 * **核心觀念**：AI 讀 Markdown 節省 Token 召回記憶；人看 HTML 享受精美排版與微互動。以 logs 記錄決策脈絡。
-* 🔗 **課堂教材**：[AI 協同討論與即時知識工程化實務 (class03_collaboration.html)](class03_collaboration.html)
 * 🔗 **課堂教材**：[Chrome Gemini 解鎖與 FALO 六層模型案例 (class03_gemini_chrome.html)](class03_gemini_chrome.html)
 * 🔗 **進階手冊**：[教材開發革命：從 PDF 到互動網站 (https://falo-taiwan.github.io/class/a01/class3/cases/ipas-etl/)](https://falo-taiwan.github.io/class/a01/class3/cases/ipas-etl/)
 
@@ -62,6 +61,7 @@
 
 ## 其他資源
 * 🔗 **NotebookLM**：[Google NotebookLM 重磅升級與 Antigravity 實戰](https://falo-taiwan.github.io/class/a01/class3/class03_notebooklm_upgrade.html)
+* 🔗 **協同討論**：[AI 協同討論與即時知識工程化實務](class03_collaboration.html)
 
 ---
 

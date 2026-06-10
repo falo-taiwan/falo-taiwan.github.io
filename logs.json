@@ -1,5 +1,17 @@
 [
   {
+    "timestamp": "2026-06-10T21:19:00+08:00",
+    "action_type": "local_updated",
+    "description": "於 Class 03 課程首頁 (index.html/index.md) 將「AI 協同討論與即時知識工程化實務」連結從第 4 主軸移至「其他資源」區塊，此變更目前僅限本機。",
+    "operator": "AI (Antigravity)",
+    "files_affected": [
+      "falo-taiwan/class/a01/class3/index.html",
+      "falo-taiwan/class/a01/class3/index.md",
+      "logs.md",
+      "logs.json"
+    ]
+  },
+  {
     "timestamp": "2026-06-10T21:13:00+08:00",
     "action_type": "local_updated",
     "description": "於 Class 03 課程首頁 (index.html/index.md) 新增「其他資源」區塊及對應之左側導覽目錄連結，並置入 Google NotebookLM 升級與實戰手冊連結，此變更目前僅限本機。",
