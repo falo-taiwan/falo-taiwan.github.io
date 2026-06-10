@@ -8,6 +8,7 @@
 
 | 時間戳記 | 操作類別 | 描述 | 操作者 | 影響檔案 |
 | :--- | :--- | :--- | :--- | :--- |
+| 2026-06-10 19:41:00 | 本機更新 | 為 Class 03 課程首頁 (index.html/index.md) 之「歷史課程回顧」 Class 01 與 Class 02 連結新增密碼保護 (密碼為 attn)，此變更僅限本機並自動同步推送。 | AI (Antigravity) | `falo-taiwan/class/a01/class3/index.html`, `falo-taiwan/class/a01/class3/index.md`, `logs.md`, `logs.json` |
 | 2026-06-10 19:36:30 | 本機更新 | 將 Class 03 課程首頁 (index.html/index.md) 所有指向 Chrome Extension 與 IPAS ETL 實戰專案之相對連結，統一更換為 falo-taiwan 官方部署之絕對網址，此變更僅限本機。 | AI (Antigravity) | `falo-taiwan/class/a01/class3/index.html`, `falo-taiwan/class/a01/class3/index.md`, `logs.md`, `logs.json` |
 | 2026-06-10 19:35:00 | 本機更新 | 將全域「Codex / Antigravity」與「Codex/Antigravity」順序交換為「Antigravity / Codex」與「Antigravity/Codex」，將 Google 主導的工具列為首要；並在課程首頁最上方新增「實戰專案與進階手冊」區塊，直接在首頁第一層放置 4 個進階實戰手冊與專案連結，此變更僅限本機。 | AI (Antigravity) | `falo-taiwan/class/a01/class3/index.html`, `falo-taiwan/class/a01/class3/index.md`, 7個教材相關 HTML/MD 檔案, `logs.md`, `logs.json` |
 | 2026-06-10 19:31:00 | 本機更新 | 於 Class 03 課程首頁 (index.html/index.md) 最上方新增「歷史課程回顧」區塊，預留 Class 01 與 Class 02 PDF 簡報下載版面，暫時連結至 Google，此變更僅限本機。 | AI (Antigravity) | `falo-taiwan/class/a01/class3/index.html`, `falo-taiwan/class/a01/class3/index.md`, `logs.md`, `logs.json` |

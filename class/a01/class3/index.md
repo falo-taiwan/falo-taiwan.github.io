@@ -5,8 +5,8 @@
 ---
 
 ## 歷史課程回顧
-* 🔗 **Class 01**：[Class 01 課程簡報 (PDF 待更新)](https://www.google.com)
-* 🔗 **Class 02**：[Class 02 課程簡報 (PDF 待更新)](https://www.google.com)
+* 🔗 **Class 01**：[Class 01 課程簡報 (🔒 密碼保護：attn)](https://www.google.com)
+* 🔗 **Class 02**：[Class 02 課程簡報 (🔒 密碼保護：attn)](https://www.google.com)
 
 ---
 

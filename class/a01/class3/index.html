@@ -499,14 +499,14 @@
                     此專區提供本培訓系列先前課程之完整簡報與實戰教材連結，協助同仁進行知識複習與技術對齊。
                 </p>
                 <div class="resource-links" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem;">
-                    <a href="https://www.google.com" target="_blank" rel="noopener noreferrer" class="resource-link" style="margin-top: 0;">
+                    <a href="https://www.google.com" class="resource-link protected-link" style="margin-top: 0;">
                         <span class="badge">Class 01</span>
-                        <span class="link-text">Class 01 課程簡報 (PDF 待更新)</span>
+                        <span class="link-text">Class 01 課程簡報 (🔒 密碼保護)</span>
                         <span class="link-arrow">➔</span>
                     </a>
-                    <a href="https://www.google.com" target="_blank" rel="noopener noreferrer" class="resource-link" style="margin-top: 0;">
+                    <a href="https://www.google.com" class="resource-link protected-link" style="margin-top: 0;">
                         <span class="badge">Class 02</span>
-                        <span class="link-text">Class 02 課程簡報 (PDF 待更新)</span>
+                        <span class="link-text">Class 02 課程簡報 (🔒 密碼保護)</span>
                         <span class="link-arrow">➔</span>
                     </a>
                 </div>
@@ -735,6 +735,19 @@
                 link.classList.remove('active');
                 if (link.getAttribute('href').substring(1) === current) {
                     link.classList.add('active');
+                }
+            });
+        });
+
+        // Protected links password check
+        document.querySelectorAll('.protected-link').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const pwd = prompt('請輸入歷史教材存取密碼：');
+                if (pwd === 'attn') {
+                    window.open(link.getAttribute('href'), '_blank');
+                } else if (pwd !== null) {
+                    alert('密碼錯誤，拒絕存取！');
                 }
             });
         });

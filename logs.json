@@ -1,5 +1,17 @@
 [
   {
+    "timestamp": "2026-06-10T19:41:00+08:00",
+    "action_type": "local_updated",
+    "description": "為 Class 03 課程首頁 (index.html/index.md) 之「歷史課程回顧」 Class 01 與 Class 02 連結新增密碼保護 (密碼為 attn)，此變更僅限本機並自動同步推送。",
+    "operator": "AI (Antigravity)",
+    "files_affected": [
+      "falo-taiwan/class/a01/class3/index.html",
+      "falo-taiwan/class/a01/class3/index.md",
+      "logs.md",
+      "logs.json"
+    ]
+  },
+  {
     "timestamp": "2026-06-10T19:36:30+08:00",
     "action_type": "local_updated",
     "description": "將 Class 03 課程首頁 (index.html/index.md) 所有指向 Chrome Extension 與 IPAS ETL 實戰專案之相對連結，統一更換為 falo-taiwan 官方部署之絕對網址，此變更僅限本機。",
