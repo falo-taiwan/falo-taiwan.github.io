@@ -8,6 +8,7 @@
 
 | 時間戳記 | 操作類別 | 描述 | 操作者 | 影響檔案 |
 | :--- | :--- | :--- | :--- | :--- |
+| 2026-06-10 21:20:00 | 本機更新 | 於 Class 03 課程首頁 (index.html/index.md) 將「WWDC 26 Deep Research 實戰 Prompt 示範」連結從第 5 主軸移至「其他資源」區塊，此變更目前僅限本機。 | AI (Antigravity) | `falo-taiwan/class/a01/class3/index.html`, `falo-taiwan/class/a01/class3/index.md`, `logs.md`, `logs.json` |
 | 2026-06-10 21:19:00 | 本機更新 | 於 Class 03 課程首頁 (index.html/index.md) 將「AI 協同討論與即時知識工程化實務」連結從第 4 主軸移至「其他資源」區塊，此變更目前僅限本機。 | AI (Antigravity) | `falo-taiwan/class/a01/class3/index.html`, `falo-taiwan/class/a01/class3/index.md`, `logs.md`, `logs.json` |
 | 2026-06-10 21:13:00 | 本機更新 | 於 Class 03 課程首頁 (index.html/index.md) 新增「其他資源」區塊及對應之左側導覽目錄連結，並置入 Google NotebookLM 升級與實戰手冊連結，此變更目前僅限本機。 | AI (Antigravity) | `falo-taiwan/class/a01/class3/index.html`, `falo-taiwan/class/a01/class3/index.md`, `logs.md`, `logs.json` |
 | 2026-06-10 20:46:00 | 本機更新 | 於 Class 03 課程首頁 (index.html) 左側導覽列目錄中，在「實戰專案與進階手冊」下方新增「學員提問與技術解答」連結，並將原本位於側邊欄頁尾之提問按鈕移除，此變更目前僅限本機。 | AI (Antigravity) | `falo-taiwan/class/a01/class3/index.html`, `logs.md`, `logs.json` |

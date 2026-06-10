@@ -44,7 +44,6 @@
 ### 5. html based / rwd / 本機 & github prompt 部署
 * **核心觀念**：利用 Prompt 輸出單一 RWD HTML 文件，雙擊本機啟動，一鍵發佈至 GitHub Pages。
 * 🔗 **課堂教材**：[人與 AI 共創共生觀念教材 (class03_coexistence.html)](class03_coexistence.html)
-* 🔗 **課堂教材**：[WWDC 26 Deep Research 實戰 Prompt 示範 (class03_wwdc_prompt.html)](class03_wwdc_prompt.html)
 * 🔗 **進階手冊**：[Chrome Extension 填單助手實戰 (https://falo-taiwan.github.io/class/a01/class3/cases/chrome_extension/)](https://falo-taiwan.github.io/class/a01/class3/cases/chrome_extension/)
 
 ### 6. 地端 Server 架設與跨域對接
@@ -62,6 +61,7 @@
 ## 其他資源
 * 🔗 **NotebookLM**：[Google NotebookLM 重磅升級與 Antigravity 實戰](https://falo-taiwan.github.io/class/a01/class3/class03_notebooklm_upgrade.html)
 * 🔗 **協同討論**：[AI 協同討論與即時知識工程化實務](class03_collaboration.html)
+* 🔗 **實戰 Prompt**：[WWDC 26 Deep Research 實戰 Prompt 示範 (class03_wwdc_prompt.html)](class03_wwdc_prompt.html)
 
 ---
 
