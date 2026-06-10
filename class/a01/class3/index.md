@@ -60,5 +60,10 @@
 
 ---
 
+## 其他資源
+* 🔗 **NotebookLM**：[Google NotebookLM 重磅升級與 Antigravity 實戰](https://falo-taiwan.github.io/class/a01/class3/class03_notebooklm_upgrade.html)
+
+---
+
 ## 輔助專區
 * 🔗 **學員課前提問解答 (QA)**：[class03_qas.html](class03_qas.html)
