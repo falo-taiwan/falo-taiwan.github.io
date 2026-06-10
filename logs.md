@@ -8,6 +8,7 @@
 
 | 時間戳記 | 操作類別 | 描述 | 操作者 | 影響檔案 |
 | :--- | :--- | :--- | :--- | :--- |
+| 2026-06-10 23:27:00 | 本機更新 | 修復 `agent_tools.html` 排版損毀與表格結構，消除冗餘的重複參考資源卡片與殘留標籤碎片。此變更已發布並同步。 | AI (Antigravity) | `falo-taiwan/class/a01/class3/agent_tools.html`, `logs.md`, `logs.json` |
 | 2026-06-10 22:52:00 | 本機更新 | 於 Class 03 課程首頁 (index.html/index.md) 的「其他資源」區塊，新增「Chrome 內建 Gemini 解鎖」外部專案連結。此變更目前僅限本機。 | AI (Antigravity) | `falo-taiwan/class/a01/class3/index.html`, `falo-taiwan/class/a01/class3/index.md`, `logs.md`, `logs.json` |
 | 2026-06-10 22:01:00 | 鏡像同步 | 將 `falo-taiwan/gas-demo` 倉庫克隆鏡像同步至 `falo-chinese` 組織（建立 `falo-chinese/gas-demo` 倉庫並推送 main 分支）。此變更已發布並推送。 | AI (Antigravity) | `falo-chinese/gas-demo`, `logs.md`, `logs.json` |
 | 2026-06-10 21:58:00 | 鏡像同步 | 將 `falo-taiwan/antigravity` 倉庫以及 `falo-taiwan.github.io` 下的 `cases/chrome_extension/` 實戰專案，克隆鏡像同步至 `falo-chinese` 組織（建立 `falo-chinese/antigravity` 倉庫，並發布至 `falo-chinese.github.io` 下對應 cases 專區）。此變更已發布並推送。 | AI (Antigravity) | `falo-chinese/antigravity`, `falo-chinese.github.io/class/a01/class3/cases/chrome_extension/`, `logs.md`, `logs.json` |
