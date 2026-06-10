@@ -1,5 +1,17 @@
 [
   {
+    "timestamp": "2026-06-10T23:41:00+08:00",
+    "action_type": "local_updated",
+    "description": "自 falo-chinese 鏡像庫同步並還原完整版的學員提問解答（QA）HTML 與 MD 檔案至本機 workspace，修正相關相對連結並重新同步推送。",
+    "operator": "AI (Antigravity)",
+    "files_affected": [
+      "falo-taiwan/class/a01/class3/class03_qas.html",
+      "falo-taiwan/class/a01/class3/class03_qas.md",
+      "logs.md",
+      "logs.json"
+    ]
+  },
+  {
     "timestamp": "2026-06-10T23:27:00+08:00",
     "action_type": "local_updated",
     "description": "修復 agent_tools.html 排版損毀與表格結構，消除冗餘的重複參考資源卡片與殘留標籤碎片。此變更已發布並同步。",
