@@ -509,11 +509,7 @@
                 <li class="toc-item"><a href="class03_qas.html" target="_blank" rel="noopener noreferrer" class="toc-link">學員提問與技術解答</a></li>
                 <li class="toc-item"><a href="#pillar-1" class="toc-link">1. 多人多帳號 AI 協作</a></li>
                 <li class="toc-item"><a href="#pillar-2" class="toc-link">2. Gemini Canvas 困擾</a></li>
-                <li class="toc-item"><a href="#pillar-3" class="toc-link">3. Antigravity / Codex</a></li>
-                <li class="toc-item"><a href="#pillar-4" class="toc-link">4. md / html 雙軌策略</a></li>
-                <li class="toc-item"><a href="#pillar-5" class="toc-link">5. html / RWD / 部署</a></li>
-                <li class="toc-item"><a href="#pillar-6" class="toc-link">6. 地端 Server 架設</a></li>
-                <li class="toc-item"><a href="#pillar-7" class="toc-link">7. GAS 雲端自動化</a></li>
+                <li class="toc-item"><a href="#pillar-3" class="toc-link">3. md / html 雙軌策略</a></li>
                 <li class="toc-item"><a href="#other-resources" class="toc-link">其他資源</a></li>
             </ul>
         </aside>
@@ -603,45 +599,11 @@
                 <p>
                     Gemini Canvas 具備極強的視覺原型設計 (PoC) 能力，但同仁在實戰中常遇到 Context 丟失、程式碼截斷、以及前後文漂移等痛點。本章引導同仁建立防禦性 Prompt 設計，掌握如何對 AI 進行精準的程式碼區塊重新生成與約束。
                 </p>
-                <div class="resource-links">
-                    <a href="class03_computer_use.html" target="_blank" rel="noopener noreferrer" class="resource-link">
-                        <span class="link-icon">🛡️</span>
-                        <span class="link-text">LINE 防封鎖訊息變體生成器 (PoC 實作網頁)</span>
-                        <span class="link-arrow">➔</span>
-                    </a>
-                </div>
             </section>
 
             <!-- Pillar 3 -->
             <section id="pillar-3" class="section-card">
-                <h2 class="section-header">3. Antigravity / Codex 開發神器對比</h2>
-                <div class="section-subtitle">單點 API 邏輯 vs 全專案重構引擎</div>
-                <p>
-                    橫向對比四大開發工具（Antigravity、Claude Cowork、Codex、Canvas）的效能邊界，理解何時該使用高邏輯的 Codex 來編寫複雜 API 運算，何時該動用具備全域檔案操作、重構與自動測試的 Antigravity 代理推理引擎。
-                </p>
-                <div class="resource-links">
-                    <a href="agent_tools.html" target="_blank" rel="noopener noreferrer" class="resource-link">
-                        <span class="link-icon">📊</span>
-                        <span class="link-text">AI Agent & Vibe Coding 開發工具分析與對比表</span>
-                        <span class="link-arrow">➔</span>
-                    </a>
-                    <a href="class03_notebooklm_upgrade.html" target="_blank" rel="noopener noreferrer" class="resource-link">
-                        <span class="link-icon">📈</span>
-                        <span class="link-text">Google NotebookLM 重磅升級與 Antigravity 實戰</span>
-                        <span class="link-arrow">➔</span>
-                    </a>
-                    <a href="https://falo-taiwan.github.io/antigravity/" target="_blank" rel="noopener noreferrer" class="resource-link">
-                        <span class="link-icon">🛠️</span>
-                        <span class="link-text">Antigravity 實戰開發與協作教學手冊</span>
-                        <span class="badge">進階手冊</span>
-                        <span class="link-arrow">➔</span>
-                    </a>
-                </div>
-            </section>
-
-            <!-- Pillar 4 -->
-            <section id="pillar-4" class="section-card">
-                <h2 class="section-header">4. md / html 雙軌文檔策略</h2>
+                <h2 class="section-header">3. md / html 雙軌文檔策略</h2>
                 <div class="section-subtitle">知識資產化與開發軌跡治理</div>
                 <p>
                     學習 FALO 的核心文件觀念：使用結構化純文字的 Markdown (.md) 做為 AI Agent 的外部記憶體，以最高效率載入上下文並節省 Token 消耗；同時設計精美的 Premium HTML 頁面做為人機協作 (HITL) 的溝通介面，搭配日誌系統 logs.md 確保每次修改均有跡可循。
@@ -655,71 +617,6 @@
                     <a href="https://falo-taiwan.github.io/class/a01/class3/cases/ipas-etl/" target="_blank" rel="noopener noreferrer" class="resource-link">
                         <span class="link-icon">📚</span>
                         <span class="link-text">教材開發革命：從 PDF 題庫到互動網站的通用工作流</span>
-                        <span class="badge">進階手冊</span>
-                        <span class="link-arrow">➔</span>
-                    </a>
-                </div>
-            </section>
-
-            <!-- Pillar 5 -->
-            <section id="pillar-5" class="section-card">
-                <h2 class="section-header">5. html based / rwd / 本機 & github prompt 部署</h2>
-                <div class="section-subtitle">靜態網頁實戰與一鍵雲端部署</div>
-                <p>
-                    學習如何透過精準 Prompt，讓 AI 生成「單一 HTML 檔案且內建完整樣式、RWD 響應式排版」的網頁。此類網頁在本地端雙擊即可完美啟動，並且極易部署至 GitHub Pages，是快速交付企業 PoC 原型的利器。
-                </p>
-                <div class="resource-links">
-                    <a href="class03_coexistence.html" target="_blank" rel="noopener noreferrer" class="resource-link">
-                        <span class="link-icon">🌱</span>
-                        <span class="link-text">人與 AI 共創共生觀念教材</span>
-                        <span class="link-arrow">➔</span>
-                    </a>
-                    <a href="https://falo-taiwan.github.io/class/a01/class3/cases/chrome_extension/" target="_blank" rel="noopener noreferrer" class="resource-link">
-                        <span class="link-icon">🔌</span>
-                        <span class="link-text">Chrome Extension 填單助手實戰與外掛控制</span>
-                        <span class="badge">進階手冊</span>
-                        <span class="link-arrow">➔</span>
-                    </a>
-                </div>
-            </section>
-
-            <!-- Pillar 6 -->
-            <section id="pillar-6" class="section-card">
-                <h2 class="section-header">6. 地端 Server 架設與跨域對接</h2>
-                <div class="section-subtitle">突破瀏覽器沙盒與本地系統整合</div>
-                <p>
-                    學習如何架設極簡的本地 Python HTTP API 伺服器，配合 ngrok 穿透內網防火牆，使前端靜態 HTML 網頁能直接調用本地端的硬體資源與數據（如 OCR 分揀處理），實現高安全性的地雲系統整合。
-                </p>
-                <div class="resource-links">
-                    <a href="class03_tools.html" target="_blank" rel="noopener noreferrer" class="resource-link">
-                        <span class="link-icon">🔧</span>
-                        <span class="link-text">Vibe Coding 實戰武器庫與地雲工具清單</span>
-                        <span class="link-arrow">➔</span>
-                    </a>
-                    <a href="class03_ocr_hitl.html" target="_blank" rel="noopener noreferrer" class="resource-link">
-                        <span class="link-icon">👁️</span>
-                        <span class="link-text">OCR 辨識策略與 HITL 人機協作實務 (分揀案例)</span>
-                        <span class="link-arrow">➔</span>
-                    </a>
-                </div>
-            </section>
-
-            <!-- Pillar 7 -->
-            <section id="pillar-7" class="section-card">
-                <h2 class="section-header">7. Google Apps Script (GAS) 雲端自動化</h2>
-                <div class="section-subtitle">免伺服器企業輕量自動化方案</div>
-                <p>
-                    深入 GAS 容器綁定型與獨立型開發架構，理解如何安全地管理 API 密鑰（Script Properties），以及如何避開瀏覽器跨網域的 OPTIONS 預檢限制發送跨網域請求，將 ERP 與 Google 表單、試算表及 Gmail 自動串接。
-                </p>
-                <div class="resource-links">
-                    <a href="class03_rpa_to_agent.html" target="_blank" rel="noopener noreferrer" class="resource-link">
-                        <span class="link-icon">🔄</span>
-                        <span class="link-text">從 ERP 外掛到 AI Agent 演進與自動化治理</span>
-                        <span class="link-arrow">➔</span>
-                    </a>
-                    <a href="https://falo-taiwan.github.io/gas-demo/#gas-v3-security-practice" target="_blank" rel="noopener noreferrer" class="resource-link">
-                        <span class="link-icon">⚙️</span>
-                        <span class="link-text">Google Apps Script (GAS) 開發架構與部署實戰手冊</span>
                         <span class="badge">進階手冊</span>
                         <span class="link-arrow">➔</span>
                     </a>
@@ -747,6 +644,16 @@
                     <a href="class03_wwdc_prompt.html" target="_blank" rel="noopener noreferrer" class="resource-link">
                         <span class="link-icon">🎯</span>
                         <span class="link-text">WWDC 26 Deep Research 實戰 Prompt 示範</span>
+                        <span class="link-arrow">➔</span>
+                    </a>
+                    <a href="class03_computer_use.html" target="_blank" rel="noopener noreferrer" class="resource-link">
+                        <span class="link-icon">🛡️</span>
+                        <span class="link-text">LINE 防封鎖訊息變體生成器 (PoC 實作網頁)</span>
+                        <span class="link-arrow">➔</span>
+                    </a>
+                    <a href="class03_ocr_hitl.html" target="_blank" rel="noopener noreferrer" class="resource-link">
+                        <span class="link-icon">👁️</span>
+                        <span class="link-text">OCR 辨識策略與 HITL 人機協作實務 (分揀案例)</span>
                         <span class="link-arrow">➔</span>
                     </a>
                 </div>

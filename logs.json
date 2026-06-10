@@ -1,5 +1,17 @@
 [
   {
+    "timestamp": "2026-06-10T21:26:00+08:00",
+    "action_type": "local_updated",
+    "description": "於 Class 03 課程首頁 (index.html/index.md) 移除主軸 3、5、6、7，將剩餘主軸重編為 3 大主軸（協作模式、Canvas 困擾、雙軌策略）；並將 LINE 防封鎖訊息變體與 OCR 人機協作教材連結移至「其他資源」區塊，此變更目前僅限本機。",
+    "operator": "AI (Antigravity)",
+    "files_affected": [
+      "falo-taiwan/class/a01/class3/index.html",
+      "falo-taiwan/class/a01/class3/index.md",
+      "logs.md",
+      "logs.json"
+    ]
+  },
+  {
     "timestamp": "2026-06-10T21:20:00+08:00",
     "action_type": "local_updated",
     "description": "於 Class 03 課程首頁 (index.html/index.md) 將「WWDC 26 Deep Research 實戰 Prompt 示範」連結從第 5 主軸移至「其他資源」區塊，此變更目前僅限本機。",

@@ -8,6 +8,7 @@
 
 | 時間戳記 | 操作類別 | 描述 | 操作者 | 影響檔案 |
 | :--- | :--- | :--- | :--- | :--- |
+| 2026-06-10 21:26:00 | 本機更新 | 於 Class 03 課程首頁 (index.html/index.md) 移除主軸 3、5、6、7，將剩餘主軸重編為 3 大主軸（協作模式、Canvas 困擾、雙軌策略）；並將 LINE 防封鎖訊息變體與 OCR 人機協作教材連結移至「其他資源」區塊，此變更目前僅限本機。 | AI (Antigravity) | `falo-taiwan/class/a01/class3/index.html`, `falo-taiwan/class/a01/class3/index.md`, `logs.md`, `logs.json` |
 | 2026-06-10 21:20:00 | 本機更新 | 於 Class 03 課程首頁 (index.html/index.md) 將「WWDC 26 Deep Research 實戰 Prompt 示範」連結從第 5 主軸移至「其他資源」區塊，此變更目前僅限本機。 | AI (Antigravity) | `falo-taiwan/class/a01/class3/index.html`, `falo-taiwan/class/a01/class3/index.md`, `logs.md`, `logs.json` |
 | 2026-06-10 21:19:00 | 本機更新 | 於 Class 03 課程首頁 (index.html/index.md) 將「AI 協同討論與即時知識工程化實務」連結從第 4 主軸移至「其他資源」區塊，此變更目前僅限本機。 | AI (Antigravity) | `falo-taiwan/class/a01/class3/index.html`, `falo-taiwan/class/a01/class3/index.md`, `logs.md`, `logs.json` |
 | 2026-06-10 21:13:00 | 本機更新 | 於 Class 03 課程首頁 (index.html/index.md) 新增「其他資源」區塊及對應之左側導覽目錄連結，並置入 Google NotebookLM 升級與實戰手冊連結，此變更目前僅限本機。 | AI (Antigravity) | `falo-taiwan/class/a01/class3/index.html`, `falo-taiwan/class/a01/class3/index.md`, `logs.md`, `logs.json` |
