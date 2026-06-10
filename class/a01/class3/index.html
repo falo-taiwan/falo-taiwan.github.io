@@ -327,35 +327,55 @@
             white-space: nowrap;
         }
 
-        /* Floating Theme Switcher */
-        .theme-toggle-btn {
+        /* Accessibility Floating Toolbar */
+        .accessibility-toolbar {
             position: fixed;
             top: 2rem;
             right: 2rem;
-            background: var(--toggle-bg);
-            border: 1px solid var(--toggle-border);
-            color: var(--toggle-color);
+            background: var(--sidebar-bg);
+            border: 1px solid var(--sidebar-border);
+            border-radius: 30px;
+            padding: 0.4rem 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            z-index: 1000;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+            transition: all 0.3s ease;
+        }
+
+        body.theme-light .accessibility-toolbar {
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            background: rgba(255, 255, 255, 0.95);
+        }
+
+        .toolbar-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-main);
+            width: 2.4rem;
+            height: 2.4rem;
             border-radius: 50%;
-            width: 2.8rem;
-            height: 2.8rem;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            z-index: 1000;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.2s ease;
             outline: none;
         }
 
-        .theme-toggle-btn:hover {
-            transform: scale(1.1) rotate(15deg);
-            background: rgba(255, 255, 255, 0.12);
+        .toolbar-btn:hover {
+            background: var(--primary-glow);
+            color: var(--primary);
+            transform: scale(1.1);
         }
 
-        body.theme-light .theme-toggle-btn:hover {
-            background: rgba(0, 0, 0, 0.08);
+        .accessibility-toolbar .divider {
+            width: 1px;
+            height: 1.2rem;
+            background: var(--sidebar-border);
         }
 
         .sun-icon {
@@ -425,7 +445,7 @@
             .sidebar-btn {
                 flex: 1;
             }
-            .theme-toggle-btn {
+            .accessibility-toolbar {
                 top: 1.5rem;
                 right: 1.5rem;
             }
@@ -438,25 +458,41 @@
         Falo x Force Cheng 2026/6/8 | 教學用途，商業用途請聯繫作者
     </div>
 
-    <!-- Floating theme toggle -->
-    <button id="theme-toggle" class="theme-toggle-btn" aria-label="切換配色">
-        <!-- Sun icon -->
-        <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="5"></circle>
-            <line x1="12" y1="1" x2="12" y2="3"></line>
-            <line x1="12" y1="21" x2="12" y2="23"></line>
-            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-            <line x1="1" y1="12" x2="3" y2="12"></line>
-            <line x1="21" y1="12" x2="23" y2="12"></line>
-            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-        </svg>
-        <!-- Moon icon -->
-        <svg class="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-        </svg>
-    </button>
+    <!-- Floating Accessibility Toolbar -->
+    <div class="accessibility-toolbar">
+        <button id="theme-toggle" class="toolbar-btn" aria-label="切換配色" title="切換深淺配色">
+            <!-- Sun icon -->
+            <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="5"></circle>
+                <line x1="12" y1="1" x2="12" y2="3"></line>
+                <line x1="12" y1="21" x2="12" y2="23"></line>
+                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                <line x1="1" y1="12" x2="3" y2="12"></line>
+                <line x1="21" y1="12" x2="23" y2="12"></line>
+                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+            </svg>
+            <!-- Moon icon -->
+            <svg class="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+            </svg>
+        </button>
+        <div class="divider"></div>
+        <button id="font-increase" class="toolbar-btn" title="放大字體 (A+)" aria-label="放大字體">
+            <span style="font-size: 1.1rem; font-weight: bold; position: relative; top: -1px;">A⁺</span>
+        </button>
+        <button id="font-decrease" class="toolbar-btn" title="縮小字體 (A-)" aria-label="縮小字體">
+            <span style="font-size: 0.9rem; font-weight: bold; position: relative; top: -1px;">A⁻</span>
+        </button>
+        <div class="divider"></div>
+        <button id="layout-increase" class="toolbar-btn" title="加寬版面 (W+)" aria-label="加寬版面">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12h16M4 12l4-4m-4 4l4 4m12-8l4 4-4 4"/></svg>
+        </button>
+        <button id="layout-decrease" class="toolbar-btn" title="收窄版面 (W-)" aria-label="收窄版面">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 12h8M12 8l-4 4 4 4m0-8l4 4-4 4"/></svg>
+        </button>
+    </div>
 
     <div class="layout-wrapper">
         <!-- Left Sidebar Navigation -->
@@ -499,12 +535,12 @@
                     此專區提供本培訓系列先前課程之完整簡報與實戰教材連結，協助同仁進行知識複習與技術對齊。目前採用簡易密碼保護，未來將升級為基於 Google Apps Script (GAS) 驗證的高強度保密安全版本。
                 </p>
                 <div class="resource-links" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem;">
-                    <a href="https://www.google.com" class="resource-link protected-link" style="margin-top: 0;">
+                    <a href="https://drive.google.com/file/d/1lcTQQ4ceWf8-I-qxifTIbkTq8gwW0Pp7/view?usp=sharing" class="resource-link protected-link" style="margin-top: 0;">
                         <span class="badge">Class 01</span>
                         <span class="link-text">Class 01 課程簡報 (🔒 密碼保護)</span>
                         <span class="link-arrow">➔</span>
                     </a>
-                    <a href="https://www.google.com" class="resource-link protected-link" style="margin-top: 0;">
+                    <a href="https://drive.google.com/file/d/1FV_SEjwf68vgd_CH28ScJSjz1FiwxxTw/view?usp=sharing" class="resource-link protected-link" style="margin-top: 0;">
                         <span class="badge">Class 02</span>
                         <span class="link-text">Class 02 課程簡報 (🔒 密碼保護)</span>
                         <span class="link-arrow">➔</span>
@@ -750,6 +786,45 @@
                     alert('密碼錯誤，拒絕存取！');
                 }
             });
+        });
+
+        // Font size adjustment
+        let fontScale = 1.0;
+        const btnFontIncrease = document.getElementById('font-increase');
+        const btnFontDecrease = document.getElementById('font-decrease');
+
+        btnFontIncrease.addEventListener('click', () => {
+            if (fontScale < 1.4) {
+                fontScale += 0.1;
+                document.documentElement.style.fontSize = (fontScale * 100) + '%';
+            }
+        });
+
+        btnFontDecrease.addEventListener('click', () => {
+            if (fontScale > 0.8) {
+                fontScale -= 0.1;
+                document.documentElement.style.fontSize = (fontScale * 100) + '%';
+            }
+        });
+
+        // Layout width adjustment
+        let layoutWidth = 1280;
+        const btnLayoutIncrease = document.getElementById('layout-increase');
+        const btnLayoutDecrease = document.getElementById('layout-decrease');
+        const layoutWrapper = document.querySelector('.layout-wrapper');
+
+        btnLayoutIncrease.addEventListener('click', () => {
+            if (layoutWidth < 1680) {
+                layoutWidth += 100;
+                layoutWrapper.style.maxWidth = layoutWidth + 'px';
+            }
+        });
+
+        btnLayoutDecrease.addEventListener('click', () => {
+            if (layoutWidth > 980) {
+                layoutWidth -= 100;
+                layoutWrapper.style.maxWidth = layoutWidth + 'px';
+            }
         });
     </script>
 </body>

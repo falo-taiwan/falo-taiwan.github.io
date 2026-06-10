@@ -5,8 +5,8 @@
 ---
 
 ## 歷史課程回顧
-* 🔗 **Class 01**：[Class 01 課程簡報 (🔒 密碼保護：attn)](https://www.google.com)
-* 🔗 **Class 02**：[Class 02 課程簡報 (🔒 密碼保護：attn)](https://www.google.com)
+* 🔗 **Class 01**：[Class 01 課程簡報 (🔒 密碼保護：attn)](https://drive.google.com/file/d/1lcTQQ4ceWf8-I-qxifTIbkTq8gwW0Pp7/view?usp=sharing)
+* 🔗 **Class 02**：[Class 02 課程簡報 (🔒 密碼保護：attn)](https://drive.google.com/file/d/1FV_SEjwf68vgd_CH28ScJSjz1FiwxxTw/view?usp=sharing)
 * 💡 *註：目前採用簡易密碼保護，未來將升級為基於 Google Apps Script (GAS) 驗證的高強度保密安全版本。*
 
 ---
