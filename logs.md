@@ -8,6 +8,7 @@
 
 | 時間戳記 | 操作類別 | 描述 | 操作者 | 影響檔案 |
 | :--- | :--- | :--- | :--- | :--- |
+| 2026-06-10 21:42:00 | 本機更新 | 於 Class 03 課程首頁 (index.html/index.md) 移除所有主軸區塊（主軸一、二、三），將剩餘的「Chrome Gemini 解鎖與六層模型」與「IPAS ETL 教材開發革命」連結一併移入「其他資源」區塊，使頁面專注於歷史課程與資源列表。此變更目前僅限本機。 | AI (Antigravity) | `falo-taiwan/class/a01/class3/index.html`, `falo-taiwan/class/a01/class3/index.md`, `logs.md`, `logs.json` |
 | 2026-06-10 21:26:00 | 本機更新 | 於 Class 03 課程首頁 (index.html/index.md) 移除主軸 3、5、6、7，將剩餘主軸重編為 3 大主軸（協作模式、Canvas 困擾、雙軌策略）；並將 LINE 防封鎖訊息變體與 OCR 人機協作教材連結移至「其他資源」區塊，此變更目前僅限本機。 | AI (Antigravity) | `falo-taiwan/class/a01/class3/index.html`, `falo-taiwan/class/a01/class3/index.md`, `logs.md`, `logs.json` |
 | 2026-06-10 21:20:00 | 本機更新 | 於 Class 03 課程首頁 (index.html/index.md) 將「WWDC 26 Deep Research 實戰 Prompt 示範」連結從第 5 主軸移至「其他資源」區塊，此變更目前僅限本機。 | AI (Antigravity) | `falo-taiwan/class/a01/class3/index.html`, `falo-taiwan/class/a01/class3/index.md`, `logs.md`, `logs.json` |
 | 2026-06-10 21:19:00 | 本機更新 | 於 Class 03 課程首頁 (index.html/index.md) 將「AI 協同討論與即時知識工程化實務」連結從第 4 主軸移至「其他資源」區塊，此變更目前僅限本機。 | AI (Antigravity) | `falo-taiwan/class/a01/class3/index.html`, `falo-taiwan/class/a01/class3/index.md`, `logs.md`, `logs.json` |
