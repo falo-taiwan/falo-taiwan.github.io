@@ -644,6 +644,63 @@
         width: 100%;
       }
     }
+
+    /* Timeline style */
+    .timeline {
+      position: relative;
+      padding-left: 2rem;
+      border-left: 2px solid rgba(255, 255, 255, 0.05);
+      margin: 2rem 0;
+    }
+
+    .timeline-step {
+      position: relative;
+      margin-bottom: 3rem;
+    }
+
+    .timeline-step:last-child {
+      margin-bottom: 0;
+    }
+
+    .step-num {
+      position: absolute;
+      left: calc(-2rem - 17px);
+      top: 0;
+      background: #0b0f19;
+      border: 3px solid var(--primary);
+      color: #ffffff;
+      font-family: var(--font-outfit);
+      font-size: 1rem;
+      font-weight: 700;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      box-shadow: 0 0 10px var(--primary-glow);
+      transition: all 0.3s ease;
+      z-index: 2;
+    }
+
+    .timeline-step:hover .step-num {
+      border-color: var(--accent);
+      transform: scale(1.1);
+    }
+
+    .step-title {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: #ffffff;
+      margin-bottom: 0.75rem;
+    }
+
+    .step-title span {
+      color: var(--primary);
+      font-family: var(--font-outfit);
+      font-weight: 700;
+      margin-right: 0.5rem;
+    }
   </style>
 </head>
 <body>
@@ -662,9 +719,10 @@
       </div>
       <ul class="nav-list">
         <li class="nav-item"><a href="#evolution-philosophy" class="nav-link active">1. 專案定位與核心觀念</a></li>
-        <li class="nav-item"><a href="#v1-extension" class="nav-link">2. V1 網頁操作輔助器</a></li>
-        <li class="nav-item"><a href="#ai-agent-prompt" class="nav-link">3. AI Agent 實戰 Prompt</a></li>
-        <li class="nav-item"><a href="#tech-appendix" class="nav-link">4. 附錄：V1 核心源碼</a></li>
+        <li class="nav-item"><a href="#load-deploy" class="nav-link">2. 外掛加載與部署步驟</a></li>
+        <li class="nav-item"><a href="#v1-extension" class="nav-link">3. V1 網頁操作輔助器</a></li>
+        <li class="nav-item"><a href="#ai-agent-prompt" class="nav-link">4. AI Agent 實戰 Prompt</a></li>
+        <li class="nav-item"><a href="#tech-appendix" class="nav-link">5. 附錄：V1 核心源碼</a></li>
       </ul>
 
       <div style="border-top: 1px solid var(--card-border); margin: 1.5rem 0; padding-top: 1.5rem;">
@@ -719,8 +777,66 @@
       </section>
 
       <!-- Section 2 -->
+      <section id="load-deploy" class="section-card">
+        <h2 class="section-header">2. Chrome 外掛加載與部署步驟</h2>
+        <p class="lead-text">
+          下載並解壓縮外掛資源包後，您可以透過 Chrome 的開發者模式，將外掛加載至瀏覽器中運行。以下是手把手的部署指南：
+        </p>
+
+        <div class="timeline">
+          <!-- Step 1 -->
+          <div class="timeline-step">
+            <div class="step-num">1</div>
+            <div class="step-title"><span>Step 01</span>開啟開發者模式與載入未封裝項目</div>
+            <p style="margin-bottom: 1rem;">
+              在 Chrome 瀏覽器中開啟新分頁，在網址列輸入 <code>chrome://extensions/</code> 進入擴充功能管理頁面。開啟右上角的<strong>「開發者模式 (Developer mode)」</strong>開關，接著點擊左上角的<strong>「載入未封裝項目 (Load unpacked)」</strong>按鈕。
+            </p>
+            <div style="background: rgba(0, 0, 0, 0.2); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 12px; padding: 8px; overflow: hidden; margin-bottom: 2rem; max-width: 1000px;">
+              <img src="./images/deploy_step1.png" alt="開啟開發者模式與載入按鈕" style="width: 100%; height: auto; border-radius: 8px; display: block;">
+            </div>
+          </div>
+
+          <!-- Step 2 -->
+          <div class="timeline-step">
+            <div class="step-num">2</div>
+            <div class="step-title"><span>Step 02</span>選取外掛專案資料夾</div>
+            <p style="margin-bottom: 1rem;">
+              在彈出的檔案選擇對話框中，定位並選取解壓後的 <strong><code>chrome-extension</code></strong> 資料夾（此目錄必須直接包含 <code>manifest.json</code> 核心設定檔），然後點擊右下角的<strong>「選擇 (Select)」</strong>按鈕載入。
+            </p>
+            <div style="background: rgba(0, 0, 0, 0.2); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 12px; padding: 8px; overflow: hidden; margin-bottom: 2rem; max-width: 1000px;">
+              <img src="./images/deploy_step2.png" alt="選擇專案目錄" style="width: 100%; height: auto; border-radius: 8px; display: block;">
+            </div>
+          </div>
+
+          <!-- Step 3 -->
+          <div class="timeline-step">
+            <div class="step-num">3</div>
+            <div class="step-title"><span>Step 03</span>釘選/固定外掛圖示</div>
+            <p style="margin-bottom: 1rem;">
+              點擊 Chrome 瀏覽器工具列右上角拼圖形狀的<strong>「擴充功能」</strong>選單圖示，在選單中找到<strong>「銀河 ERP 填單助手」</strong>，點擊其右側的<strong>「固定 (Pin)」</strong>圖示，使外掛常駐在工具列上。
+            </p>
+            <div style="background: rgba(0, 0, 0, 0.2); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 12px; padding: 8px; overflow: hidden; margin-bottom: 2rem; max-width: 1000px;">
+              <img src="./images/deploy_step3.png" alt="固定外掛" style="width: 100%; height: auto; border-radius: 8px; display: block;">
+            </div>
+          </div>
+
+          <!-- Step 4 -->
+          <div class="timeline-step">
+            <div class="step-num">4</div>
+            <div class="step-title"><span>Step 04</span>開啟側邊欄並進行遙控填單</div>
+            <p style="margin-bottom: 1rem;">
+              打開實作的測試網頁（例如 <code>erp.html</code>），點擊工具列上的「銀河 ERP 填單助手」圖示，即可在右側滑出功能完整的<strong>「銀河 ERP 填單助手」側邊欄 (Side Panel)</strong>。您此時即可點擊「隨機產生資料」、「一鍵全填入」等遙控按鈕，進行自動化填表測試！
+            </p>
+            <div style="background: rgba(0, 0, 0, 0.2); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 12px; padding: 8px; overflow: hidden; max-width: 1000px;">
+              <img src="./images/deploy_step4.png" alt="開啟側邊欄測試" style="width: 100%; height: auto; border-radius: 8px; display: block;">
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 3 -->
       <section id="v1-extension" class="section-card">
-        <h2 class="section-header">2. V1 網頁操作輔助器 (ERP 表單輔助器)</h2>
+        <h2 class="section-header">3. V1 網頁操作輔助器 (ERP 表單輔助器)</h2>
         <p>
           我們實作的第一個階段是 **ERP 表單輔助器**。當我們載入一個 Chrome Extension 到網頁時，外掛主要進行雙向資料控制：
         </p>
@@ -867,28 +983,57 @@
             </div>
           </div>
 
-          <div style="background: rgba(99, 102, 241, 0.03); border: 1px solid rgba(99, 102, 241, 0.15); border-radius: 12px; padding: 20px; margin-top: 20px;">
-            <h4 style="font-size: 1rem; font-weight: 700; color: #a5b4fc; margin-bottom: 10px; text-align: center;">📡 跨宇宙雙向通訊（Message Passing）架構</h4>
-            <div style="font-family: Consolas, Monaco, monospace; font-size: 0.82rem; background: var(--code-bg); padding: 16px; border-radius: 8px; border: 1px solid var(--card-border); color: #818cf8; overflow-x: auto; line-height: 1.5;">
-┌─────────────────────────────────┐            📡 跨宇宙通訊 (Message Passing)           ┌────────────────────────────────┐
-│   外掛側邊欄 (Side Panel 宇宙)   │ ◄─────────────────────────────────────────────────► │   目標網頁注入 (Content 宇宙)  │
-│  [sidepanel.html/sidepanel.js]  │   chrome.tabs.sendMessage (發信通知填值/讀取)        │          [content.js]          │
-└──────────────┬──────────────────┘   sendResponse (回信告知流水號與結果)                └───────────────┬────────────────┘
-               │                                                                                        │
-               │ 1. 產生/匯入資料                                                                       │ 2. 直接讀寫控制 DOM
-               ▼                                                                                        ▼
-┌─────────────────────────────────┐                                                     ┌────────────────────────────────┐
-│      CSV 資料庫 / 隨機生成器     │                                                     │   實體 ERP 測試網頁 (erp.html)  │
-│  (本地端 sidepanel.js 管理處理)  │                                                     │   [#po-number, #btn-check-form]│
-└─────────────────────────────────┘                                                     └────────────────────────────────┘
+          <div style="background: rgba(99, 102, 241, 0.03); border: 1px solid rgba(99, 102, 241, 0.15); border-radius: 16px; padding: 24px; margin-top: 20px;">
+            <h4 style="font-size: 1.05rem; font-weight: 700; color: #a5b4fc; margin-bottom: 20px; text-align: center;">📡 跨宇宙雙向通訊 (Message Passing) 架構</h4>
+            
+            <div style="display: flex; flex-direction: column; gap: 20px; align-items: center; width: 100%;">
+              
+              <!-- Upper Blocks (Side Panel & Content Script) -->
+              <div style="display: flex; justify-content: space-between; width: 100%; gap: 15px; flex-wrap: wrap;">
+                
+                <!-- Side Panel Card -->
+                <div style="flex: 1; min-width: 250px; background: rgba(99, 102, 241, 0.05); border: 1px solid rgba(99, 102, 241, 0.2); border-radius: 12px; padding: 15px; text-align: center;">
+                  <div style="font-weight: 700; color: #ffffff; margin-bottom: 6px;">外掛側邊欄 (Side Panel 宇宙)</div>
+                  <div style="font-family: monospace; font-size: 0.8rem; color: #a5b4fc; margin-bottom: 8px;">[sidepanel.html / sidepanel.js]</div>
+                  <div style="font-size: 0.85rem; color: var(--text-muted);">負責管理外掛 UI、隨機生成資料與 CSV 匯出匯入。</div>
+                </div>
+
+                <!-- Content Script Card -->
+                <div style="flex: 1; min-width: 250px; background: rgba(16, 185, 129, 0.05); border: 1px solid rgba(16, 185, 129, 0.2); border-radius: 12px; padding: 15px; text-align: center;">
+                  <div style="font-weight: 700; color: #ffffff; margin-bottom: 6px;">目標網頁注入 (Content 宇宙)</div>
+                  <div style="font-family: monospace; font-size: 0.8rem; color: #10b981; margin-bottom: 8px;">[content.js]</div>
+                  <div style="font-size: 0.85rem; color: var(--text-muted);">直接注入網頁內，有權讀寫 DOM 並派發 input/change 事件。</div>
+                </div>
+
+              </div>
+
+              <!-- Communication Arrow (Middle) -->
+              <div style="width: 100%; text-align: center; background: rgba(255,255,255,0.02); border: 1px dashed rgba(255,255,255,0.1); padding: 10px; border-radius: 8px;">
+                <div style="font-size: 0.85rem; font-weight: 700; color: #ffffff; margin-bottom: 4px;">📡 雙向 Message Passing 通訊機制</div>
+                <div style="font-family: monospace; font-size: 0.82rem; color: #a5b4fc; margin-bottom: 2px;">
+                  ❶ 發送指令：chrome.tabs.sendMessage() ➔
+                </div>
+                <div style="font-family: monospace; font-size: 0.82rem; color: #10b981;">
+                  ◄ ❷ 回傳結果：sendResponse() (回傳流水號/欄位值)
+                </div>
+              </div>
+
+              <!-- Lower Block (ERP Web Page Target) -->
+              <div style="width: 100%; max-width: 500px; background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.06); border-radius: 12px; padding: 15px; text-align: center;">
+                <div style="font-weight: 700; color: #ffffff; margin-bottom: 4px;">🎯 實體 ERP 測試網頁 (erp.html)</div>
+                <div style="font-size: 0.85rem; color: var(--text-muted);">
+                  包含 <code>#po-number</code>, <code>#btn-check-form</code> 等 DOM 輸入框與按鈕，是外掛最終操作與讀寫的對象。
+                </div>
+              </div>
+
             </div>
           </div>
         </div>
       </section>
 
-      <!-- Section 3 -->
+      <!-- Section 4 -->
       <section id="ai-agent-prompt" class="section-card">
-        <h2 class="section-header">3. AI Agent 實戰 Prompt 指南</h2>
+        <h2 class="section-header">4. AI Agent 實戰 Prompt 指南</h2>
         <p>
           本實戰引導學員從最簡單的「單欄讀寫」開始，逐步擴展至「全表單批次操作與清空」，最終躍升至具備「CSV 備份與遠端遙控」的完整自動化外掛。
         </p>
@@ -1059,9 +1204,9 @@ https://falo-taiwan.github.io/class/a01/class3/cases/chrome_extension/erp.html
         </div>
       </section>
 
-      <!-- Section 4 -->
+      <!-- Section 5 -->
       <section id="tech-appendix" class="section-card">
-        <h2 class="section-header">4. 附錄：V1 網頁外掛核心程式碼剖析</h2>
+        <h2 class="section-header">5. 附錄：V1 網頁外掛核心程式碼剖析</h2>
         <p>
           此處列出 V1 階段注入網頁的 Content Script 核心邏輯。學習者可以從代碼中看出「外掛如何透過遍歷 DOM 來理解網頁結構」：
         </p>
