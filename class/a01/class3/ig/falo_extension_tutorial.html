@@ -3,30 +3,30 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>天心 Class03：FALO ERP Form Helper (銀河 ERP 填單助手) 部署實戰教學</title>
+  <title>FALO x Force Cheng 2026/6/8 Chrome 外掛程式部署實戰教學</title>
   <!-- 備注 (Remark): Falo x Force Cheng 2026/6/8 - Chrome Extension Loading and Deployment Tutorial -->
   <!-- SEO Meta Tags -->
   <meta name="author" content="Falo x Force Cheng 2026/6/8">
-  <meta name="description" content="Chrome 外掛程式載入與部署教學 - FALO ERP Form Helper v1.5.0 - Falo x Force Cheng 2026/6/8">
-  <meta name="keywords" content="Chrome Extension, ERP Form Helper, Developer Mode, Falo, Force Cheng, Class03">
+  <meta name="description" content="Chrome 外掛程式載入與部署教學 - FALO Instagram Video Enhancer v1.0.1 - Falo x Force Cheng 2026/6/8">
+  <meta name="keywords" content="Chrome Extension, Instagram Video Enhancer, Developer Mode, Falo, Force Cheng">
   <!-- Open Graph Meta Tags (AI/SEO grounding) -->
-  <meta property="og:title" content="天心 Class03：FALO ERP Form Helper (銀河 ERP 填單助手) 部署實戰教學">
-  <meta property="og:description" content="本實戰課程由 Falo x Force Cheng 於 2026/6/8 設計，旨在帶領初學者在開發人員模式下下載、解壓並載入 FALO ERP Form Helper v1.5.0 擴充功能，實現雙向 DOM 控制。">
+  <meta property="og:title" content="FALO x Force Cheng 2026/6/8 Chrome 外掛程式部署實戰教學">
+  <meta property="og:description" content="本實戰課程由 Falo x Force Cheng 於 2026/6/8 設計，旨在帶領初學者在開發人員模式下下載、解壓並載入 FALO Instagram Video Enhancer v1.0.1 擴充功能。">
   <meta property="og:type" content="article">
   <meta property="og:url" content="https://falo-taiwan.github.io/ig/">
   <!-- Generative Engine Optimization (GEO) Tags for AI Search Crawlers -->
   <meta name="ai:author" content="Falo x Force Cheng 2026/6/8">
   <meta name="ai:content-type" content="educational-tutorial">
-  <meta name="ai:subject" content="Chrome Extension Deployment & Installation Guide in Developer Mode for ERP Automation">
-  <meta name="ai:difficulty" content="Beginner to Intermediate">
+  <meta name="ai:subject" content="Chrome Extension Deployment & Installation Guide in Developer Mode">
+  <meta name="ai:difficulty" content="Beginner">
   <meta name="ai:verification" content="Verified Course Material">
   <!-- JSON-LD for Generative Engine Optimization (GEO/SEO) -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "TechArticle",
-    "headline": "天心 Class03：FALO ERP Form Helper (銀河 ERP 填單助手) 部署實戰教學",
-    "description": "本實戰課程由 Falo x Force Cheng 2026/6/8 設計，教授初學者如何在 Chrome 開發人員模式下部署與載入未封裝的 ERP Form Helper 擴充功能，進行 React/Vue 狀態同步與自動化 DOM 操作。",
+    "headline": "FALO x Force Cheng 2026/6/8 Chrome 外掛程式部署實戰教學",
+    "description": "本實戰課程由 Falo x Force Cheng 2026/6/8 設計，教授初學者如何在 Chrome 開發人員模式下部署與載入未封裝的 Instagram Video Enhancer 擴充功能。",
     "author": {
       "@type": "Person",
       "name": "Falo x Force Cheng 2026/6/8"
@@ -44,7 +44,7 @@
       },
       {
         "@type": "Thing",
-        "name": "FALO ERP Form Helper v1.5.0"
+        "name": "FALO Instagram Video Enhancer v1.0.1"
       }
     ],
     "articleSection": "Chrome Extension Installation Steps",
@@ -90,7 +90,7 @@
       /* --- 現代風格 (Modern Theme - Dark Glassmorphism) --- */
       --bg-gradient: radial-gradient(circle at 50% 50%, #161233 0%, #0b071a 100%);
       --primary-color: #00f0ff; /* 極光藍 */
-      --secondary-color: #e1306c; /* 粉 */
+      --secondary-color: #e1306c; /* IG粉 */
       --pink-glow: rgba(225, 48, 108, 0.4);
       --cyan-glow: rgba(0, 240, 255, 0.4);
       --card-bg: rgba(255, 255, 255, 0.04);
@@ -124,7 +124,7 @@
     /* Style Switcher UI */
     .style-toggle-container {
       display: flex;
-      justify-flex-end;
+      justify-content: flex-end;
       padding: 20px 20px 0 0;
       max-width: 1100px;
       margin: 0 auto;
@@ -301,7 +301,7 @@
       align-items: center;
       gap: 12px;
       padding: 16px 36px;
-      background: linear-gradient(135deg, #0284c7 0%, #10b981 50%, #818cf8 100%);
+      background: linear-gradient(135deg, #f99f1b 0%, #e1306c 50%, #833ab4 100%);
       border: none;
       border-radius: 50px;
       color: #fff;
@@ -310,13 +310,13 @@
       font-weight: 700;
       text-decoration: none;
       cursor: pointer;
-      box-shadow: 0 10px 25px rgba(16, 185, 129, 0.3);
+      box-shadow: 0 10px 25px rgba(225, 48, 108, 0.3);
       transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
 
     .btn-download:hover {
       transform: translateY(-4px) scale(1.02);
-      box-shadow: 0 15px 35px rgba(16, 185, 129, 0.5);
+      box-shadow: 0 15px 35px rgba(225, 48, 108, 0.5);
     }
 
     .btn-download:active {
@@ -495,11 +495,11 @@
       border: 1px solid rgba(128, 128, 128, 0.4);
     }
 
-    .tc-blue { background-color: #0284c7; }
-    .tc-green { background-color: #10b981; }
-    .tc-purple { background-color: #818cf8; }
-    .tc-orange { background-color: #f97316; }
-    .tc-pink { background-color: #ec4899; }
+    .tc-black { background-color: #1a1a1a; }
+    .tc-white { background-color: #ffffff; }
+    .tc-pink { background-color: #ff4a74; }
+    .tc-cream { background-color: #fcf6e5; }
+    .tc-dream { background-color: #7de3af; }
 
     .theme-name {
       font-weight: 600;
@@ -884,312 +884,295 @@
     <!-- Header -->
     <header>
       <div class="watermark-badge">Falo x Force Cheng 2026/6/8</div>
-      <h1>天心 Class03：Chrome 外掛實戰教學</h1>
-      <p class="subtitle">本實戰課程專為初學者設計。我們將以 <strong>FALO ERP Form Helper v1.5.0 (銀河 ERP 填單助手)</strong> 作為核心範例，手把手帶您學習如何在開發者模式下部署、載入並測試 Chrome 擴充功能。</p>
+      <h1>Chrome 外掛程式載入與部署教學</h1>
+      <p class="subtitle">本實戰課程專為初學者設計。我們將使用 <strong>FALO Instagram Video Enhancer v1.0.1</strong> 作為範例，手把手帶您學習如何在開發者模式下部署、載入並測試 Chrome 擴充功能。</p>
+      
+      <!-- Class03 Core Redirection Card -->
+      <div style="background: rgba(16, 185, 129, 0.08); border: 1px solid var(--card-border); border-left: 4px solid var(--primary-color); padding: 16px 20px; border-radius: 12px; margin: 25px auto 10px auto; max-width: 800px; text-align: left; font-size: 0.95rem; line-height: 1.6; color: var(--text-main); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);">
+        💡 <strong>初學者起步指南：</strong> 本頁面是為進階學員準備的<strong>「模仿與二創高手外掛案例 (IG Reels 影片增強器)」</strong>。
+        如果您是剛加入的初學者，請先前往 Class03 主線實戰課程頁面：
+        <a href="https://falo-taiwan.github.io/class/a01/class3/cases/chrome_extension/" target="_blank" style="color: var(--primary-color); font-weight: 700; text-decoration: underline; margin-left: 5px;">
+          👉 天心 Class03：FALO ERP Form Helper (銀河 ERP 填單助手) 部署教學 ➔
+        </a>
+      </div>
     </header>
 
     <!-- Tab Navigation Switcher -->
     <div class="tabs-container">
       <button class="tab-btn active" data-tab="tab-deploy">🚀 部署與安裝實戰</button>
-      <button class="tab-btn" data-tab="tab-secrets">⚡ 填單黑科技：特殊控制與自動化原理</button>
+      <button class="tab-btn" data-tab="tab-secrets">⚡ 專案黑科技：特殊控制與效能優化</button>
       <button class="tab-btn" data-tab="tab-architecture">🧩 核心架構與 AI 協同開發指南</button>
     </div>
 
     <!-- Tab Deploy Content -->
     <div id="tab-deploy" class="tab-content active">
 
-      <!-- Download Section -->
-      <section class="download-banner">
-        <h2>📦 第一步：獲取外掛原始碼 ZIP 包</h2>
-        <p>請先下載我們打包好的外掛程式原始碼壓縮檔。解壓縮後即可獲得包含 Manifest V3 核心代碼的側邊欄填單外掛資料夾。</p>
-        
-        <a href="FALO_ERP_Form_Helper.zip" download class="btn-download">
-          <!-- Download SVG Icon -->
-          <svg viewBox="0 0 24 24"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM17 13l-5 5-5-5h3V9h4v4h3z"/></svg>
-          下載範例程式 ZIP 檔
-        </a>
-        <span class="file-meta">FALO_ERP_Form_Helper.zip (包含：manifest.json, background.js, content.js, content.css, sidepanel.html, sidepanel.js)</span>
-      </section>
+    <!-- Download Section -->
+    <section class="download-banner">
+      <h2>📦 第一步：獲取外掛原始碼 ZIP 包</h2>
+      <p>請先下載我們打包好的外掛程式原始碼壓縮檔。解壓縮後即可獲得包含 Manifest V3 核心代碼的資料夾。</p>
+      
+      <a href="FALO_Instagram_Video_Enhancer.zip" download class="btn-download">
+        <!-- Download SVG Icon -->
+        <svg viewBox="0 0 24 24"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM17 13l-5 5-5-5h3V9h4v4h3z"/></svg>
+        下載範例程式 ZIP 檔
+      </a>
+      <span class="file-meta">FALO_Instagram_Video_Enhancer.zip (包含：manifest.json, content.js, content.css, popup 等)</span>
+    </section>
 
-      <!-- Bento Grid (Setup instructions + remote details) -->
-      <div class="bento-grid">
-        <!-- Loading Steps Card -->
-        <div class="card">
+    <!-- Bento Grid (Setup instructions + remote details) -->
+    <div class="bento-grid">
+      <!-- Loading Steps Card -->
+      <div class="card">
+        <h3>
+          <svg viewBox="0 0 24 24"><path d="M5 20h14v-2H5v2zm0-10h4v6H5v-6zm10 0h4v6h-4v-6zm-5-6h4v12h-4V4z"/></svg>
+          🛠️ Chrome 外掛手動安裝步驟
+        </h3>
+        <ol class="steps">
+          <li class="step-item">
+            <div class="step-num">1</div>
+            <div class="step-content">
+              <h4>解壓縮原始碼</h4>
+              <p>下載上述 ZIP 檔後，在您的電腦上進行解壓縮，您會得到一個名為 <code>ig-video-enhancer-extension</code> 的專案目錄。</p>
+            </div>
+          </li>
+          <li class="step-item">
+            <div class="step-num">2</div>
+            <div class="step-content">
+              <h4>進入擴充功能管理頁</h4>
+              <p>開啟 Google Chrome 瀏覽器，在網址列中輸入 <code>chrome://extensions/</code> 並按下 Enter 鍵，或從右上角選單進入「延伸功能」 > 「管理延伸功能」。</p>
+            </div>
+          </li>
+          <li class="step-item">
+            <div class="step-num">3</div>
+            <div class="step-content">
+              <h4>開啟開發人員模式</h4>
+              <p>在擴充功能管理頁面的右上方，找到<strong>「開發人員模式」(Developer mode)</strong> 開關，並將其切換為<strong>啟用</strong>狀態。</p>
+            </div>
+          </li>
+          <li class="step-item">
+            <div class="step-num">4</div>
+            <div class="step-content">
+              <h4>載入未封裝項目</h4>
+              <p>點擊頁面左上方浮現的 <strong>「載入未封裝項目」(Load unpacked)</strong> 按鈕。</p>
+            </div>
+          </li>
+          <li class="step-item">
+            <div class="step-num">5</div>
+            <div class="step-content">
+              <h4>選擇外掛資料夾</h4>
+              <p>在彈出的視窗中，選取剛才解壓縮的 <code>ig-video-enhancer-extension</code> 資料夾，然後點擊「選取」或「確認」。</p>
+            </div>
+          </li>
+          <li class="step-item">
+            <div class="step-num">6</div>
+            <div class="step-content">
+              <h4>確認部署成功</h4>
+              <p>若畫面上成功出現 <strong>FALO Instagram Video Enhancer v1.0.1</strong> 記憶卡片，並顯示 ID 與狀態開關已啟用，即表示您的外掛已順利部署！</p>
+            </div>
+          </li>
+        </ol>
+      </div>
+
+      <!-- Remote Info Card -->
+      <div class="card remote-intro">
+        <div>
           <h3>
-            <svg viewBox="0 0 24 24"><path d="M5 20h14v-2H5v2zm0-10h4v6H5v-6zm10 0h4v6h-4v-6zm-5-6h4v12h-4V4z"/></svg>
-            🛠️ Chrome 外掛手動安裝步驟
+            <svg viewBox="0 0 24 24"><path d="M21 3H3c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H3V5h18v14zM5 15h2v2H5v-2zm12-8H7v2h10V7zm-4 8h2v2h-2v-2zm-4 0h2v2H9v-2z"/></svg>
+            🎮 遙控器與 5 種主題切換
           </h3>
-          <ol class="steps">
-            <li class="step-item">
-              <div class="step-num">1</div>
-              <div class="step-content">
-                <h4>解壓縮原始碼</h4>
-                <p>下載上述 ZIP 檔後，在您的電腦上進行解壓縮，您會得到一個名為 <code>chrome-extension</code> 的專案目錄。</p>
+          <p style="font-size: 0.95rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 20px;">
+            本範例特別實作了可在畫面上任意拖曳的 **智慧遙控器**，內建 OLED 狀態同步螢幕、播放進度條、音量與速度調節按鈕，並支援隨點隨切的 5 種專屬色彩主題：
+          </p>
+          <div class="theme-list">
+            <div class="theme-tag">
+              <span class="theme-circle tc-black"></span>
+              <div>
+                <span class="theme-name">一般遙控器黑 (預設)</span>
+                <span class="theme-desc">| 低調深色毛玻璃、白色線條</span>
               </div>
-            </li>
-            <li class="step-item">
-              <div class="step-num">2</div>
-              <div class="step-content">
-                <h4>進入擴充功能管理頁</h4>
-                <p>開啟 Google Chrome 瀏覽器，在網址列中輸入 <code>chrome://extensions/</code> 並按下 Enter 鍵，或從右上角選單進入「延伸功能」 > 「管理延伸功能」。</p>
+            </div>
+            <div class="theme-tag">
+              <span class="theme-circle tc-white"></span>
+              <div>
+                <span class="theme-name">一般遙控器白</span>
+                <span class="theme-desc">| 優雅高透白玻璃、深灰色字體</span>
               </div>
-            </li>
-            <li class="step-item">
-              <div class="step-num">3</div>
-              <div class="step-content">
-                <h4>開啟開發人員模式</h4>
-                <p>在擴充功能管理頁面的右上方，找到<strong>「開發人員模式」(Developer mode)</strong> 開關，並將其切換為<strong>啟用</strong>狀態。</p>
+            </div>
+            <div class="theme-tag">
+              <span class="theme-circle tc-pink"></span>
+              <div>
+                <span class="theme-name">少女櫻花粉</span>
+                <span class="theme-desc">| 夢幻粉嫩視覺、洋紅色細節</span>
               </div>
-            </li>
-            <li class="step-item">
-              <div class="step-num">4</div>
-              <div class="step-content">
-                <h4>載入未封裝項目</h4>
-                <p>點擊頁面左上方浮現的 <strong>「載入未封裝項目」(Load unpacked)</strong> 按鈕。</p>
+            </div>
+            <div class="theme-tag">
+              <span class="theme-circle tc-cream"></span>
+              <div>
+                <span class="theme-name">少女奶油白</span>
+                <span class="theme-desc">| 溫潤焦糖奶油色調、復古咖啡字</span>
               </div>
-            </li>
-            <li class="step-item">
-              <div class="step-num">5</div>
-              <div class="step-content">
-                <h4>選擇外掛資料夾</h4>
-                <p>在彈出的視窗中，選取剛才解壓縮的 <code>chrome-extension</code> 資料夾，然後點擊「選取」或「確認」。</p>
-              </div>
-            </li>
-            <li class="step-item">
-              <div class="step-num">6</div>
-              <div class="step-content">
-                <h4>確認部署成功</h4>
-                <p>若畫面上成功出現 <strong>FALO ERP Form Helper v1.5.0</strong> 記憶卡片，並顯示 ID 與狀態開關已啟用，即表示您的外掛已順利部署！</p>
-              </div>
-            </li>
-          </ol>
-        </div>
-
-        <!-- Sidepanel Features Intro Card -->
-        <div class="card remote-intro">
-          <div>
-            <h3>
-              <svg viewBox="0 0 24 24"><path d="M21 3H3c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H3V5h18v14zM5 15h2v2H5v-2zm12-8H7v2h10V7zm-4 8h2v2h-2v-2zm-4 0h2v2H9v-2z"/></svg>
-              🔌 填單助手 5 大功能模組
-            </h3>
-            <p style="font-size: 0.95rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 20px;">
-              本專案實現了一個完整的 ERP 側邊欄填寫控制台，提供以下核心自動化與輔助模組：
-            </p>
-            <div class="theme-list">
-              <div class="theme-tag">
-                <span class="theme-circle tc-blue"></span>
-                <div>
-                  <span class="theme-name">1. 欄位雙向讀寫控制</span>
-                  <span class="theme-desc">| 每個欄位支援獨立填入網頁與從網頁擷取回填</span>
-                </div>
-              </div>
-              <div class="theme-tag">
-                <span class="theme-circle tc-green"></span>
-                <div>
-                  <span class="theme-name">2. 隨機產生測試資料</span>
-                  <span class="theme-desc">| 產生以 PO-2026- 開頭單號、隨機數量與當天效期</span>
-                </div>
-              </div>
-              <div class="theme-tag">
-                <span class="theme-circle tc-purple"></span>
-                <div>
-                  <span class="theme-name">3. 一鍵批次全局控制</span>
-                  <span class="theme-desc">| 一鍵全填入、一鍵全擷取，與清除側邊欄及網頁</span>
-                </div>
-              </div>
-              <div class="theme-tag">
-                <span class="theme-circle tc-orange"></span>
-                <div>
-                  <span class="theme-name">4. BOM CSV 備份與還原</span>
-                  <span class="theme-desc">| 匯出帶 BOM 碼不亂碼之 CSV，或用 FileReader 讀取還原</span>
-                </div>
-              </div>
-              <div class="theme-tag">
-                <span class="theme-circle tc-pink"></span>
-                <div>
-                  <span class="theme-name">5. 遠端流程控制與報告下載</span>
-                  <span class="theme-desc">| 控制網頁點擊檢核與入庫，成功後讀取序號下載 txt 報告</span>
-                </div>
+            </div>
+            <div class="theme-tag">
+              <span class="theme-circle tc-dream"></span>
+              <div>
+                <span class="theme-name">馬卡龍綠</span>
+                <span class="theme-desc">| 柔和粉嫩馬卡龍綠、深綠色字體</span>
               </div>
             </div>
           </div>
         </div>
       </div>
+    </div>
 
-      <!-- Selectors Table Card -->
-      <div class="card shortcuts-card">
-        <h3>
-          <svg viewBox="0 0 24 24"><path d="M20 5H4c-1.1 0-1.99.9-1.99 2L2 17c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm-9 3h2v2h-2V8zm0 3h2v2h-2v-2zM8 8h2v2H8V8zm0 3h2v2H8v-2zm-1 2H5v-2h2v2zm0-3H5V8h2v2zm9 7H8v-2h8v2zm0-5h-2v-2h2v2zm0-3h-2V8h2v2zm3 3h-2v-2h2v2zm0-3h-2V8h2v2z"/></svg>
-          📋 ERP 網頁元素與 CSS Selector 定位對照表
-        </h3>
-        <p style="font-size: 0.95rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 20px;">
-          外掛在與網頁互動時，必須透過 CSS Selector 定位目標 DOM 元素。以下為「銀河 ERP 測試頁」的精準元素對照表，學員在開發 Content Script 時請參考此表，避免 AI 產生錯誤的定位字串：
-        </p>
-        
-        <table class="shortcuts-table">
-          <thead>
-            <tr>
-              <th style="width: 25%;">網頁欄位/元素</th>
-              <th style="width: 35%;">CSS Selector</th>
-              <th>元素類型與說明</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><strong>採購單號 (PO)</strong></td>
-              <td><span class="kbc">#po-number</span></td>
-              <td>文字輸入框 (例: PO-2026-0608)</td>
-            </tr>
-            <tr>
-              <td><strong>產品代碼 (Code)</strong></td>
-              <td><span class="kbc">#product-code</span></td>
-              <td>文字輸入框 (例: FALO-03)</td>
-            </tr>
-            <tr>
-              <td><strong>進貨數量 (Qty)</strong></td>
-              <td><span class="kbc">#received-qty</span></td>
-              <td>數字輸入框 (Integer)</td>
-            </tr>
-            <tr>
-              <td><strong>產品效期 (Expiry)</strong></td>
-              <td><span class="kbc">#expiry-date</span></td>
-              <td>日期選擇器 (Date Input)</td>
-            </tr>
-            <tr>
-              <td><strong>進貨部門 (Dept)</strong></td>
-              <td><span class="kbc">#dept-code</span></td>
-              <td>下拉式選單 (Select: PUR, WH, QC, RD)</td>
-            </tr>
-            <tr>
-              <td><strong>1. 檢核表單按鈕</strong></td>
-              <td><span class="kbc">#btn-check-form</span></td>
-              <td>按鈕 (驗證單號格式與效期)</td>
-            </tr>
-            <tr>
-              <td><strong>2. 確認入庫按鈕</strong></td>
-              <td><span class="kbc">#btn-submit-entry</span></td>
-              <td>按鈕 (完成入庫，初始為 Disabled)</td>
-            </tr>
-            <tr>
-              <td><strong>系統流水序號 (SN)</strong></td>
-              <td><span class="kbc">#system-serial-no</span></td>
-              <td>唯讀區塊 (入庫成功後，抓取其產生的序號字串)</td>
-            </tr>
-          </tbody>
-        </table>
-
-        <!-- Quick Test Buttons -->
-        <div class="quick-test-area">
-          <a href="../cases/chrome_extension/erp.html" target="_blank" class="btn-test">
-            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
-            開啟本機 ERP 測試頁 (推薦)
-          </a>
-          <a href="https://falo-taiwan.github.io/class/a01/class3/cases/chrome_extension/erp.html" target="_blank" class="btn-test">
-            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
-            開啟線上 ERP 測試頁
-          </a>
-        </div>
-      </div>
+    <!-- Shortcuts Table Card -->
+    <div class="card shortcuts-card">
+      <h3>
+        <svg viewBox="0 0 24 24"><path d="M20 5H4c-1.1 0-1.99.9-1.99 2L2 17c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm-9 3h2v2h-2V8zm0 3h2v2h-2v-2zM8 8h2v2H8V8zm0 3h2v2H8v-2zm-1 2H5v-2h2v2zm0-3H5V8h2v2zm9 7H8v-2h8v2zm0-5h-2v-2h2v2zm0-3h-2V8h2v2zm3 3h-2v-2h2v2zm0-3h-2V8h2v2z"/></svg>
+        ⌨️ 預設鍵盤快捷鍵 (Mac & Windows 通用)
+      </h3>
+      <p style="font-size: 0.95rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 20px;">
+        當您點擊播放中的 Instagram 影片或模擬影片時，可以直接使用鍵盤以下快捷鍵控制影片，每次變更時畫面上皆會顯示精美的 macOS 風格 HUD 浮現卡：
+      </p>
+      
+      <table class="shortcuts-table">
+        <thead>
+          <tr>
+            <th style="width: 30%;">鍵盤按鍵</th>
+            <th>功能描述</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="kbc">1</span></td>
+            <td>切換播放 / 暫停狀態</td>
+          </tr>
+          <tr>
+            <td><span class="kbc">2</span> / <span class="kbc">3</span></td>
+            <td>降低音量 5% / 增加音量 5%</td>
+          </tr>
+          <tr>
+            <td><span class="kbc">4</span></td>
+            <td>快速靜音 / 取消靜音</td>
+          </tr>
+          <tr>
+            <td><span class="kbc">5</span> / <span class="kbc">6</span></td>
+            <td>減慢播放速度 / 加快播放速度 (以 0.25x 為一級，範圍 0.5x - 2.0x)</td>
+          </tr>
+          <tr>
+            <td><span class="kbc">←</span> / <span class="kbc">→</span> (左右方向鍵)</td>
+            <td>影片倒帶 5 秒 / 快進 5 秒</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
     </div> <!-- End Tab Deploy -->
 
     <!-- Tab Secrets Content -->
     <div id="tab-secrets" class="tab-content">
       <!-- Secrets Card 1: Bypassing conflict -->
       <div class="anatomy-diagram-card">
-        <h3>⚡ 填單自動化：特殊控制與 Vue/React 狀態同步之本質</h3>
+        <h3>⚡ 為什麼有些地方會「卡卡的」？探討特殊手段控制的本質</h3>
         
         <div style="background: rgba(16, 185, 129, 0.08); border-left: 4px solid var(--primary-color); padding: 15px; border-radius: 8px; margin-bottom: 25px; font-size: 0.92rem; line-height: 1.6; color: var(--text-main);">
-          <strong>💡 研發背景與實戰定位：</strong> 本專案（FALO ERP Form Helper）是專為網頁 DOM 操作、狀態同步、資料儲存與跨宇宙 Message Passing 通訊設計的企業自動化實戰教案。我們將解析如何透過外掛對瀏覽器頁面上的輸入框、按鈕與文字標籤進行「強行控制與狀態更新」之黑科技。
+          <strong>💡 研發背景與二創聲明：</strong> 本專案（FALO Instagram Video Enhancer）是參考 Chrome 線上應用程式商店（Chrome Web Store）上的外掛專案 <strong>Progress Bar for Instagram</strong>，經過與 AI Agent 工具深度交流後，參考其核心精神進行全新改寫與實作（並進一步擴充實作了智慧遙控器、5種主題色彩、HUD 提示、坐標儲存鎖定等功能）。這是一個與 AI Agent 交流、參考既有專案精神並進行創意改寫的典型 Vibe Coding 實戰案例。
         </div>
 
         <p style="font-size: 0.95rem; color: var(--text-muted); line-height: 1.6; margin-bottom: 20px;">
-          在開發企業內部 ERP 自動化時，最常見的問題是：網頁欄位看似被填入了資料，但是點擊儲存時卻「被清空」或「提示必填欄位為空」。這是因為現代前端框架（React/Vue/Angular）具有嚴密的單向或雙向 Reactivity 狀態管理。以下為您揭露本專案突破前端框架限制的四項核心技術：
+          在開發如 Instagram 這類大型、高動態的 SPA (單頁應用) 時，官方前端框架（React/Relay）有一套非常嚴密的事件與播放狀態管理機制。外掛因為不是呼叫原生 API，而是採取「<strong>DOM 植入與覆蓋 (DOM Injection & Overlay)</strong>」的外部強行操作手段，如果沒有處理好瀏覽器的事件流（Event Flow），就容易導致按鈕點擊「卡卡的」、操作不同步、甚至是點擊時觸發 IG 原生暫停與靜音的 Bug。以下為您公開本專案用來突破限制的「黑科技小技巧」：
         </p>
       </div>
 
       <div class="bento-grid">
         <!-- Hack 1 Card -->
         <div class="card">
-          <h3>🛡️ 技術一：Vue/React Reactivity 狀態同步 (Event Dispatching)</h3>
+          <h3>🛡️ 黑科技一：事件攔截與防衝突機制 (Event Propagation Bypass)</h3>
           <p style="font-size: 0.92rem; color: var(--text-muted); line-height: 1.6; margin-bottom: 15px;">
-            <strong>開發痛點：</strong> 當 Content Script 單純使用 <code>input.value = "newValue"</code> 時，只更改了 DOM 底層的 value 屬性，並沒有觸發 Vue 的 <code>v-model</code> 或 React 的 <code>onChange</code> 監聽，導致框架內部的資料狀態依然是空值。
+            <strong>開發痛點：</strong> 當您點選自製遙控器的按鈕、或拖曳自製的播放進度條時，點擊事件會「冒泡 (Bubble)」傳遞給底層 Instagram 原生的影片容器，觸發 IG 本身的 Click 事件，導致影片又被暫停或靜音，操作感極度不流暢。
           </p>
           <p style="font-size: 0.92rem; color: var(--text-muted); line-height: 1.6; margin-bottom: 15px;">
-            <strong>解決方案：</strong> 外掛在寫入 value 之後，會主動發送 Event 廣播，通知框架將該元素視為「已被使用者手動觸發變更」：
+            <strong>黑科技小技巧：</strong> 外掛在自製的 progress-container 與遙控器按鈕上註冊 <code>pointerdown</code> 與 <code>click</code> 事件，並在第一時間調用：
           </p>
           <pre style="background: rgba(0,0,0,0.15); padding: 12px; border-radius: 8px; font-family: monospace; font-size: 12px; overflow-x: auto; color: var(--primary-color); margin-bottom: 15px;">
-input.value = value;
-input.dispatchEvent(new Event('input', { bubbles: true }));
-input.dispatchEvent(new Event('change', { bubbles: true }));</pre>
+e.stopPropagation(); // 阻止事件冒泡，不讓點擊穿透
+e.preventDefault();  // 阻止瀏覽器的預設點擊暫停行為</pre>
           <p style="font-size: 0.92rem; color: var(--text-muted); line-height: 1.6;">
-            加上 <code>bubbles: true</code> 能確保事件往上傳遞，觸發 Vue 或 React 在上層元件註冊的全域監聽，完美同步前端狀態。
+            這就像是在 IG 原有介面之上，強行蓋了一層「事件防護罩」，確保遙控器的指令是單向且獨立地直接送給 HTML5 <code>&lt;video&gt;</code>，完全隔絕 IG 原生 JS 監聽器的干擾。
           </p>
         </div>
 
         <!-- Hack 2 Card -->
         <div class="card">
-          <h3>🎨 技術二：動態 CSS 閃爍提示注入 (CSS Flash Animation)</h3>
+          <h3>🎯 黑科技二：多影片視區計算與自動定位 (Viewport Visibility Algorithm)</h3>
           <p style="font-size: 0.92rem; color: var(--text-muted); line-height: 1.6; margin-bottom: 15px;">
-            <strong>開發痛點：</strong> 外掛在全自動填單時，使用者無法直觀確認哪些欄位是被外掛填寫的、哪些填寫失敗，降低了對自動化軟體的信任感。
+            <strong>開發痛點：</strong> 當使用者快速上下滑動 IG 牆時，DOM 中其實會殘留好幾個 <code>&lt;video&gt;</code> 標籤。這時按下快捷鍵（如「1」播放暫停），外掛要如何精準判定此時該控制哪一個影片，而不是讓看不見的影片在背景亂播？
           </p>
           <p style="font-size: 0.92rem; color: var(--text-muted); line-height: 1.6; margin-bottom: 15px;">
-            <strong>解決方案：</strong> 外掛透過 <code>content.css</code> 注入了特殊的黃色閃爍動畫，並在 content.js 填值時動態為該輸入框加上 class，並在動畫結束後自動移除：
+            <strong>黑科技小技巧：</strong> 外掛並不固定綁定單一 Video，而是在事件觸發時動態計算！透過實時調用 <code>getBoundingClientRect()</code> 計算當前所有影片在 Viewport 中的可見面積：
           </p>
           <pre style="background: rgba(0,0,0,0.15); padding: 12px; border-radius: 8px; font-family: monospace; font-size: 12px; overflow-x: auto; color: var(--primary-color); margin-bottom: 15px;">
-@keyframes flash-yellow {
-  0% { background-color: #fef08a; }
-  100% { background-color: #ffffff; }
-}
-.flash-active {
-  animation: flash-yellow 1s ease-out;
-}</pre>
+// 計算可見寬高乘積，找出目前佔螢幕面積最大的 video
+const visibleHeight = Math.max(0, visibleBottom - visibleTop);
+const visibleWidth = Math.max(0, visibleRight - visibleLeft);
+const visibleArea = visibleHeight * visibleWidth;
+if (visibleArea > maxVisibleArea) { ... }</pre>
           <p style="font-size: 0.92rem; color: var(--text-muted); line-height: 1.6;">
-            這為使用者提供了極佳的視覺反饋，能直觀感受到自動填單的精準與動感。
+            這套算法能在毫秒間定位出「目前畫面上可見佔比最大」的 Reels 影片，將熱鍵操作目標動態綁定在它身上，完美解決滑動時的多影片控制衝突。
           </p>
         </div>
 
         <!-- Hack 3 Card -->
         <div class="card">
-          <h3>⚙️ 技術三：自動化點擊控制鏈 (Remote Click Chain)</h3>
+          <h3>⚙️ 黑科技三：雙模式儲存適配器 (Dual-Mode Storage Wrapper)</h3>
           <p style="font-size: 0.92rem; color: var(--text-muted); line-height: 1.6; margin-bottom: 15px;">
-            <strong>開發痛點：</strong> ERP 頁面中，點擊「確認入庫」前必須先點擊「檢核表單」。如果在檢核成功前，外掛強行點擊「確認入庫」，會因為按鈕是 disabled 而無效，必須做狀態檢測或延時等待。
+            <strong>開發痛點：</strong> Chrome 擴充功能的 <code>chrome.storage.sync</code> 只能在被載入成正式外掛時運行。如果在一般網頁（例如本地教學測試頁面 <code>mock_instagram.html</code>）測試，就會因為找不到 <code>chrome</code> API 而直接報錯崩潰。
           </p>
           <p style="font-size: 0.92rem; color: var(--text-muted); line-height: 1.6; margin-bottom: 15px;">
-            <strong>解決方案：</strong> 藉由 Content Script 偵測網頁狀態，點擊檢核按鈕後，利用 `setTimeout` 延遲 500ms 等待 DOM 更新，再偵測入庫按鈕是否啟用，隨後模擬點擊，實現多按鈕順序遙控點擊鏈。
+            <strong>黑科技小技巧：</strong> 外掛實作了巧妙的介面適配器模式 (Adapter Pattern)：
           </p>
           <pre style="background: rgba(0,0,0,0.15); padding: 12px; border-radius: 8px; font-family: monospace; font-size: 12px; overflow-x: auto; color: var(--primary-color); margin-bottom: 15px;">
-document.querySelector('#btn-check-form').click();
-setTimeout(() => {
-  const submitBtn = document.querySelector('#btn-submit-entry');
-  if (!submitBtn.disabled) {
-    submitBtn.click();
+const storage = {
+  get: (defaults, callback) => {
+    if (typeof chrome !== 'undefined' && chrome.storage) {
+      chrome.storage.sync.get(defaults, callback);
+    } else {
+      // 降級 fallback 支援普通網頁的 localStorage
+      // ...
+    }
   }
-}, 500);</pre>
+};</pre>
+          <p style="font-size: 0.92rem; color: var(--text-muted); line-height: 1.6;">
+            這使同一份程式碼同時具備「外掛端」與「網頁 PoC 端」的相容性，讓學生即使不載入外掛，也能在本地測試網頁上完整體驗遙控器的倍速、主題切換等功能！
+          </p>
         </div>
 
         <!-- Hack 4 Card -->
         <div class="card">
-          <h3>🔄 技術四：BOM CSV 處理與 FileReader 還原</h3>
+          <h3>🔄 黑科技四：跨標籤同步與 OLED 即時渲染 (OLED Screen Loop)</h3>
           <p style="font-size: 0.92rem; color: var(--text-muted); line-height: 1.6; margin-bottom: 15px;">
-            <strong>開發痛點：</strong> 當匯出 CSV 時，Excel 開啟常會將 UTF-8 編碼誤判為 ANSI，導致繁體中文欄位全是亂碼。匯入時則需要純前端 FileReader 解析。
+            <strong>開發痛點：</strong> 遙控器上的 OLED 螢幕需要顯示目前影片的精確播放進度和倍速。如果每個 DOM 更新都綁定高頻率的 <code>timeupdate</code> 事件，可能導致網頁重繪 (Repaint) 過度頻繁而產生掉幀、卡頓。
           </p>
           <p style="font-size: 0.92rem; color: var(--text-muted); line-height: 1.6; margin-bottom: 15px;">
-            <strong>解決方案：</strong> 匯出時，在 CSV 純文字資料前加上「BOM (Byte Order Mark)」位元組：<code>\uFEFF</code>，強制 Excel 用 UTF-8 來讀取；匯入時，以 <code>FileReader</code> 非同步讀取檔案文字：
+            <strong>黑科技小技巧：</strong> 程式在遙控器內部使用了一個 250ms 的輕量級定時循環，實時渲染 OLED 螢幕：
           </p>
           <pre style="background: rgba(0,0,0,0.15); padding: 12px; border-radius: 8px; font-family: monospace; font-size: 12px; overflow-x: auto; color: var(--primary-color); margin-bottom: 15px;">
-// 匯出加 BOM
-const blob = new Blob(['\uFEFF' + csvText], { type: 'text/csv;charset=utf-8;' });
-// 匯入 FileReader
-const reader = new FileReader();
-reader.onload = (e) => { parseCSV(e.target.result); };
-reader.readAsText(file);</pre>
+setInterval(() => {
+  const video = getActiveVideo();
+  if (video) {
+    screenSpeed.textContent = `SPEED: ${video.playbackRate.toFixed(2)}x`;
+    screenTime.textContent = `${formatTime(video.currentTime)} / ${formatTime(video.duration)}`;
+  }
+}, 250);</pre>
+          <p style="font-size: 0.92rem; color: var(--text-muted); line-height: 1.6;">
+            配合 <code>chrome.storage.onChanged</code> 的全域監聽，當使用者在分頁 A 調整了速度或靜音狀態，設定會瞬間寫入 Storage 並廣播，讓所有分頁的遙控器狀態即時同步。
+          </p>
         </div>
 
         <!-- Acknowledgement and Feature Compare Card -->
         <div class="card" style="grid-column: 1 / -1; margin-top: 15px;">
-          <h3>🤝 二創與模仿高手外掛對照表 (以暖身專案為例)</h3>
+          <h3>🤝 原版功能重點與致謝 (Acknowledgement & Feature Spotlight)</h3>
           <p style="font-size: 0.95rem; color: var(--text-muted); line-height: 1.6; margin-bottom: 20px;">
-            <strong>💡 模仿與二創是高手的捷徑！</strong> 在這堂課中，我們也提供了暖身專案 <strong>FALO Instagram Video Enhancer (IG 影片增強外掛)</strong>。該專案是參考 Chrome 線上商店熱門外掛 <em>Progress Bar for Instagram</em> 的核心思路，經由與 AI 深度交流、剖析其既有邏輯後，所進行的全新功能擴充與進化：
+            在此特別致謝 Chrome 線上應用程式商店的 <strong>Progress Bar for Instagram</strong> 外掛，其創新的設計為本教學專案奠定了關鍵的思路。我們在保留原版優良基礎的同時，透過與 AI 協同進行了深度功能重構與進化：
           </p>
           
           <table class="compare-table" style="margin-top: 10px; margin-bottom: 20px;">
@@ -1225,7 +1208,7 @@ reader.readAsText(file);</pre>
           </table>
           
           <div style="background: rgba(59, 130, 246, 0.08); border-left: 4px solid var(--secondary-color); padding: 12px 15px; border-radius: 6px; font-size: 0.9rem; line-height: 1.5; color: var(--text-main);">
-            <strong>🙏 學習小語：</strong> 我們不只是要抄襲代碼，而是要學會「模仿高手外掛的設計，並利用 AI 當外掛，寫出超越前人的作品」。這就是 Vibe Coding 技術昇華的核心！
+            <strong>🙏 特別致謝：</strong>再次感謝 <em>Progress Bar for Instagram</em> 原作者的啟發。本專案以學術交流與 AI Vibe Coding 教學為目的，旨在引導初學者理解如何利用 AI Agent 重構、進化開源/市售創意，並將其系統化整理成企業知識資產。
           </div>
         </div>
 
@@ -1238,7 +1221,7 @@ reader.readAsText(file);</pre>
       <div class="anatomy-diagram-card">
         <h3>🧩 Chrome 擴充功能 MV3 核心架構解析</h3>
         <p style="font-size: 0.95rem; color: var(--text-muted); line-height: 1.6; margin-bottom: 20px;">
-          Chrome 外掛程式的本質是瀏覽器中的「輕量級網頁應用」。在最新的 <strong>Manifest V3 (MV3)</strong> 規範中，擴充功能主要由不同執行環境的元件組成。理解這些元件的權限與邊界，是與 AI 協同開發時的核心基本功。
+          Chrome 外掛程式的本質是瀏覽器中的「輕量級網頁應用」。在最新的 <strong>Manifest V3 (MV3)</strong> 規範中，擴充功能主要由四個不同執行環境的元件組成。理解這些元件的權限與邊界，是與 AI 協同開發時的核心基本功。
         </p>
 
         <!-- Inline SVG Diagram -->
@@ -1253,35 +1236,35 @@ reader.readAsText(file);</pre>
               </marker>
             </defs>
 
-            <!-- erp.html DOM Card -->
+            <!-- Instagram Web Page Card -->
             <rect x="20" y="50" width="220" height="90" rx="12" fill="var(--card-bg)" stroke="var(--card-border)" stroke-width="2" />
-            <text x="130" y="90" fill="var(--text-main)" font-family="var(--font-outfit)" font-size="15" font-weight="bold" text-anchor="middle">🌐 銀河 ERP 網頁 DOM</text>
-            <text x="130" y="115" fill="var(--text-muted)" font-family="var(--font-inter)" font-size="11" text-anchor="middle">(宿主網頁環境 erp.html)</text>
+            <text x="130" y="90" fill="var(--text-main)" font-family="var(--font-outfit)" font-size="15" font-weight="bold" text-anchor="middle">🌐 Instagram 網頁 DOM</text>
+            <text x="130" y="115" fill="var(--text-muted)" font-family="var(--font-inter)" font-size="11" text-anchor="middle">(宿主網頁環境/使用者瀏覽介面)</text>
 
             <!-- Content Script Card -->
             <rect x="20" y="240" width="220" height="110" rx="12" fill="var(--card-bg)" stroke="var(--primary-color)" stroke-width="2" />
             <text x="130" y="275" fill="var(--primary-color)" font-family="var(--font-outfit)" font-size="16" font-weight="bold" text-anchor="middle">📄 Content Script</text>
             <text x="130" y="300" fill="var(--text-main)" font-family="var(--font-inter)" font-size="12" font-weight="bold" text-anchor="middle">content.js / content.css</text>
-            <text x="130" y="325" fill="var(--text-muted)" font-family="var(--font-inter)" font-size="11" text-anchor="middle">(負責控制表單/執行閃爍動畫)</text>
+            <text x="130" y="325" fill="var(--text-muted)" font-family="var(--font-inter)" font-size="11" text-anchor="middle">(負責控制網頁播放器/操作 DOM)</text>
 
-            <!-- Sidepanel Card -->
+            <!-- Popup Card -->
             <rect x="520" y="50" width="260" height="110" rx="12" fill="var(--card-bg)" stroke="var(--card-border)" stroke-width="2" />
-            <text x="650" y="85" fill="var(--text-main)" font-family="var(--font-outfit)" font-size="16" font-weight="bold" text-anchor="middle">🎨 Side Panel 側邊欄</text>
-            <text x="650" y="110" fill="var(--text-main)" font-family="var(--font-inter)" font-size="12" font-weight="bold" text-anchor="middle">sidepanel.html / sidepanel.js</text>
-            <text x="650" y="135" fill="var(--text-muted)" font-family="var(--font-inter)" font-size="11" text-anchor="middle">(提供五欄填寫與備份 UI 控制台)</text>
+            <text x="650" y="85" fill="var(--text-main)" font-family="var(--font-outfit)" font-size="16" font-weight="bold" text-anchor="middle">🎨 Popup 彈出視窗</text>
+            <text x="650" y="110" fill="var(--text-main)" font-family="var(--font-inter)" font-size="12" font-weight="bold" text-anchor="middle">popup.html / js / css</text>
+            <text x="650" y="135" fill="var(--text-muted)" font-family="var(--font-inter)" font-size="11" text-anchor="middle">(右上角點擊彈出之控制面板)</text>
 
             <!-- Background Service Worker Card -->
             <rect x="520" y="240" width="260" height="110" rx="12" fill="var(--card-bg)" stroke="var(--card-border)" stroke-width="2" />
             <text x="650" y="275" fill="var(--text-main)" font-family="var(--font-outfit)" font-size="16" font-weight="bold" text-anchor="middle">⚙️ Background Script</text>
             <text x="650" y="300" fill="var(--text-main)" font-family="var(--font-inter)" font-size="12" font-weight="bold" text-anchor="middle">background.js (Service Worker)</text>
-            <text x="650" y="325" fill="var(--text-muted)" font-family="var(--font-inter)" font-size="11" text-anchor="middle">(監聽全域事件/呼叫開啟側邊欄)</text>
+            <text x="650" y="325" fill="var(--text-muted)" font-family="var(--font-inter)" font-size="11" text-anchor="middle">(事件驅動/負責後台全域事件)</text>
 
             <!-- Connection lines -->
             <!-- DOM link (Dashed line - shared DOM but isolated JS world) -->
             <line x1="130" y1="140" x2="130" y2="240" stroke="var(--primary-color)" stroke-width="2" stroke-dasharray="6,6" marker-end="url(#arrow)" />
-            <text x="140" y="195" fill="var(--primary-color)" font-family="var(--font-inter)" font-size="11" font-weight="bold">填值與點擊 DOM</text>
+            <text x="140" y="195" fill="var(--primary-color)" font-family="var(--font-inter)" font-size="11" font-weight="bold">操作 DOM</text>
 
-            <!-- Message Passing Sidepanel <-> Content Script -->
+            <!-- Message Passing Popup <-> Content Script -->
             <path d="M 240 295 L 420 295 L 420 105 L 520 105" fill="none" stroke="var(--secondary-color)" stroke-width="2" marker-end="url(#arrow-double)" />
             <rect x="290" y="135" width="200" height="40" rx="4" fill="var(--card-bg)" stroke="var(--secondary-color)" stroke-width="1" />
             <text x="390" y="150" fill="var(--secondary-color)" font-family="var(--font-inter)" font-size="11" font-weight="bold" text-anchor="middle">訊息傳遞 Message Passing</text>
@@ -1296,117 +1279,71 @@ reader.readAsText(file);</pre>
       <!-- Detailed Components Grid -->
       <div class="bento-grid">
         <div class="card">
-          <h3>🛡️ Chrome 外掛必備三劍客（核心必備）</h3>
+          <h3>📄 Content Script (頁面植入腳本)</h3>
           <p style="font-size: 0.95rem; color: var(--text-muted); line-height: 1.6;">
-            - <strong>manifest.json (身分設定清單)</strong>：外掛的註冊檔，聲明外掛資訊、圖示、以及要求 <code>activeTab</code> 與 <code>sidePanel</code> 安全權限，並宣告 background.js 與 content.js 的注入路徑。<br><br>
-            - <strong>background.js (背景守護程序)</strong>：全域事件處理程序（Service Worker）。本專案中監聽 Icon 點擊事件，並指令開啟右側 Side Panel 側邊欄。<br><br>
-            - <strong>content.js / content.css (網頁注入爪牙)</strong>：直接注入當前 ERP 網頁 DOM 中運行，擁有直接控制網頁欄位填值與執行黃色閃爍特效的權限。
+            <strong>執行環境：</strong> 網頁瀏覽分頁中（宿主網頁環境）。<br>
+            <strong>核心能力：</strong> 可以讀取、修改目標網頁的 HTML (DOM) 與 CSS。<br>
+            <strong>AI 開發關鍵：</strong> 它是外掛中唯一能碰觸到網頁播放器、加上控制條的元件。如果需要讓 AI 對網頁元素進行修改，請明確命令 AI 將代碼寫在 <code>content.js</code>。<br>
+            <strong>獨立世界機制 (Isolated World)：</strong> 它與網頁共用同一個 HTML DOM，但雙方的 JavaScript 變數完全隔離，網頁原生的 JS 腳本無法讀取或竄改外掛腳本的變數，確保安全。
           </p>
         </div>
 
         <div class="card">
-          <h3>🔌 本專案額外補充組件（高階補充）</h3>
+          <h3>🎨 Popup (控制選單彈出視窗)</h3>
           <p style="font-size: 0.95rem; color: var(--text-muted); line-height: 1.6;">
-            - <strong>sidepanel.html / sidepanel.js (側邊欄控制台)</strong>：外掛側邊欄的 HTML 面板與控制腳本。運行於獨立 Extension 宇宙，實作欄位隨機產生、CSV 備份與還原、遠端點擊遙控與流水號捕捉報告下載，透過 <code>Message Passing</code> 與 content.js 通訊。<br><br>
-            - <strong>erp.html (外掛演練靶機)</strong>：本次課程的模擬 ERP 表單網頁，具備欄位檢核、儲存入庫與流水序號機制，提供給外掛進行雙向讀寫控制演練。
+            <strong>執行環境：</strong> 點擊工具列圖示時顯示的獨立沙盒視窗。<br>
+            <strong>核心能力：</strong> 具備自己獨立的 HTML、CSS 與 JS，相當於一個微型網頁。<br>
+            <strong>限制：</strong> **無法直接存取目標網頁的 DOM！** 如果 Popup 內的按鈕需要控制影片，必須透過訊息發送給 <code>content.js</code>。<br>
+            <strong>AI 開發關鍵：</strong> 當要讓使用者切換設定（如：是否顯示遙控器、是否啟用快速鍵）時，請叫 AI 在 Popup 中建立 UI 控制項與訊息傳遞發送器。
+          </p>
+        </div>
+
+        <div class="card">
+          <h3>⚙️ Background (背景 Service Worker)</h3>
+          <p style="font-size: 0.95rem; color: var(--text-muted); line-height: 1.6;">
+            <strong>執行環境：</strong> 瀏覽器後台。<br>
+            <strong>核心能力：</strong> 監聽全域事件（如安裝、更新、特定分頁建立與關閉）。<br>
+            <strong>重要限制：</strong> **不支援 window 或是 document 物件**，沒有 UI 畫面，在 MV3 中以 Service Worker 運行，閒置時會自動暫停釋放記憶體。<br>
+            <strong>AI 開發關鍵：</strong> 外掛載入、初始化設定值（如音量或快照）、處理跨網域的 background 網絡請求等全域不間斷邏輯，才需要寫在 <code>background.js</code>。
+          </p>
+        </div>
+
+        <div class="card">
+          <h3>📦 manifest.json (擴充功能清單)</h3>
+          <p style="font-size: 0.95rem; color: var(--text-muted); line-height: 1.6;">
+            <strong>功能用途：</strong> 設定外掛的基本屬性、註冊元件、以及聲明安全權限。<br>
+            <strong>AI 開發關鍵：</strong> AI 每次撰寫新的外掛，一定要最先要求它提供 <code>manifest.json</code>。如果在代碼中使用 <code>chrome.storage</code> 卻發現無效，通常是因為 AI 忘記在 manifest 的 <code>permissions</code> 陣列中加上 <code>"storage"</code>。
           </p>
         </div>
       </div>
 
       <!-- AI Coworking Strategy Guide Card -->
       <div class="card" style="margin-bottom: 40px;">
-        <h3>🤖 Vibe Coding：3 階段 AI 協同開發提示詞模板</h3>
+        <h3>🤖 Vibe Coding：引導 AI 寫出外掛的實戰提示詞模板</h3>
         <p style="font-size: 0.95rem; color: var(--text-muted); line-height: 1.6; margin-bottom: 25px;">
-          以下為課堂實戰演進的三套結構化提示詞（Prompts）。<strong>每個階段的 Prompt 皆為完全獨立、自包含的版本</strong>，且<strong>小白版與專家版均內含網址與 Chrome 外掛說明</strong>，防止 AI 因缺乏情境而產生定位偏離。請直接複製至 AI 進行實作：
+          在使用 AI（例如 Gemini、Claude）進行外掛開發時，請直接複製以下經過優化的結構化提示詞（Prompt），並依照您的點子進行微調，即可大幅提升 AI 生成代碼的成功率：
         </p>
 
-        <!-- Step 1 Prompt Box -->
-        <div style="margin-top: 30px; border-top: 1px solid var(--card-border); padding-top: 20px;">
-          <h4 style="font-family: var(--font-outfit); font-size: 1.2rem; color: var(--primary-color); margin-top: 0;">🚀 實作階段 1：單欄雙向讀寫控制</h4>
-          
-          <div class="prompt-box">
-            <div class="prompt-title">💬 Step 1 一般小白口語版 (點選即可複製)</div>
-            <button class="copy-prompt-btn" onclick="copyPrompt(this)">複製提示詞</button>
-            <div class="prompt-text">我有一個線上 ERP 測試網頁：https://falo-taiwan.github.io/class/a01/class3/cases/chrome_extension/erp.html。我想寫一個 Chrome 瀏覽器外掛，外掛打開後在右側滑出側邊欄，側邊欄上有一個填「採購單號」的格子。點一下格子旁邊的「填入」按鈕，網頁上的採購單號欄位就會自動填好；如果網頁上已經有寫字，我點「擷取」按鈕，Chrome 外掛就能把我網頁上寫的字抓回來外掛顯示。請幫我寫出外掛程式碼。</div>
-          </div>
-
-          <div class="prompt-box">
-            <div class="prompt-title">⚡ Step 1 專家指點版 (點選即可複製)</div>
-            <button class="copy-prompt-btn" onclick="copyPrompt(this)">複製提示詞</button>
-            <div class="prompt-text">我有一個線上 ERP 測試網頁：
-https://falo-taiwan.github.io/class/a01/class3/cases/chrome_extension/erp.html
-
-請你讀取並解析這張網頁的結構，找出「採購單號」欄位的 CSS Selector。
-接著，在目前的目錄下建立一個 Chrome 側邊欄（Side-panel）外掛，包含以下檔案：
-1. manifest.json：設定 Manifest V3 規格，註冊 background.js、content.js，包含 sidePanel 與 activeTab 權限。
-2. background.js：當點擊外掛 Icon 時，自動在右側滑出側邊欄。
-3. sidepanel.html：側邊欄 UI。提供一個「採購單號」輸入框，旁邊配有「填入」與「擷取」按鈕。
-4. sidepanel.js：處理按鈕事件，發送通訊訊息給網頁 content.js。
-5. content.js：注入網頁運行。當收到「填入」指令時，將採購單號值寫入網頁對應的輸入框，並派遣 input/change 事件以相容 Vue/React；當收到「擷取」指令時，讀取網頁採購單號輸入框的值並回傳給側邊欄。
-所有程式碼請附上中文逐行註解。</div>
-          </div>
+        <div class="prompt-box">
+          <div class="prompt-title">提示詞模板 1 ➔ 從零規劃外掛架構與 Manifest V3</div>
+          <button class="copy-prompt-btn" onclick="copyPrompt(this)">複製提示詞</button>
+          <div class="prompt-text">我想要開發一個 Chrome 外掛程式，我的點子是：[在此輸入你的創意，例如：當使用者在 YouTube 上雙擊滑鼠時，將影片加速到 2.5 倍速，並儲存該設定]。
+請依據 Manifest V3 規範：
+1. 為我設計這個外掛的檔案架構，並說明每個檔案的用途。
+2. 撰寫 `manifest.json`，聲明必要的權限（例如 `storage` 與 `activeTab`）以及 Content Script 匹配網頁的 matches 網址規則。
+請保持代碼的模組化與中文註解。</div>
         </div>
 
-        <!-- Step 2 Prompt Box -->
-        <div style="margin-top: 40px; border-top: 1px solid var(--card-border); padding-top: 20px;">
-          <h4 style="font-family: var(--font-outfit); font-size: 1.2rem; color: var(--primary-color); margin-top: 0;">⚡ 實作階段 2：全部欄位單獨讀寫 ＋ 一鍵全填與清空</h4>
-          
-          <div class="prompt-box">
-            <div class="prompt-title">💬 Step 2 一般小白口語版 (點選即可複製)</div>
-            <button class="copy-prompt-btn" onclick="copyPrompt(this)">複製提示詞</button>
-            <div class="prompt-text">我有一個線上 ERP 測試網頁：https://falo-taiwan.github.io/class/a01/class3/cases/chrome_extension/erp.html。我想開發一個 Chrome 瀏覽器側邊欄外掛，外掛打開後有 5 個輸入欄位，分別是「採購單號」、「產品代碼」、「進貨數量」、「產品效期」和「進貨部門」下拉選單（部門選項包含 PUR, WH, QC, RD）。每個欄位旁邊都要有獨立的「填入」與「擷取」按鈕。點填入就填入對應的網頁欄位，點擷取就抓取網頁的值回填。另外，側邊欄底部要提供「一鍵全填入」（將外掛 5 個值全寫入網頁）、「一鍵全擷取」（將網頁 5 個值抓回外掛）與「清空表單」（將網頁與外掛的 5 個欄位值全部清空）按鈕。請幫我寫出完整的 Chrome 外掛程式碼檔案結構。</div>
-          </div>
-
-          <div class="prompt-box">
-            <div class="prompt-title">⚡ Step 2 專家指點版 (點選即可複製)</div>
-            <button class="copy-prompt-btn" onclick="copyPrompt(this)">複製提示詞</button>
-            <div class="prompt-text">我有一個線上 ERP 測試網頁：
-https://falo-taiwan.github.io/class/a01/class3/cases/chrome_extension/erp.html
-
-請幫我開發一個 Chrome 瀏覽器外掛。功能需求與技術規範如下：
-1. 使用 Manifest V3 規格，點擊外掛 Icon 時在右側開啟側邊欄（Side Panel）介面。
-2. 側邊欄內提供 5 個輸入控制項（採購單號、產品代碼、進貨數量、產品效期、進貨部門下拉選單），每個控制項旁邊配有獨立的「填入」與「擷取」按鈕。
-3. 側邊欄底部提供三個全局按鈕：「一鍵全填入」、「一鍵全擷取」與「清空表單」。
-4. 請先解析該網頁結構，自主定位五個欄位在網頁中的 CSS Selector。
-5. 填值與清空規範：向網頁填值時，必須派遣 input/change 事件以相容 React/Vue 框架，並對被填入的網頁元素進行短暫黃色背景閃爍反饋（CSS 動畫需於 content.css 處理）。點擊「清空表單」時，同步清空網頁與側邊欄的 5 個欄位值。
-6. 跨空間通訊：使用 Message Passing 在 sidepanel.js 與注入網頁的 content.js 之間進行訊息傳遞。
-請生成完整程式碼與檔案結構，並附上繁體中文逐行註解。</div>
-          </div>
+        <div class="prompt-box">
+          <div class="prompt-title">提示詞模板 2 ➔ 叫 AI 寫跨元件的「訊息傳遞 (Message Passing)」</div>
+          <button class="copy-prompt-btn" onclick="copyPrompt(this)">複製提示詞</button>
+          <div class="prompt-text">我正在開發一個 Chrome 外掛 (Manifest V3)。我想要實現一個跨元件互動：
+當使用者在 `popup.html` 的開關切換為啟用/停用時，傳送訊息給網頁上的 `content.js`，讓網頁上的影片控制條顯示或隱藏。
+請幫我設計：
+1. `popup.js`：監聽開關變化，並透過 `chrome.tabs.sendMessage` 發送包含狀態的 message 到當前 active 的 tab。
+2. `content.js`：使用 `chrome.runtime.onMessage.addListener` 監聽訊息，並依據狀態動態控制 CSS 樣式。
+請提供這兩個檔案的程式碼，並在程式碼中詳細註解這兩端是如何連結通訊的。</div>
         </div>
-
-        <!-- Step 3 Prompt Box -->
-        <div style="margin-top: 40px; border-top: 1px solid var(--card-border); padding-top: 20px;">
-          <h4 style="font-family: var(--font-outfit); font-size: 1.2rem; color: var(--primary-color); margin-top: 0;">🛠️ 實作階段 3：完整自動化與資料備份</h4>
-          
-          <div class="prompt-box">
-            <div class="prompt-title">💬 Step 3 一般小白口語版 (點選即可複製)</div>
-            <button class="copy-prompt-btn" onclick="copyPrompt(this)">複製提示詞</button>
-            <div class="prompt-text">我有一個線上 ERP 測試網頁：https://falo-taiwan.github.io/class/a01/class3/cases/chrome_extension/erp.html。我想開發一個功能完整的 Chrome 瀏覽器外掛，外掛打開後在右側滑出側邊欄。側邊欄上包含 5 個 ERP 欄位（採購單號、產品代碼、進貨數量、產品效期、進貨部門下拉選單），每個欄位有獨立的「填入」與「擷取」按鈕，底部有一鍵全填、一鍵全擷與一鍵清空。
-此外，請為外掛加入以下高階功能：
-1. 點「隨機產生資料」按鈕，能在外掛欄位產生測試數值（單號以 PO-2026- 開頭，數量在 10-500，效期設為台北時間今天）。
-2. 點「匯出 CSV」和「匯入 CSV」按鈕，可將外掛的 5 欄資料下載成 CSV 備份，或讀取上傳的 CSV 回填外掛。
-3. 點「檢核表單」與「確認入庫」按鈕，可遠端遙控點擊網頁上對應的按鈕。網頁入庫成功後，外掛要能讀取網頁產生的入庫流水號，並自動幫我下載一個 txt 的入庫報告（檔名含時間戳記）。
-請幫我寫出完整的 Chrome 外掛程式碼檔案結構。</div>
-          </div>
-
-          <div class="prompt-box">
-            <div class="prompt-title">⚡ Step 3 專家指點版 (點選即可複製)</div>
-            <button class="copy-prompt-btn" onclick="copyPrompt(this)">複製提示詞</button>
-            <div class="prompt-text">我有一個線上 ERP 測試網頁：
-https://falo-taiwan.github.io/class/a01/class3/cases/chrome_extension/erp.html
-
-請幫我開發一個 Chrome 瀏覽器外掛。功能需求與技術規範如下：
-1. 使用 Manifest V3 規格，點擊外掛 Icon 時在右側開啟側邊欄（Side Panel）介面。
-2. 側邊欄內提供 5 個輸入控制項（採購單號、產品代碼、進貨數量、產品效期、進貨部門下拉選單），每個控制項旁配有獨立的「填入」與「擷取」按鈕，底部有一鍵全填、一鍵全擷與清空表單按鈕。
-3. 新增「隨機產生資料」按鈕：於側邊欄本地生成測試數值（採購單號以 PO-2026- 開頭，數量在 10-500，效期設為台北時間今天），僅填入側邊欄不自動寫入網頁。
-4. 新增「匯出 CSV」與「匯入 CSV」按鈕：支持將外掛資料下載備份（加入 UTF-8 BOM \uFEFF）或上傳 CSV 還原至外掛控制項。
-5. 新增「檢核表單」與「確認入庫」按鈕：通知 content.js 遠端遙控點擊網頁上的檢核與入庫按鈕。
-6. 實作流水號捕捉與報告下載：主網頁入庫成功後，content.js 讀取網頁生成的系統流水序號回傳側邊欄，側邊欄接收後，自動生成含台北時間戳記的入庫報告 (.txt) 供瀏覽器自動下載。
-7. 請先讀取並解析該網頁結構，自主尋找與定位五個欄位、檢核按鈕、入庫按鈕及流水序號元素的 CSS Selector，不可在 Prompt 中劇透。
-請為我生成完整的專案程式碼與檔案結構，附上繁體中文逐行註解。</div>
-          </div>
-        </div>
-
       </div>
 
       <!-- Manifest V2 vs V3 Cheat Sheet Card -->
