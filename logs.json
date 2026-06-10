@@ -1,5 +1,126 @@
 [
   {
+    "timestamp": "2026-06-10T19:36:30+08:00",
+    "action_type": "local_updated",
+    "description": "將 Class 03 課程首頁 (index.html/index.md) 所有指向 Chrome Extension 與 IPAS ETL 實戰專案之相對連結，統一更換為 falo-taiwan 官方部署之絕對網址，此變更僅限本機。",
+    "operator": "AI (Antigravity)",
+    "files_affected": [
+      "falo-taiwan/class/a01/class3/index.html",
+      "falo-taiwan/class/a01/class3/index.md",
+      "logs.md",
+      "logs.json"
+    ]
+  },
+  {
+    "timestamp": "2026-06-10T19:35:00+08:00",
+    "action_type": "local_updated",
+    "description": "將全域「Codex / Antigravity」與「Codex/Antigravity」順序交換為「Antigravity / Codex」與「Antigravity/Codex」，將 Google 主導的工具列為首要；並在課程首頁最上方新增「實戰專案與進階手冊」區塊，直接在首頁第一層放置 4 個進階實戰手冊與專案連結，此變更僅限本機。",
+    "operator": "AI (Antigravity)",
+    "files_affected": [
+      "falo-taiwan/class/a01/class3/index.html",
+      "falo-taiwan/class/a01/class3/index.md",
+      "falo-taiwan/class/a01/class3/class03_qas.html",
+      "falo-taiwan/class/a01/class3/class03_qas.md",
+      "falo-taiwan/class/a01/class3/class03_3hr_core.html",
+      "falo-taiwan/class/a01/class3/class03_tools.html",
+      "falo-taiwan/class/a01/class3/class03_tools.md",
+      "falo-taiwan/class/a01/class3/memo.html",
+      "logs.md",
+      "logs.json"
+    ]
+  },
+  {
+    "timestamp": "2026-06-10T19:31:00+08:00",
+    "action_type": "local_updated",
+    "description": "於 Class 03 課程首頁 (index.html/index.md) 最上方新增「歷史課程回顧」區塊，預留 Class 01 與 Class 02 PDF 簡報下載版面，暫時連結至 Google，此變更僅限本機。",
+    "operator": "AI (Antigravity)",
+    "files_affected": [
+      "falo-taiwan/class/a01/class3/index.html",
+      "falo-taiwan/class/a01/class3/index.md",
+      "logs.md",
+      "logs.json"
+    ]
+  },
+  {
+    "timestamp": "2026-06-10T19:28:30+08:00",
+    "action_type": "local_updated",
+    "description": "隱藏專供教師自用之大綱備忘錄 memo.html 與 memo.md 連結，更新歷史彙整頁 history.html 課程入口，並批量更新 Class 03 旗下 12 個子主題 HTML 課件之返回連結與文字，將其從指向 memo.html (返回主題大綱) 修正回 index.html (返回課程首頁)，此變更僅限本機。",
+    "operator": "AI (Antigravity)",
+    "files_affected": [
+      "history.html",
+      "falo-taiwan/class/a01/class3/class03_qas.html",
+      "falo-taiwan/class/a01/class3/class03_3hr_core.html",
+      "falo-taiwan/class/a01/class3/class03_rpa_to_agent.html",
+      "falo-taiwan/class/a01/class3/class03_tools.html",
+      "falo-taiwan/class/a01/class3/class03_notebooklm_upgrade.html",
+      "falo-taiwan/class/a01/class3/class03_computer_use.html",
+      "falo-taiwan/class/a01/class3/class03_gemini_chrome.html",
+      "falo-taiwan/class/a01/class3/class03_wwdc_prompt.html",
+      "falo-taiwan/class/a01/class3/class03_ocr_hitl.html",
+      "falo-taiwan/class/a01/class3/class03_coexistence.html",
+      "falo-taiwan/class/a01/class3/class03_collaboration.html",
+      "falo-taiwan/class/a01/class3/agent_tools.html",
+      "falo-taiwan/class/a01/class3/memo.html",
+      "falo-taiwan/class/a01/class3/memo.md",
+      "logs.md",
+      "logs.json"
+    ]
+  },
+  {
+    "timestamp": "2026-06-10T19:27:00+08:00",
+    "action_type": "local_updated",
+    "description": "修正去識別化命名，全域還原「銀河軟體/銀河 ERP/Yinhe」名稱，並將 Class 03 課程首頁副標題更新為「銀河軟體 台西分公司 Class03」，此變更僅限本機。",
+    "operator": "AI (Antigravity)",
+    "files_affected": [
+      "logs.md",
+      "logs.json"
+    ]
+  },
+  {
+    "timestamp": "2026-06-10T19:26:00+08:00",
+    "action_type": "local_updated",
+    "description": "優化 Class 03 入口頁面 (index.html) 之深色模式配色，還原高質感深紫微光漸變，並將所有教材與手冊連結更新為以新視窗 (target=\"_blank\") 開啟，僅限本機。",
+    "operator": "AI (Antigravity)",
+    "files_affected": [
+      "falo-taiwan/class/a01/class3/index.html",
+      "logs.md",
+      "logs.json"
+    ]
+  },
+  {
+    "timestamp": "2026-06-10T19:24:00+08:00",
+    "action_type": "local_updated",
+    "description": "重構 Class 03 首頁入口 (index.html/md)，改版為以 7 大核心教學主軸（包含多人多帳號協作、Canvas、Codex/Antigravity、雙軌文檔、RWD部署、地端Server、GAS自動化）構成的課程地圖，整合雙配色切換與進階實戰手冊連結，僅限本機。",
+    "operator": "AI (Antigravity)",
+    "files_affected": [
+      "falo-taiwan/class/a01/class3/index.html",
+      "falo-taiwan/class/a01/class3/index.md",
+      "logs.md",
+      "logs.json"
+    ]
+  },
+  {
+    "timestamp": "2026-06-10T18:11:00+08:00",
+    "action_type": "local_updated",
+    "description": "執行去識別化全域修正，將所有教材、歷史頁面與日誌檔案中的「銀河軟體/銀河 ERP/Yinhe」更正為「銀河軟體/銀河 ERP/Yinhe」，以對齊真實「天心 ERP 台南分公司」去識別化為「銀河軟體 台西分公司」之要求，此變更僅限本機。",
+    "operator": "AI (Antigravity)",
+    "files_affected": [
+      "logs.md",
+      "logs.json"
+    ]
+  },
+  {
+    "timestamp": "2026-06-10T18:10:00+08:00",
+    "action_type": "local_updated",
+    "description": "為 Class 03 過渡引導頁 index.html 新增雙配色切換功能，支援預設深色與「清新白」主題，並利用 localStorage 儲存狀態，此變更僅限本機，未同步至遠端。",
+    "operator": "AI (Antigravity)",
+    "files_affected": [
+      "falo-taiwan/class/a01/class3/index.html",
+      "logs.md",
+      "logs.json"
+    ]
+  },
+  {
     "timestamp": "2026-06-10T18:06:00+08:00",
     "action_type": "project_restructured",
     "description": "重構 Class 03 入口頁面，將原大綱 index.html/md 重新命名為 memo.html/md，建立精美 Glassmorphism 過渡期引導首頁，並批量更新所有子主題課件之返回連結指向 memo.html，同步更新歷史彙整頁與部署腳本。",

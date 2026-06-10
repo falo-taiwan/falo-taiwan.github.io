@@ -3,70 +3,741 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>銀河 ERP 內訓課程 | Class 03 課程首頁</title>
+    <title>銀河 ERP 內訓課程 | Class 03 核心教學主軸</title>
     <!-- Falo x Force Cheng 2026/6/8 -->
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&family=Noto+Sans+TC:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
     <style>
+        :root {
+            /* Dark Mode (Default Premium Violet Theme) */
+            --bg-gradient: radial-gradient(circle at 50% 50%, #0b071e 0%, #020108 100%);
+            --text-main: #f3f4f6;
+            --text-muted: #9ca3af;
+            --card-bg: rgba(25, 18, 50, 0.45);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --card-hover-border: rgba(192, 132, 252, 0.45);
+            --primary: #8b5cf6; /* Purple */
+            --primary-glow: rgba(139, 92, 246, 0.15);
+            --accent: #c084fc; /* Violet Light */
+            --accent-glow: rgba(192, 132, 252, 0.15);
+            --sidebar-bg: rgba(15, 10, 35, 0.85);
+            --sidebar-border: rgba(255, 255, 255, 0.08);
+            --toggle-bg: rgba(255, 255, 255, 0.05);
+            --toggle-border: rgba(255, 255, 255, 0.1);
+            --toggle-color: #f3f4f6;
+            --btn-bg: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+            --btn-shadow: rgba(139, 92, 246, 0.25);
+            --badge-bg: rgba(192, 132, 252, 0.12);
+            --badge-color: #d8b4fe;
+            --badge-border: rgba(192, 132, 252, 0.25);
+            --h1-gradient: linear-gradient(135deg, #ffffff 40%, #c084fc 100%);
+        }
+
+        body.theme-light {
+            /* Fresh White Mode */
+            --bg-gradient: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 50%, #e2e8f0 100%);
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --card-bg: rgba(255, 255, 255, 0.75);
+            --card-border: rgba(99, 102, 241, 0.12);
+            --card-hover-border: rgba(99, 102, 241, 0.45);
+            --primary: #4f46e5;
+            --primary-glow: rgba(79, 70, 229, 0.1);
+            --accent: #0891b2;
+            --accent-glow: rgba(8, 145, 178, 0.1);
+            --sidebar-bg: rgba(255, 255, 255, 0.9);
+            --sidebar-border: rgba(99, 102, 241, 0.15);
+            --toggle-bg: rgba(0, 0, 0, 0.05);
+            --toggle-border: rgba(0, 0, 0, 0.08);
+            --toggle-color: #4f46e5;
+            --btn-bg: linear-gradient(135deg, #4f46e5 0%, #3b82f6 100%);
+            --btn-shadow: rgba(79, 70, 229, 0.2);
+            --badge-bg: rgba(8, 145, 178, 0.08);
+            --badge-color: #0891b2;
+            --badge-border: rgba(8, 145, 178, 0.15);
+            --h1-gradient: linear-gradient(135deg, #1e293b 30%, #4f46e5 100%);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
         body {
+            background: var(--bg-gradient);
+            color: var(--text-main);
             font-family: 'Outfit', 'Noto Sans TC', sans-serif;
-            background: radial-gradient(circle at 50% 50%, #0b071e 0%, #020108 100%);
-            color: #f3f4f6;
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            transition: background 0.4s ease, color 0.3s ease;
+        }
+
+        .layout-wrapper {
+            display: flex;
+            max-width: 1280px;
+            width: 100%;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        /* Sidebar Navigation */
+        aside {
+            width: 300px;
+            flex-shrink: 0;
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            background: var(--sidebar-bg);
+            border-right: 1px solid var(--sidebar-border);
+            padding: 2.5rem 1.5rem;
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            display: flex;
+            flex-direction: column;
+            z-index: 100;
+            transition: background 0.4s ease, border-color 0.4s ease;
+        }
+
+        .brand h2 {
+            font-size: 1.35rem;
+            font-weight: 900;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.25rem;
+        }
+
+        .brand .eyebrow {
+            font-size: 0.75rem;
+            font-weight: 800;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 0.5rem;
+        }
+
+        .brand .sub-brand {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+            border-bottom: 1px solid var(--sidebar-border);
+            padding-bottom: 0.75rem;
+        }
+
+        .toc {
+            list-style: none;
+            flex-grow: 1;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+        }
+
+        .toc-link {
+            display: block;
+            padding: 0.6rem 0.8rem;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .toc-link:hover, .toc-link.active {
+            color: var(--text-main);
+            background: var(--primary-glow);
+            padding-left: 1.2rem;
+        }
+
+        .sidebar-footer {
+            border-top: 1px solid var(--sidebar-border);
+            padding-top: 1.5rem;
+            margin-top: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .sidebar-btn {
+            display: block;
+            text-align: center;
+            padding: 0.6rem 0.8rem;
+            background: var(--toggle-bg);
+            border: 1px solid var(--toggle-border);
+            color: var(--text-main);
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 600;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .sidebar-btn:hover {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: #ffffff;
+        }
+
+        /* Main Content */
+        main {
+            margin-left: 300px;
+            flex-grow: 1;
+            padding: 3.5rem 2.5rem;
+            width: calc(100% - 300px);
+            box-sizing: border-box;
+        }
+
+        header {
+            margin-bottom: 3rem;
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            background: var(--h1-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.5px;
+        }
+
+        .subtitle {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            font-weight: 300;
+        }
+
+        .section-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 2.5rem;
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            margin-bottom: 2.5rem;
+            scroll-margin-top: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .section-card:hover {
+            border-color: var(--card-hover-border);
+            box-shadow: 0 15px 35px rgba(139, 92, 246, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .section-header {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .section-header::before {
+            content: '';
+            display: inline-block;
+            width: 5px;
+            height: 20px;
+            background: var(--primary);
+            border-radius: 3px;
+        }
+
+        .section-subtitle {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--accent);
+            margin-bottom: 1.25rem;
+            padding-left: 1.25rem;
+        }
+
+        .section-card p {
+            color: var(--text-muted);
+            font-size: 1rem;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        /* Resource links */
+        .resource-links {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            margin-top: 1.5rem;
+        }
+
+        .resource-link {
+            display: flex;
+            align-items: center;
+            padding: 0.9rem 1.2rem;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            border-radius: 10px;
+            color: var(--text-main);
+            text-decoration: none;
+            transition: all 0.25s ease;
+        }
+
+        body.theme-light .resource-link {
+            background: rgba(0, 0, 0, 0.015);
+            border: 1px solid rgba(0, 0, 0, 0.04);
+        }
+
+        .resource-link:hover {
+            background: var(--primary-glow);
+            border-color: var(--card-hover-border);
+            padding-left: 1.5rem;
+        }
+
+        .link-icon {
+            font-size: 1.2rem;
+            margin-right: 0.75rem;
+        }
+
+        .link-text {
+            font-weight: 600;
+            font-size: 0.95rem;
+            flex-grow: 1;
+        }
+
+        .link-arrow {
+            font-size: 0.9rem;
+            opacity: 0.6;
+            transition: transform 0.2s ease;
+        }
+
+        .resource-link:hover .link-arrow {
+            transform: translateX(3px);
+            opacity: 1;
+        }
+
+        .badge {
+            background: var(--badge-bg);
+            color: var(--badge-color);
+            border: 1px solid var(--badge-border);
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 0.2rem 0.5rem;
+            border-radius: 6px;
+            margin-right: 0.75rem;
+            white-space: nowrap;
+        }
+
+        /* Floating Theme Switcher */
+        .theme-toggle-btn {
+            position: fixed;
+            top: 2rem;
+            right: 2rem;
+            background: var(--toggle-bg);
+            border: 1px solid var(--toggle-border);
+            color: var(--toggle-color);
+            border-radius: 50%;
+            width: 2.8rem;
+            height: 2.8rem;
             display: flex;
             align-items: center;
             justify-content: center;
-            min-height: 100vh;
-            margin: 0;
-            text-align: center;
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            z-index: 1000;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            outline: none;
         }
-        .container {
-            background: rgba(25, 18, 50, 0.45);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 20px;
-            padding: 3rem;
-            backdrop-filter: blur(20px);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
-            max-width: 600px;
+
+        .theme-toggle-btn:hover {
+            transform: scale(1.1) rotate(15deg);
+            background: rgba(255, 255, 255, 0.12);
         }
-        h1 {
-            font-size: 2.2rem;
-            background: linear-gradient(135deg, #ffffff 40%, #c084fc 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 1rem;
+
+        body.theme-light .theme-toggle-btn:hover {
+            background: rgba(0, 0, 0, 0.08);
         }
-        p {
-            color: #9ca3af;
-            font-size: 1.1rem;
-            margin-bottom: 2rem;
-            line-height: 1.6;
+
+        .sun-icon {
+            display: block;
+            width: 1.25rem;
+            height: 1.25rem;
         }
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
-            color: #ffffff;
-            font-size: 1rem;
-            font-weight: 600;
-            padding: 0.8rem 1.8rem;
-            border-radius: 10px;
-            text-decoration: none;
-            box-shadow: 0 4px 12px rgba(139, 92, 246, 0.25);
-            transition: all 0.2s ease;
+
+        .moon-icon {
+            display: none;
+            width: 1.25rem;
+            height: 1.25rem;
         }
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 16px rgba(139, 92, 246, 0.35);
+
+        body.theme-light .sun-icon {
+            display: none;
+        }
+
+        body.theme-light .moon-icon {
+            display: block;
+        }
+
+        .visual-watermark {
+            position: fixed;
+            bottom: 15px;
+            right: 15px;
+            font-size: 0.72rem;
+            color: var(--text-muted);
+            opacity: 0.22;
+            pointer-events: none;
+            user-select: none;
+            z-index: 9999;
+        }
+
+        /* RWD Support */
+        @media (max-width: 960px) {
+            body {
+                flex-direction: column;
+            }
+            .layout-wrapper {
+                flex-direction: column;
+            }
+            aside {
+                position: static;
+                width: 100%;
+                box-sizing: border-box;
+                height: auto;
+                border-right: none;
+                border-bottom: 1px solid var(--sidebar-border);
+                padding: 1.5rem;
+            }
+            main {
+                margin-left: 0;
+                width: 100%;
+                padding: 2rem 1.5rem;
+            }
+            .brand .sub-brand {
+                margin-bottom: 1rem;
+            }
+            .toc {
+                display: none; /* Hide TOC on mobile */
+            }
+            .sidebar-footer {
+                margin-top: 1rem;
+                flex-direction: row;
+            }
+            .sidebar-btn {
+                flex: 1;
+            }
+            .theme-toggle-btn {
+                top: 1.5rem;
+                right: 1.5rem;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Class 03 課程首頁重構中</h1>
-        <p>我們正在重新建構更強大、精美的 Class 03 課程入口網頁。在重構期間，您可以點擊下方按鈕前往主題導航備忘錄進行學習。</p>
-        <a href="memo.html" class="btn">
-            前往主題導航備忘錄 ➔
-        </a>
+    <!-- Watermarks & Metadata (Falo x Force Cheng) -->
+    <div class="visual-watermark">
+        Falo x Force Cheng 2026/6/8 | 教學用途，商業用途請聯繫作者
     </div>
+
+    <!-- Floating theme toggle -->
+    <button id="theme-toggle" class="theme-toggle-btn" aria-label="切換配色">
+        <!-- Sun icon -->
+        <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="5"></circle>
+            <line x1="12" y1="1" x2="12" y2="3"></line>
+            <line x1="12" y1="21" x2="12" y2="23"></line>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+            <line x1="1" y1="12" x2="3" y2="12"></line>
+            <line x1="21" y1="12" x2="23" y2="12"></line>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+        </svg>
+        <!-- Moon icon -->
+        <svg class="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
+    </button>
+
+    <div class="layout-wrapper">
+        <!-- Left Sidebar Navigation -->
+        <aside>
+            <div class="brand">
+                <div class="eyebrow">FALO Taiwan Academy</div>
+                <h2>銀河 ERP 內訓</h2>
+                <div class="sub-brand">Class 03 課程主軸導航</div>
+            </div>
+            
+            <ul class="toc">
+                <li class="toc-item"><a href="#history-review" class="toc-link active">歷史課程回顧</a></li>
+                <li class="toc-item"><a href="#practical-resources" class="toc-link">實戰專案與進階手冊</a></li>
+                <li class="toc-item"><a href="#pillar-1" class="toc-link">1. 多人多帳號 AI 協作</a></li>
+                <li class="toc-item"><a href="#pillar-2" class="toc-link">2. Gemini Canvas 困擾</a></li>
+                <li class="toc-item"><a href="#pillar-3" class="toc-link">3. Antigravity / Codex</a></li>
+                <li class="toc-item"><a href="#pillar-4" class="toc-link">4. md / html 雙軌策略</a></li>
+                <li class="toc-item"><a href="#pillar-5" class="toc-link">5. html / RWD / 部署</a></li>
+                <li class="toc-item"><a href="#pillar-6" class="toc-link">6. 地端 Server 架設</a></li>
+                <li class="toc-item"><a href="#pillar-7" class="toc-link">7. GAS 雲端自動化</a></li>
+            </ul>
+
+            <div class="sidebar-footer">
+                <a href="class03_qas.html" target="_blank" rel="noopener noreferrer" class="sidebar-btn">學員課前提問解答 (QA)</a>
+            </div>
+        </aside>
+
+        <!-- Right Main Content -->
+        <main>
+            <header>
+                <h1>Class 03：AI Agent & Vibe Coding 實戰及知識資產化</h1>
+                <div class="subtitle">天心同仁 (ERP 專業開發團隊) 培訓專題 ➔ 銀河軟體 台西分公司 Class03</div>
+            </header>
+
+            <!-- History Review -->
+            <section id="history-review" class="section-card">
+                <h2 class="section-header">歷史課程回顧</h2>
+                <div class="section-subtitle">Class 01 & Class 02 培訓教材存檔</div>
+                <p>
+                    此專區提供本培訓系列先前課程之完整簡報與實戰教材連結，協助同仁進行知識複習與技術對齊。
+                </p>
+                <div class="resource-links" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem;">
+                    <a href="https://www.google.com" target="_blank" rel="noopener noreferrer" class="resource-link" style="margin-top: 0;">
+                        <span class="badge">Class 01</span>
+                        <span class="link-text">Class 01 課程簡報 (PDF 待更新)</span>
+                        <span class="link-arrow">➔</span>
+                    </a>
+                    <a href="https://www.google.com" target="_blank" rel="noopener noreferrer" class="resource-link" style="margin-top: 0;">
+                        <span class="badge">Class 02</span>
+                        <span class="link-text">Class 02 課程簡報 (PDF 待更新)</span>
+                        <span class="link-arrow">➔</span>
+                    </a>
+                </div>
+            </section>
+
+            <!-- Practical Resources -->
+            <section id="practical-resources" class="section-card">
+                <h2 class="section-header">實戰專案與進階手冊</h2>
+                <div class="section-subtitle">延伸學習：高階實務指南與開源專案</div>
+                <p>
+                    以下為本培訓主題之實務應用專案與技術手冊，協助同仁深入掌握 AI Agent、Chrome 外掛、GAS 與 ETL 等進階技術：
+                </p>
+                <div class="resource-links" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem;">
+                    <a href="https://falo-taiwan.github.io/antigravity/" target="_blank" rel="noopener noreferrer" class="resource-link" style="margin-top: 0;">
+                        <span class="badge">Antigravity</span>
+                        <span class="link-text">Antigravity 實戰開發與協作教學手冊</span>
+                        <span class="link-arrow">➔</span>
+                    </a>
+                    <a href="https://falo-taiwan.github.io/class/a01/class3/cases/chrome_extension/" target="_blank" rel="noopener noreferrer" class="resource-link" style="margin-top: 0;">
+                        <span class="badge">Chrome Ext</span>
+                        <span class="link-text">Chrome Extension 填單助手實戰</span>
+                        <span class="link-arrow">➔</span>
+                    </a>
+                    <a href="https://falo-taiwan.github.io/class/a01/class3/cases/ipas-etl/" target="_blank" rel="noopener noreferrer" class="resource-link" style="margin-top: 0;">
+                        <span class="badge">ETL 實務</span>
+                        <span class="link-text">教材開發革命：從 PDF 到互動網站</span>
+                        <span class="link-arrow">➔</span>
+                    </a>
+                    <a href="https://falo-taiwan.github.io/gas-demo/#gas-v3-security-practice" target="_blank" rel="noopener noreferrer" class="resource-link" style="margin-top: 0;">
+                        <span class="badge">GAS 自動化</span>
+                        <span class="link-text">GAS 開發架構與部署實戰手冊</span>
+                        <span class="link-arrow">➔</span>
+                    </a>
+                </div>
+            </section>
+
+            <!-- Pillar 1 -->
+            <section id="pillar-1" class="section-card">
+                <h2 class="section-header">1. 多人共用多帳號下的 AI 協作模式</h2>
+                <div class="section-subtitle">核心思維：帳號分離與開發解耦</div>
+                <p>
+                    在企業團隊協作與多人開發的情境下，我們提倡「記憶留在個人帳號，開發純開發」的核心原則。
+                </p>
+                <p>
+                    同仁使用個人專屬的 ChatGPT 或 Claude 帳號進行邏輯推導、思路整理與 Prompt 微調，將個人對話脈絡與記憶保留在個人端；而在本地開發時，則將開發環境解耦，僅由個人帳號作為調動（Trigger）媒介，去喚醒專案目錄下專屬的 AI Agent（如 Antigravity / Codex）來執行具體開發工作，確保團隊共享程式庫的乾淨與專一性。
+                </p>
+            </section>
+
+            <!-- Pillar 2 -->
+            <section id="pillar-2" class="section-card">
+                <h2 class="section-header">2. Gemini_Canvas 常見困擾與解法</h2>
+                <div class="section-subtitle">突破 Canvas 限制與 PoC 避坑指南</div>
+                <p>
+                    Gemini Canvas 具備極強的視覺原型設計 (PoC) 能力，但同仁在實戰中常遇到 Context 丟失、程式碼截斷、以及前後文漂移等痛點。本章引導同仁建立防禦性 Prompt 設計，掌握如何對 AI 進行精準的程式碼區塊重新生成與約束。
+                </p>
+                <div class="resource-links">
+                    <a href="class03_computer_use.html" target="_blank" rel="noopener noreferrer" class="resource-link">
+                        <span class="link-icon">🛡️</span>
+                        <span class="link-text">LINE 防封鎖訊息變體生成器 (PoC 實作網頁)</span>
+                        <span class="link-arrow">➔</span>
+                    </a>
+                </div>
+            </section>
+
+            <!-- Pillar 3 -->
+            <section id="pillar-3" class="section-card">
+                <h2 class="section-header">3. Antigravity / Codex 開發神器對比</h2>
+                <div class="section-subtitle">單點 API 邏輯 vs 全專案重構引擎</div>
+                <p>
+                    橫向對比四大開發工具（Antigravity、Claude Cowork、Codex、Canvas）的效能邊界，理解何時該使用高邏輯的 Codex 來編寫複雜 API 運算，何時該動用具備全域檔案操作、重構與自動測試的 Antigravity 代理推理引擎。
+                </p>
+                <div class="resource-links">
+                    <a href="agent_tools.html" target="_blank" rel="noopener noreferrer" class="resource-link">
+                        <span class="link-icon">📊</span>
+                        <span class="link-text">AI Agent & Vibe Coding 開發工具分析與對比表</span>
+                        <span class="link-arrow">➔</span>
+                    </a>
+                    <a href="class03_notebooklm_upgrade.html" target="_blank" rel="noopener noreferrer" class="resource-link">
+                        <span class="link-icon">📈</span>
+                        <span class="link-text">Google NotebookLM 重磅升級與 Antigravity 實戰</span>
+                        <span class="link-arrow">➔</span>
+                    </a>
+                    <a href="https://falo-taiwan.github.io/antigravity/" target="_blank" rel="noopener noreferrer" class="resource-link">
+                        <span class="link-icon">🛠️</span>
+                        <span class="link-text">Antigravity 實戰開發與協作教學手冊</span>
+                        <span class="badge">進階手冊</span>
+                        <span class="link-arrow">➔</span>
+                    </a>
+                </div>
+            </section>
+
+            <!-- Pillar 4 -->
+            <section id="pillar-4" class="section-card">
+                <h2 class="section-header">4. md / html 雙軌文檔策略</h2>
+                <div class="section-subtitle">知識資產化與開發軌跡治理</div>
+                <p>
+                    學習 FALO 的核心文件觀念：使用結構化純文字的 Markdown (.md) 做為 AI Agent 的外部記憶體，以最高效率載入上下文並節省 Token 消耗；同時設計精美的 Premium HTML 頁面做為人機協作 (HITL) 的溝通介面，搭配日誌系統 logs.md 確保每次修改均有跡可循。
+                </p>
+                <div class="resource-links">
+                    <a href="class03_collaboration.html" target="_blank" rel="noopener noreferrer" class="resource-link">
+                        <span class="link-icon">💬</span>
+                        <span class="link-text">AI 協同討論與即時知識工程化實務</span>
+                        <span class="link-arrow">➔</span>
+                    </a>
+                    <a href="class03_gemini_chrome.html" target="_blank" rel="noopener noreferrer" class="resource-link">
+                        <span class="link-icon">🔑</span>
+                        <span class="link-text">Chrome 內建 Gemini 解鎖與 FALO 六層模型案例</span>
+                        <span class="link-arrow">➔</span>
+                    </a>
+                    <a href="https://falo-taiwan.github.io/class/a01/class3/cases/ipas-etl/" target="_blank" rel="noopener noreferrer" class="resource-link">
+                        <span class="link-icon">📚</span>
+                        <span class="link-text">教材開發革命：從 PDF 題庫到互動網站的通用工作流</span>
+                        <span class="badge">進階手冊</span>
+                        <span class="link-arrow">➔</span>
+                    </a>
+                </div>
+            </section>
+
+            <!-- Pillar 5 -->
+            <section id="pillar-5" class="section-card">
+                <h2 class="section-header">5. html based / rwd / 本機 & github prompt 部署</h2>
+                <div class="section-subtitle">靜態網頁實戰與一鍵雲端部署</div>
+                <p>
+                    學習如何透過精準 Prompt，讓 AI 生成「單一 HTML 檔案且內建完整樣式、RWD 響應式排版」的網頁。此類網頁在本地端雙擊即可完美啟動，並且極易部署至 GitHub Pages，是快速交付企業 PoC 原型的利器。
+                </p>
+                <div class="resource-links">
+                    <a href="class03_coexistence.html" target="_blank" rel="noopener noreferrer" class="resource-link">
+                        <span class="link-icon">🌱</span>
+                        <span class="link-text">人與 AI 共創共生觀念教材</span>
+                        <span class="link-arrow">➔</span>
+                    </a>
+                    <a href="class03_wwdc_prompt.html" target="_blank" rel="noopener noreferrer" class="resource-link">
+                        <span class="link-icon">🎯</span>
+                        <span class="link-text">WWDC 26 Deep Research 實戰 Prompt 示範</span>
+                        <span class="link-arrow">➔</span>
+                    </a>
+                    <a href="https://falo-taiwan.github.io/class/a01/class3/cases/chrome_extension/" target="_blank" rel="noopener noreferrer" class="resource-link">
+                        <span class="link-icon">🔌</span>
+                        <span class="link-text">Chrome Extension 填單助手實戰與外掛控制</span>
+                        <span class="badge">進階手冊</span>
+                        <span class="link-arrow">➔</span>
+                    </a>
+                </div>
+            </section>
+
+            <!-- Pillar 6 -->
+            <section id="pillar-6" class="section-card">
+                <h2 class="section-header">6. 地端 Server 架設與跨域對接</h2>
+                <div class="section-subtitle">突破瀏覽器沙盒與本地系統整合</div>
+                <p>
+                    學習如何架設極簡的本地 Python HTTP API 伺服器，配合 ngrok 穿透內網防火牆，使前端靜態 HTML 網頁能直接調用本地端的硬體資源與數據（如 OCR 分揀處理），實現高安全性的地雲系統整合。
+                </p>
+                <div class="resource-links">
+                    <a href="class03_tools.html" target="_blank" rel="noopener noreferrer" class="resource-link">
+                        <span class="link-icon">🔧</span>
+                        <span class="link-text">Vibe Coding 實戰武器庫與地雲工具清單</span>
+                        <span class="link-arrow">➔</span>
+                    </a>
+                    <a href="class03_ocr_hitl.html" target="_blank" rel="noopener noreferrer" class="resource-link">
+                        <span class="link-icon">👁️</span>
+                        <span class="link-text">OCR 辨識策略與 HITL 人機協作實務 (分揀案例)</span>
+                        <span class="link-arrow">➔</span>
+                    </a>
+                </div>
+            </section>
+
+            <!-- Pillar 7 -->
+            <section id="pillar-7" class="section-card">
+                <h2 class="section-header">7. Google Apps Script (GAS) 雲端自動化</h2>
+                <div class="section-subtitle">免伺服器企業輕量自動化方案</div>
+                <p>
+                    深入 GAS 容器綁定型與獨立型開發架構，理解如何安全地管理 API 密鑰（Script Properties），以及如何避開瀏覽器跨網域的 OPTIONS 預檢限制發送跨網域請求，將 ERP 與 Google 表單、試算表及 Gmail 自動串接。
+                </p>
+                <div class="resource-links">
+                    <a href="class03_rpa_to_agent.html" target="_blank" rel="noopener noreferrer" class="resource-link">
+                        <span class="link-icon">🔄</span>
+                        <span class="link-text">從 ERP 外掛到 AI Agent 演進與自動化治理</span>
+                        <span class="link-arrow">➔</span>
+                    </a>
+                    <a href="https://falo-taiwan.github.io/gas-demo/#gas-v3-security-practice" target="_blank" rel="noopener noreferrer" class="resource-link">
+                        <span class="link-icon">⚙️</span>
+                        <span class="link-text">Google Apps Script (GAS) 開發架構與部署實戰手冊</span>
+                        <span class="badge">進階手冊</span>
+                        <span class="link-arrow">➔</span>
+                    </a>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- JS for theme toggle and Scroll spy -->
+    <script>
+        // Theme switcher
+        const toggleBtn = document.getElementById('theme-toggle');
+        const currentTheme = localStorage.getItem('theme') || 'dark';
+
+        if (currentTheme === 'light') {
+            document.body.classList.add('theme-light');
+        }
+
+        toggleBtn.addEventListener('click', () => {
+            document.body.classList.toggle('theme-light');
+            let theme = 'dark';
+            if (document.body.classList.contains('theme-light')) {
+                theme = 'light';
+            }
+            localStorage.setItem('theme', theme);
+        });
+
+        // Scroll spy active links
+        const sections = document.querySelectorAll('section');
+        const navLinks = document.querySelectorAll('.toc-link');
+
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                // Offset of 180px to trigger activation early
+                if (pageYOffset >= (sectionTop - 180)) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href').substring(1) === current) {
+                    link.classList.add('active');
+                }
+            });
+        });
+    </script>
 </body>
 </html>
