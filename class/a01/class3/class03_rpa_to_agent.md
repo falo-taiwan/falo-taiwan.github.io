@@ -65,6 +65,7 @@ graph TD
 ### 第五階段：AI Agent 時代 (AI Agentic Era)
 * **核心思想**：**「除了執行既定流程，還具備理解模糊需求、自主做出判斷、產生內容並自主呼叫工具 (Tool Use) 的能力」**。
 * **代表工具**：Antigravity, Codex, OpenAI Agentic Loop, Gemini Agent。
+* **最新實戰案例**：Anthropic 推出的新旗艦模型 [Claude Fable 5](https://tw.stock.yahoo.com/news/anthropic%E5%85%AC%E9%96%8B%E6%9C%80%E5%BC%B7ai%E6%A8%A1%E5%9E%8B-claude-fable-5%E7%9E%84%E6%BA%96%E5%B7%A5%E7%A8%8B%E8%88%87%E7%A7%91%E7%A0%94%E5%B8%82%E5%A0%B4-025700532.html) 在企業級測試中，幫助 Stripe 將原本需要耗時數個月的部分軟體工程專案，在短短數天內完成初步建置與驗證，極大證實了主動式 AI Agent 帶來的爆發性生產力躍升。
 
 ### 第六階段：Multi-Agent 網路 (Multi-Agent Collaboration)
 * **核心思想**：多個具備不同專長角色（如：AI 財務 Agent、AI 庫存 Agent、AI 採購 Agent）的代理人，在統一的工作流治理框架下，進行自主分工、協商與協作。

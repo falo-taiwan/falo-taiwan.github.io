@@ -1,5 +1,35 @@
 [
   {
+    "timestamp": "2026-06-10T13:30:00+08:00",
+    "action_type": "project_updated",
+    "description": "更新主題九「Vibe Coding 實戰武器庫」，將 Gemini Canvas 困擾與解法、Codex/Antigravity、雙軌文檔策略、本機與 GitHub Pages 部署、地端 Server 與 GAS 範例六大工具教學主線深入融合至教材中，並在主題三、主題九與主題十中置入最新的 Anthropic Claude Fable 5 旗艦模型與 Stripe 實測縮短專案時程的新聞報導。",
+    "operator": "AI (Antigravity)",
+    "files_affected": [
+      "falo-taiwan/class/a01/class3/agent_tools.md",
+      "falo-taiwan/class/a01/class3/agent_tools.html",
+      "falo-taiwan/class/a01/class3/class03_tools.md",
+      "falo-taiwan/class/a01/class3/class03_tools.html",
+      "falo-taiwan/class/a01/class3/class03_rpa_to_agent.md",
+      "falo-taiwan/class/a01/class3/class03_rpa_to_agent.html",
+      "logs.md",
+      "logs.json"
+    ]
+  },
+  {
+    "timestamp": "2026-06-09T21:55:00+08:00",
+    "action_type": "file_created",
+    "description": "建立 Class 03 3小時實戰核心速成教材（包含 md + html 雙軌版本），設計玻璃擬態 UI 與一鍵複製代碼功能，並整合至首頁大綱與入口網頁。",
+    "operator": "AI (Antigravity)",
+    "files_affected": [
+      "falo-taiwan/class/a01/class3/class03_3hr_core.md",
+      "falo-taiwan/class/a01/class3/class03_3hr_core.html",
+      "falo-taiwan/class/a01/class3/index.html",
+      "falo-taiwan/class/a01/class3/index.md",
+      "logs.md",
+      "logs.json"
+    ]
+  },
+  {
     "timestamp": "2026-06-09T21:52:00+08:00",
     "action_type": "file_updated",
     "description": "首頁新增最新線上發佈網址連結，並同步與推送所有異動至 GitHub。",

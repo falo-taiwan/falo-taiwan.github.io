@@ -312,23 +312,9 @@
 
         <!-- Comparison Table Section -->
         <section class="card">
-            <h2>四大 AI Agent 程式開發模式對比</h2>
-            <div class="table-responsive">
-                <table>
-                    <thead>
-                        <tr>
-                            <th style="width: 15%;">比較維度</th>
-                            <th style="width: 21%;" class="hl-antigravity">Antigravity (本代理人)</th>
-                            <th style="width: 21%;">Claude Cowork (Artifacts)</th>
-                            <th style="width: 21%;">ChatGPT Codex (Interpreter)</th>
-                            <th style="width: 22%;">Gemini Canvas 模式</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><strong>底層模型與核心</strong></td>
+            <h2>四大 AI Agent 程                            <td><strong>底層模型與核心</strong></td>
                             <td class="hl-antigravity">Gemini 3.5 Flash (Google)</td>
-                            <td>Claude 3.5 Sonnet (Anthropic)</td>
+                            <td>Claude 3.5 Sonnet / Opus (Anthropic)<br><small>*(最新旗艦：<a href="https://tw.stock.yahoo.com/news/anthropic%E5%85%AC%E9%96%8B%E6%9C%80%E5%BC%B7ai%E6%A8%A1%E5%9E%8B-claude-fable-5%E7%9E%84%E6%BA%96%E5%B7%A5%E7%A8%8B%E8%88%87%E7%A7%91%E7%A0%94%E5%B8%82%E5%A0%B4-025700532.html" target="_blank" rel="noopener noreferrer" style="color: #60a5fa; text-decoration: none;">Claude Fable 5</a>)*</small></td>
                             <td>GPT-4o / GPT-4 (OpenAI)</td>
                             <td>Gemini 1.5 Pro / 2.0 (Google Web UI)</td>
                         </tr>
@@ -350,7 +336,7 @@
                             <td><strong>檔案修改方式</strong></td>
                             <td class="hl-antigravity"><strong>精準 Diff 區塊替換</strong><br>針對特定行數做 patch，極省 Token 且安全。</td>
                             <td><strong>整檔覆寫 (Artifacts)</strong><br>容易因為小修改而重新生成整份長檔案，消耗 Token。</td>
-                            <td><strong>代碼生成與手動複製</strong><br>多數需使用者自行複製貼上，或由 Code Interpreter 修改其沙盒內檔案。</td>
+                            <td><strong>代碼生成與手動複製</strong><br>多數需使用者自行複製貼上，或由 Code Interpreter 修改其沙盒內檔案.</td>
                             <td><strong>網頁雙向側邊欄編輯</strong><br>可在側邊欄進行行內修改 (Inline Edit)、直接調整格式與導出。</td>
                         </tr>
                         <tr>
@@ -372,6 +358,44 @@
                             <td class="hl-antigravity"><strong>SME/個人知識工程與本地專案開發</strong><br>需要高性價比、執行指令、建立完整變更日誌。</td>
                             <td><strong>前端 UI 快速原型設計</strong><br>利用 Artifacts 進行即時視覺化預覽。</td>
                             <td><strong>數據分析與演算法驗證</strong><br>在沙盒內運行 Python 進行資料繪圖與計算。</td>
+                            <td><strong>網頁端文案撰寫、報告編排與單檔代碼雙向編輯</strong><br>不依賴本地環境的協作編排。</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Section 3: Reference Resources -->
+        <section class="card" style="margin-top: 2rem;">
+            <h2>其他參考資源</h2>
+            <div style="background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.04); border-radius: 12px; padding: 1.5rem; display: flex; flex-direction: column; gap: 1rem;">
+                <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                    <div style="font-weight: 700; color: #c084fc; display: flex; align-items: center; gap: 0.5rem;">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+                        學習平台推薦：Claude 官方免費線上學習平台
+                    </div>
+                    <div style="font-size: 0.95rem; color: var(--text-secondary); line-height: 1.6;">
+                        👉 <strong>電腦王阿達</strong>：<a href="https://www.koc.com.tw/archives/645273" target="_blank" rel="noopener noreferrer" style="color: #60a5fa; text-decoration: none; font-weight: 500;">Anthropic Academy：Claude 官方 13 門線上課程免費上、可領官方證書</a>
+                        <br>
+                        此文章詳細介紹了 Anthropic 官方推出的 <strong>Anthropic Academy</strong> 線上學習平台。課程涵蓋從基礎的 Claude 101、Claude Cowork 協同操作，到進階的 Claude API 應用程式整合、Claude Code 終端編碼代理、MCP (Model Context Protocol) 伺服器建置與 Agent Skills (SKILL.md) 的官方免費課程及結業證書取得方式。
+                    </div>
+                </div>
+                
+                <hr style="border: none; border-top: 1px dashed rgba(255, 255, 255, 0.05); margin: 0.5rem 0;">
+                
+                <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                    <div style="font-weight: 700; color: #c084fc; display: flex; align-items: center; gap: 0.5rem;">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12H3M12 3v18"></path></svg>
+                        最新技術進展：Anthropic 最強大型語言模型 Claude Fable 5
+                    </div>
+                    <div style="font-size: 0.95rem; color: var(--text-secondary); line-height: 1.6;">
+                        👉 <strong>Yahoo股市新聞</strong>：<a href="https://tw.stock.yahoo.com/news/anthropic%E5%85%AC%E9%96%8B%E6%9C%80%E5%BC%B7ai%E6%A8%A1%E5%9E%8B-claude-fable-5%E7%9E%84%E6%BA%96%E5%B7%A5%E7%A8%8B%E8%88%87%E7%A7%91%E7%A0%94%E5%B8%82%E5%A0%B4-025700532.html" target="_blank" rel="noopener noreferrer" style="color: #60a5fa; text-decoration: none; font-weight: 500;">Anthropic公開最強AI模型 Claude Fable 5瞄準工程與科研市場</a>
+                        <br>
+                        此新聞報導了 Anthropic 正式推出的新一代旗艦大型語言模型 Claude Fable 5，首度向一般企業與開發者公開「Mythos 級」技術成果。在軟體開發、科學研究、數據分析與因果推理等領域大幅超越旗下歷代公開模型。金融科技巨頭 Stripe 的測試表明，原本需要數個月才能完成的部分工程專案，透過 Fable 5 可以在數天內完成初步建置與驗證，對軟體開發時程帶來了劇烈革命。
+                    </div>
+                </div>
+            </div>
+        </section>沙盒內運行 Python 進行資料繪圖與計算。</td>
                             <td><strong>網頁端文案撰寫、報告編排與單檔代碼雙向編輯</strong><br>不依賴本地環境的協作編排。</td>
                         </tr>
                     </tbody>

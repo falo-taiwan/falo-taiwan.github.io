@@ -39,7 +39,7 @@
 
 | 比較維度 | Antigravity (本代理人) | Claude Cowork (Claude Artifacts/MCP) | ChatGPT Codex (Code Interpreter) | Gemini Canvas 模式 (網頁端雙向編輯) |
 | :--- | :--- | :--- | :--- | :--- |
-| **底層模型與核心** | Gemini 3.5 Flash (Google) | Claude 3.5 Sonnet / Opis (Anthropic) | GPT-4o / GPT-4 (OpenAI) | Gemini 1.5 Pro / 2.0 (Google Web UI) |
+| **底層模型與核心** | Gemini 3.5 Flash (Google) | Claude 3.5 Sonnet / Opus (Anthropic)<br>*(最新旗艦：[Claude Fable 5](https://tw.stock.yahoo.com/news/anthropic%E5%85%AC%E9%96%8B%E6%9C%80%E5%BC%B7ai%E6%A8%A1%E5%9E%8B-claude-fable-5%E7%9E%84%E6%BA%96%E5%B7%A5%E7%A8%8B%E8%88%87%E7%A7%91%E7%A0%94%E5%B8%82%E5%A0%B4-025700532.html))* | GPT-4o / GPT-4 (OpenAI) | Gemini 1.5 Pro / 2.0 (Google Web UI) |
 | **上下文視窗 (Context)** | **極大 (1M - 2M+ Tokens)**<br>適合超長文件、大型程式庫與完整歷史日誌。 | 中等 (200k Tokens)<br>長對話後半段容易遺忘或產生 Token 焦慮。 | 較小 (128k Tokens)<br>長對話時需頻繁手動整理脈絡。 | **極大 (1M - 2M Tokens)**<br>支援超長文本，但在網頁前端渲染超長對話時有時會受限。 |
 | **本地環境執行能力** | **原生整合**<br>可直接在使用者 macOS 本地終端執行指令。 | **沙盒/遠端 MCP**<br>主要在雲端虛擬環境，需額外架設 MCP 伺服器才能操控本地。 | **封閉沙盒**<br>在隔離的 Linux Python 環境中運行，無法控制使用者本地系統。 | **無**<br>完全在 Google 雲端網頁端執行，無法控制使用者本地終端。 |
 | **檔案修改方式** | **精準 Diff 區塊替換**<br>針對特定行數做 patch，極省 Token 且安全。 | **整檔覆寫 (Artifacts)**<br>容易因為小修改而重新生成整份長檔案，消耗大量 Token。 | **代碼生成與手動複製**<br>多數需使用者自行複製貼上，或由 Code Interpreter 修改其沙盒內檔案。 | **網頁雙向側邊欄編輯**<br>可在側邊欄進行行內修改 (Inline Edit)、直接調整格式與導出。 |
@@ -54,3 +54,5 @@
 ## 3. 其他參考資源
 * **學習平台推薦**：[電腦王阿達 - Anthropic Academy：Claude 官方 13 門線上課程免費上、可領官方證書](https://www.koc.com.tw/archives/645273)
   - *簡介*：介紹 Anthropic 官方推出的線上學習平台 **Anthropic Academy**，包含 Claude API、Claude Code、MCP (Model Context Protocol)、Agent Skills (SKILL.md) 等核心開發者工具的官方免費課程與認證說明。
+* **最新技術進展 (Claude Fable 5)**：[Yahoo股市新聞 - Anthropic公開最強AI模型 Claude Fable 5瞄準工程與科研市場](https://tw.stock.yahoo.com/news/anthropic%E5%85%AC%E9%96%8B%E6%9C%80%E5%BC%B7ai%E6%A8%A1%E5%9E%8B-claude-fable-5%E7%9E%84%E6%BA%96%E5%B7%A5%E7%A8%8B%E8%88%87%E7%A7%91%E7%A0%94%E5%B8%82%E5%A0%B4-025700532.html)
+  - *簡介*：介紹 Anthropic 推出新一代旗艦模型 Claude Fable 5，首度向一般企業與開發者公開「Mythos 級」技術成果。在軟體開發、科學研究、因果推理與視覺理解等領域表現大幅超越歷代模型。Stripe 等金融科技巨頭測試指出，原本需要數個月的工程專案透過 Fable 5 可以在數天內完成初步建置與驗證，為 Vibe Coding 提供了更強悍的底層智力核心。
