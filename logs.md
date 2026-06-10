@@ -8,6 +8,8 @@
 
 | 時間戳記 | 操作類別 | 描述 | 操作者 | 影響檔案 |
 | :--- | :--- | :--- | :--- | :--- |
+| 2026-06-10 20:46:00 | 本機更新 | 於 Class 03 課程首頁 (index.html) 左側導覽列目錄中，在「實戰專案與進階手冊」下方新增「學員提問與技術解答」連結，並將原本位於側邊欄頁尾之提問按鈕移除，此變更目前僅限本機。 | AI (Antigravity) | `falo-taiwan/class/a01/class3/index.html`, `logs.md`, `logs.json` |
+| 2026-06-10 19:56:00 | 本機更新 | 於 Class 03 課程首頁 (index.html/index.md) 的「實戰專案與進階手冊」區塊內新增「學員課前提問解答 (QA)」連結，此變更目前僅限本機。 | AI (Antigravity) | `falo-taiwan/class/a01/class3/index.html`, `falo-taiwan/class/a01/class3/index.md`, `logs.md`, `logs.json` |
 | 2026-06-10 19:46:00 | 本機更新 | 更新 Class 03 課程首頁 (index.html/index.md) 的 Class 01 與 Class 02 歷史簡報下載連結為 Google Drive 實際網址；並在首頁右上角建立懸浮無障礙工具列，提供切換配色與調整「字體大小 (A+/A-)、版面寬度 (W+/W-)」等 4 個按鈕控制，此變更僅限本機並自動同步推送。 | AI (Antigravity) | `falo-taiwan/class/a01/class3/index.html`, `falo-taiwan/class/a01/class3/index.md`, `logs.md`, `logs.json` |
 | 2026-06-10 19:42:30 | 本機更新 | 於 Class 03 課程首頁 (index.html/index.md) 歷史回顧區塊，新增「未來將升級為基於 GAS 驗證之高強度保密安全版本」之備註說明，此變更僅限本機並自動同步推送。 | AI (Antigravity) | `falo-taiwan/class/a01/class3/index.html`, `falo-taiwan/class/a01/class3/index.md`, `logs.md`, `logs.json` |
 | 2026-06-10 19:41:00 | 本機更新 | 為 Class 03 課程首頁 (index.html/index.md) 之「歷史課程回顧」 Class 01 與 Class 02 連結新增密碼保護 (密碼為 attn)，此變更僅限本機並自動同步推送。 | AI (Antigravity) | `falo-taiwan/class/a01/class3/index.html`, `falo-taiwan/class/a01/class3/index.md`, `logs.md`, `logs.json` |

@@ -16,6 +16,8 @@
 * 🔗 **Chrome Ext**：[Chrome Extension 填單助手實戰](https://falo-taiwan.github.io/class/a01/class3/cases/chrome_extension/)
 * 🔗 **ETL 實務**：[教材開發革命：從 PDF 到互動網站](https://falo-taiwan.github.io/class/a01/class3/cases/ipas-etl/)
 * 🔗 **GAS 自動化**：[GAS 開發架構與部署實戰手冊](https://falo-taiwan.github.io/gas-demo/#gas-v3-security-practice)
+* 🔗 **學員 QA**：[學員課前提問解答 (QA)](class03_qas.html)
+
 
 ---
 

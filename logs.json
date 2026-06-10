@@ -1,5 +1,28 @@
 [
   {
+    "timestamp": "2026-06-10T20:46:00+08:00",
+    "action_type": "local_updated",
+    "description": "於 Class 03 課程首頁 (index.html) 左側導覽列目錄中，在「實戰專案與進階手冊」下方新增「學員提問與技術解答」連結，並將原本位於側邊欄頁尾之提問按鈕移除，此變更目前僅限本機。",
+    "operator": "AI (Antigravity)",
+    "files_affected": [
+      "falo-taiwan/class/a01/class3/index.html",
+      "logs.md",
+      "logs.json"
+    ]
+  },
+  {
+    "timestamp": "2026-06-10T19:56:00+08:00",
+    "action_type": "local_updated",
+    "description": "於 Class 03 課程首頁 (index.html/index.md) 的「實戰專案與進階手冊」區塊內新增「學員課前提問解答 (QA)」連結，此變更目前僅限本機。",
+    "operator": "AI (Antigravity)",
+    "files_affected": [
+      "falo-taiwan/class/a01/class3/index.html",
+      "falo-taiwan/class/a01/class3/index.md",
+      "logs.md",
+      "logs.json"
+    ]
+  },
+  {
     "timestamp": "2026-06-10T19:46:00+08:00",
     "action_type": "local_updated",
     "description": "更新 Class 03 課程首頁 (index.html/index.md) 的 Class 01 與 Class 02 歷史簡報下載連結為 Google Drive 實際網址；並在首頁右上角建立懸浮無障礙工具列，提供切換配色與調整「字體大小 (A+/A-)、版面寬度 (W+/W-)」等 4 個按鈕控制，此變更僅限本機並自動同步推送。",

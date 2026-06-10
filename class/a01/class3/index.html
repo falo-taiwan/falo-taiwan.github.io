@@ -506,6 +506,7 @@
             <ul class="toc">
                 <li class="toc-item"><a href="#history-review" class="toc-link active">歷史課程回顧</a></li>
                 <li class="toc-item"><a href="#practical-resources" class="toc-link">實戰專案與進階手冊</a></li>
+                <li class="toc-item"><a href="class03_qas.html" target="_blank" rel="noopener noreferrer" class="toc-link">學員提問與技術解答</a></li>
                 <li class="toc-item"><a href="#pillar-1" class="toc-link">1. 多人多帳號 AI 協作</a></li>
                 <li class="toc-item"><a href="#pillar-2" class="toc-link">2. Gemini Canvas 困擾</a></li>
                 <li class="toc-item"><a href="#pillar-3" class="toc-link">3. Antigravity / Codex</a></li>
@@ -514,11 +515,8 @@
                 <li class="toc-item"><a href="#pillar-6" class="toc-link">6. 地端 Server 架設</a></li>
                 <li class="toc-item"><a href="#pillar-7" class="toc-link">7. GAS 雲端自動化</a></li>
             </ul>
-
-            <div class="sidebar-footer">
-                <a href="class03_qas.html" target="_blank" rel="noopener noreferrer" class="sidebar-btn">學員課前提問解答 (QA)</a>
-            </div>
         </aside>
+
 
         <!-- Right Main Content -->
         <main>
@@ -576,8 +574,14 @@
                         <span class="link-text">GAS 開發架構與部署實戰手冊</span>
                         <span class="link-arrow">➔</span>
                     </a>
+                    <a href="class03_qas.html" target="_blank" rel="noopener noreferrer" class="resource-link" style="margin-top: 0;">
+                        <span class="badge">學員 QA</span>
+                        <span class="link-text">學員課前提問解答 (QA)</span>
+                        <span class="link-arrow">➔</span>
+                    </a>
                 </div>
             </section>
+
 
             <!-- Pillar 1 -->
             <section id="pillar-1" class="section-card">
@@ -769,11 +773,13 @@
 
             navLinks.forEach(link => {
                 link.classList.remove('active');
-                if (link.getAttribute('href').substring(1) === current) {
+                const href = link.getAttribute('href');
+                if (href && href.startsWith('#') && href.substring(1) === current) {
                     link.classList.add('active');
                 }
             });
         });
+
 
         // Protected links password check
         document.querySelectorAll('.protected-link').forEach(link => {
