@@ -1,5 +1,17 @@
 [
   {
+    "timestamp": "2026-06-10T21:52:00+08:00",
+    "action_type": "local_updated",
+    "description": "於 Class 03 課程首頁 (index.html/index.md) 移除「其他資源」中的 LINE 防封鎖、Chrome Gemini 及 IPAS ETL 通用工作流三個連結。此變更目前僅限本機。",
+    "operator": "AI (Antigravity)",
+    "files_affected": [
+      "falo-taiwan/class/a01/class3/index.html",
+      "falo-taiwan/class/a01/class3/index.md",
+      "logs.md",
+      "logs.json"
+    ]
+  },
+  {
     "timestamp": "2026-06-10T21:44:00+08:00",
     "action_type": "local_updated",
     "description": "於 Class 03 課程首頁 (index.html/index.md) 將主題一（人與 AI 共創共生）與主題三（開發工具對比分析）連結一併移入「其他資源」區塊，此變更目前僅限本機。",
