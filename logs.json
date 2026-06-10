@@ -1,5 +1,21 @@
 [
   {
+    "timestamp": "2026-06-10T18:06:00+08:00",
+    "action_type": "project_restructured",
+    "description": "重構 Class 03 入口頁面，將原大綱 index.html/md 重新命名為 memo.html/md，建立精美 Glassmorphism 過渡期引導首頁，並批量更新所有子主題課件之返回連結指向 memo.html，同步更新歷史彙整頁與部署腳本。",
+    "operator": "AI (Antigravity)",
+    "files_affected": [
+      "falo-taiwan/class/a01/class3/index.html",
+      "falo-taiwan/class/a01/class3/index.md",
+      "falo-taiwan/class/a01/class3/memo.html",
+      "falo-taiwan/class/a01/class3/memo.md",
+      "history.md",
+      "history.html",
+      "logs.md",
+      "logs.json"
+    ]
+  },
+  {
     "timestamp": "2026-06-10T13:30:00+08:00",
     "action_type": "project_updated",
     "description": "更新主題九「Vibe Coding 實戰武器庫」，將 Gemini Canvas 困擾與解法、Codex/Antigravity、雙軌文檔策略、本機與 GitHub Pages 部署、地端 Server 與 GAS 範例六大工具教學主線深入融合至教材中，並在主題三、主題九與主題十中置入最新的 Anthropic Claude Fable 5 旗艦模型與 Stripe 實測縮短專案時程的新聞報導。",
