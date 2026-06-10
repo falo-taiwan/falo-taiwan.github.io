@@ -22,8 +22,10 @@
 ---
 
 ## 其他資源
-* 🔗 **NotebookLM**：[Google NotebookLM 重磅升級與 Antigravity 實戰](https://falo-taiwan.github.io/class/a01/class3/class03_notebooklm_upgrade.html)
+* 🔗 **共創共生**：[人與 AI 共創共生觀念教材](class03_coexistence.html)
 * 🔗 **協同討論**：[AI 協同討論與即時知識工程化實務](class03_collaboration.html)
+* 🔗 **工具分析**：[AI Agent & Vibe Coding 開發工具分析與對比表](agent_tools.html)
+* 🔗 **NotebookLM**：[Google NotebookLM 重磅升級與 Antigravity 實戰](https://falo-taiwan.github.io/class/a01/class3/class03_notebooklm_upgrade.html)
 * 🔗 **實戰 Prompt**：[WWDC 26 Deep Research 實戰 Prompt 示範 (class03_wwdc_prompt.html)](class03_wwdc_prompt.html)
 * 🔗 **LINE 防封鎖**：[LINE 防封鎖訊息變體生成器 (class03_computer_use.html)](class03_computer_use.html)
 * 🔗 **OCR 協作**：[OCR 辨識策略與 HITL 人機協作實務 (class03_ocr_hitl.html)](class03_ocr_hitl.html)

@@ -1,5 +1,17 @@
 [
   {
+    "timestamp": "2026-06-10T21:44:00+08:00",
+    "action_type": "local_updated",
+    "description": "於 Class 03 課程首頁 (index.html/index.md) 將主題一（人與 AI 共創共生）與主題三（開發工具對比分析）連結一併移入「其他資源」區塊，此變更目前僅限本機。",
+    "operator": "AI (Antigravity)",
+    "files_affected": [
+      "falo-taiwan/class/a01/class3/index.html",
+      "falo-taiwan/class/a01/class3/index.md",
+      "logs.md",
+      "logs.json"
+    ]
+  },
+  {
     "timestamp": "2026-06-10T21:42:00+08:00",
     "action_type": "local_updated",
     "description": "於 Class 03 課程首頁 (index.html/index.md) 移除所有主軸區塊（主軸一、二、三），將剩餘的「Chrome Gemini 解鎖與六層模型」與「IPAS ETL 教材開發革命」連結一併移入「其他資源」區塊，使頁面專注於歷史課程與資源列表。此變更目前僅限本機。",
