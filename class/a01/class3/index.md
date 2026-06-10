@@ -28,6 +28,8 @@
 * 🔗 **NotebookLM**：[Google NotebookLM 重磅升級與 Antigravity 實戰](https://falo-taiwan.github.io/class/a01/class3/class03_notebooklm_upgrade.html)
 * 🔗 **實戰 Prompt**：[WWDC 26 Deep Research 實戰 Prompt 示範 (class03_wwdc_prompt.html)](class03_wwdc_prompt.html)
 * 🔗 **OCR 協作**：[OCR 辨識策略與 HITL 人機協作實務 (class03_ocr_hitl.html)](class03_ocr_hitl.html)
+* 🔗 **Chrome Gemini**：[Chrome 內建 Gemini 解鎖與 FALO 六層模型實戰](https://falo-taiwan.github.io/gemini_chrome/)
+
 
 
 ---
