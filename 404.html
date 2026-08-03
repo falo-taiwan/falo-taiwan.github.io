@@ -303,6 +303,28 @@ Notes:
         return;
       }
 
+      // Handle redirect for class/ to courses/ to bypass GitHub Pages directory blocks
+      if (parts[0] === "class") {
+        const remaining = parts.slice(1).join("/");
+        const target = "/courses/" + (remaining ? remaining : "");
+        showState("Redirecting...", "Redirecting to courses...", "Target: " + target);
+        redirectToTarget(target);
+        return;
+      }
+
+      // Handle redirect for falo-taiwan/ prefixed paths
+      if (parts[0] === "falo-taiwan") {
+        const remainingParts = parts.slice(1);
+        if (remainingParts[0] === "class") {
+          remainingParts[0] = "courses";
+        }
+        const target = "/" + remainingParts.join("/");
+        showState("Redirecting...", "Redirecting...", "Target: " + target);
+        redirectToTarget(target);
+        return;
+      }
+
+
       if (parts[0] !== "go") {
         showState(
           "404 Not Found",
