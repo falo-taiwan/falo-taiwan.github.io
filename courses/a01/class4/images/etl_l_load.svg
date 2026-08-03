@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 160" width="100%" height="100%">
+  <defs>
+    <linearGradient id="greenGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#10b981" />
+      <stop offset="100%" stop-color="#38bdf8" />
+    </linearGradient>
+    <linearGradient id="glowGreen" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#10b981" stop-opacity="0.25" />
+      <stop offset="100%" stop-color="#38bdf8" stop-opacity="0" />
+    </linearGradient>
+  </defs>
+  <!-- Subtle Border background -->
+  <rect width="318" height="158" x="1" y="1" rx="12" fill="rgba(255, 255, 255, 0.01)" stroke="rgba(255, 255, 255, 0.05)" stroke-width="1" />
+  
+  <!-- Left Side: Inbound Data -->
+  <g transform="translate(30, 42)">
+    <rect x="0" y="0" width="40" height="50" rx="4" fill="none" stroke="url(#greenGrad)" stroke-width="2" />
+    <line x1="8" y1="12" x2="32" y2="12" stroke="url(#greenGrad)" stroke-width="1.5" />
+    <line x1="8" y1="22" x2="32" y2="22" stroke="url(#greenGrad)" stroke-width="1.5" />
+    <line x1="8" y1="32" x2="24" y2="32" stroke="url(#greenGrad)" stroke-width="1.5" />
+    <text x="20" y="65" fill="rgba(255, 255, 255, 0.4)" font-size="8" font-family="sans-serif" font-weight="bold" text-anchor="middle">Payload</text>
+  </g>
+  
+  <!-- Middle: Distribution Paths -->
+  <g fill="none" stroke-width="1.5">
+    <path d="M85,67 L170,42" stroke="url(#greenGrad)" stroke-dasharray="3,3" opacity="0.7" />
+    <path d="M85,67 L170,92" stroke="url(#greenGrad)" stroke-dasharray="3,3" opacity="0.7" />
+    <circle cx="125" cy="55" r="3" fill="#38bdf8" />
+    <circle cx="135" cy="82" r="3" fill="#10b981" />
+  </g>
+  
+  <!-- Right Side: DB & Dashboard -->
+  <!-- Target 1: DB (Top Right) -->
+  <g transform="translate(190, 18)">
+    <!-- DB Cylinder -->
+    <ellipse cx="25" cy="10" rx="18" ry="6" fill="url(#glowGreen)" stroke="url(#greenGrad)" stroke-width="1.5" />
+    <path d="M7,10 L7,24 A18,6 0 0 0 43,24 L43,10" fill="url(#glowGreen)" stroke="url(#greenGrad)" stroke-width="1.5" />
+    <path d="M7,24 L7,38 A18,6 0 0 0 43,38 L43,24" fill="url(#glowGreen)" stroke="url(#greenGrad)" stroke-width="1.5" />
+    <text x="50" y="24" fill="url(#greenGrad)" font-size="8" font-weight="bold" font-family="sans-serif">Vector DB</text>
+  </g>
+  
+  <!-- Target 2: Dashboard (Bottom Right) -->
+  <g transform="translate(190, 78)">
+    <rect x="0" y="0" width="50" height="40" rx="4" fill="none" stroke="url(#greenGrad)" stroke-width="1.5" />
+    <!-- Mini Chart inside -->
+    <path d="M6,30 L16,18 L26,24 L44,8" stroke="#38bdf8" stroke-width="2" fill="none" />
+    <circle cx="44" cy="8" r="2" fill="#ffffff" />
+    <text x="58" y="24" fill="url(#greenGrad)" font-size="8" font-weight="bold" font-family="sans-serif">Telemetry</text>
+  </g>
+</svg>

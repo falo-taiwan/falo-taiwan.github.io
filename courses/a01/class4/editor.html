@@ -1,0 +1,2489 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>銀河軟體 台西分公司 Class 04 內容編撰與搜集視窗 (Editor)</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&family=Noto+Sans+TC:wght@400;500;700;900&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Dark Mode Theme */
+            --bg-gradient: radial-gradient(circle at 50% 50%, #0d0925 0%, #03020a 100%);
+            --text-main: #f3f4f6;
+            --text-muted: #9ca3af;
+            --card-bg: rgba(25, 18, 50, 0.45);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --card-hover-border: rgba(192, 132, 252, 0.45);
+            --primary: #8b5cf6;
+            --primary-glow: rgba(139, 92, 246, 0.15);
+            --accent: #c084fc;
+            --accent-glow: rgba(192, 132, 252, 0.15);
+            --sidebar-bg: rgba(15, 10, 35, 0.85);
+            --sidebar-border: rgba(255, 255, 255, 0.08);
+            --toggle-bg: rgba(255, 255, 255, 0.05);
+            --toggle-border: rgba(255, 255, 255, 0.1);
+            --toggle-color: #f3f4f6;
+            --btn-bg: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+            --btn-shadow: rgba(139, 92, 246, 0.25);
+            --badge-bg: rgba(192, 132, 252, 0.12);
+            --badge-color: #d8b4fe;
+            --badge-border: rgba(192, 132, 252, 0.25);
+            --h1-gradient: linear-gradient(135deg, #ffffff 40%, #c084fc 100%);
+            
+            /* Input fields */
+            --input-bg: rgba(255, 255, 255, 0.03);
+            --input-border: rgba(255, 255, 255, 0.08);
+            --input-focus-border: #8b5cf6;
+        }
+
+        body.theme-light {
+            /* Light Mode Theme */
+            --bg-gradient: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 50%, #e2e8f0 100%);
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --card-bg: rgba(255, 255, 255, 0.75);
+            --card-border: rgba(99, 102, 241, 0.12);
+            --card-hover-border: rgba(99, 102, 241, 0.45);
+            --primary: #4f46e5;
+            --primary-glow: rgba(79, 70, 229, 0.1);
+            --accent: #0891b2;
+            --accent-glow: rgba(8, 145, 178, 0.1);
+            --sidebar-bg: rgba(255, 255, 255, 0.9);
+            --sidebar-border: rgba(99, 102, 241, 0.15);
+            --toggle-bg: rgba(0, 0, 0, 0.05);
+            --toggle-border: rgba(0, 0, 0, 0.08);
+            --toggle-color: #4f46e5;
+            --btn-bg: linear-gradient(135deg, #4f46e5 0%, #3b82f6 100%);
+            --btn-shadow: rgba(79, 70, 229, 0.2);
+            --badge-bg: rgba(8, 145, 178, 0.08);
+            --badge-color: #0891b2;
+            --badge-border: rgba(8, 145, 178, 0.15);
+            --h1-gradient: linear-gradient(135deg, #1e293b 30%, #4f46e5 100%);
+            
+            --input-bg: rgba(0, 0, 0, 0.015);
+            --input-border: rgba(0, 0, 0, 0.08);
+            --input-focus-border: #4f46e5;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: var(--bg-gradient);
+            color: var(--text-main);
+            font-family: 'Outfit', 'Noto Sans TC', sans-serif;
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            transition: background 0.4s ease, color 0.3s ease;
+        }
+
+        .layout-wrapper {
+            display: flex;
+            width: 100%;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* Sidebar Tabs Control */
+        aside {
+            width: 280px;
+            flex-shrink: 0;
+            background: var(--sidebar-bg);
+            border-right: 1px solid var(--sidebar-border);
+            padding: 2rem 1.25rem;
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 100;
+            transition: background 0.4s ease, border-color 0.4s ease;
+        }
+
+        .brand h2 {
+            font-size: 1.2rem;
+            font-weight: 900;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.25rem;
+        }
+
+        .brand .eyebrow {
+            font-size: 0.7rem;
+            font-weight: 800;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 0.5rem;
+        }
+
+        .brand .sub-brand {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+            border-bottom: 1px solid var(--sidebar-border);
+            padding-bottom: 0.75rem;
+        }
+
+        .nav-tabs {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            flex-grow: 1;
+        }
+
+        .nav-tab-btn {
+            width: 100%;
+            text-align: left;
+            background: transparent;
+            border: none;
+            padding: 0.75rem 1rem;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            font-weight: 600;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .nav-tab-btn:hover, .nav-tab-btn.active {
+            color: var(--text-main);
+            background: var(--primary-glow);
+            padding-left: 1.25rem;
+        }
+
+        .nav-tab-btn.active {
+            border-left: 4px solid var(--primary);
+            border-radius: 4px 10px 10px 4px;
+        }
+
+        .sidebar-footer {
+            border-top: 1px solid var(--sidebar-border);
+            padding-top: 1.5rem;
+            margin-top: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .theme-toggle-btn {
+            background: var(--toggle-bg);
+            border: 1px solid var(--toggle-border);
+            color: var(--toggle-color);
+            padding: 0.6rem;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .theme-toggle-btn:hover {
+            background: var(--primary);
+            color: #ffffff;
+            border-color: var(--primary);
+        }
+
+        /* Main Workspace Content */
+        main {
+            margin-left: 280px;
+            flex-grow: 1;
+            padding: 2.5rem;
+            width: calc(100% - 280px);
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .tab-panel {
+            display: none;
+            width: 100%;
+        }
+
+        .tab-panel.active {
+            display: block;
+            animation: fadeIn 0.4s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        header h1 {
+            font-size: 2rem;
+            font-weight: 800;
+            background: var(--h1-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+        }
+
+        header p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        /* Card styles for input form grouping */
+        .glass-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 2rem;
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            margin-bottom: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .glass-card-header {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: var(--text-main);
+            border-bottom: 1px solid var(--sidebar-border);
+            padding-bottom: 0.75rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* Forms Elements */
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.25rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+
+        label {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        input[type="text"],
+        input[type="url"],
+        input[type="date"],
+        textarea {
+            background: var(--input-bg);
+            border: 1px solid var(--input-border);
+            color: var(--text-main);
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 0.95rem;
+            outline: none;
+            transition: all 0.2s ease;
+            width: 100%;
+        }
+
+        input:focus, textarea:focus {
+            border-color: var(--input-focus-border);
+            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.2);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        /* Dynamic items controls */
+        .dynamic-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .dynamic-item {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 1.5rem;
+            position: relative;
+            animation: slideIn 0.3s ease;
+        }
+
+        body.theme-light .dynamic-item {
+            background: rgba(0, 0, 0, 0.01);
+            border-color: rgba(0, 0, 0, 0.05);
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .item-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .btn {
+            padding: 0.5rem 1rem;
+            font-size: 0.85rem;
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: 1px solid transparent;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .btn-primary {
+            background: var(--btn-bg);
+            color: #ffffff;
+            box-shadow: 0 4px 12px var(--btn-shadow);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 16px var(--btn-shadow);
+            filter: brightness(1.1);
+        }
+
+        .btn-secondary {
+            background: var(--toggle-bg);
+            border: 1px solid var(--toggle-border);
+            color: var(--text-main);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        body.theme-light .btn-secondary:hover {
+            background: rgba(0, 0, 0, 0.05);
+        }
+
+        .btn-danger {
+            background: rgba(239, 68, 68, 0.15);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            color: #f87171;
+        }
+
+        .btn-danger:hover {
+            background: #ef4444;
+            color: #ffffff;
+            border-color: #ef4444;
+        }
+
+        body.theme-light .btn-danger {
+            background: rgba(239, 68, 68, 0.08);
+        }
+
+        .btn-sm {
+            padding: 0.35rem 0.65rem;
+            font-size: 0.75rem;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        /* Output code containers */
+        .code-output-container {
+            position: relative;
+            background: #090615;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            max-height: 70vh;
+        }
+
+        .code-output-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 1.25rem;
+            background: rgba(0, 0, 0, 0.4);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .code-lang-label {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.8rem;
+            color: #8b5cf6;
+            font-weight: 600;
+        }
+
+        .code-area {
+            padding: 1.25rem;
+            overflow: auto;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.85rem;
+            color: #e2e8f0;
+            line-height: 1.5;
+            white-space: pre;
+            flex-grow: 1;
+        }
+
+        /* Live Preview tab */
+        .preview-frame-container {
+            width: 100%;
+            height: 75vh;
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            overflow: hidden;
+            background: #ffffff;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        /* Autosave Indicator */
+        .save-indicator {
+            position: fixed;
+            bottom: 1.5rem;
+            right: 1.5rem;
+            background: rgba(16, 185, 129, 0.15);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            color: #34d399;
+            padding: 0.5rem 1rem;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .save-indicator.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .save-indicator.error {
+            background: rgba(239, 68, 68, 0.15);
+            border-color: rgba(239, 68, 68, 0.3);
+            color: #f87171;
+        }
+
+        .save-indicator .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: currentColor;
+            display: inline-block;
+        }
+
+        /* Nested lists helper */
+        .nested-box {
+            margin-top: 1rem;
+            padding-left: 1rem;
+            border-left: 2px solid var(--primary);
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .nested-box-title {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--accent);
+            text-transform: uppercase;
+        }
+
+        /* Table editor styling */
+        .grid-editor-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .grid-editor-table th, .grid-editor-table td {
+            padding: 0.75rem;
+            border: 1px solid var(--card-border);
+            text-align: left;
+        }
+
+        .grid-editor-table th {
+            background: rgba(255, 255, 255, 0.02);
+            color: var(--text-main);
+            font-weight: 600;
+        }
+
+        body.theme-light .grid-editor-table th {
+            background: rgba(0, 0, 0, 0.02);
+        }
+    </style>
+</head>
+<body>
+    <div class="layout-wrapper">
+        <!-- Sidebar -->
+        <aside>
+            <div class="brand">
+                <div class="eyebrow">FORCE Studio</div>
+                <h2>銀河軟體 台西分公司 Class 04</h2>
+                <div class="sub-brand">課程內容編撰與搜集器</div>
+            </div>
+            
+            <nav style="flex-grow: 1;">
+                <ul class="nav-tabs">
+                    <li>
+                        <button class="nav-tab-btn active" data-tab="editor">
+                            <span>✍️</span> 編輯課程內容
+                        </button>
+                    </li>
+                    <li>
+                        <button class="nav-tab-btn" data-tab="preview" onclick="updateOutputs()">
+                            <span>👁️</span> 網頁即時預覽
+                        </button>
+                    </li>
+                    <li>
+                        <button class="nav-tab-btn" data-tab="markdown-tab" onclick="updateOutputs()">
+                            <span>📝</span> Markdown 原始碼
+                        </button>
+                    </li>
+                    <li>
+                        <button class="nav-tab-btn" data-tab="html-tab" onclick="updateOutputs()">
+                            <span>🌐</span> HTML 原始碼
+                        </button>
+                    </li>
+                    <li>
+                        <button class="nav-tab-btn" data-tab="export-tab">
+                            <span>💾</span> 匯出與設定
+                        </button>
+                    </li>
+                </ul>
+            </nav>
+
+            <div class="sidebar-footer">
+                <button class="theme-toggle-btn" id="theme-toggle" onclick="toggleTheme()">
+                    <span id="theme-icon">☀️</span>
+                    <span id="theme-text">切換清新白</span>
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Work Area -->
+        <main>
+            <!-- TAB 1: EDITOR FORM -->
+            <div class="tab-panel active" id="editor">
+                <header>
+                    <h1>課程基本資訊</h1>
+                    <p>在這裡填寫 Class 04 的課程基本後設資料。</p>
+                </header>
+
+                <!-- Basic Info Card -->
+                <div class="glass-card">
+                    <div class="glass-card-header">
+                        <span>基本課程屬性</span>
+                        <div class="btn-group">
+                            <button class="btn btn-secondary btn-sm" onclick="loadSampleData()">載入範例資料</button>
+                            <button class="btn btn-danger btn-sm" onclick="clearForm()">清空表單</button>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="course-title">課程名稱</label>
+                            <input type="text" id="course-title" placeholder="例如：Class 04 企業級 AI Agent 自動化實戰">
+                        </div>
+                        <div class="form-group">
+                            <label for="course-subtitle">課程副標題 / 組織名稱</label>
+                            <input type="text" id="course-subtitle" placeholder="例如：銀河軟體 台西分公司 Class 04">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="course-date">上課日期</label>
+                            <input type="text" id="course-date" placeholder="例如：2026/07/15 (三) 09:00-12:00">
+                        </div>
+                        <div class="form-group">
+                            <label for="course-instructor">授課教師</label>
+                            <input type="text" id="course-instructor" placeholder="例如：鄭穎臨 老師">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="course-location">上課地點</label>
+                            <input type="text" id="course-location" placeholder="例如：台南市安平區育平九街49號 二樓教室">
+                        </div>
+                        <div class="form-group">
+                            <label for="course-slides">課程簡報下載網址</label>
+                            <input type="url" id="course-slides" placeholder="https://drive.google.com/...">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="course-password">簡報解鎖密碼</label>
+                            <input type="text" id="course-password" placeholder="例如：galaxy">
+                        </div>
+                        <div class="form-group">
+                            <label for="course-desc">課程前言 / 簡介</label>
+                            <textarea id="course-desc" placeholder="簡短描述這堂課的主要目的與核心教學目標..."></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Core Topics Card -->
+                <div class="glass-card">
+                    <div class="glass-card-header">
+                        <span>教學核心主軸 (Core Topics)</span>
+                        <button class="btn btn-primary btn-sm" onclick="addTopic()">➕ 新增主軸</button>
+                    </div>
+                    <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.5rem;">
+                        這些主軸會生成網頁中的卡片，以及自動生成左側的導覽目錄。
+                    </p>
+                    <div class="dynamic-list" id="topics-list">
+                        <!-- Dynamic topics injected here -->
+                    </div>
+                </div>
+
+                <!-- Cases / Handbooks Card -->
+                <div class="glass-card">
+                    <div class="glass-card-header">
+                        <span>實戰專案與進階手冊 (Projects & Handbooks)</span>
+                        <button class="btn btn-primary btn-sm" onclick="addHandbook()">➕ 新增手冊</button>
+                    </div>
+                    <div class="dynamic-list" id="handbooks-list">
+                        <!-- Dynamic handbooks injected here -->
+                    </div>
+                </div>
+
+                <!-- Tools Comparison Card -->
+                <div class="glass-card">
+                    <div class="glass-card-header">
+                        <span>AI 開發工具與對比分析表</span>
+                        <button class="btn btn-primary btn-sm" onclick="addToolRow()">➕ 新增工具</button>
+                    </div>
+                    <div style="overflow-x: auto;">
+                        <table class="grid-editor-table">
+                            <thead>
+                                <tr>
+                                    <th style="width: 20%;">工具名稱</th>
+                                    <th style="width: 25%;">核心定位</th>
+                                    <th style="width: 25%;">優勢特色</th>
+                                    <th style="width: 25%;">實戰技巧/限制</th>
+                                    <th style="width: 80px; text-align: center;">操作</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tools-table-body">
+                                <!-- Dynamic tool rows injected here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- FAQ / QA Card -->
+                <div class="glass-card">
+                    <div class="glass-card-header">
+                        <span>學員課前提問與解答 (FAQ)</span>
+                        <button class="btn btn-primary btn-sm" onclick="addFAQ()">➕ 新增問答</button>
+                    </div>
+                    <div class="dynamic-list" id="faqs-list">
+                        <!-- Dynamic FAQs injected here -->
+                    </div>
+                </div>
+
+                <!-- Other Resources Card -->
+                <div class="glass-card">
+                    <div class="glass-card-header">
+                        <span>其他資源與參考連結</span>
+                        <button class="btn btn-primary btn-sm" onclick="addResource()">➕ 新增資源</button>
+                    </div>
+                    <div class="dynamic-list" id="resources-list">
+                        <!-- Dynamic resources injected here -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 2: LIVE PREVIEW -->
+            <div class="tab-panel" id="preview">
+                <header>
+                    <h1>網頁即時預覽 (Live HTML Preview)</h1>
+                    <p>以下展示 Class 04 網頁在瀏覽器中渲染的真實效果。隨時返回「編輯課程內容」修改，此預覽會自動同步更新。</p>
+                </header>
+                <div class="preview-frame-container">
+                    <iframe id="preview-iframe" title="HTML Preview"></iframe>
+                </div>
+            </div>
+
+            <!-- TAB 3: MARKDOWN OUTPUT -->
+            <div class="tab-panel" id="markdown-tab">
+                <header>
+                    <h1>Markdown 原始碼 (index.md)</h1>
+                    <p>專為 AI 大模型 (LLM) 進行上下文理解所編寫的結構化 Markdown 文件。</p>
+                </header>
+                <div class="code-output-container">
+                    <div class="code-output-header">
+                        <span class="code-lang-label">MARKDOWN</span>
+                        <button class="btn btn-primary btn-sm" onclick="copyToClipboard('markdown-code')">📋 複製 Markdown</button>
+                    </div>
+                    <div class="code-area" id="markdown-code" contenteditable="true"></div>
+                </div>
+            </div>
+
+            <!-- TAB 4: HTML OUTPUT -->
+            <div class="tab-panel" id="html-tab">
+                <header>
+                    <h1>HTML 網頁原始碼 (index.html)</h1>
+                    <p>具備 Glassmorphism 玻璃擬態高階視覺、RWD、深色/清新白主題切換與無障礙字級調整的完整網頁原始碼。</p>
+                </header>
+                <div class="code-output-container">
+                    <div class="code-output-header">
+                        <span class="code-lang-label">HTML5 / CSS3 / ES6</span>
+                        <button class="btn btn-primary btn-sm" onclick="copyToClipboard('html-code')">📋 複製 HTML</button>
+                    </div>
+                    <div class="code-area" id="html-code" contenteditable="true"></div>
+                </div>
+            </div>
+
+            <!-- TAB 5: EXPORT & SETTINGS -->
+            <div class="tab-panel" id="export-tab">
+                <header>
+                    <h1>匯出、下載與備份</h1>
+                    <p>管理 Class 04 編輯狀態、下載最終檔案或重設系統。</p>
+                </header>
+                
+                <div class="glass-card">
+                    <div class="glass-card-header">一鍵下載發布檔案</div>
+                    <p style="margin-bottom: 1.5rem;">直接下載已編撰好的 `.md` 與 `.html` 檔案。您可以將它們覆蓋至 `force-taiwan/class/a01/class4/` 目錄中以完成部署。</p>
+                    <div class="btn-group">
+                        <button class="btn btn-primary" onclick="downloadFile('index.md', generateMarkdown())">💾 下載 index.md (AI 用)</button>
+                        <button class="btn btn-primary" onclick="downloadFile('index.html', generateHTML())">🌐 下載 index.html (學員網頁)</button>
+                    </div>
+                </div>
+
+                <div class="glass-card">
+                    <div class="glass-card-header">JSON 數據備份與還原</div>
+                    <p style="margin-bottom: 1.25rem;">您可以將此表單的完整編輯進度備份為 JSON 檔案，以利未來在其他裝置載入或共享給其他協作人員。</p>
+                    <div class="form-group">
+                        <label for="json-backup-area">JSON 配置源碼</label>
+                        <textarea id="json-backup-area" style="font-family: 'Fira Code', monospace; font-size: 0.8rem; min-height: 120px;" placeholder="此處顯示當前 JSON 進度數據..."></textarea>
+                    </div>
+                    <div class="btn-group">
+                        <button class="btn btn-secondary" onclick="exportJSON()">💾 匯出為 JSON 備份檔</button>
+                        <button class="btn btn-secondary" onclick="importJSON()">📥 載入 JSON 配置檔</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Autosave Notification Banner -->
+    <div class="save-indicator" id="save-indicator">
+        <span class="dot"></span>
+        <span id="save-indicator-text">草稿已自動儲存</span>
+    </div>
+
+    <!-- MAIN SCRIPTS -->
+    <script>
+        // Tab switching logic
+        const tabBtns = document.querySelectorAll('.nav-tab-btn');
+        const panels = document.querySelectorAll('.tab-panel');
+
+        tabBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const target = btn.getAttribute('data-tab');
+                
+                tabBtns.forEach(b => b.classList.remove('active'));
+                panels.forEach(p => p.classList.remove('active'));
+
+                btn.classList.add('active');
+                document.getElementById(target).classList.add('active');
+            });
+        });
+
+        // Toggle light / dark theme on editor window
+        function toggleTheme() {
+            const body = document.body;
+            const btnText = document.getElementById('theme-text');
+            const btnIcon = document.getElementById('theme-icon');
+
+            if (body.classList.contains('theme-light')) {
+                body.classList.remove('theme-light');
+                btnText.textContent = "切換清新白";
+                btnIcon.textContent = "☀️";
+                localStorage.setItem('editor-theme', 'dark');
+            } else {
+                body.classList.add('theme-light');
+                btnText.textContent = "切換深紫微光";
+                btnIcon.textContent = "🌙";
+                localStorage.setItem('editor-theme', 'light');
+            }
+        }
+
+        // Apply saved theme on load
+        if (localStorage.getItem('editor-theme') === 'light') {
+            document.body.classList.add('theme-light');
+            document.getElementById('theme-text').textContent = "切換深紫微光";
+            document.getElementById('theme-icon').textContent = "🌙";
+        }
+
+        // Data Models
+        let appState = {
+            title: "",
+            subtitle: "",
+            date: "",
+            instructor: "",
+            location: "",
+            slidesLink: "",
+            password: "",
+            description: "",
+            topics: [],
+            handbooks: [],
+            tools: [],
+            faqs: [],
+            resources: []
+        };
+
+        // UI Generators for Dynamic list fields
+        function addTopic(data = { title: "", tag: "", desc: "", codes: [], links: [] }) {
+            const container = document.getElementById('topics-list');
+            const id = 'topic_' + Date.now() + Math.random().toString(36).substr(2, 5);
+
+            const div = document.createElement('div');
+            div.className = 'dynamic-item';
+            div.id = id;
+            div.innerHTML = `
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>主軸名稱 (e.g. 主軸一：AI Agentic 工作流架構)</label>
+                        <input type="text" class="topic-title" value="${data.title || ''}" placeholder="請輸入主軸標題">
+                    </div>
+                    <div class="form-group">
+                        <label>主軸標籤 / 副標題 (e.g. 協作模式 / RWD 部署)</label>
+                        <input type="text" class="topic-tag" value="${data.tag || ''}" placeholder="請輸入標籤">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>主軸詳細說明</label>
+                    <textarea class="topic-desc" placeholder="請詳細描述此主軸的教學大綱與核心概念...">${data.desc || ''}</textarea>
+                </div>
+                
+                <!-- Links container inside topic -->
+                <div class="nested-box">
+                    <div class="nested-box-title">🔗 該主軸之參考連結</div>
+                    <div class="dynamic-list topic-links-container"></div>
+                    <button class="btn btn-secondary btn-sm" style="align-self: flex-start;" onclick="addLinkToTopic('${id}')">➕ 新增連結</button>
+                </div>
+
+                <!-- Code block container inside topic -->
+                <div class="nested-box" style="border-left-color: var(--accent);">
+                    <div class="nested-box-title">💻 該主軸之 Prompt / 程式碼範例</div>
+                    <div class="dynamic-list topic-codes-container"></div>
+                    <button class="btn btn-secondary btn-sm" style="align-self: flex-start;" onclick="addCodeToTopic('${id}')">➕ 新增範例區塊</button>
+                </div>
+
+                <div class="item-actions">
+                    <button class="btn btn-danger btn-sm" onclick="deleteItem('${id}')">🗑️ 刪除此主軸</button>
+                </div>
+            `;
+            container.appendChild(div);
+
+            // Populate nested items if editing
+            if (data.links && data.links.length > 0) {
+                data.links.forEach(link => addLinkToTopic(id, link));
+            }
+            if (data.codes && data.codes.length > 0) {
+                data.codes.forEach(code => addCodeToTopic(id, code));
+            }
+
+            triggerAutosave();
+        }
+
+        // Add reference links to topics
+        function addLinkToTopic(topicId, data = { text: "", url: "" }) {
+            const topic = document.getElementById(topicId);
+            const container = topic.querySelector('.topic-links-container');
+            const linkId = 'link_' + Date.now() + Math.random().toString(36).substr(2, 5);
+
+            const div = document.createElement('div');
+            div.className = 'form-row';
+            div.id = linkId;
+            div.style.marginBottom = '0.5rem';
+            div.innerHTML = `
+                <input type="text" class="link-text-input" style="flex: 2;" value="${data.text || ''}" placeholder="連結名稱 (e.g. Google Drive 簡報)">
+                <input type="url" class="link-url-input" style="flex: 3;" value="${data.url || ''}" placeholder="連結網址 (URL)">
+                <button class="btn btn-danger btn-sm" style="flex-shrink: 0;" onclick="deleteItem('${linkId}')">🗑️</button>
+            `;
+            container.appendChild(div);
+            triggerAutosave();
+        }
+
+        // Add code sample blocks to topics
+        function addCodeToTopic(topicId, data = { title: "", content: "" }) {
+            const topic = document.getElementById(topicId);
+            const container = topic.querySelector('.topic-codes-container');
+            const codeId = 'code_' + Date.now() + Math.random().toString(36).substr(2, 5);
+
+            const div = document.createElement('div');
+            div.className = 'dynamic-item';
+            div.id = codeId;
+            div.style.padding = '1rem';
+            div.style.background = 'rgba(0, 0, 0, 0.2)';
+            div.innerHTML = `
+                <div class="form-group" style="margin-bottom: 0.5rem;">
+                    <input type="text" class="code-title-input" value="${data.title || ''}" placeholder="範例標題 (e.g. 一鍵自動化 Prompt)">
+                </div>
+                <div class="form-group" style="margin-bottom: 0.5rem;">
+                    <textarea class="code-content-input" style="font-family: 'Fira Code', monospace; font-size: 0.85rem; min-height: 80px;" placeholder="填寫範例程式碼或 Prompt 內容...">${data.content || ''}</textarea>
+                </div>
+                <div class="item-actions" style="margin-top: 0;">
+                    <button class="btn btn-danger btn-sm" onclick="deleteItem('${codeId}')">🗑️</button>
+                </div>
+            `;
+            container.appendChild(div);
+            triggerAutosave();
+        }
+
+        // Add Practical Cases / Handbooks
+        function addHandbook(data = { title: "", url: "", desc: "" }) {
+            const container = document.getElementById('handbooks-list');
+            const id = 'handbook_' + Date.now() + Math.random().toString(36).substr(2, 5);
+
+            const div = document.createElement('div');
+            div.className = 'dynamic-item';
+            div.id = id;
+            div.innerHTML = `
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>專案/手冊名稱</label>
+                        <input type="text" class="hb-title" value="${data.title || ''}" placeholder="例如：GAS 自動化開發部署實務">
+                    </div>
+                    <div class="form-group">
+                        <label>專案/手冊網址 (URL)</label>
+                        <input type="url" class="hb-url" value="${data.url || ''}" placeholder="https://...">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>詳細介紹描述</label>
+                    <textarea class="hb-desc" style="min-height: 60px;" placeholder="請扼要簡述本手冊的實作主題與產出價值...">${data.desc || ''}</textarea>
+                </div>
+                <div class="item-actions">
+                    <button class="btn btn-danger btn-sm" onclick="deleteItem('${id}')">🗑️ 刪除此專案</button>
+                </div>
+            `;
+            container.appendChild(div);
+            triggerAutosave();
+        }
+
+        // Add Tool row comparison
+        function addToolRow(data = { name: "", purpose: "", advantage: "", tip: "" }) {
+            const container = document.getElementById('tools-table-body');
+            const id = 'tool_' + Date.now() + Math.random().toString(36).substr(2, 5);
+
+            const tr = document.createElement('tr');
+            tr.id = id;
+            tr.className = 'tool-row';
+            tr.innerHTML = `
+                <td><input type="text" class="tool-name" value="${data.name || ''}" placeholder="e.g. OpenClaw"></td>
+                <td><input type="text" class="tool-purpose" value="${data.purpose || ''}" placeholder="e.g. 本地環境自動化"></td>
+                <td><input type="text" class="tool-advantage" value="${data.advantage || ''}" placeholder="e.g. 支援 Command Line & API"></td>
+                <td><input type="text" class="tool-tip" value="${data.tip || ''}" placeholder="e.g. 需手動開啟 Sandbox 安全權限"></td>
+                <td style="text-align: center;"><button class="btn btn-danger btn-sm" onclick="deleteItem('${id}')">🗑️</button></td>
+            `;
+            container.appendChild(tr);
+            triggerAutosave();
+        }
+
+        // Add Collapsible FAQ
+        function addFAQ(data = { q: "", a: "", tags: "" }) {
+            const container = document.getElementById('faqs-list');
+            const id = 'faq_' + Date.now() + Math.random().toString(36).substr(2, 5);
+
+            const div = document.createElement('div');
+            div.className = 'dynamic-item';
+            div.id = id;
+            div.innerHTML = `
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>學員提問問題</label>
+                        <input type="text" class="faq-q" value="${data.q || ''}" placeholder="例如：老師，請問如果 MCP 工具執行超時該如何處理？">
+                    </div>
+                    <div class="form-group">
+                        <label>分類標籤 (以逗點分開)</label>
+                        <input type="text" class="faq-tags" value="${data.tags || ''}" placeholder="例如：RPA, MCP, 除錯">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>答覆說明與解析內容</label>
+                    <textarea class="faq-a" placeholder="請詳細填寫本問題的排查解法或 AI 最佳引導 Prompt...">${data.a || ''}</textarea>
+                </div>
+                <div class="item-actions">
+                    <button class="btn btn-danger btn-sm" onclick="deleteItem('${id}')">🗑️ 刪除此 FAQ</button>
+                </div>
+            `;
+            container.appendChild(div);
+            triggerAutosave();
+        }
+
+        // Add reference resources
+        function addResource(data = { title: "", url: "", desc: "" }) {
+            const container = document.getElementById('resources-list');
+            const id = 'res_' + Date.now() + Math.random().toString(36).substr(2, 5);
+
+            const div = document.createElement('div');
+            div.className = 'dynamic-item';
+            div.id = id;
+            div.innerHTML = `
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>資源標題</label>
+                        <input type="text" class="res-title" value="${data.title || ''}" placeholder="例如：Generative Engine Optimization (GEO) 中介規範">
+                    </div>
+                    <div class="form-group">
+                        <label>連結網址 (URL)</label>
+                        <input type="url" class="res-url" value="${data.url || ''}" placeholder="https://...">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>資源簡介說明</label>
+                    <textarea class="res-desc" style="min-height: 60px;" placeholder="填寫該項資源與本堂課的關聯與推薦用途...">${data.desc || ''}</textarea>
+                </div>
+                <div class="item-actions">
+                    <button class="btn btn-danger btn-sm" onclick="deleteItem('${id}')">🗑️ 刪除此資源</button>
+                </div>
+            `;
+            container.appendChild(div);
+            triggerAutosave();
+        }
+
+        // Item deletion
+        function deleteItem(id) {
+            const el = document.getElementById(id);
+            if (el) {
+                el.remove();
+                triggerAutosave();
+            }
+        }
+
+        // Harvest Form Inputs into JS State
+        function harvestData() {
+            appState.title = document.getElementById('course-title').value;
+            appState.subtitle = document.getElementById('course-subtitle').value;
+            appState.date = document.getElementById('course-date').value;
+            appState.instructor = document.getElementById('course-instructor').value;
+            appState.location = document.getElementById('course-location').value;
+            appState.slidesLink = document.getElementById('course-slides').value;
+            appState.password = document.getElementById('course-password').value;
+            appState.description = document.getElementById('course-desc').value;
+
+            // Harvest Topics
+            appState.topics = [];
+            const topicEls = document.querySelectorAll('#topics-list > .dynamic-item');
+            topicEls.forEach(el => {
+                const title = el.querySelector('.topic-title').value;
+                const tag = el.querySelector('.topic-tag').value;
+                const desc = el.querySelector('.topic-desc').value;
+
+                // Harvest topic links
+                const linkEls = el.querySelectorAll('.topic-links-container > .form-row');
+                const links = [];
+                linkEls.forEach(le => {
+                    const text = le.querySelector('.link-text-input').value;
+                    const url = le.querySelector('.link-url-input').value;
+                    if (text || url) links.push({ text, url });
+                });
+
+                // Harvest topic codes
+                const codeEls = el.querySelectorAll('.topic-codes-container > .dynamic-item');
+                const codes = [];
+                codeEls.forEach(ce => {
+                    const title = ce.querySelector('.code-title-input').value;
+                    const content = ce.querySelector('.code-content-input').value;
+                    if (title || content) codes.push({ title, content });
+                });
+
+                if (title) {
+                    appState.topics.push({ title, tag, desc, links, codes });
+                }
+            });
+
+            // Harvest Handbooks
+            appState.handbooks = [];
+            const hbEls = document.querySelectorAll('#handbooks-list > .dynamic-item');
+            hbEls.forEach(el => {
+                const title = el.querySelector('.hb-title').value;
+                const url = el.querySelector('.hb-url').value;
+                const desc = el.querySelector('.hb-desc').value;
+                if (title) {
+                    appState.handbooks.push({ title, url, desc });
+                }
+            });
+
+            // Harvest Tools Table
+            appState.tools = [];
+            const toolRows = document.querySelectorAll('.tool-row');
+            toolRows.forEach(row => {
+                const name = row.querySelector('.tool-name').value;
+                const purpose = row.querySelector('.tool-purpose').value;
+                const advantage = row.querySelector('.tool-advantage').value;
+                const tip = row.querySelector('.tool-tip').value;
+                if (name) {
+                    appState.tools.push({ name, purpose, advantage, tip });
+                }
+            });
+
+            // Harvest FAQs
+            appState.faqs = [];
+            const faqEls = document.querySelectorAll('#faqs-list > .dynamic-item');
+            faqEls.forEach(el => {
+                const q = el.querySelector('.faq-q').value;
+                const a = el.querySelector('.faq-a').value;
+                const tags = el.querySelector('.faq-tags').value;
+                if (q) {
+                    appState.faqs.push({ q, a, tags });
+                }
+            });
+
+            // Harvest Other Resources
+            appState.resources = [];
+            const resEls = document.querySelectorAll('#resources-list > .dynamic-item');
+            resEls.forEach(el => {
+                const title = el.querySelector('.res-title').value;
+                const url = el.querySelector('.res-url').value;
+                const desc = el.querySelector('.res-desc').value;
+                if (title) {
+                    appState.resources.push({ title, url, desc });
+                }
+            });
+        }
+
+        // Markdown Compiler
+        function generateMarkdown() {
+            harvestData();
+            
+            let md = `# ${appState.title || 'Class 04 課程首頁'}\n\n`;
+            md += `${appState.description || '本目錄由歷史課程回顧與教學主軸構成。'}\n\n`;
+            md += `---\n\n`;
+            
+            md += `## 課程資訊\n`;
+            md += `* 📅 **上課時間**：${appState.date || '未定'}\n`;
+            md += `* 👨‍🏫 **授課教師**：${appState.instructor || '未定'}\n`;
+            md += `* 📍 **上課地點**：${appState.location || '未定'}\n`;
+            if (appState.slidesLink) {
+                md += `* 🔗 **課程簡報**：[簡報下載網址](${appState.slidesLink}) ${appState.password ? `(🔒 密碼保護：${appState.password})` : ''}\n`;
+            }
+            md += `\n---\n\n`;
+
+            md += `## 📌 常見提醒與交付規範 (台灣時間 UTC+8)\n`;
+            md += `> [!IMPORTANT]\n`;
+            md += `> 本課程與專案之所有宣告、作業交付截止日期等時間，皆**統一宣告並以台灣時間 (UTC+8) 為唯一準則**。\n\n`;
+            md += `* 📄 **雙軌標準規範 (md + html)**: 所有提問集、作業及大綱，必須同時提交 **Markdown (.md)** 檔（供 AI/LLM 結構理解）與 **HTML (.html)** 網頁檔（供人類閱讀），落實雙軌並行標準。\n`;
+            md += `* 📦 **壓縮包命名習慣 (ZIP 檔案)**: 凡提交程式碼或專案資源壓縮包時，請遵循 **「[時間戳記]_[重要更新事項].zip」** 命名規範（例如：\`20260622_class04_project.zip\`）。\n\n`;
+            md += `---\n\n`;
+
+            if (appState.handbooks.length > 0) {
+                md += `## 實戰專案與進階手冊\n`;
+                appState.handbooks.forEach(h => {
+                    md += `* 🔗 **${h.title}**：[${h.title}](${h.url}) - ${h.desc}\n`;
+                });
+                md += `\n---\n\n`;
+            }
+
+            if (appState.topics.length > 0) {
+                md += `## 教學核心主軸\n`;
+                appState.topics.forEach((t, index) => {
+                    md += `### 主軸 ${index + 1}：${t.title} (${t.tag})\n`;
+                    md += `${t.desc}\n\n`;
+                    
+                    if (t.links && t.links.length > 0) {
+                        md += `#### 參考連結\n`;
+                        t.links.forEach(l => {
+                            md += `* [${l.text}](${l.url})\n`;
+                        });
+                        md += `\n`;
+                    }
+
+                    if (t.codes && t.codes.length > 0) {
+                        t.codes.forEach(c => {
+                            md += `#### ${c.title}\n`;
+                            md += `\`\`\`plaintext\n${c.content}\n\`\`\`\n\n`;
+                        });
+                    }
+                });
+                md += `---\n\n`;
+            }
+
+            // Case Studies Section
+            md += `## 🚀 核心實戰案例展示 (Featured Case Studies)\n\n`;
+            md += `以下為 Class 04 重點示範專案，著重於將電腦視覺、OCR 辨識與企業工作流/智慧稽核整合運作的實際落地設計。\n\n`;
+            md += `### 案例一：Video to PPT 智慧簡報影格萃取與知識庫\n`;
+            md += `*   **專案精神**：捕捉專家經驗 ➔ 建立企業知識管理 (KM) 資料庫，且執行時完全不耗費 any AI API Token（零運行成本）。\n`;
+            md += `*   **技術整合特點**：\n`;
+            md += `    *   **圖像變化偵測**：OpenCV 平均絕對誤差 (MAE) 進行快速變動判定。\n`;
+            md += `    *   **雜湊去重與過濾**：64位元差值雜湊 (dHash) 漢明距離去重，輔以 Laplacian 邊緣變異數進行模糊與黑底畫面過濾。\n`;
+            md += `    *   **OCR 與智慧搜尋 (RAG)**：擷取圖片後，串接 OCR (PaddleOCR/EasyOCR) 提取文字並進行向量嵌入 (Embedding)，讓簡報投影片內容可直接透過 LLM 進行語意問答與查詢。\n`;
+            md += `*   **示範影片**：課堂播放最強完整版功能展示影片 \`demo.mp4\`。\n`;
+            md += `*   **學員基礎代碼**：[📥 下載學生基礎版代碼 (video_to_ppt_basic.zip)](video_to_ppt_basic.zip) (內含 Python 偵測腳本與 README 說明，供課堂練習使用)。\n\n`;
+            md += `### 案例二：AAA-Evidence Hub 企業電子憑證自動化處理平台\n`;
+            md += `*   **專案精神**：針對中小企業與一人資訊部門 (OPC) 設計 of PoC，完整打通「憑證收集 ➔ 辨識 ➔ 轉換 ➔ 簽核 ➔ 模擬 ERP 入帳 ➔ 自動稽核」之閉環。\n`;
+            md += `*   **技術整合流程**：\n`;
+            md += `    *   **1. 辨識層 (OCR)**：整合 Layout-free LLM Vision API / Google OCR / PaddleOCR 提取非結構化憑證欄位。\n`;
+            md += `    *   **2. 轉換層 (ETL)**：將憑證資料清洗並標準化為 Expense Record 格式。\n`;
+            md += `    *   **3. 工作流 (Workflow)**：以狀態機驅動自動送審、會計覆核與模擬過帳流程。\n`;
+            md += `    *   **4. 智慧稽核 (AI Audit)**：比對歷史資料進行重複核銷防弊、設定金額上限警示、以及透過語意理解驗證「週末公務乘車事由」之合規性。\n`;
+            md += `*   **互動展示**：[🌐 開啟線上互動展示頁 (ticket-demo)](https://force-taiwan.github.io/ticket-demo/)\n\n`;
+            md += `---\n\n`;
+
+            if (appState.tools.length > 0) {
+                md += `## AI 開發工具對比分析表\n\n`;
+                md += `| 工具名稱 | 核心定位 | 優勢特色 | 實戰技巧/限制 |\n`;
+                md += `| :--- | :--- | :--- | :--- |\n`;
+                appState.tools.forEach(tool => {
+                    md += `| **${tool.name}** | ${tool.purpose} | ${tool.advantage} | ${tool.tip} |\n`;
+                });
+                md += `\n---\n\n`;
+            }
+
+            if (appState.faqs.length > 0) {
+                md += `## 學員課前提問與解答 (FAQ)\n\n`;
+                appState.faqs.forEach(faq => {
+                    md += `#### Q: ${faq.q} ${faq.tags ? `[標籤: ${faq.tags}]` : ''}\n`;
+                    md += `A: ${faq.a}\n\n`;
+                });
+                md += `---\n\n`;
+            }
+
+            if (appState.resources.length > 0) {
+                md += `## 其他參考資源\n`;
+                appState.resources.forEach(r => {
+                    md += `* [${r.title}](${r.url})：${r.desc}\n`;
+                });
+            }
+
+            return md;
+        }
+
+        // HTML Compiler
+        function generateHTML() {
+            harvestData();
+            
+            // Build dynamic side navigation TOC
+            let sidebarToc = '<li><a class="toc-link" href="#notice-section">📌 常見提醒與交付規範</a></li>\n';
+            appState.topics.forEach((t, i) => {
+                sidebarToc += `<li><a class="toc-link" href="#topic-${i}">主軸 ${i+1}：${t.title}</a></li>\n`;
+            });
+            sidebarToc += `<li><a class="toc-link" href="#cases-section">🚀 核心實戰案例展示</a></li>\n`;
+            sidebarToc += `<li><a class="toc-link" href="tw-ai-grant-intro.html" style="color: var(--accent); font-weight: bold;">📂 AI KM 建置範例：政府 RAG</a></li>\n`;
+            if (appState.handbooks.length > 0) sidebarToc += `<li><a class="toc-link" href="#handbooks-section">實戰專案與手冊</a></li>\n`;
+            if (appState.tools.length > 0) sidebarToc += `<li><a class="toc-link" href="#tools-section">AI 開發工具對比</a></li>\n`;
+            if (appState.faqs.length > 0) sidebarToc += `<li><a class="toc-link" href="#faq-section">學員提問 QA</a></li>\n`;
+            if (appState.resources.length > 0) sidebarToc += `<li><a class="toc-link" href="#resources-section">其他參考資源</a></li>\n`;
+
+            // Build topics sections HTML
+            let topicsHTML = '';
+            appState.topics.forEach((t, i) => {
+                let linksList = '';
+                if (t.links && t.links.length > 0) {
+                    linksList = '<div class="resource-links">';
+                    t.links.forEach(l => {
+                        linksList += `
+                            <a class="resource-link" href="${l.url}" target="_blank">
+                                <span class="link-icon">🔗</span>
+                                <span class="link-text">${l.text}</span>
+                                <span class="link-arrow">➔</span>
+                            </a>
+                        `;
+                    });
+                    linksList += '</div>';
+                }
+
+                let codesList = '';
+                if (t.codes && t.codes.length > 0) {
+                    t.codes.forEach(c => {
+                        codesList += `
+                            <div class="code-container">
+                                <div class="code-header">
+                                    <span>${c.title}</span>
+                                    <button class="btn-copy" onclick="copyContent(this)">📋 複製</button>
+                                </div>
+                                <pre><code>${escapeHtml(c.content)}</code></pre>
+                            </div>
+                        `;
+                    });
+                }
+
+                topicsHTML += `
+                    <section id="topic-${i}" class="card section-card">
+                        <div class="section-num">主軸 0${i + 1} / ${t.tag}</div>
+                        <h2>${t.title}</h2>
+                        <p class="intro">${t.desc.replace(/\n/g, '<br>')}</p>
+                        ${linksList}
+                        ${codesList}
+                    </section>
+                `;
+            });
+
+            // Build Case Studies HTML
+            let casesHTML = `
+            <!-- Case Studies Section -->
+            <section id="cases-section" class="card section-card" style="border-color: rgba(192, 132, 252, 0.4); background: rgba(139, 92, 246, 0.02);">
+                <div class="section-num" style="color: var(--accent);">CASE STUDIES / 實戰案例</div>
+                <h2>🚀 核心實戰案例展示</h2>
+                <p class="intro">以下為 Class 04 重點示範專案，著重於將電腦視覺、OCR 辨識與企業工作流/智慧稽核整合運作的實際落地設計。</p>
+                
+                <div style="display: flex; flex-direction: column; gap: 2rem; margin-top: 2rem;">
+                    
+                    <!-- Case 1: Video to PPT -->
+                    <div style="display: flex; gap: 1.5rem; background: rgba(0,0,0,0.2); border: 1px solid var(--card-border); border-radius: 12px; padding: 1.5rem; overflow: hidden; align-items: flex-start; flex-wrap: wrap;">
+                        <div style="flex: 1 1 400px; min-width: 280px;">
+                            <strong style="font-size: 1.25rem; color: #ffffff; display: block; margin-bottom: 0.5rem;">案例一：Video to PPT 智慧簡報影格萃取與知識庫</strong>
+                            <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 1rem; line-height: 1.5;">
+                                <strong>核心精神：</strong> 捕捉專家經驗 ➔ 建立企業知識管理 (KM) 資料庫，且執行時完全不耗費 any AI API Token（零運行成本）。
+                                <br><br>
+                                <strong>技術整合特點：</strong>
+                                <br>
+                                • <strong>圖像變化偵測：</strong> OpenCV 平均絕對誤差 (MAE) 進行快速變動判定。<br>
+                                • <strong>雜湊去重與過濾：</strong> 64位元差值雜湊 (dHash) 漢明距離去重，輔以 Laplacian 邊緣變異數進行模糊與黑底畫面過濾。<br>
+                                • <strong>OCR 與智慧搜尋 (RAG)：</strong> 擷取圖片後，串接 OCR (PaddleOCR/EasyOCR) 提取文字並進行向量嵌入 (Embedding)，讓簡報投影片內容可直接透過 LLM 進行語意問答與查詢。
+                            </p>
+                            <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+                                <a href="video_to_ppt_basic.zip" class="sidebar-btn" style="background: var(--primary); border-color: var(--primary); color: #ffffff; padding: 0.5rem 1rem; text-decoration: none; font-size: 0.85rem; display: inline-flex; align-items: center; gap: 0.35rem;" download>
+                                    📥 下載學生基礎版代碼
+                                </a>
+                                <span style="font-size: 0.8rem; color: var(--text-muted); align-self: center;">(內含 Python 偵測腳本與 README 說明)</span>
+                            </div>
+                        </div>
+                        <div style="flex: 0 0 320px; width: 320px; min-width: 250px; background: #000; border: 1px solid rgba(255,255,255,0.05); border-radius: 8px; overflow: hidden; display: flex; flex-direction: column;">
+                            <div style="padding: 0.5rem; background: rgba(255,255,255,0.03); border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 0.75rem; text-align: center; color: var(--accent); font-weight: bold;">
+                                📺 老師最強完整版功能展示 (demo.mp4)
+                            </div>
+                            <video src="demo.mp4" controls style="width: 100%; height: auto; display: block;"></video>
+                        </div>
+                    </div>
+
+                    <!-- Case 2: AAA-Evidence Hub -->
+                    <div style="display: flex; gap: 1.5rem; background: rgba(0,0,0,0.2); border: 1px solid var(--card-border); border-radius: 12px; padding: 1.5rem; overflow: hidden; align-items: flex-start; flex-wrap: wrap;">
+                        <div style="flex: 1 1 400px; min-width: 280px;">
+                            <strong style="font-size: 1.25rem; color: #ffffff; display: block; margin-bottom: 0.5rem;">案例二：AAA-Evidence Hub 企業電子憑證自動化處理平台 (ticket-demo)</strong>
+                            <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 1rem; line-height: 1.5;">
+                                <strong>核心精神：</strong> 針對中小企業與一人資訊部門 (OPC) 設計的 PoC，完整打通「憑證收集 ➔ 辨識 ➔ 轉換 ➔ 簽核 ➔ 模擬 ERP 入帳 ➔ 自動稽核」之閉環。
+                                <br><br>
+                                <strong>多技術整合流程：</strong>
+                                <br>
+                                • <strong>1. 辨識層 (OCR)：</strong> 整合 Layout-free LLM Vision API / Google OCR / PaddleOCR 提取非結構化憑證欄位。<br>
+                                • <strong>2. 轉換層 (ETL)：</strong> 將憑證資料清洗並標準化為 Expense Record 格式。<br>
+                                • <strong>3. 工作流 (Workflow)：</strong> 以狀態機驅動自動送審、會計覆核與模擬過帳流程。<br>
+                                • <strong>4. 智慧稽核 (AI Audit)：</strong> 比對歷史資料進行重複核銷防弊、設定金額上限警示、以及透過語意理解驗證「週末公務乘車事由」之合規性。
+                            </p>
+                            <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+                                <a href="https://force-taiwan.github.io/ticket-demo/" target="_blank" class="sidebar-btn" style="background: var(--primary); border-color: var(--primary); color: #ffffff; padding: 0.5rem 1rem; text-decoration: none; font-size: 0.85rem; display: inline-flex; align-items: center; gap: 0.35rem;">
+                                    🌐 開啟線上互動展示頁
+                                </a>
+                                <span style="font-size: 0.8rem; color: var(--text-muted); align-self: center;">(提供模擬 SQLite 庫、簽核日誌與 AI 稽核面板)</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+            `;
+
+            // Build Handbooks HTML
+            let handbooksHTML = '';
+            if (appState.handbooks.length > 0) {
+                handbooksHTML += `
+                    <section id="handbooks-section" class="card section-card">
+                        <div class="section-num">PROJ / MANUALS</div>
+                        <h2>實戰專案與進階手冊</h2>
+                        <div class="resource-links" style="margin-top: 1rem;">
+                `;
+                appState.handbooks.forEach(h => {
+                    handbooksHTML += `
+                        <a class="resource-link" href="${h.url}" target="_blank">
+                            <span class="badge">手冊</span>
+                            <span class="link-text"><strong>${h.title}</strong> — ${h.desc}</span>
+                            <span class="link-arrow">➔</span>
+                        </a>
+                    `;
+                });
+                handbooksHTML += `
+                        </div>
+                    </section>
+                `;
+            }
+
+            // Build Tools Table HTML
+            let toolsHTML = '';
+            if (appState.tools.length > 0) {
+                toolsHTML += `
+                    <section id="tools-section" class="card section-card">
+                        <div class="section-num">COMPARE / ANALYSIS</div>
+                        <h2>AI 開發工具與對比分析表</h2>
+                        <div style="overflow-x: auto; margin-top: 1.5rem;">
+                            <table class="comparison-table">
+                                <thead>
+                                    <tr>
+                                        <th>工具名稱</th>
+                                        <th>核心定位</th>
+                                        <th>優勢特色</th>
+                                        <th>實戰技巧/限制</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                `;
+                appState.tools.forEach(tool => {
+                    toolsHTML += `
+                        <tr>
+                            <td><strong>${tool.name}</strong></td>
+                            <td>${tool.purpose}</td>
+                            <td>${tool.advantage}</td>
+                            <td>${tool.tip}</td>
+                        </tr>
+                    `;
+                });
+                toolsHTML += `
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
+                `;
+            }
+
+            // Build FAQ Accordion HTML
+            let faqHTML = '';
+            if (appState.faqs.length > 0) {
+                faqHTML += `
+                    <section id="faq-section" class="card section-card">
+                        <div class="section-num">QA / FAQ</div>
+                        <h2>學員課前提問與解答</h2>
+                        <div class="faq-container" style="margin-top: 1.5rem; display: flex; flex-direction: column; gap: 1rem;">
+                `;
+                appState.faqs.forEach((faq, fi) => {
+                    let badges = '';
+                    if (faq.tags) {
+                        faq.tags.split(',').forEach(tag => {
+                            badges += `<span class="badge" style="margin-right: 0.35rem;">${tag.trim()}</span>`;
+                        });
+                    }
+
+                    faqHTML += `
+                        <div class="faq-item" style="border: 1px solid var(--card-border); border-radius: 12px; overflow: hidden; background: rgba(0,0,0,0.1);">
+                            <button class="faq-trigger" onclick="toggleAccordion(this)" style="width: 100%; text-align: left; background: transparent; border: none; padding: 1.2rem; color: #ffffff; font-weight: 600; font-size: 1rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center;">
+                                <span>Q: ${faq.q}</span>
+                                <span class="faq-arrow" style="transition: transform 0.2s;">▼</span>
+                            </button>
+                            <div class="faq-content" style="max-height: 0; overflow: hidden; transition: max-height 0.3s ease; padding: 0 1.2rem; color: var(--text-secondary); font-size: 0.95rem;">
+                                <div style="padding-bottom: 1.2rem; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 1rem;">
+                                    <div style="margin-bottom: 0.75rem;">${badges}</div>
+                                    <p>${faq.a.replace(/\n/g, '<br>')}</p>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                });
+                faqHTML += `
+                        </div>
+                    </section>
+                `;
+            }
+
+            // Build Other Resources HTML
+            let resourcesHTML = '';
+            if (appState.resources.length > 0) {
+                resourcesHTML += `
+                    <section id="resources-section" class="card section-card">
+                        <div class="section-num">RESOURCES</div>
+                        <h2>其他參考資源</h2>
+                        <div class="resource-links" style="margin-top: 1rem;">
+                `;
+                appState.resources.forEach(r => {
+                    resourcesHTML += `
+                        <a class="resource-link" href="${r.url}" target="_blank">
+                            <span class="link-icon">🔗</span>
+                            <span class="link-text"><strong>${r.title}</strong> — ${r.desc}</span>
+                            <span class="link-arrow">➔</span>
+                        </a>
+                    `;
+                });
+                resourcesHTML += `
+                        </div>
+                    </section>
+                `;
+            }
+
+            return `<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>${appState.title || '銀河 ERP 內訓課程 | Class 04'}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&family=Noto+Sans+TC:wght@400;500;700;900&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Dark Mode Theme */
+            --bg-gradient: radial-gradient(circle at 50% 50%, #0b071e 0%, #020108 100%);
+            --text-main: #f3f4f6;
+            --text-muted: #9ca3af;
+            --card-bg: rgba(25, 18, 50, 0.45);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --card-hover-border: rgba(192, 132, 252, 0.45);
+            --primary: #8b5cf6;
+            --primary-glow: rgba(139, 92, 246, 0.15);
+            --accent: #c084fc;
+            --sidebar-bg: rgba(15, 10, 35, 0.85);
+            --sidebar-border: rgba(255, 255, 255, 0.08);
+            --toggle-bg: rgba(255, 255, 255, 0.05);
+            --toggle-border: rgba(255, 255, 255, 0.1);
+            --toggle-color: #f3f4f6;
+            --btn-bg: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+            --btn-shadow: rgba(139, 92, 246, 0.25);
+            --badge-bg: rgba(192, 132, 252, 0.12);
+            --badge-color: #d8b4fe;
+            --badge-border: rgba(192, 132, 252, 0.25);
+            --h1-gradient: linear-gradient(135deg, #ffffff 40%, #c084fc 100%);
+            --code-bg: #0d091e;
+        }
+
+        body.theme-light {
+            /* Fresh White Mode */
+            --bg-gradient: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 50%, #e2e8f0 100%);
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --card-bg: rgba(255, 255, 255, 0.75);
+            --card-border: rgba(99, 102, 241, 0.12);
+            --card-hover-border: rgba(99, 102, 241, 0.45);
+            --primary: #4f46e5;
+            --primary-glow: rgba(79, 70, 229, 0.1);
+            --accent: #0891b2;
+            --sidebar-bg: rgba(255, 255, 255, 0.9);
+            --sidebar-border: rgba(99, 102, 241, 0.15);
+            --toggle-bg: rgba(0, 0, 0, 0.05);
+            --toggle-border: rgba(0, 0, 0, 0.08);
+            --toggle-color: #4f46e5;
+            --btn-bg: linear-gradient(135deg, #4f46e5 0%, #3b82f6 100%);
+            --btn-shadow: rgba(79, 70, 229, 0.2);
+            --badge-bg: rgba(8, 145, 178, 0.08);
+            --badge-color: #0891b2;
+            --badge-border: rgba(8, 145, 178, 0.15);
+            --h1-gradient: linear-gradient(135deg, #1e293b 30%, #4f46e5 100%);
+            --code-bg: #f8fafc;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: var(--bg-gradient);
+            color: var(--text-main);
+            font-family: 'Outfit', 'Noto Sans TC', sans-serif;
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            transition: background 0.4s ease, color 0.3s ease;
+        }
+
+        /* Accessibility Zoom & Width adjustments */
+        body.zoom-large { font-size: 1.15rem; }
+        body.zoom-large h1 { font-size: 2.5rem; }
+        body.zoom-large h2 { font-size: 1.8rem; }
+        
+        .layout-wrapper {
+            display: flex;
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+            position: relative;
+            transition: max-width 0.3s ease;
+        }
+        
+        body.width-wide .layout-wrapper {
+            max-width: 1600px;
+        }
+
+        /* Sidebar Navigation */
+        aside {
+            width: 300px;
+            flex-shrink: 0;
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            background: var(--sidebar-bg);
+            border-right: 1px solid var(--sidebar-border);
+            padding: 2.5rem 1.5rem;
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            display: flex;
+            flex-direction: column;
+            z-index: 100;
+            transition: background 0.4s ease, border-color 0.4s ease;
+        }
+
+        .brand h2 {
+            font-size: 1.35rem;
+            font-weight: 900;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.25rem;
+        }
+
+        .brand .eyebrow {
+            font-size: 0.75rem;
+            font-weight: 800;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 0.5rem;
+        }
+
+        .brand .sub-brand {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+            border-bottom: 1px solid var(--sidebar-border);
+            padding-bottom: 0.75rem;
+        }
+
+        .toc {
+            list-style: none;
+            flex-grow: 1;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+        }
+
+        .toc-link {
+            display: block;
+            padding: 0.6rem 0.8rem;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .toc-link:hover {
+            color: var(--text-main);
+            background: var(--primary-glow);
+            padding-left: 1.2rem;
+        }
+
+        .sidebar-footer {
+            border-top: 1px solid var(--sidebar-border);
+            padding-top: 1.5rem;
+            margin-top: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .sidebar-btn {
+            display: block;
+            text-align: center;
+            padding: 0.6rem 0.8rem;
+            background: var(--toggle-bg);
+            border: 1px solid var(--toggle-border);
+            color: var(--text-main);
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 600;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .sidebar-btn:hover {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: #ffffff;
+        }
+
+        /* Main Content */
+        main {
+            margin-left: 300px;
+            flex-grow: 1;
+            padding: 3.5rem 2.5rem;
+            width: calc(100% - 300px);
+            box-sizing: border-box;
+        }
+
+        header {
+            margin-bottom: 3rem;
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            background: var(--h1-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.5px;
+        }
+
+        .subtitle {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            font-weight: 300;
+        }
+
+        /* Course Info Widget */
+        .info-widget {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .info-cell {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.04);
+            border-radius: 12px;
+            padding: 1.2rem;
+        }
+
+        body.theme-light .info-cell {
+            background: rgba(0,0,0,0.015);
+            border-color: rgba(0,0,0,0.04);
+        }
+
+        .info-cell-label {
+            font-size: 0.75rem;
+            font-weight: 800;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.35rem;
+        }
+
+        .info-cell-value {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text-main);
+        }
+
+        .section-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 2.5rem;
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            margin-bottom: 2.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .section-card:hover {
+            border-color: var(--card-hover-border);
+            box-shadow: 0 15px 35px rgba(139, 92, 246, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .section-num {
+            font-size: 0.8rem;
+            font-weight: 800;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 0.5rem;
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--text-main);
+        }
+
+        .intro {
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+        }
+
+        /* Resource links */
+        .resource-links {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            margin-top: 1.5rem;
+        }
+
+        .resource-link {
+            display: flex;
+            align-items: center;
+            padding: 0.9rem 1.2rem;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            border-radius: 10px;
+            color: var(--text-main);
+            text-decoration: none;
+            transition: all 0.25s ease;
+        }
+
+        body.theme-light .resource-link {
+            background: rgba(0, 0, 0, 0.015);
+            border: 1px solid rgba(0, 0, 0, 0.04);
+        }
+
+        .resource-link:hover {
+            background: var(--primary-glow);
+            border-color: var(--card-hover-border);
+            padding-left: 1.5rem;
+        }
+
+        .link-icon {
+            font-size: 1.2rem;
+            margin-right: 0.75rem;
+        }
+
+        .link-text {
+            font-weight: 600;
+            font-size: 0.95rem;
+            flex-grow: 1;
+        }
+
+        .link-arrow {
+            font-size: 0.9rem;
+            opacity: 0.6;
+            transition: transform 0.2s ease;
+        }
+
+        .resource-link:hover .link-arrow {
+            transform: translateX(3px);
+            opacity: 1;
+        }
+
+        .badge {
+            background: var(--badge-bg);
+            color: var(--badge-color);
+            border: 1px solid var(--badge-border);
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 0.2rem 0.5rem;
+            border-radius: 6px;
+            margin-right: 0.75rem;
+            white-space: nowrap;
+        }
+
+        /* Accessibility Floating Toolbar */
+        .accessibility-toolbar {
+            position: fixed;
+            top: 2rem;
+            right: 2rem;
+            background: var(--sidebar-bg);
+            border: 1px solid var(--sidebar-border);
+            border-radius: 30px;
+            padding: 0.4rem 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            z-index: 1000;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+            transition: all 0.3s ease;
+        }
+
+        body.theme-light .accessibility-toolbar {
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            background: rgba(255, 255, 255, 0.95);
+        }
+
+        .toolbar-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-main);
+            width: 2.4rem;
+            height: 2.4rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            outline: none;
+        }
+
+        .toolbar-btn:hover {
+            background: var(--primary-glow);
+            color: var(--primary);
+            transform: scale(1.1);
+        }
+
+        .accessibility-toolbar .divider {
+            width: 1px;
+            height: 1.2rem;
+            background: var(--sidebar-border);
+        }
+
+        /* Code Block Container */
+        .code-container {
+            position: relative;
+            background: var(--code-bg);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            margin-top: 1.5rem;
+            overflow: hidden;
+        }
+
+        body.theme-light .code-container {
+            border-color: rgba(0,0,0,0.06);
+        }
+
+        .code-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 1.25rem;
+            background: rgba(0, 0, 0, 0.3);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            font-family: 'Fira Code', monospace;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        body.theme-light .code-header {
+            background: rgba(0,0,0,0.03);
+            border-bottom-color: rgba(0,0,0,0.06);
+        }
+
+        .btn-copy {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-main);
+            padding: 0.35rem 0.75rem;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-copy:hover {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: #ffffff;
+        }
+
+        pre {
+            padding: 1.25rem;
+            overflow-x: auto;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.85rem;
+            color: var(--text-main);
+            line-height: 1.5;
+        }
+
+        /* Comparison Table */
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+            font-size: 0.9rem;
+            text-align: left;
+        }
+
+        .comparison-table th, .comparison-table td {
+            padding: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        body.theme-light .comparison-table th, 
+        body.theme-light .comparison-table td {
+            border-bottom-color: rgba(0,0,0,0.05);
+        }
+
+        .comparison-table th {
+            background: rgba(255, 255, 255, 0.02);
+            color: var(--text-main);
+            font-weight: 600;
+        }
+
+        body.theme-light .comparison-table th {
+            background: rgba(0,0,0,0.02);
+        }
+
+        .comparison-table td {
+            color: var(--text-muted);
+        }
+
+        .comparison-table tr:hover {
+            background: rgba(255, 255, 255, 0.01);
+        }
+
+        body.theme-light .comparison-table tr:hover {
+            background: rgba(0,0,0,0.01);
+        }
+
+        @media (max-width: 900px) {
+            aside {
+                display: none;
+            }
+            main {
+                margin-left: 0;
+                width: 100%;
+                padding: 1.5rem;
+            }
+            .accessibility-toolbar {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating accessibility toolbar -->
+    <div class="accessibility-toolbar">
+        <button class="toolbar-btn" onclick="toggleLocalTheme()" title="切換配色">💡</button>
+        <div class="divider"></div>
+        <button class="toolbar-btn" onclick="adjustZoom(true)" title="放大字體">A+</button>
+        <button class="toolbar-btn" onclick="adjustZoom(false)" title="縮小字體">A-</button>
+        <div class="divider"></div>
+        <button class="toolbar-btn" onclick="adjustWidth(true)" title="寬版版面">W+</button>
+        <button class="toolbar-btn" onclick="adjustWidth(false)" title="窄版版面">W-</button>
+    </div>
+
+    <div class="layout-wrapper">
+        <aside>
+            <div class="brand">
+                <div class="eyebrow">${appState.subtitle ? '銀河 ERP 內訓' : ''}</div>
+                <h2>${appState.title ? appState.title.split(' ')[0] || 'Class 04' : 'Class 04'}</h2>
+                <div class="sub-brand">${appState.subtitle || '銀河軟體 台西分公司'}</div>
+            </div>
+            
+            <ul class="toc">
+                ${sidebarToc}
+            </ul>
+
+            <div class="sidebar-footer">
+                <a class="sidebar-btn" href="../index.html">⬅ 返回課程首頁</a>
+            </div>
+        </aside>
+
+        <main>
+            <header>
+                <h1>${appState.title || 'Class 04 企業級 AI Agent 自動化實戰'}</h1>
+                <div class="subtitle">${appState.subtitle || '銀河軟體 台西分公司 Class 04'}</div>
+            </header>
+
+            <div class="info-widget">
+                <div class="info-cell">
+                    <div class="info-cell-label">📅 上課時間</div>
+                    <div class="info-cell-value">${appState.date || '未定'}</div>
+                </div>
+                <div class="info-cell">
+                    <div class="info-cell-label">👨‍🏫 授課教師</div>
+                    <div class="info-cell-value">${appState.instructor || '未定'}</div>
+                </div>
+                <div class="info-cell">
+                    <div class="info-cell-label">📍 上課地點</div>
+                    <div class="info-cell-value">${appState.location || '未定'}</div>
+                </div>
+                ${appState.slidesLink ? `
+                <div class="info-cell">
+                    <div class="info-cell-label">🔑 課程簡報</div>
+                    <div class="info-cell-value">
+                        <a href="${appState.slidesLink}" target="_blank" style="color: var(--primary); text-decoration: none;">下載簡報</a> 
+                        ${appState.password ? `<span style="font-size: 0.8rem; opacity: 0.7;">(密碼：${appState.password})</span>` : ''}
+                    </div>
+                </div>
+                ` : ''}
+            </div>
+
+            <p style="color: var(--text-muted); font-size: 1.1rem; margin-bottom: 3rem; max-width: 900px;">
+                ${appState.description.replace(/\n/g, '<br>')}
+            </p>
+
+            <!-- Notice Section -->
+            <section id="notice-section" class="card section-card" style="border-color: rgba(245, 158, 11, 0.35); background: rgba(245, 158, 11, 0.02);">
+                <div class="section-num" style="color: #f59e0b;">NOTICE / 常見提醒</div>
+                <h2>📌 重要交付與作業規範</h2>
+                <p class="intro" style="color: #f59e0b; font-weight: 600;">※ 所有上課時間、作業繳交期限等，皆統一宣告並以【台灣時間 (UTC+8)】為唯一準則！</p>
+                <div style="display: flex; flex-direction: column; gap: 1rem; margin-top: 1.5rem; font-size: 0.95rem; color: var(--text-muted);">
+                    <div style="display: flex; gap: 0.75rem; align-items: flex-start; padding: 0.8rem; background: rgba(255,255,255,0.01); border: 1px solid var(--card-border); border-radius: 8px;">
+                        <span style="font-size: 1.25rem;">🌐</span>
+                        <div>
+                            <strong style="color: #ffffff; display: block; margin-bottom: 0.25rem;">1. 時區與交付宣告</strong>
+                            本專案所有時間及截止日期，皆以<strong>台灣時間 (UTC+8)</strong> 為標準。
+                        </div>
+                    </div>
+                    <div style="display: flex; gap: 0.75rem; align-items: flex-start; padding: 0.8rem; background: rgba(255,255,255,0.01); border: 1px solid var(--card-border); border-radius: 8px;">
+                        <span style="font-size: 1.25rem;">📄</span>
+                        <div>
+                            <strong style="color: #ffffff; display: block; margin-bottom: 0.25rem;">2. 雙軌標準規範 (md + html)</strong>
+                            所有作業、提問集與專案大綱，必須同時提交 <strong>Markdown (.md)</strong> 檔（便於 AI / LLM 理解）與 <strong>HTML (.html)</strong> 網頁檔（便於人類瀏覽）。
+                        </div>
+                    </div>
+                    <div style="display: flex; gap: 0.75rem; align-items: flex-start; padding: 0.8rem; background: rgba(255,255,255,0.01); border: 1px solid var(--card-border); border-radius: 8px;">
+                        <span style="font-size: 1.25rem;">📦</span>
+                        <div>
+                            <strong style="color: #ffffff; display: block; margin-bottom: 0.25rem;">3. 壓縮包命名習慣 (ZIP 檔案)</strong>
+                            凡提交程式碼或專案壓縮包時，請遵循 <strong>「[時間戳記]_[重要更新事項].zip」</strong> 習慣。
+                            <br><span style="font-family: 'Fira Code', monospace; font-size: 0.85rem; color: var(--accent);">範例：20260622_class04_project.zip</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            ${topicsHTML}
+            ${casesHTML}
+            ${handbooksHTML}
+            ${toolsHTML}
+            ${faqHTML}
+            ${resourcesHTML}
+        </main>
+    </div>
+
+    <script>
+        // Collapsible Accordion logic
+        function toggleAccordion(btn) {
+            const content = btn.nextElementSibling;
+            const arrow = btn.querySelector('.faq-arrow');
+            
+            if (content.style.maxHeight && content.style.maxHeight !== '0px') {
+                content.style.maxHeight = '0px';
+                arrow.style.transform = 'rotate(0deg)';
+            } else {
+                content.style.maxHeight = content.scrollHeight + 'px';
+                arrow.style.transform = 'rotate(180deg)';
+            }
+        }
+
+        // Copy button action
+        function copyContent(btn) {
+            const pre = btn.parentElement.nextElementSibling;
+            const text = pre.innerText;
+            navigator.clipboard.writeText(text).then(() => {
+                const originalText = btn.innerHTML;
+                btn.innerHTML = '✅ 已複製！';
+                btn.style.background = '#10b981';
+                btn.style.color = '#ffffff';
+                setTimeout(() => {
+                    btn.innerHTML = originalText;
+                    btn.style.background = '';
+                    btn.style.color = '';
+                }, 1500);
+            });
+        }
+
+        // Accessibility triggers
+        function toggleLocalTheme() {
+            document.body.classList.toggle('theme-light');
+            const current = document.body.classList.contains('theme-light') ? 'light' : 'dark';
+            localStorage.setItem('class04-theme', current);
+        }
+
+        if (localStorage.getItem('class04-theme') === 'light') {
+            document.body.classList.add('theme-light');
+        }
+
+        function adjustZoom(enlarge) {
+            if (enlarge) {
+                document.body.classList.add('zoom-large');
+                localStorage.setItem('class04-zoom', 'large');
+            } else {
+                document.body.classList.remove('zoom-large');
+                localStorage.setItem('class04-zoom', 'normal');
+            }
+        }
+
+        if (localStorage.getItem('class04-zoom') === 'large') {
+            document.body.classList.add('zoom-large');
+        }
+
+        function adjustWidth(wide) {
+            if (wide) {
+                document.body.classList.add('width-wide');
+                localStorage.setItem('class04-width', 'wide');
+            } else {
+                document.body.classList.remove('width-wide');
+                localStorage.setItem('class04-width', 'normal');
+            }
+        }
+
+        if (localStorage.getItem('class04-width') === 'wide') {
+            document.body.classList.add('width-wide');
+        }
+    <\/script>
+</body>
+</html>`;
+        }
+
+        // Helper to encode HTML code block content safety
+        function escapeHtml(string) {
+            return String(string).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#039;');
+        }
+
+        // Trigger updates to compiled text areas & live iframe
+        function updateOutputs() {
+            const markdownVal = generateMarkdown();
+            const htmlVal = generateHTML();
+
+            document.getElementById('markdown-code').textContent = markdownVal;
+            document.getElementById('html-code').textContent = htmlVal;
+
+            // Update iframe
+            const iframe = document.getElementById('preview-iframe');
+            const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+            iframeDoc.open();
+            iframeDoc.write(htmlVal);
+            iframeDoc.close();
+        }
+
+        // Clipboard copy utility for compiler tabs
+        function copyToClipboard(elementId) {
+            const content = document.getElementById(elementId).textContent;
+            navigator.clipboard.writeText(content).then(() => {
+                showToast("已成功複製到剪貼簿！");
+            }).catch(err => {
+                showToast("複製失敗，請手動全選複製", true);
+            });
+        }
+
+        // Browser download file trigger
+        function downloadFile(filename, content) {
+            const element = document.createElement('a');
+            element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(content));
+            element.setAttribute('download', filename);
+            element.style.display = 'none';
+            document.body.appendChild(element);
+            element.click();
+            document.body.removeChild(element);
+            showToast(`已成功下載 ${filename}`);
+        }
+
+        // Toast notifications
+        function showToast(message, isError = false) {
+            const toast = document.getElementById('save-indicator');
+            const text = document.getElementById('save-indicator-text');
+            
+            text.textContent = message;
+            if (isError) {
+                toast.classList.add('error');
+            } else {
+                toast.classList.remove('error');
+            }
+
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        // Autosave configurations
+        let saveTimer = null;
+        function triggerAutosave() {
+            if (saveTimer) clearTimeout(saveTimer);
+            saveTimer = setTimeout(() => {
+                harvestData();
+                localStorage.setItem('class04-compiler-draft', JSON.stringify(appState));
+                
+                // Show floating small dot indicator
+                const toast = document.getElementById('save-indicator');
+                document.getElementById('save-indicator-text').textContent = "草稿已自動儲存";
+                toast.classList.remove('error');
+                toast.classList.add('show');
+                setTimeout(() => {
+                    toast.classList.remove('show');
+                }, 1500);
+            }, 2000);
+        }
+
+        // Bind standard input triggers to autosave
+        document.querySelectorAll('input, textarea').forEach(el => {
+            el.addEventListener('input', triggerAutosave);
+        });
+
+        // Load / Save raw state backup settings
+        function exportJSON() {
+            harvestData();
+            const jsonStr = JSON.stringify(appState, null, 4);
+            document.getElementById('json-backup-area').value = jsonStr;
+            downloadFile('class04_draft.json', jsonStr);
+        }
+
+        function importJSON() {
+            const area = document.getElementById('json-backup-area');
+            try {
+                const data = JSON.parse(area.value);
+                loadState(data);
+                showToast("配置檔載入成功！");
+                triggerAutosave();
+            } catch (e) {
+                showToast("JSON 格式解析錯誤，請檢查內容！", true);
+            }
+        }
+
+        // Load entire state structure into form UI
+        function loadState(state) {
+            if (!state) return;
+            appState = state;
+
+            document.getElementById('course-title').value = state.title || '';
+            document.getElementById('course-subtitle').value = state.subtitle || '';
+            document.getElementById('course-date').value = state.date || '';
+            document.getElementById('course-instructor').value = state.instructor || '';
+            document.getElementById('course-location').value = state.location || '';
+            document.getElementById('course-slides').value = state.slidesLink || '';
+            document.getElementById('course-password').value = state.password || '';
+            document.getElementById('course-desc').value = state.description || '';
+
+            // Clean lists
+            document.getElementById('topics-list').innerHTML = '';
+            document.getElementById('handbooks-list').innerHTML = '';
+            document.getElementById('tools-table-body').innerHTML = '';
+            document.getElementById('faqs-list').innerHTML = '';
+            document.getElementById('resources-list').innerHTML = '';
+
+            // Repopulate
+            if (state.topics) state.topics.forEach(t => addTopic(t));
+            if (state.handbooks) state.handbooks.forEach(h => addHandbook(h));
+            if (state.tools) state.tools.forEach(tool => addToolRow(tool));
+            if (state.faqs) state.faqs.forEach(faq => addFAQ(faq));
+            if (state.resources) state.resources.forEach(r => addResource(r));
+
+            // Bind new dynamically added element listeners
+            document.querySelectorAll('input, textarea').forEach(el => {
+                el.addEventListener('input', triggerAutosave);
+            });
+        }
+
+        function clearForm() {
+            if (confirm("確定要清空目前編輯的所有課程內容嗎？此動作將無法復原。")) {
+                loadState({
+                    title: "", subtitle: "", date: "", instructor: "", location: "",
+                    slidesLink: "", password: "", description: "",
+                    topics: [], handbooks: [], tools: [], faqs: [], resources: []
+                });
+                localStorage.removeItem('class04-compiler-draft');
+                showToast("編輯區已重設清空。");
+            }
+        }
+
+        // Sample Data for testing & showcase (prefilled with actual Class 04 requirements)
+        function loadSampleData() {
+            const sample = {
+                title: "Class 04 企業級 AI Agent 自動化實戰：重點補充、專案診斷與工具解析",
+                subtitle: "銀河軟體 台西分公司 Class 04",
+                date: "2026/06/26 (五) 09:00-12:00",
+                instructor: "鄭穎臨 老師",
+                location: "台南市安平區育平九街49號 二樓教室",
+                slidesLink: "",
+                password: "公司英文縮寫",
+                description: "前三週還有部分內容尚未完整說明，本週將安排重點補充與回顧，並開放 QA 討論。希望能協助大家完成謝總交代的功課，也透過彼此交流與問題討論，加深對 AI 工具、方法與實務應用的理解與印象。課程內容以工作上的應用為主，但加速個人日常運用的也是可以～",
+                topics: [
+                    {
+                        title: "前三週重點補充與問題解答",
+                        tag: "重點補充 / 問題解答",
+                        desc: "針對前三堂課中尚未完整說明的核心觀念與技術細節進行補充，解答學員在實作中遇到的疑難雜症。",
+                        links: [],
+                        codes: []
+                    },
+                    {
+                        title: "AI 專案規劃與實作思維：從痛點走向 AI App Store",
+                        tag: "專案規劃 / 實作思維",
+                        desc: "本週將進行關鍵思維躍升：從 AI 工具認識 ➔ AI 工作流 ➔ AI 能力建立，正式轉向 AI 專案思維 ➔ AI App 思維 ➔ AI 產品思維。\n我們將透過 AI App Workshop，引導同仁把日常工作的「痛點」轉化為「AI App 藍圖」。\n\n1. 第一階段：痛點盤點（痛苦/浪費時間/易出錯之工作各 3 項）\n2. 第二階段：AI 能力分類（查詢、分析、預測、辨識、預警、自動化）\n3. 第三階段：規劃 AI App 地圖（銀河 ERP × FORCE AI App Store 產品藍圖）\n\n終極目標：建立「銀河 ERP AI App Backlog (需求池)」，累積高頻真實需求，轉化為標準化 AI 產品！",
+                        links: [],
+                        codes: []
+                    },
+                    {
+                        title: "同學專案方向交流與診斷",
+                        tag: "專案診斷 / 交流討論",
+                        desc: "開放式交流環節，學員分享各自的專案構想或工作痛點，由講師與同仁進行現場診斷與可行性評估，協助大家順利完成謝總交代的課程作業與功課。",
+                        links: [],
+                        codes: []
+                    },
+                    {
+                        title: "AI 專案所需技能與工具解析",
+                        tag: "技能工具 / 深度解析",
+                        desc: "盤點並深度解析執行企業級 AI 專案所需的技術堆疊、核心提示工程技巧以及協作工具應用之關聯。",
+                        links: [],
+                        codes: []
+                    }
+                ],
+                handbooks: [
+                    {
+                        title: "FORCE 企業環境部署評估與網關相容性矩陣 (Deployment Assessment)",
+                        url: "deployment-assessment.html",
+                        desc: "專為售前顧問、架構師與項目經理（PM）設計的標準評估工具。支援 100% 離線運行、no-cors 網際網路 TCP 握手探測，可一鍵檢測 50+ 網域連線，並支持 HTML/JSON 報告還原匯入與 Excel 無亂碼 CSV 匯出。"
+                    },
+                    {
+                        title: "FORCE 企業環境部署評估矩陣：專案建置與技術教學講義 (TEACHING_NOTES)",
+                        url: "TEACHING_NOTES.html",
+                        desc: "Force 課程教學專用講義與實戰踩坑筆記，拆解 no-cors 網路探針、DNS NXDOMAIN 假性阻擋排查、HTML 數據備份與版權浮水印防護等高級 Vibe Coding 開發觀念。"
+                    }
+                ],
+                tools: [
+                    { name: "Antigravity (AI 程式助理)", purpose: "AI Agent 開發與代碼生成", advantage: "專為本機/雲端 Pair Programming 設計，高效率產出", tip: "善用 Markdown 做為專案記憶與上下文控制" },
+                    { name: "n8n / GAS", purpose: "企業工作流自動化與 ERP 串接", advantage: "視覺化 Workflow 與 Google 服務無縫串接", tip: "可作為 Event-Rule-Action 落地執行的白箱管道" }
+                ],
+                faqs: [
+                    { q: "如果有想討論的專案構想，需要提前準備什麼嗎？", a: "建議提前整理出：(1) 目前的人工作業流程與痛點、(2) 期望達成的自動化效果。哪怕只有文字大綱或螢幕截圖，只要提前傳給講師，便能方便講師事先準備相關案例，讓課程診斷更貼近您的需求！", tags: "專案診斷, 課前準備" }
+                ],
+                resources: [
+                    { title: "IPAS AIAP 課程網站", url: "https://forceai0001-commits.github.io/ipas-aiap-2026/", desc: "提供歷屆考試資源與 AI 技術學習指引" },
+                    { title: "LINE Bot 專業開發專區", url: "https://force-taiwan.github.io/ai-line-help/", desc: "專家級 LINE 聊天機器人整合實務與 AI 自動對答技巧" },
+                    { title: "政府 AI 與資安成熟度檢核專案", url: "../../../../gov-audit.html", desc: "協助企業對接政府補助案與資安自評 SOP" }
+                ]
+            };
+
+            loadState(sample);
+            showToast("Class 04 內訓資料載入成功！");
+        }
+
+        // On window load: check localStorage for drafts, otherwise load sample data
+        window.onload = function() {
+            const savedDraft = localStorage.getItem('class04-compiler-draft');
+            if (savedDraft) {
+                try {
+                    const data = JSON.parse(savedDraft);
+                    loadState(data);
+                    showToast("已還原前次編輯草稿！");
+                } catch(e) {
+                    loadSampleData();
+                }
+            } else {
+                loadSampleData();
+            }
+        };
+    </script>
+</body>
+</html>

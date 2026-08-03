@@ -1,0 +1,1085 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>萬佛朝宗：FALO AI 統一知識核心與架構總覽 | Class 04 知識核心</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&family=Noto+Sans+TC:wght@400;500;700;900&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-body: #0b081a;
+            --bg-gradient: radial-gradient(circle at 50% 50%, #0f0b25 0%, #030209 100%);
+            --text-main: #f3f4f6;
+            --text-muted: #9ca3af;
+            --card-bg: rgba(25, 18, 50, 0.45);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --card-hover-border: rgba(192, 132, 252, 0.45);
+            --primary: #8b5cf6;
+            --primary-glow: rgba(139, 92, 246, 0.15);
+            --accent: #c084fc;
+            --h1-gradient: linear-gradient(135deg, #ffffff 40%, #c084fc 100%);
+            --accent-green: #4ade80;
+            --accent-blue: #38bdf8;
+            --accent-orange: #fb923c;
+            --accent-red: #f87171;
+            --shadow-glow: rgba(192, 132, 252, 0.15);
+        }
+
+        body.theme-light {
+            --bg-body: #f8fafc;
+            --bg-gradient: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --card-bg: rgba(255, 255, 255, 0.85);
+            --card-border: rgba(99, 102, 241, 0.12);
+            --card-hover-border: rgba(99, 102, 241, 0.45);
+            --primary: #4f46e5;
+            --primary-glow: rgba(79, 70, 229, 0.08);
+            --accent: #0891b2;
+            --h1-gradient: linear-gradient(135deg, #1e293b 30%, #4f46e5 100%);
+            --accent-green: #16a34a;
+            --accent-blue: #0284c7;
+            --accent-orange: #ea580c;
+            --accent-red: #dc2626;
+            --shadow-glow: rgba(79, 70, 229, 0.08);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: var(--bg-body);
+            background-image: var(--bg-gradient);
+            background-attachment: fixed;
+            color: var(--text-main);
+            font-family: 'Outfit', 'Noto Sans TC', sans-serif;
+            line-height: 1.7;
+            min-height: 100vh;
+            transition: background 0.4s ease, color 0.3s ease;
+            overflow-x: hidden;
+        }
+
+        /* Reading Progress Bar */
+        .progress-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: rgba(255, 255, 255, 0.05);
+            z-index: 1000;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(to right, var(--primary), var(--accent));
+            box-shadow: 0 0 8px var(--accent);
+            transition: width 0.1s ease;
+        }
+
+        /* Layout Container */
+        .container {
+            max-width: 960px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 5rem 1.5rem;
+            transition: max-width 0.3s ease;
+        }
+
+        body.width-wide .container {
+            max-width: 1300px;
+        }
+
+        /* Typography sizing */
+        body.zoom-large { font-size: 1.15rem; }
+        body.zoom-large h1 { font-size: 2.6rem; }
+        body.zoom-large h2 { font-size: 1.8rem; }
+        body.zoom-large p { font-size: 1.1rem; }
+
+        /* Floating Toolbar */
+        .toolbar {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: rgba(15, 10, 35, 0.85);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 30px;
+            padding: 0.5rem 1rem;
+            display: flex;
+            gap: 0.75rem;
+            align-items: center;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            z-index: 999;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        body.theme-light .toolbar {
+            background: rgba(255, 255, 255, 0.9);
+            border-color: rgba(99, 102, 241, 0.15);
+            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.1);
+        }
+
+        .toolbar-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-main);
+            font-size: 0.9rem;
+            font-weight: 700;
+            cursor: pointer;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+
+        .toolbar-btn:hover {
+            background: var(--primary-glow);
+            color: var(--accent);
+            transform: scale(1.1);
+        }
+
+        .divider {
+            width: 1px;
+            height: 18px;
+            background: var(--card-border);
+        }
+
+        /* Header */
+        header {
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-bottom: 1.5rem;
+            transition: transform 0.2s ease, color 0.2s ease;
+        }
+
+        .back-link:hover {
+            color: var(--primary);
+            transform: translateX(-4px);
+        }
+
+        .eyebrow-badge {
+            display: inline-block;
+            background: rgba(139, 92, 246, 0.12);
+            color: var(--accent);
+            border: 1px solid var(--card-border);
+            padding: 0.3rem 0.8rem;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+
+        h1 {
+            font-size: 2.25rem;
+            font-weight: 900;
+            line-height: 1.3;
+            letter-spacing: -0.5px;
+            background: var(--h1-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1.5rem;
+        }
+
+        .meta-info {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            border-bottom: 1px solid var(--card-border);
+            padding-bottom: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        /* Tabs Control */
+        .tabs-header {
+            display: flex;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid var(--card-border);
+            padding-bottom: 0.75rem;
+        }
+
+        .tab-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            padding: 0.6rem 1.25rem;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .tab-btn:hover {
+            color: var(--text-main);
+            background: var(--primary-glow);
+        }
+
+        .tab-btn.active {
+            color: #ffffff;
+            background: var(--primary);
+            box-shadow: 0 0 15px var(--primary-glow);
+        }
+
+        body.theme-light .tab-btn.active {
+            color: #ffffff;
+        }
+
+        /* Diagram Box Styling */
+        .diagram-container {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 1.5rem;
+            margin-bottom: 3.5rem;
+            box-shadow: 0 20px 45px rgba(0,0,0,0.3);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+        }
+
+        .diagram-container:hover {
+            border-color: var(--card-hover-border);
+            box-shadow: 0 20px 50px var(--shadow-glow);
+        }
+
+        .diagram-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding: 0.5rem 1rem;
+            border-bottom: 1px solid var(--card-border);
+        }
+
+        .diagram-title {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .diagram-title::before {
+            content: "";
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background: var(--accent-green);
+            border-radius: 50%;
+            box-shadow: 0 0 8px var(--accent-green);
+        }
+
+        .diagram-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--card-border);
+            color: var(--text-main);
+            padding: 0.3rem 0.8rem;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        body.theme-light .diagram-btn {
+            background: rgba(0, 0, 0, 0.05);
+        }
+
+        .diagram-btn:hover {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: #ffffff;
+        }
+
+        .diagram-wrapper {
+            width: 100%;
+            overflow-x: auto;
+            border-radius: 12px;
+            display: flex;
+            justify-content: center;
+            background: #ffffff;
+            padding: 1rem;
+            min-height: 300px;
+            align-items: center;
+        }
+
+        .diagram-image {
+            max-width: 100%;
+            height: auto;
+            display: none;
+            border-radius: 8px;
+            transition: transform 0.3s ease;
+        }
+
+        .diagram-image.active {
+            display: block;
+            animation: fadeIn 0.4s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(4px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Grid Breakdown */
+        .breakdown-section {
+            margin-bottom: 4rem;
+        }
+
+        .breakdown-title {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--accent);
+            margin-bottom: 1.5rem;
+            border-left: 4px solid var(--primary);
+            padding-left: 12px;
+        }
+
+        /* Tabs Specific Panels for Description */
+        .desc-panel {
+            display: none;
+        }
+
+        .desc-panel.active {
+            display: block;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        .breakdown-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .breakdown-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 1.8rem;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .breakdown-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--card-hover-border);
+            box-shadow: 0 10px 25px var(--shadow-glow);
+        }
+
+        .card-header-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .card-title {
+            font-size: 1.2rem;
+            font-weight: 800;
+            margin-bottom: 0.8rem;
+            color: var(--text-main);
+        }
+
+        .card-desc {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        body.theme-light .card-desc {
+            color: #475569;
+        }
+
+        .card-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .card-tag {
+            font-size: 0.75rem;
+            padding: 0.2rem 0.6rem;
+            border-radius: 30px;
+            font-weight: 600;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--card-border);
+            color: var(--text-muted);
+        }
+
+        body.theme-light .card-tag {
+            background: rgba(0,0,0,0.03);
+            color: #475569;
+        }
+
+        /* Simulator Interactive Box */
+        .simulator-box {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 2.5rem;
+            margin-bottom: 4rem;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+        }
+
+        .sim-title {
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: var(--accent);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .sim-desc {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+        }
+
+        .sim-selector {
+            display: flex;
+            gap: 0.8rem;
+            flex-wrap: wrap;
+            margin-bottom: 2rem;
+        }
+
+        .sim-btn {
+            background: rgba(0,0,0,0.2);
+            border: 1px solid var(--card-border);
+            color: var(--text-muted);
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+
+        body.theme-light .sim-btn {
+            background: rgba(255,255,255,0.5);
+        }
+
+        .sim-btn:hover {
+            border-color: var(--accent);
+            color: var(--text-main);
+        }
+
+        .sim-btn.active {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: #ffffff;
+        }
+
+        /* Simulator Pipeline Visualization */
+        .sim-pipeline {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.5rem;
+            background: rgba(0,0,0,0.3);
+            border: 1px solid var(--card-border);
+            padding: 2rem;
+            border-radius: 12px;
+            position: relative;
+            overflow: hidden;
+            flex-wrap: wrap;
+        }
+
+        body.theme-light .sim-pipeline {
+            background: rgba(255,255,255,0.3);
+        }
+
+        .sim-node {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            z-index: 2;
+            width: 100px;
+            text-align: center;
+            transition: all 0.3s ease;
+            opacity: 0.3;
+        }
+
+        .sim-node.active {
+            opacity: 1;
+            transform: scale(1.05);
+        }
+
+        .sim-node-icon {
+            width: 48px;
+            height: 48px;
+            background: var(--card-bg);
+            border: 2px solid var(--card-border);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .sim-node.active .sim-node-icon {
+            border-color: var(--accent);
+            box-shadow: 0 0 15px var(--shadow-glow);
+            background: var(--primary-glow);
+        }
+
+        .sim-node-label {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--text-muted);
+        }
+
+        .sim-node.active .sim-node-label {
+            color: var(--text-main);
+        }
+
+        .sim-arrow {
+            font-size: 1.2rem;
+            color: var(--card-border);
+            z-index: 1;
+            opacity: 0.3;
+            transition: all 0.3s ease;
+        }
+
+        .sim-arrow.active {
+            color: var(--accent);
+            opacity: 1;
+            animation: pulseArrow 1s infinite alternate;
+        }
+
+        .sim-console {
+            margin-top: 1.5rem;
+            background: #06050b;
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 1rem 1.25rem;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.85rem;
+            color: var(--accent-blue);
+            min-height: 70px;
+            display: flex;
+            align-items: center;
+        }
+
+        body.theme-light .sim-console {
+            background: #f8fafc;
+            color: var(--accent-blue);
+        }
+
+        /* Pulsing Arrow Animation */
+        @keyframes pulseArrow {
+            from { transform: translateX(-2px); opacity: 0.5; }
+            to { transform: translateX(2px); opacity: 1; }
+        }
+
+        /* Lightbox Image Overlay */
+        .lightbox-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 10000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            cursor: zoom-out;
+        }
+
+        .lightbox-img {
+            max-width: 95%;
+            max-height: 95%;
+            object-fit: contain;
+            border-radius: 8px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+            transition: transform 0.3s ease;
+        }
+
+        /* CTA Footer */
+        .summary-card {
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.12) 0%, rgba(34, 211, 238, 0.05) 100%);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 2.5rem;
+            margin-top: 4rem;
+            text-align: center;
+        }
+
+        .summary-card h3 {
+            font-size: 1.35rem;
+            font-weight: 800;
+            color: var(--accent);
+            margin-bottom: 0.8rem;
+        }
+
+        .summary-card p {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        @media (max-width: 768px) {
+            .toolbar {
+                bottom: 1rem;
+                right: 1rem;
+                padding: 0.4rem 0.8rem;
+            }
+            .sim-pipeline {
+                flex-direction: column;
+                gap: 1.5rem;
+                align-items: center;
+            }
+            .sim-node {
+                width: 100%;
+            }
+            .sim-arrow {
+                transform: rotate(90deg);
+            }
+            @keyframes pulseArrow {
+                from { transform: translateY(-2px); opacity: 0.5; }
+                to { transform: translateY(2px); opacity: 1; }
+            }
+            .tabs-header {
+                flex-direction: column;
+                gap: 0.4rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Scroll Progress -->
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <!-- Floating Accessibility Toolbar -->
+    <div class="toolbar">
+        <button class="toolbar-btn" onclick="toggleTheme()" title="切換配色">💡</button>
+        <div class="divider"></div>
+        <button class="toolbar-btn" onclick="adjustZoom(true)" title="放大字體">A+</button>
+        <button class="toolbar-btn" onclick="adjustZoom(false)" title="縮小字體">A-</button>
+        <div class="divider"></div>
+        <button class="toolbar-btn" onclick="adjustWidth(true)" title="寬版版面">W+</button>
+        <button class="toolbar-btn" onclick="adjustWidth(false)" title="窄版版面">W-</button>
+    </div>
+
+    <!-- Main Container -->
+    <div class="container">
+        <header>
+            <a href="index.html" class="back-link">
+                <span>←</span> 返回首頁
+            </a>
+            <br>
+            <span class="eyebrow-badge">企業架構藍圖</span>
+            <h1>FALO AI 統一知識核心與架構總覽</h1>
+            <div class="meta-info">
+                <div class="meta-item">
+                    <span>📅</span> <strong>發佈日期：2026/06/29</strong>
+                </div>
+                <div class="meta-item">
+                    <span>🎨</span> <span>Falo x Force Cheng</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Tabs Navigation -->
+        <div class="tabs-header">
+            <button class="tab-btn active" id="btn-tab-functional" onclick="switchTab('functional')">🧠 1. 系統功能流轉圖</button>
+            <button class="tab-btn" id="btn-tab-technical" onclick="switchTab('technical')">🖥️ 2. 四層技術架構圖</button>
+        </div>
+
+        <!-- Dynamic Lightbox Overlay -->
+        <div class="lightbox-overlay" id="lightboxOverlay" onclick="closeLightbox()">
+            <img class="lightbox-img" id="lightboxImg" src="" alt="Lightbox View">
+        </div>
+
+        <!-- Diagram Showcase -->
+        <div class="diagram-container">
+            <div class="diagram-header">
+                <div class="diagram-title" id="diagram-filename">ai_knowledge_core_map.png</div>
+                <button class="diagram-btn" onclick="openLightbox()">🔍 點此放大查看全圖</button>
+            </div>
+            <div class="diagram-wrapper">
+                <!-- Functional Map -->
+                <img class="diagram-image active" id="img-functional" src="images/ai_knowledge_core_map.png" alt="萬佛朝宗 AI 系統功能流轉圖">
+                <!-- Technical Overview -->
+                <img class="diagram-image" id="img-technical" src="images/falo_ai_architecture_overview.png" alt="FALO AI 四層技術架構圖">
+            </div>
+        </div>
+
+        <!-- Interactive Simulator (Only show when functional flow is context, but relevant to both) -->
+        <div class="simulator-box">
+            <div class="sim-title">
+                <span>⚡</span> FALO AI 數據流轉與處理模擬器
+            </div>
+            <p class="sim-desc">點選下方不同的「多元重要資訊管道」，模擬觀察非結構化資料如何經過自動化 ETL 洗滌、寫入中央知識核心（KM），並經由 Python Cloud Run 與 AI Agent 執行多管道回寫輸出：</p>
+            
+            <div class="sim-selector">
+                <button class="sim-btn" onclick="runSimulation('email')">✉️ Email (公文/私信 PDF 附件)</button>
+                <button class="sim-btn" onclick="runSimulation('line')">💬 LINE (好友群組對話/客服詢問)</button>
+                <button class="sim-btn" onclick="runSimulation('telegram')">🤖 Telegram (上傳錯誤日誌 txt)</button>
+            </div>
+
+            <div class="sim-pipeline">
+                <div class="sim-node" id="node-input">
+                    <div class="sim-node-icon">📥</div>
+                    <div class="sim-node-label">多元輸入</div>
+                </div>
+                <div class="sim-arrow" id="arrow-1">➔</div>
+                <div class="sim-node" id="node-etl">
+                    <div class="sim-node-icon">⚙️</div>
+                    <div class="sim-node-label">ETL 處理</div>
+                </div>
+                <div class="sim-arrow" id="arrow-2">➔</div>
+                <div class="sim-node" id="node-km">
+                    <div class="sim-node-icon">🗄️</div>
+                    <div class="sim-node-label">知識核心</div>
+                </div>
+                <div class="sim-arrow" id="arrow-3">➔</div>
+                <div class="sim-node" id="node-agent">
+                    <div class="sim-node-icon">🤖</div>
+                    <div class="sim-node-label">Agent 運用</div>
+                </div>
+                <div class="sim-arrow" id="arrow-4">➔</div>
+                <div class="sim-node" id="node-output">
+                    <div class="sim-node-icon">📤</div>
+                    <div class="sim-node-label">多渠道輸出</div>
+                </div>
+            </div>
+
+            <div class="sim-console" id="simConsole">
+                &gt;_ 點擊上方按鈕，即刻啟動 AI 知識流轉動態模擬控制台...
+            </div>
+        </div>
+
+        <!-- Breakdown sections -->
+        <div class="breakdown-section">
+            
+            <!-- Panel 1: Functional Cards -->
+            <div class="desc-panel active" id="panel-functional">
+                <h2 class="breakdown-title">系統功能流轉細節</h2>
+                <div class="breakdown-grid">
+                    
+                    <div class="breakdown-card">
+                        <div>
+                            <div class="card-header-icon" style="color: var(--accent-blue);">📥</div>
+                            <h3 class="card-title">1. 多元輸入管道</h3>
+                            <p class="card-desc">企業每日有大量重要資訊流動。本層級打破資訊孤島，無論是公務/私人 Email 郵件附件、LINE 官方帳號對話，或是 Telegram Bot 的即時指令與圖片檔案，皆視為核心數據源。</p>
+                        </div>
+                        <div class="card-tags">
+                            <span class="card-tag">Email IMAP</span>
+                            <span class="card-tag">LINE Webhook</span>
+                            <span class="card-tag">Telegram Bot</span>
+                        </div>
+                    </div>
+
+                    <div class="breakdown-card">
+                        <div>
+                            <div class="card-header-icon" style="color: var(--accent-orange);">⚙️</div>
+                            <h3 class="card-title">2. ETL 整理與轉換</h3>
+                            <p class="card-desc">非結構化資訊的洗滌區。資料經過「攝取」、「清理」、「解析（利用 OCR 解析文件與圖片文字）」以及關鍵資訊的「標註」，最終「載入」AI 知識庫，將雜亂資訊洗滌為結構化黃金資料。</p>
+                        </div>
+                        <div class="card-tags">
+                            <span class="card-tag">LlamaParse</span>
+                            <span class="card-tag">FALO OCR</span>
+                            <span class="card-tag">LLM Metadata</span>
+                        </div>
+                    </div>
+
+                    <div class="breakdown-card">
+                        <div>
+                            <div class="card-header-icon" style="color: var(--accent-green);">🗄️</div>
+                            <h3 class="card-title">3. AI 統一知識核心 (KM)</h3>
+                            <p class="card-desc">企業的中央大腦。統一儲存並建立「文件檔案」、「對話紀錄」與「事件任務」的關聯與記憶。利用向量化儲存支援超高性能語意檢索，實現跨項目人、事、時、地的智能網狀連結。</p>
+                        </div>
+                        <div class="card-tags">
+                            <span class="card-tag">Vector DB</span>
+                            <span class="card-tag">Graph Memory</span>
+                            <span class="card-tag">Hybrid Search</span>
+                        </div>
+                    </div>
+
+                    <div class="breakdown-card">
+                        <div>
+                            <div class="card-header-icon" style="color: var(--accent);">🤖</div>
+                            <h3 class="card-title">4. AI Agent 智慧運用</h3>
+                            <p class="card-desc">頂層邏輯處理單元。AI Agent 讀取統一知識庫後，可靈活執行智慧 Q&A、進度自動追蹤任務、分析洞察預測、產生文件或簡報，並在特定閾值觸發時主動進行提醒與安全預警。</p>
+                        </div>
+                        <div class="card-tags">
+                            <span class="card-tag">LangGraph</span>
+                            <span class="card-tag">Task Scheduler</span>
+                            <span class="card-tag">Proactive Agent</span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Panel 2: Technical Overview Cards -->
+            <div class="desc-panel" id="panel-technical">
+                <h2 class="breakdown-title">四層技術架構說明</h2>
+                <div class="breakdown-grid">
+                    
+                    <div class="breakdown-card">
+                        <div>
+                            <div class="card-header-icon" style="color: var(--accent-blue);">🖥️</div>
+                            <h3 class="card-title">前端 (入口層)</h3>
+                            <p class="card-desc">預設採用 <strong>Google Apps Script (GAS)</strong> 或 <strong>Cloudflare</strong>。負責做為流量的第一道防線，執行身分驗證與權限控管，提供簡單的 Portal 表單輸入，並執行最初步的驗證與分流，將任務派送至後端處理。</p>
+                        </div>
+                        <div class="card-tags">
+                            <span class="card-tag">Apps Script</span>
+                            <span class="card-tag">Cloudflare Pages</span>
+                            <span class="card-tag">API Gateway</span>
+                        </div>
+                    </div>
+
+                    <div class="breakdown-card">
+                        <div>
+                            <div class="card-header-icon" style="color: var(--accent-orange);">⚡</div>
+                            <h3 class="card-title">中間 (處理層)</h3>
+                            <p class="card-desc">預設採用 <strong>Google Cloud Run</strong>。做為 FALO AI 的核心運算引擎與 Runtime 執行環境。利用 Python 連接 OpenAI / Gemini 模型，部署複雜的非同步 ETL 洗滌程序、OCR 影像解析、影片摘要以及 Agent 自主排程任務。</p>
+                        </div>
+                        <div class="card-tags">
+                            <span class="card-tag">GCP Cloud Run</span>
+                            <span class="card-tag">Python App</span>
+                            <span class="card-tag">Docker Container</span>
+                        </div>
+                    </div>
+
+                    <div class="breakdown-card">
+                        <div>
+                            <div class="card-header-icon" style="color: var(--accent-green);">💾</div>
+                            <h3 class="card-title">後端 (資料層)</h3>
+                            <p class="card-desc">預設為 <strong>Google 生態系 (Workspace)</strong>。資料完全儲存在客戶自有的雲端空間，包含 Google Drive 專屬資料夾、Sheets 表格庫（充當關聯資料庫）、Docs 文件協作、Gmail 郵件派送，並使用 NotebookLM 作為隨插即用的知識庫。</p>
+                        </div>
+                        <div class="card-tags">
+                            <span class="card-tag">Google Sheets</span>
+                            <span class="card-tag">Shared Drive</span>
+                            <span class="card-tag">NotebookLM</span>
+                        </div>
+                    </div>
+
+                    <div class="breakdown-card">
+                        <div>
+                            <div class="card-header-icon" style="color: var(--accent-red);">🔌</div>
+                            <h3 class="card-title">輔助 (彈性節點)</h3>
+                            <p class="card-desc"><strong>PC AI Node (地端代理程式)</strong>。此為非預設的彈性路徑，僅在有內網安全存取、地端硬體運算（如 Ollama 本地模型跑敏感 OCR）或需要操作地端 Office / Outlook 自動化等特殊情況下，由 Cloud Run 透過安全 VPN 隧道觸發啟用。</p>
+                        </div>
+                        <div class="card-tags">
+                            <span class="card-tag">Ollama Local</span>
+                            <span class="card-tag">Tailscale VPN</span>
+                            <span class="card-tag">Office Automation</span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+        <!-- CTA Summary Card -->
+        <div class="summary-card">
+            <h3>一個入口，多種來源；一個核心，智慧整合；一個 Agent，創造最大價值！</h3>
+            <p>這套架構實現了「萬佛朝宗」的終極目的：將企業日常四散的零碎流程與文檔完全整合。透過前端 GAS/Cloudflare 控管權限、中間 Cloud Run 進行智能洗滌與 Agent 執行、後端 Google Sheets/Docs 儲存協作，實現資料安全、權限分明且靈活可控的 AI 落地。</p>
+        </div>
+    </div>
+
+    <script>
+        // Progress Bar
+        window.onscroll = function() {
+            var winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            var height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            var scrolled = (winScroll / height) * 100;
+            document.getElementById("progressBar").style.width = scrolled + "%";
+        };
+
+        // Theme Toggle
+        function toggleTheme() {
+            document.body.classList.toggle("theme-light");
+            const isLight = document.body.classList.contains("theme-light");
+            localStorage.setItem("diagram-theme", isLight ? "light" : "dark");
+        }
+
+        // Font size adjust
+        function adjustZoom(isEnlarge) {
+            if (isEnlarge) {
+                document.body.classList.add("zoom-large");
+            } else {
+                document.body.classList.remove("zoom-large");
+            }
+        }
+
+        // Width adjust
+        function adjustWidth(isWide) {
+            if (isWide) {
+                document.body.classList.add("width-wide");
+            } else {
+                document.body.classList.remove("width-wide");
+            }
+        }
+
+        // Tab Switching Logic
+        let activeTab = "functional";
+        function switchTab(tabName) {
+            activeTab = tabName;
+            
+            // Buttons toggle
+            document.getElementById("btn-tab-functional").classList.toggle("active", tabName === "functional");
+            document.getElementById("btn-tab-technical").classList.toggle("active", tabName === "technical");
+
+            // Images toggle
+            document.getElementById("img-functional").classList.toggle("active", tabName === "functional");
+            document.getElementById("img-technical").classList.toggle("active", tabName === "technical");
+
+            // Descriptions toggle
+            document.getElementById("panel-functional").classList.toggle("active", tabName === "functional");
+            document.getElementById("panel-technical").classList.toggle("active", tabName === "technical");
+
+            // Filename tag update
+            document.getElementById("diagram-filename").innerText = 
+                tabName === "functional" ? "ai_knowledge_core_map.png" : "falo_ai_architecture_overview.png";
+        }
+
+        // Lightbox Zoom Logic
+        function openLightbox() {
+            const overlay = document.getElementById("lightboxOverlay");
+            const lightboxImg = document.getElementById("lightboxImg");
+            const activeImg = activeTab === "functional" 
+                ? document.getElementById("img-functional") 
+                : document.getElementById("img-technical");
+            
+            lightboxImg.src = activeImg.src;
+            overlay.style.display = "flex";
+            document.body.style.overflow = "hidden"; // disable scroll
+        }
+
+        function closeLightbox() {
+            const overlay = document.getElementById("lightboxOverlay");
+            overlay.style.display = "none";
+            document.body.style.overflow = ""; // enable scroll
+        }
+
+        // Simulator Logic
+        function runSimulation(type) {
+            // Reset all active classes
+            const nodes = document.querySelectorAll(".sim-node");
+            const arrows = document.querySelectorAll(".sim-arrow");
+            nodes.forEach(n => n.classList.remove("active"));
+            arrows.forEach(a => a.classList.remove("active"));
+
+            // Get console
+            const consoleEl = document.getElementById("simConsole");
+
+            // Define step messages based on input type
+            const messages = {
+                email: [
+                    "📥 [觸發] 收到來自政府補助案通知 Email，附帶『AI 智慧製造計畫.pdf』...",
+                    "⚙️ [ETL] Cloud Run 啟動 Python LlamaParse 洗滌，將 PDF 表格與條款轉換為 Markdown 並 OCR 標註時間...",
+                    "🗄️ [知識核心] 寫入後端 Google Sheets，並在 Google Drive 專屬資料夾建立連結與 NotebookLM 實體關聯...",
+                    "🤖 [Agent] 計畫比對 Agent 自主分析，判定此補助規範與公司目前開發的專案匹配，且截止日尚有 14 天...",
+                    "📤 [輸出] 自動產生 Email 評估報表草稿，並回寫數據，自動更新主管 Dashboard 戰情大屏！"
+                ],
+                line: [
+                    "📥 [觸發] 客戶在 LINE 官方帳號詢問：『請問企業導入 AI 防火牆該怎麼設定？』...",
+                    "⚙️ [ETL] LINE Webhook 將文字派給 Cloud Run，進行格式清洗去重，抓取詢問實體詞為『防火牆』...",
+                    "🗄️ [知識核心] 透過 API 從 Google Sheets 知識庫中檢索『FORCE 防火牆相容性檢測手冊』對應回覆資訊...",
+                    "🤖 [Agent] Q&A 客服 Agent 接收檢索段落，調用 LLM 整合為一段流暢親切的 200 字回覆，並過濾敏感語句...",
+                    "📤 [輸出] 透過 LINE Webhook API 即時發送回覆，並將此條 Q&A 互動紀錄追蹤於後端 Sheet 資料庫中。"
+                ],
+                telegram: [
+                    "📥 [觸發] 運維部同仁在 Telegram 群組上傳日誌『2026年Q2服務運行錯誤日誌.txt』...",
+                    "⚙️ [ETL] Cloud Run ETL 清洗日誌，剔除無效的 info 級數據，保留 error 與 warning 記錄，標註時間與來源群組...",
+                    "🗄️ [知識核心] 呼叫本地知識核心，檢索到『FORCE 防火牆相容性檢測手冊.md』中的對應段落...",
+                    "🤖 [Agent] 系統監控 Agent 執行故障診斷，比對歷史紀錄，給出最佳修復決策建議...",
+                    "📤 [輸出] 自動產生故障修復 Excel 報表，並向運維團隊的 LINE/Slack 群組發送主動安全預警！"
+                ]
+            };
+
+            // Highlight buttons
+            const buttons = document.querySelectorAll(".sim-btn");
+            buttons.forEach(b => b.classList.remove("active"));
+            event.target.classList.add("active");
+
+            let currentStep = 0;
+            const stepList = ["node-input", "arrow-1", "node-etl", "arrow-2", "node-km", "arrow-3", "node-agent", "arrow-4", "node-output"];
+
+            // Clear previous intervals if any
+            if (window.simInterval) clearInterval(window.simInterval);
+
+            // Set text for first step immediately
+            consoleEl.innerText = "⚡ " + messages[type][0];
+            document.getElementById("node-input").classList.add("active");
+
+            window.simInterval = setInterval(() => {
+                currentStep++;
+                if (currentStep >= stepList.length) {
+                    clearInterval(window.simInterval);
+                    return;
+                }
+
+                const currentId = stepList[currentStep];
+                const element = document.getElementById(currentId);
+                element.classList.add("active");
+
+                // Update console output at each node step
+                if (currentId.startsWith("node")) {
+                    const nodeIndex = Math.floor(currentStep / 2);
+                    consoleEl.innerText = "⚡ " + messages[type][nodeIndex];
+                }
+            }, 900);
+        }
+
+        // Init setup from localStorage
+        window.addEventListener("DOMContentLoaded", () => {
+            const savedTheme = localStorage.getItem("diagram-theme");
+            if (savedTheme === "light") {
+                document.body.classList.add("theme-light");
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,1340 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Class 03 學員提問與技術解答 | 銀河軟體 ERP 內訓課程</title>
+    <meta name="description" content="銀河軟體 ERP 內訓課程：Class 03 學員提問彙整與深度技術答覆。">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-gradient: radial-gradient(circle at 50% 50%, #0c0824 0%, #020108 100%);
+            --primary: #8b5cf6;
+            --primary-glow: rgba(139, 92, 246, 0.15);
+            --secondary: #3b82f6;
+            --accent: #10b981;
+            --card-bg: rgba(22, 16, 48, 0.5);
+            --card-border: rgba(255, 255, 255, 0.07);
+            --card-hover-border: rgba(139, 92, 246, 0.4);
+            --text-primary: #f3f4f6;
+            --text-secondary: #9ca3af;
+            --text-muted: #4b5563;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Outfit', 'Inter', 'Noto Sans TC', sans-serif;
+            background: var(--bg-gradient);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 3rem 1.5rem;
+            overflow-x: hidden;
+        }
+
+        .glow {
+            position: absolute;
+            width: 450px;
+            height: 450px;
+            border-radius: 50%;
+            background: radial-gradient(circle, var(--primary-glow) 0%, transparent 70%);
+            z-index: -1;
+            filter: blur(60px);
+        }
+        .glow-1 { top: 10%; left: 5%; }
+        .glow-2 { bottom: 15%; right: 5%; }
+
+        header {
+            max-width: 1000px;
+            margin: 0 auto 3rem auto;
+            text-align: center;
+        }
+
+        .tagline {
+            display: inline-block;
+            background: rgba(139, 92, 246, 0.1);
+            border: 1px solid rgba(139, 92, 246, 0.25);
+            color: #c084fc;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            padding: 0.4rem 1.2rem;
+            border-radius: 9999px;
+            margin-bottom: 1.25rem;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #ffffff 40%, #c084fc 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.75rem;
+            letter-spacing: -0.01em;
+        }
+
+        header p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
+        main {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 2.25rem;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.4);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            border-color: var(--card-hover-border);
+            box-shadow: 0 15px 40px rgba(139, 92, 246, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            opacity: 0.6;
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1.25rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding-bottom: 0.75rem;
+        }
+
+        .card-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 38px;
+            height: 38px;
+            background: rgba(139, 92, 246, 0.1);
+            border: 1px solid rgba(139, 92, 246, 0.2);
+            border-radius: 8px;
+            color: #c084fc;
+        }
+
+        .card-icon svg {
+            width: 20px;
+            height: 20px;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 2;
+        }
+
+        .card-number {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .card-title h2 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #ffffff;
+        }
+
+        .question-box {
+            background: rgba(255, 255, 255, 0.02);
+            border-left: 3px solid var(--secondary);
+            padding: 0.75rem 1.25rem;
+            margin-bottom: 1.25rem;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .question-box p {
+            color: #e5e7eb;
+            font-weight: 500;
+            font-size: 1rem;
+        }
+
+        .qa-toggle {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.45rem;
+            min-height: 2.4rem;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            color: #ffffff;
+            cursor: pointer;
+            font: inherit;
+            font-size: 0.9rem;
+            font-weight: 700;
+            padding: 0.55rem 0.9rem;
+            transition: all 0.2s ease;
+        }
+
+        .qa-toggle:hover,
+        .qa-toggle:focus-visible {
+            background: rgba(139, 92, 246, 0.12);
+            border-color: rgba(139, 92, 246, 0.35);
+            color: #d8b4fe;
+            outline: none;
+        }
+
+        .qa-toggle .toggle-icon {
+            display: inline-block;
+            line-height: 1;
+            transition: transform 0.2s ease;
+        }
+
+        .card.is-open .qa-toggle .toggle-icon {
+            transform: rotate(90deg);
+        }
+
+        .card:not(.is-open) .strategy-note,
+        .card:not(.is-open) .answer-box {
+            display: none;
+        }
+
+        .answer-box {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            margin-top: 1.4rem;
+            padding: 1rem 1.15rem;
+            background: rgba(59, 130, 246, 0.06);
+            border: 1px solid rgba(96, 165, 250, 0.16);
+            border-left: 3px solid var(--secondary);
+            border-radius: 8px;
+        }
+
+        .answer-box p {
+            margin-bottom: 1rem;
+        }
+
+        .answer-box::before {
+            content: "有資源的最佳解 / 參考用";
+            display: inline-flex;
+            align-items: center;
+            color: #93c5fd;
+            font-size: 0.78rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            margin-bottom: 0.55rem;
+        }
+
+        .advisor-panel {
+            background: rgba(255, 255, 255, 0.035);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 0 0 1rem 0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.28);
+        }
+
+        .advisor-panel h2 {
+            font-size: 1.2rem;
+            margin-bottom: 0.75rem;
+            color: #ffffff;
+        }
+
+        .advisor-panel p {
+            color: var(--text-secondary);
+            margin-bottom: 0.75rem;
+        }
+
+        .advisor-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .advisor-block {
+            background: rgba(0, 0, 0, 0.18);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 8px;
+            padding: 1rem;
+        }
+
+        .advisor-grid .advisor-block:first-child {
+            background: rgba(16, 185, 129, 0.06);
+            border-color: rgba(16, 185, 129, 0.18);
+            border-left: 3px solid var(--accent);
+        }
+
+        .advisor-grid .advisor-block:nth-child(2) {
+            background: rgba(59, 130, 246, 0.06);
+            border-color: rgba(96, 165, 250, 0.18);
+            border-left: 3px solid var(--secondary);
+        }
+
+        .advisor-block h3,
+        .strategy-note h3 {
+            font-size: 0.95rem;
+            color: #ffffff;
+            margin-bottom: 0.5rem;
+        }
+
+        .strategy-note {
+            margin-top: 1.4rem;
+            padding: 1rem 1.15rem;
+            background: rgba(16, 185, 129, 0.06);
+            border: 1px solid rgba(16, 185, 129, 0.16);
+            border-left: 3px solid var(--accent);
+            border-radius: 8px;
+            color: var(--text-secondary);
+        }
+
+        .strategy-note p {
+            margin-bottom: 0.75rem;
+        }
+
+        .note-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            color: #86efac;
+            font-size: 0.78rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            margin-bottom: 0.55rem;
+        }
+
+        .risk-list {
+            display: grid;
+            gap: 0.55rem;
+            margin-top: 0.75rem;
+        }
+
+        .risk-item {
+            display: flex;
+            gap: 0.65rem;
+            align-items: flex-start;
+        }
+
+        .risk-tag {
+            flex: 0 0 auto;
+            min-width: 3.4rem;
+            text-align: center;
+            border-radius: 999px;
+            padding: 0.12rem 0.5rem;
+            font-size: 0.78rem;
+            font-weight: 700;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+        }
+
+        .risk-green { color: #86efac; background: rgba(34, 197, 94, 0.12); }
+        .risk-yellow { color: #fde68a; background: rgba(245, 158, 11, 0.12); }
+        .risk-red { color: #fca5a5; background: rgba(239, 68, 68, 0.12); }
+
+        .inline-warning {
+            color: #fde68a;
+            background: rgba(245, 158, 11, 0.14);
+            border: 1px solid rgba(245, 158, 11, 0.24);
+            border-radius: 6px;
+            padding: 0.08rem 0.28rem;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 1rem 0;
+        }
+
+        li {
+            position: relative;
+            padding-left: 1.5rem;
+            margin-bottom: 0.75rem;
+            font-size: 0.95rem;
+        }
+
+        li::before {
+            content: "✦";
+            position: absolute;
+            left: 0;
+            top: 0;
+            color: var(--primary);
+        }
+
+        li strong {
+            color: #ffffff;
+        }
+
+        /* Flow Visualizer */
+        .flow-diagram {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            border-radius: 8px;
+            padding: 0.75rem 1rem;
+            margin: 1rem 0;
+            font-size: 0.85rem;
+            font-family: monospace;
+        }
+
+        .flow-node {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            color: #ffffff;
+        }
+
+        .flow-arrow {
+            color: var(--primary);
+            font-weight: bold;
+        }
+
+        code {
+            background: rgba(0, 0, 0, 0.3);
+            color: #f43f5e;
+            padding: 0.15rem 0.4rem;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 0.85rem;
+        }
+
+        .code-block {
+            display: block;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            padding: 1rem;
+            color: #e2e8f0;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.85rem;
+            margin: 1rem 0;
+            overflow-x: auto;
+            white-space: pre-wrap;
+        }
+
+        .logs-panel {
+            max-width: 1000px;
+            margin: 3.5rem auto 0 auto;
+            text-align: center;
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            border-radius: 12px;
+            padding: 1.5rem;
+        }
+
+        .logs-panel p {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .logs-panel a {
+            color: #60a5fa;
+            text-decoration: none;
+            font-weight: 500;
+            margin: 0 0.5rem;
+        }
+
+        .logs-panel a:hover {
+            text-decoration: underline;
+        }
+
+        .btn-back {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            color: #ffffff;
+            font-size: 0.9rem;
+            font-weight: 600;
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            margin-top: 1rem;
+            align-self: center;
+        }
+
+        .btn-back:hover {
+            background: rgba(139, 92, 246, 0.1);
+            border-color: rgba(139, 92, 246, 0.3);
+            color: #c084fc;
+        }
+
+        footer {
+            max-width: 1000px;
+            margin: 4rem auto 1.5rem auto;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding-top: 2.5rem;
+        }
+
+        footer a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        footer a:hover {
+            color: var(--primary);
+        }
+
+        @media (max-width: 720px) {
+            .advisor-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .risk-item {
+                flex-direction: column;
+                gap: 0.35rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="glow glow-1"></div>
+    <div class="glow glow-2"></div>
+
+    <header>
+        <div class="tagline">Class 03 Pre-Class Q&A</div>
+        <h1>Class 03 學員提問與技術解答</h1>
+        <p>為學員解鎖高併發 API 架構、AI 專案控制、環境乾淨度以及跨平台開發的落地心法</p>
+    </header>
+
+    <main>
+        <section class="advisor-panel">
+            <h2>本頁閱讀方式：先看 Force 建議，再看最佳解參考</h2>
+            <p>這份 Q&A 的目的，不是把銀河軟體 ERP 台西分公司的全體同仁訓練成工程師，而是協助大家在 AI 時代提升判斷格局，從 ERP 功能執行者，逐步變成懂流程、懂風險、懂客戶價值的策略協作夥伴。</p>
+            <p>母體 ERP 是正式主系統，核心資料、權限、帳務、庫存、正式流程與寫回機制不能輕易動。分公司可以發展外掛、報表、輔助工具與流程打樣，但案型必須拿捏；重要案子建議先與 Force 顧問團隊交流需求、資料邊界、風險與驗收方式。</p>
+            <p>AI 會降低開發摩擦，但不會消除維護、保固、驗收、資安與客戶承諾。報價不應只看開發速度，而要看責任範圍：責任越高，價格不能低；責任越低，例如 PoC、Demo、內部參考、非正式營運工具，才有條件下修。這不是不信任客戶，而是先小人後君子，保護客戶，也保護銀河軟體。</p>
+            <div class="advisor-grid">
+                <div class="advisor-block">
+                    <h3>Force 顧問對銀河軟體 ERP 的建議解法</h3>
+                    <p>這是依照銀河軟體 ERP 台西分公司的真實角色與風險邊界，提出可落地、可溝通、可逐步驗證的做法。重點是會判斷、會提問、會協作，不是讓未充分培訓的員工直接開發重要程式。</p>
+                </div>
+                <div class="advisor-block">
+                    <h3>有資源的最佳解（參考用）</h3>
+                    <p>這是大型企業、完整工程團隊、預算與治理都充足時的標準做法。它用來讓大家知道業界天花板在哪裡，不代表每一項都要立刻導入。</p>
+                </div>
+            </div>
+            <div class="risk-list">
+                <div class="risk-item"><span class="risk-tag risk-green">綠燈案</span><span>低風險、可撤回、可人工覆核，例如內部文件整理、SOP、報表輔助、資料清理草稿、非正式 OCR 初稿。</span></div>
+                <div class="risk-item"><span class="risk-tag risk-yellow">黃燈案</span><span>可以打樣，但要有主管、工程師或 Force 顧問一起看，例如外掛、API 串接、客戶流程工具、半自動資料交換。</span></div>
+                <div class="risk-item"><span class="risk-tag risk-red">紅燈案</span><span>不能交給未充分培訓的員工或單一 AI Agent 處理，例如母體 ERP 核心資料表、正式寫回、權限、帳務、庫存與客戶正式營運資料。</span></div>
+            </div>
+        </section>
+
+        <!-- Card 1: API Performance -->
+        <section class="card">
+            <div class="card-header">
+                <div class="card-icon">
+                    <svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                </div>
+                <div class="card-title-group">
+                    <div class="card-number">Question 01</div>
+                    <h2>API 效能優化與架構說明</h2>
+                </div>
+            </div>
+            <div class="question-box">
+                <p>API效能要怎麼寫比較快? 架構說明</p>
+            </div>
+            <div class="strategy-note">
+                <div class="note-label">Force 顧問對銀河軟體 ERP 的拿捏</div>
+                <p>如果使用成熟的 AI Coding 工具，產出的 API 初版通常不會太差。它不一定是最佳化版本，但通常會比完全沒有架構概念的手寫程式更穩定：基本路由、錯誤處理、資料驗證、API 結構與可讀性，多半能到達一個可以測試、可以討論、可以逐步改善的起點。</p>
+                <p>真正要注意的是：效能問題常常不是「整段程式都寫爛」，而是某些沒有被注意到的瓶頸，在特定情境下被放大。也就是說，效能可能不是一開始最需要追求的重點；更重要的是知道怎麼測、怎麼觀察、怎麼把瓶頸找出來。</p>
+                <p>常見瓶頸可能藏在資料量突然變大、查詢條件太模糊、權限判斷太複雜、報表一次拉太多資料、外掛 API 重複查詢、使用者操作流程太繞、網路或瀏覽器載入慢，或客戶現場環境與測試環境不同。這些問題不一定靠「把程式碼寫得更漂亮」就會自動解決，而是需要透過測試與證據逐步定位。</p>
+                <p>因此銀河軟體 ERP 同仁不需要先學會自己寫高效能 API。更重要的是建立一套「AI 輔助效能判讀」流程：當客戶反映系統慢時，先把慢的情境、角色、資料量、查詢條件、畫面步驟與錯誤訊息整理成證據，再交由工程或顧問團隊判斷真正瓶頸。</p>
+                <p>Force 建議台西分公司可以先掌握四種低風險的 AI 輔助測試方法，目標不是直接改程式，而是把問題整理成可觀察、可測試、可回報、可交接的知識底稿。</p>
+                <ul>
+                    <li><strong>1. AI Agent 直接幫忙測</strong>：把需求、操作步驟、錯誤訊息、截圖或 log 給 AI，請它協助分類「慢」可能發生在前端、API、資料庫、網路、權限或使用者操作流程。這適合做初步判讀與問題整理。</li>
+                    <li><strong>2. AI Agent 寫測試程式</strong>：請 AI 產生 <code>curl</code>、Postman collection、k6、Playwright 或簡單壓測腳本草稿，用來重複測試不同資料量、不同查詢條件、不同角色權限。這類腳本要先用測試環境與脫敏資料驗證，不能直接打正式系統。</li>
+                    <li><strong>3. 瀏覽器外掛程式輔助</strong>：如果是 Web 程式，可以用瀏覽器 DevTools、Performance、Network、Lighthouse 或相關外掛觀察頁面載入、API request、response time、錯誤狀態碼。這能幫助非工程人員看懂「畫面慢」和「API 慢」不一定是同一件事。</li>
+                    <li><strong>4. Computer Use 混合測試</strong>：Computer Use 是一種模擬真人操作的測試方式。它可以打開系統、點擊查詢、輸入條件、等待畫面、截圖保存、記錄哪一步卡住。這不是單純 API 測試，而是「使用者視角 + 系統視角」的混合測試。</li>
+                </ul>
+                <div class="risk-list">
+                    <div class="risk-item"><span class="risk-tag risk-green">綠燈</span><span>請 AI 幫忙整理慢的情境、設計測試清單、分析截圖與 log，建立問題紀錄。</span></div>
+                    <div class="risk-item"><span class="risk-tag risk-yellow">黃燈</span><span>AI 產生測試腳本、瀏覽器外掛檢測、Computer Use 模擬操作，要用測試資料與測試環境。</span></div>
+                    <div class="risk-item"><span class="risk-tag risk-red">紅燈</span><span>直接對正式客戶環境壓測、批次操作、改母體 ERP 資料庫、正式交易流程或核心效能架構。</span></div>
+                </div>
+            </div>
+            <div class="answer-box">
+                <p><strong>有資源的最佳解（參考用）：</strong>大型團隊處理 API 效能時，第一步通常不是直接改程式，而是先量測、再定位、再最佳化。完整做法會包含監控、壓測、log tracing、profiling、CI/CD 效能回歸測試，系統性找出瓶頸到底在前端、API、資料庫、網路、外部服務，還是使用者流程。</p>
+                <ul>
+                    <li><strong>觀測與量測（先知道慢在哪裡）</strong>：
+                        <ul>
+                            <li><strong>監控指標</strong>：追蹤 response time、error rate、request count、database query time、CPU / memory / network。</li>
+                            <li><strong>壓力測試</strong>：使用 k6、JMeter、autocannon 或雲端壓測工具，模擬不同人數、不同資料量、不同查詢情境。</li>
+                            <li><strong>追蹤與 log</strong>：讓每個 request 都能追蹤從前端、API、資料庫到外部服務的耗時。</li>
+                        </ul>
+                    </li>
+                    <li><strong>資料庫層級優化</strong>：
+                        <ul>
+                            <li><strong>建立合理索引（Index）</strong>：確保常用的 <code>WHERE</code>、<code>JOIN</code> 和 <code>ORDER BY</code> 欄位都有索引，避免全表掃描。</li>
+                            <li><strong>解決 N+1 查詢問題</strong>：在多表關聯查詢時，使用 <code>JOIN</code> 語法或預先載入（Eager Loading），千萬不要在迴圈中重複向資料庫下查詢指令。</li>
+                            <li><strong>資料庫連線池（Connection Pool）</strong>：重複使用連線，省去每次 API 請求都要重新與資料庫 Handshake 的時間成本。</li>
+                        </ul>
+                    </li>
+                    <li><strong>引進快取層（Caching）</strong>：使用 <strong>Redis</strong> 快取讀取極度頻繁但鮮少變動的資料（如：系統設定、基礎字典、用戶基本權限等）。</li>
+                    <li><strong>非同步處理（Asynchronous Workers）</strong>：針對發送驗證信、生成報表等耗時工作，API 不應阻塞等待，應直接丟入訊息佇列（如 BullMQ / RabbitMQ），並立刻回傳 <code>202 Accepted</code>。</li>
+                    <li><strong>容量與架構調整</strong>：當單機或單一 API server 已無法承受負載，才進一步評估水平擴充、Load Balancer、讀寫分離、資料分區、API Gateway 與完整監控告警。</li>
+                </ul>
+                <div class="flow-diagram">
+                    <div class="flow-node">Client</div> <div class="flow-arrow">→</div>
+                    <div class="flow-node">Load Balancer (Nginx)</div> <div class="flow-arrow">→</div>
+                    <div class="flow-node">API Server (Node/Go)</div> <div class="flow-arrow">→</div>
+                    <div class="flow-node">Redis Cache</div> <div class="flow-arrow">/</div>
+                    <div class="flow-node">MySQL DB / MQ</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Card 2: DB Naming -->
+        <section class="card">
+            <div class="card-header">
+                <div class="card-icon">
+                    <svg viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/><path d="M3 12c0 1.66 4 3 9 3s9-1.34 9-3"/></svg>
+                </div>
+                <div class="card-title-group">
+                    <div class="card-number">Question 02</div>
+                    <h2>AI 自動命名的命名風險與資料庫管理</h2>
+                </div>
+            </div>
+            <div class="question-box">
+                <p>AI的確可以自己創建資料表名稱和欄位名稱，但那是他的邏輯去命名的，我們系統做越大，真的越能有效管理嗎?</p>
+            </div>
+            <div class="strategy-note">
+                <div class="note-label">Force 顧問對銀河軟體 ERP 的拿捏</div>
+                <p>這題不應只停在「AI 能不能幫忙建立資料表」或「要不要做 Table Registry」。真正要建立的是 <strong>AI Native ERP Governance</strong>：當 AI 可以協助建立外掛、Schema、API payload 與 runtime table 時，組織必須知道這些資料結構從哪裡來、誰在用、影響哪些客戶、是否能升級、未來能不能退役。</p>
+                <p>很多人以為 AI Native 就是讓 AI 直接建立資料表，這是錯誤理解。真正的 AI Native ERP 不是取消治理，而是讓 AI 成為治理系統的一部分。</p>
+                <p><strong>Force 建議採用「3 + 1 架構」來理解：</strong></p>
+                <ul>
+                    <li><strong>第一層：ERP Core Layer</strong>：母公司 ERP 本體。它代表標準版、穩定性與升級相容性，不允許 AI 自由修改。AI 可以閱讀、理解、產生建議，但不可以自動改表、自動改欄位、自動改正式流程。</li>
+                    <li><strong>第二層：Extension Layer</strong>：客戶外掛層，包含客製功能、AI Runtime、Staging、Mirror、Integration Layer。AI 可以建議 Schema、產生草稿、建立外掛表，但必須符合命名規則、namespace、客戶識別、版本與相依關係。</li>
+                    <li><strong>第三層：Table Governance System</strong>：資料表治理系統，用來管理 ERP Core、Extension Table、API Payload、Workflow Table、AI Runtime Table。它必須記錄誰建立、為何建立、哪個客戶、哪個專案、哪個版本、誰使用、是否仍在使用。</li>
+                    <li><strong>第四層：AI Governance Agent（+1）</strong>：AI Agent 不是第四套資料系統，而是前三層的治理助手。它協助查重、命名建議、Schema 建議、相依分析、文件生成、測試資料、migration draft、API draft、上線前風險檢查、版本相容性檢查、使用率分析、孤兒表分析、退役建議與 audit trail 補齊。</li>
+                </ul>
+                <p>這個架構的重點是：ERP Core 保持穩定，Extension Layer 保持彈性，Table Governance 保持可管理，AI Agent 負責讓前三者變得更聰明。這才是銀河軟體 ERP 在 AI 時代真正需要建立的 <strong>AI Native ERP Governance</strong>。</p>
+                <div class="risk-list">
+                    <div class="risk-item"><span class="risk-tag risk-green">綠燈</span><span>建立術語表、欄位對照表、客戶需求分類與資料字典草稿。</span></div>
+                    <div class="risk-item"><span class="risk-tag risk-yellow">黃燈</span><span>外掛 staging table、匯入匯出格式、非正式 API payload、AI Runtime table，需要命名契約、版本紀錄、客戶識別與相依關係紀錄。</span></div>
+                    <div class="risk-item"><span class="risk-tag risk-red">紅燈</span><span>讓 AI 自行新增或修改母體 ERP 資料表、正式欄位、正式流程，或建立無來源、無負責人、無版本紀錄的外掛表。</span></div>
+                </div>
+            </div>
+            <div class="answer-box">
+                <p><strong>有資源的最佳解（參考用）：</strong>如果是大型 ERP / SaaS 公司，面對 AI 協助建表與外掛擴充，最佳解不是只寫一份命名規則，而是建立完整的 <strong>ERP Data & Extension Governance Platform</strong>。它把資料表、欄位、API payload、workflow table、migration、客戶版本、外掛依賴與 AI 產生紀錄都納入同一套治理流程。</p>
+                <ul>
+                    <li><strong>Metadata Registry</strong>：每一張表、每一個欄位、每一個 payload 都要有 metadata，包含用途、資料來源、負責人、客戶、專案、版本、敏感等級、保留期限與退役條件。</li>
+                    <li><strong>Extension Catalog</strong>：所有外掛、客製功能、AI Runtime、staging table、integration table 都登錄成 catalog item，清楚標示它依賴哪些 ERP core table、API、版本與客戶環境。</li>
+                    <li><strong>Schema Review Workflow</strong>：AI 可以提出 schema draft，但必須經過命名檢查、重複概念檢查、資料型態檢查、權限檢查、升級相容性檢查與人類審批。</li>
+                    <li><strong>Migration Pipeline</strong>：所有 DDL 變更都透過 migration 檔管理，能在 dev / staging / production 逐層驗證，也能回溯誰在什麼版本做了什麼改動。</li>
+                    <li><strong>Impact Analysis</strong>：上線前自動分析哪些客戶、報表、外掛、API、排程、工作流會被影響，避免「改一張表，壞一片功能」。</li>
+                    <li><strong>Lifecycle Management</strong>：資料表不是建立後永遠存在。系統要能追蹤使用率、孤兒表、重複功能、待封存資料、退役流程與 audit trail。</li>
+                    <li><strong>AI Governance Policy</strong>：明確規範 AI 可以做什麼，例如查重、建議命名、產生 migration draft、補文件、分析相依；也明確規範 AI 不可以做什麼，例如未審批自動改 core table、改正式欄位、寫入正式流程。</li>
+                </ul>
+                <p>這種有資源版的核心目標，是讓 AI 加速資料與外掛設計，但所有新增、修改、上線、升級、退役都留在可審查、可追蹤、可治理的軌道上。</p>
+            </div>
+        </section>
+
+        <!-- Card 3: Codex limits -->
+        <section class="card">
+            <div class="card-header">
+                <div class="card-icon">
+                    <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="9" y1="3" x2="9" y2="21"/><line x1="15" y1="3" x2="15" y2="21"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="3" y1="15" x2="21" y2="15"/></svg>
+                </div>
+                <div class="card-title-group">
+                    <div class="card-number">Question 03</div>
+                    <h2>Codex 付費版額度與 Token 分配策略</h2>
+                </div>
+            </div>
+            <div class="question-box">
+                <p>Codex就算付費後 有用量限制 怎麼樣可以有效分配?</p>
+            </div>
+            <div class="strategy-note">
+                <div class="note-label">Force 顧問對銀河軟體 ERP 的拿捏</div>
+                <p>這題表面上是在問「Codex 付費後還是有限制，怎麼分配？」但 Force 真正想帶出的不是省 token，而是 <strong>AI 團隊與 AI 資源治理</strong>。未來企業真正需要的不是學會某一個 AI，而是管理一群 AI，讓人與 AI、AI 與 AI 可以共同協作，並且可治理、可交接、可追溯、可維護。</p>
+                <p>銀河軟體 ERP 同仁目前可能會各自使用 ChatGPT、Gemini、Claude、Codex、Antigravity。這些工具如果各自獨立使用，短期會很方便，長期卻容易出現知識分散、紀錄斷裂、客戶資料混用、帳號無法交接與成本失控。因此 Q3 不應只回答「怎麼省 Codex 用量」，而要建立 <strong>AI Portfolio（AI 組合管理）</strong> 的觀念。</p>
+                <p><strong>Force 建議的 AI 主力與輔助策略：</strong></p>
+                <ul>
+                    <li><strong>主力：Antigravity</strong>：適合長文件、教材、SOP、標案、專案文件。它可以作為知識工程與文件產出的主要工作台。</li>
+                    <li><strong>輔助 1：Codex</strong>：適合程式、架構、review、debug、agent runtime。它不是拿來取代所有 AI，而是用在高價值工程判斷與技術審查。</li>
+                    <li><strong>輔助 2：Claude</strong>：適合第二意見、長文驗證、特殊觀點補充。當重要文件或策略需要不同模型視角時，可作為交叉驗證角色。</li>
+                    <li><strong>Google 生態觀察</strong>：Google AI Pro / Ultra、Gemini、NotebookLM、Deep Research、Deep Think、Antigravity 與 Workspace 整合，值得觀察的重點不是單一模型能力，而是協作、文件、workflow、KM 與 agent 生態是否能成為顧問團隊的標準平台。</li>
+                </ul>
+                <p><strong>Force 認為最重要的是共用 Context，不是共用模型。</strong>對個人、分公司或 SME 來說，最方便的 cowork 工具不是昂貴平台，而是一個穩定的專案資料夾。未來專案應建立共用 context，讓 Antigravity、Codex、Claude、Gemini 都讀同一套文件，例如 <code>README.md</code>、<code>PROJECT.md</code>、<code>TASK.md</code>、<code>MEETING.md</code>、<code>SOP.md</code>、<code>DECISION_LOG.md</code>。這樣不同 AI 才不會各自猜測背景，而是圍繞同一份 context 協作。</p>
+                <p><strong>md + html 雙格式治理</strong>適合放在 Force 建議裡。Markdown 作為 AI 可讀、可維護、可版本化的源文件；HTML 作為人類閱讀、課程展示、客戶 handoff 與內部交付版本。這種做法成本低、可移植、工具相容性高，特別適合尚未建立企業級 AI 平台的團隊。</p>
+                <p><strong>NotebookLM 可作為知識整合層。</strong>當專案累積會議紀錄、SOP、需求文件、決策紀錄、QA、案例與教材後，可以把經過整理與脫敏的文件匯入 NotebookLM，用來做問答、摘要、FAQ、學習導讀與知識驗證。它不是取代專案資料夾，而是讓同一套 context 更容易被團隊吸收。</p>
+                <p>帳號治理也要提早建立。未來真正麻煩的不是 token 不夠，而是多人共用帳號、專案交接、客戶資料隔離、離職管理、費用歸屬、AI 使用紀錄與稽核證據。這些都應從 ISO 27001、ISO 42001 與 Computer Audit 的角度思考。</p>
+                <div class="risk-list">
+                    <div class="risk-item"><span class="risk-tag risk-green">綠燈</span><span>建立共用專案資料夾、任務文件、會議紀錄、SOP、決策紀錄，讓不同 AI 讀同一套 context。</span></div>
+                    <div class="risk-item"><span class="risk-tag risk-yellow">黃燈</span><span>多 AI 協作處理客戶案、外掛、文件與程式時，要先定義主力 AI、輔助 AI、review 角色與資料邊界。</span></div>
+                    <div class="risk-item"><span class="risk-tag risk-red">紅燈</span><span>多人共用私人帳號、把正式客戶資料丟進不受控 AI、沒有紀錄誰用哪個 AI 做了什麼決策。</span></div>
+                </div>
+            </div>
+            <div class="answer-box">
+                <p><strong>有資源的最佳解（參考用）：</strong>成熟企業會優先採購企業版 AI 帳號與正式協作平台，而不是讓員工長期使用私人帳號或共用帳密。企業版的價值不只是模型比較強，而是提供管理主控台、權限、資料保護、稽核紀錄、團隊協作、費用管理與供應商合約責任。</p>
+                <p>在有資源的情況下，AI 使用會從「個人工具」提升成 <strong>Enterprise AI Operating Model</strong>。它不是只管 token，而是同時管理 AI portfolio、帳號權限、資料分類、使用紀錄、成本、稽核與知識交接。</p>
+                <ul>
+                    <li><strong>AI Portfolio Management</strong>：定義不同 AI 的角色分工，例如文件型、工程型、研究型、審查型、會議型、客服型。重點不是哪個 AI 最強，而是哪個 AI 適合哪類任務。</li>
+                    <li><strong>Enterprise Account & Access Governance</strong>：以企業版帳號集中管理使用者、群組、角色、權限、客戶資料隔離、離職停權、專案交接與費用歸屬，避免不受控多人共用帳號。</li>
+                    <li><strong>Collaboration Platform</strong>：優先使用能支援共享空間、團隊知識庫、專案權限、文件協作、審批流程與管理者可視性的企業平台。</li>
+                    <li><strong>Data Classification</strong>：依資料敏感度決定能否給 AI 使用，例如公開資料、內部資料、客戶資料、個資、財務資料、原始程式、密鑰與正式營運資料，應有不同使用規則。</li>
+                    <li><strong>Usage Log & Audit Trail</strong>：重要 AI 使用應留下紀錄：誰使用、用在哪個專案、輸入哪些資料類型、產出什麼文件、是否經過人類審查、是否進入正式交付。</li>
+                    <li><strong>Cost / Token Governance</strong>：token 管理只是其中一環。企業應追蹤模型費用、專案費用、團隊額度、使用價值與浪費來源，把昂貴模型用在高價值判斷。</li>
+                    <li><strong>ISO / Audit 對齊</strong>：
+                        <ul>
+                            <li><strong>ISO 27001</strong>：關注資訊安全、存取控制、資料分類、供應商風險與稽核紀錄。</li>
+                            <li><strong>ISO 42001</strong>：關注 AI 管理系統、風險、責任、治理流程與持續改善。</li>
+                            <li><strong>Computer Audit</strong>：關注操作紀錄、權限、變更管理、交接與可追溯性。</li>
+                        </ul>
+                    </li>
+                </ul>
+                <p>這種有資源版的核心目標，是把 AI 從「每個人各自使用的工具」變成企業可管理的 AI 團隊。未來企業競爭力不只來自模型能力，而來自人與 AI、AI 與 AI 能否在同一套 context、規則與治理框架下協作。</p>
+            </div>
+        </section>
+
+        <!-- Card 4: Antigravity Chinese -->
+        <section class="card">
+            <div class="card-header">
+                <div class="card-icon">
+                    <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                </div>
+                <div class="card-title-group">
+                    <div class="card-number">Question 04</div>
+                    <h2>Antigravity 2.0 中文介面與對話命名問題</h2>
+                </div>
+            </div>
+            <div class="question-box">
+                <p>antigravity 2.0 真的不能中文介面嗎? 他對話框命名都英文? 我還要自己重新命名才容易找</p>
+            </div>
+            <div class="strategy-note">
+                <div class="note-label">Force 顧問對銀河軟體 ERP 的拿捏</div>
+                <p><strong>核心答覆：</strong>Antigravity 的中文問題，不只是「介面能不能翻譯」而已。介面改成中文其實不難，前端 UI 翻譯就能做到；但 Force 不建議把開發工具完全包成中文舒適圈，因為開發者仍然需要逐步習慣英文原生技術環境。真正要治理的是：人類決策者如何用中文清楚下指令、留紀錄、做交接，而不是要求底層技術世界完全中文化。</p>
+                <p><strong>Force 顧問的過渡方案：</strong>銀河軟體 ERP 同仁可以採取「中文決策、英文執行、文件留痕」的方式。也就是互動需求、任務目標、Implementation Plan、驗收條件與決策紀錄盡量用中文；工具執行、程式碼、log、錯誤訊息與技術名詞則逐步接受英文原生語境。</p>
+                <ul>
+                    <li><strong>互動與計畫書指定中文</strong>：一開始就要求 AI 用繁體中文整理任務名稱、需求背景、實作計畫、風險與驗收項目，確保主管、顧問與非工程同仁都能理解核心意圖。</li>
+                    <li><strong>英文 log 外移翻譯</strong>：遇到英文錯誤訊息、console log、commit message 或工具輸出時，不需要硬背。可以複製到外部翻譯工具、NotebookLM、ChatGPT、Claude 或另一個 AI 中整理成中文摘要。</li>
+                    <li><strong>工具鏈分流</strong>：若英文與高階工程介面一開始太吃力，可以先用對話更親和的 AI 工具做需求拆解、中文摘要與思維整理；本地高階執行、專案操作與工程任務再交給 Antigravity 或其他 coding agent。</li>
+                    <li><strong>任務紀錄要中文可讀</strong>：每個重要任務都應留下中文標題、案例編號、需求背景、決策原因與下一步，讓分公司累積的是可交接的知識資產，而不是零散聊天紀錄。</li>
+                </ul>
+                <div class="risk-list">
+                    <div class="risk-item"><span class="risk-tag risk-green">綠燈</span><span>用中文任務名稱、中文計畫書、中文驗收清單整理 AI 對話與操作紀錄。</span></div>
+                    <div class="risk-item"><span class="risk-tag risk-yellow">黃燈</span><span>跨工具協作、外掛需求與英文 log 判讀，需要固定紀錄格式、負責人與中文摘要。</span></div>
+                    <div class="risk-item"><span class="risk-tag risk-red">紅燈</span><span>只看不懂的英文輸出就直接接受 AI 修改，或只有聊天紀錄、沒有需求確認、風險紀錄與驗收標準。</span></div>
+                </div>
+            </div>
+            <div class="answer-box">
+                <p><strong>核心答覆：</strong>Antigravity 這類高階 AI coding agent，中文互動通常沒有問題；真正限制不在於「它聽不聽得懂中文」，而在於開發工具、程式碼、套件、生態文件、錯誤訊息、模型推理語料與底層工具鏈，大量仍以英文為主。</p>
+                <p><strong>痛點與物理限制：</strong>介面中文化只是 UX 層問題，技術上相對容易；但思考過程、工具輸出、程式碼語境與錯誤訊息英文化，是更深層的生態限制。從 tokenizer 與模型訓練角度看，英文在 token 使用效率、程式語料密度、API 文件、開源討論與程式碼網絡中通常更有優勢。簡單說：AI 可以用中文跟你溝通，但很多底層技術路徑仍然是英文高速公路。</p>
+                <p><strong>推薦替代路徑：</strong>不要把目標設定成「所有介面都變中文」，而是建立中文決策層與英文技術層的橋接方式。</p>
+                <ul>
+                    <li><strong>人類決策層中文化</strong>：需求、計畫、風險、驗收、會議紀錄與交接文件，用繁體中文保存。</li>
+                    <li><strong>技術執行層保留英文</strong>：程式碼、log、API、錯誤訊息、套件文件與 Git 紀錄，逐步習慣英文原生環境。</li>
+                    <li><strong>翻譯與摘要工具輔助</strong>：遇到英文輸出時，請 AI 幫忙翻譯、摘要、分類與標註風險，而不是要求所有工具都改成中文。</li>
+                    <li><strong>工具分工</strong>：前期用中文親和的工具做思考整理，後期用高階 coding agent 做本地執行、專案操作與工程落地。</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Card 5: Dev Tools Comparison -->
+        <section class="card">
+            <div class="card-header">
+                <div class="card-icon">
+                    <svg viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+                </div>
+                <div class="card-title-group">
+                    <div class="card-number">Question 05</div>
+                    <h2>主流開發工具與 AI 輔助優缺點列示</h2>
+                </div>
+            </div>
+            <div class="question-box">
+                <p>各開發工具的優缺點列示，目前主流好用的開發工具?</p>
+            </div>
+            <div class="strategy-note">
+                <div class="note-label">Force 顧問對銀河軟體 ERP 的拿捏</div>
+                <p>這題不應停留在「Cursor、Windsurf、VS Code、JetBrains 哪個比較好」。那比較像 2024 到 2025 年的 AI Coding 工具比較。Force 想帶出的重點，是 2026 到 2030 年的 <strong>AI Agent 工作模式</strong>：未來真正工作的主體會越來越像數位員工，而不是單純的編輯器外掛。</p>
+                <p><strong>第一個觀念：AI Agent 才是主角。</strong>Antigravity、Codex、Claude Code、Gemini Agent、OpenAI Agent 這類工具，定位比較接近「數位員工」。它們能協助撰寫程式、撰寫文件、review、debug、研究、規劃與測試。真正重要的是它能不能理解任務、讀取 context、操作工具、留下紀錄、接受人類審查。</p>
+                <p><strong>第二個觀念：AI IDE 是辦公桌。</strong>Cursor、Windsurf、VS Code、JetBrains 這類工具，比較像 AI 工作的辦公桌、工作檯或操作環境。IDE 很重要，但 IDE 不等於 AI。用一個好理解的比喻：Cursor 比較像辦公室，Codex 或 Claude Code 比較像工程師。辦公室再漂亮，如果沒有清楚任務、資料、流程與人類驗收，工作仍然不會自動變好。</p>
+                <p><strong>Force 對 ERP 顧問公司與 SME 的建議：</strong>多數企業目前缺的不是最強 Agent，而是 <strong>KM、Workflow、AI 協作能力</strong>。因此不建議一開始就追求 Multi-Agent、Agent Cluster 或 Enterprise Agent。比較合理的成熟度路線是：</p>
+                <div class="flow-diagram">
+                    <div class="flow-node">Excel</div> <div class="flow-arrow">→</div>
+                    <div class="flow-node">KM / NotebookLM</div> <div class="flow-arrow">→</div>
+                    <div class="flow-node">Workflow / GAS / n8n</div> <div class="flow-arrow">→</div>
+                    <div class="flow-node">AI 協作</div> <div class="flow-arrow">→</div>
+                    <div class="flow-node">Agent</div> <div class="flow-arrow">→</div>
+                    <div class="flow-node">Multi-Agent</div>
+                </div>
+                <p>當 KM 與 Workflow 都沒有建立時，再強的 Agent 也很難發揮價值。對銀河軟體 ERP 這類顧問與服務型組織而言，先把文件、會議、SOP、案例、客戶需求、決策紀錄整理起來，再用 NotebookLM、Gemini、ChatGPT、Antigravity、GAS、n8n 等工具串成可運作的 AI 協作流程，通常比直接追逐最強 Agent 更有價值。</p>
+                <div class="risk-list">
+                    <div class="risk-item"><span class="risk-tag risk-green">綠燈</span><span>用 NotebookLM、Gemini、ChatGPT、Antigravity、GAS、n8n 建立 KM、文件整理、流程草稿與內部 AI 協作。</span></div>
+                    <div class="risk-item"><span class="risk-tag risk-yellow">黃燈</span><span>用 AI Agent 或 AI IDE 做外掛雛形、自動化腳本、測試工具，需要工程或顧問 review。</span></div>
+                    <div class="risk-item"><span class="risk-tag risk-red">紅燈</span><span>在 KM、Workflow、驗收與權限都未建立前，直接追求多 Agent 自動開發或交付客戶核心功能。</span></div>
+                </div>
+            </div>
+            <div class="answer-box">
+                <p><strong>有資源的最佳解（參考用）：</strong>大型企業與 AI 公司通常不會只問「哪個 IDE 最好用」，而會把工具分成兩層：<strong>AI Agent Tool</strong> 與 <strong>AI IDE</strong>。</p>
+                <ul>
+                    <li><strong>AI Agent Tool（主角）</strong>：
+                        <ul>
+                            <li><strong>代表</strong>：Antigravity、Codex、Claude Code、Gemini Agent、OpenAI Agent 等。</li>
+                            <li><strong>定位</strong>：數位員工，能協助撰寫程式、文件、review、debug、研究、規劃與測試。</li>
+                            <li><strong>評估重點</strong>：能否讀取 context、操作工具、處理多檔案任務、產生可審查紀錄、支援權限與企業治理。</li>
+                        </ul>
+                    </li>
+                    <li><strong>AI IDE（配角）</strong>：
+                        <ul>
+                            <li><strong>代表</strong>：Cursor、Windsurf、VS Code、JetBrains 等。</li>
+                            <li><strong>定位</strong>：AI 工作的辦公桌，提供編輯器、檔案、終端機、插件、diff、測試與專案操作環境。</li>
+                            <li><strong>評估重點</strong>：是否符合企業資安、工程師習慣、既有 repo 流程、插件生態、review 與維護方式。</li>
+                        </ul>
+                    </li>
+                    <li><strong>大型企業 / AI 公司適合方向</strong>：
+                        <ul>
+                            <li><strong>情境</strong>：大量工程師、大量專案、大量程式碼、大量預算。</li>
+                            <li><strong>做法</strong>：導入高階 Agent、企業版 coding agent、內部 agent team、權限治理、CI/CD、測試平台與 code review 流程。</li>
+                            <li><strong>目標</strong>：讓 Agent 進入正式工程流程，但所有變更仍需測試、審查、權限與稽核。</li>
+                        </ul>
+                    </li>
+                    <li><strong>SME / ERP 顧問公司適合方向</strong>：
+                        <ul>
+                            <li><strong>情境</strong>：工程資源有限，真正痛點常常是文件分散、流程不清、經驗沒有沉澱。</li>
+                            <li><strong>做法</strong>：優先建立 KM、NotebookLM、Google Workspace / Gemini、ChatGPT、Antigravity、GAS、n8n 與共用專案資料夾。</li>
+                            <li><strong>目標</strong>：先讓人與 AI 能協作，再逐步導入 Agent；不要在基礎 KM 與 Workflow 尚未建立時，就追求複雜的 Multi-Agent。</li>
+                        </ul>
+                    </li>
+                </ul>
+                <p>結論不是「哪個工具最強」，而是「哪個工具最適合目前階段」。對大部分 ERP 顧問與 SME 而言，先建立 KM、Workflow 與 AI 協作，通常比直接追逐最強 Agent 更有價值。</p>
+            </div>
+        </section>
+
+        <!-- Card 6: Senior Developer Perspective -->
+        <section class="card">
+            <div class="card-header">
+                <div class="card-icon">
+                    <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                </div>
+                <div class="card-title-group">
+                    <div class="card-number">Question 06</div>
+                    <h2>資深工程師對 AI 開發工具的看待與運用方式</h2>
+                </div>
+            </div>
+            <div class="question-box">
+                <p>資深工程師是如何看待這些工具?  他們運用方式跟我們有一樣嗎?</p>
+            </div>
+            <div class="strategy-note">
+                <div class="note-label">Force 顧問對銀河軟體 ERP 的拿捏</div>
+                <p>這題不應只回答「資深工程師如何使用 AI」。那是矽谷與大型科技公司的角度。Force 更想帶出的，是 <strong>AI 時代的人才角色正在重新洗牌</strong>，尤其要放回台灣 SME 與 ERP 顧問公司的實際情境來看。</p>
+                <p>AI 正在快速降低部分技術門檻，例如程式設計、網頁開發、文件整理、測試案例、報表產生。這不代表專業消失，而是專業價值的位置正在改變。過去大家容易把資深工程師理解成「很會寫程式的人」；未來更重要的是架構能力、驗收能力、治理能力與 AI 管理能力。</p>
+                <p>台灣本質上是中小企業社會。許多企業是 10 到 100 人公司，可能有 ERP 導入顧問、一人資訊部門、老闆兼業務、行政兼資訊。這些組織不一定會變成大型科技公司，但很可能變成 <strong>精緻化企業</strong>：過去 20 人完成的工作，未來可能 10 人加 AI 完成，甚至 5 人加 AI 完成。</p>
+                <p>Force 對台灣 SME 與 ERP 顧問公司的建議，不是盲目追逐最貴工具，而是願意<strong>精準投資 AI</strong>：把較好的模型與工具用在需求判斷、流程拆解、文件治理、測試規劃、風險辨識與重要客戶案，而不是把 token 花在大量沒有紀錄、沒有驗收、沒有交接價值的試錯。</p>
+                <p>同時，也要選擇願意使用 AI、願意整理資料、願意改善流程的公司與客戶一起合作。AI 轉型不是單方面技術表演，如果客戶完全不願意留下資料、整理流程、配合驗收與建立規則，再好的 AI 也很難產生長期價值。</p>
+                <p>因此銀河軟體 ERP 同仁不需要誤以為「未來每個人都要變成資深工程師」。真正重要的是會定義問題、拆解需求、驗收成果、管理 AI、管理 workflow、管理風險。這些能力會讓 ERP 顧問從功能回答者，升級成能整合資源與創造商業價值的 AI 時代顧問。</p>
+                <p><strong>AI 時代的新工作型態：</strong>過去是人執行工作；現在是人管理 AI；未來會是人管理多個 AI。例如：AI 1 產生內容，AI 2 review，AI 3 測試，最後由人類批准、治理與負責。這就是 Cross-AI Validation 與 HITL（Human-in-the-Loop）的核心精神。</p>
+                <div class="risk-list">
+                    <div class="risk-item"><span class="risk-tag risk-green">綠燈</span><span>用 AI 整理需求、建立檢查清單、產出測試情境、整理文件與報表草稿。</span></div>
+                    <div class="risk-item"><span class="risk-tag risk-yellow">黃燈</span><span>讓 AI 協助拆流程、規劃外掛、產生原型或交叉 review，需要人類驗收與業務邏輯確認。</span></div>
+                    <div class="risk-item"><span class="risk-tag risk-red">紅燈</span><span>把 AI 當成可以自行決定架構、權限、資料寫回、客戶承諾或正式交付責任的角色。</span></div>
+                </div>
+            </div>
+            <div class="answer-box">
+                <p><strong>有資源的最佳解（參考用）：</strong>全球 AI 導入正在出現兩極化。第一極是超大型企業，例如 NVIDIA、Google、Microsoft、Apple 這類公司，會發展 Agent Team、Digital Twin、AI Factory、Enterprise Agent，讓 AI 進入研發、供應鏈、產品、資料中心與內部營運。</p>
+                <p>第二極是超小型團隊，例如 OPC（One Person Company）、顧問與自由工作者。這類團隊可能是一個人加多個 AI Agent，形成小型團隊產能：一個 AI 寫內容、一個 AI review、一個 AI 測試、一個 AI 做研究，最後由人類決策與交付。</p>
+                <p>真正資深的工程師或顧問，通常不會只是排斥 AI。相反地，他們會更願意相信好模型的能力，也更敢在關鍵問題上使用高階模型、投入較多 token，因為他們知道複雜問題的判斷成本本來就高。差別在於：他們不會把 AI 當神諭，而是會用更深入的領域知識、批判能力與思考能力，提出更尖銳的問題，要求 AI 說明假設、列出風險、提供反例、補上測試，最後自己扮演守護者，守住架構、資料、權限、客戶承諾與正式交付邊界。</p>
+                <p>在 ERP 顧問場景裡，這種領域知識尤其重要。AI 可能會寫出看似合理的流程或程式，但它不一定懂客戶現場的權限習慣、帳務邏輯、部門責任、導入限制、歷史客製與老闆真正想解決的問題。資深者的價值，是能看出 AI 答案哪裡漂亮但不落地、哪裡有效但有風險、哪裡需要再問一次。</p>
+                <p><strong>資深能力的定義正在改變：</strong></p>
+                <ul>
+                    <li><strong>過去的資深工程師</strong>：重點常被放在寫程式能力、熟悉框架、解 bug、處理系統細節。</li>
+                    <li><strong>未來的資深人才</strong>：更重視架構能力、需求拆解、驗收能力、治理能力、風險判斷、AI 管理能力，以及足以判斷 AI 答案品質的領域知識。</li>
+                    <li><strong>真正資深的 AI 用法</strong>：更相信高模型在複雜問題上的價值，願意把 token 花在架構、風險、review、debug、測試與反例推演上；同時提出更尖銳的問題，要求 AI 自我檢查，而不是只接受第一版答案。</li>
+                    <li><strong>批判與思考能力</strong>：資深者不只是問 AI「怎麼做」，還會追問「為什麼這樣做」「有沒有反例」「哪裡可能失敗」「是否符合客戶流程」「是否會影響維護與治理」。</li>
+                    <li><strong>守護者角色</strong>：資深者最後要守住系統邊界，包括資料、權限、正式流程、客戶承諾、維護責任與交付品質。AI 可以加速，但人類仍要負責批准與治理。</li>
+                    <li><strong>Cross-AI Validation</strong>：用不同 AI 互相產生、審查、測試與補充觀點，避免單一 AI 的盲點。</li>
+                    <li><strong>HITL（Human-in-the-Loop）</strong>：AI 可以產出、分析與建議，但正式決策、客戶承諾、資料寫回與風險承擔仍需要人類批准。</li>
+                </ul>
+                <p>結論是：AI 並不是讓所有人都變成工程師，而是讓更多人有能力完成過去需要工程師才能完成的工作。對台灣企業而言，真正重要的不一定是成為最強工程師，而是成為能與 AI 協作、管理 AI、驗收 AI、整合資源、創造商業價值的人。</p>
+            </div>
+        </section>
+
+        <!-- Card 7: Hybrid Workflow -->
+        <section class="card">
+            <div class="card-header">
+                <div class="card-icon">
+                    <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><path d="M21 16V8a2 2 0 0 0-2-2h-5l-2.29-2.29A1 1 0 0 0 11 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2z"/></svg>
+                </div>
+                <div class="card-title-group">
+                    <div class="card-number">Question 07</div>
+                    <h2>美術設計與程式架構工具的混合搭配術</h2>
+                </div>
+            </div>
+            <div class="question-box">
+                <p>Codex編寫程式很強，但美術設計風格真的蠻直的，Gemini的Canvas美術設計風格不錯，程式架構不嚴謹，也非常不受控，我要怎麼跟其他工具搭配使用?</p>
+            </div>
+            <div class="strategy-note">
+                <div class="note-label">Force 顧問對銀河軟體 ERP 的拿捏</div>
+                <p>這題的重點不是「哪個 AI 最強」，而是「哪個 AI 最適合目前階段」。對銀河軟體 ERP 顧問來說，真正好用的做法，是把工作拆成 POC、工程化、美化與驗收，而不是期待同一個 AI 同時變成最好的設計師、工程師與文件專家。</p>
+                <p><strong>銀河軟體實戰版流程：</strong></p>
+                <ul>
+                    <li><strong>POC 階段：用 Gemini Canvas 先畫出來。</strong>適合做流程圖、UI 草稿、Demo 頁面、客戶提案展示與內部討論。這一階段的重點是先讓大家看到畫面，不要太早追求正式程式品質。</li>
+                    <li><strong>正式開發階段：交給 Codex 與 Antigravity 工程化。</strong>把 API、資料流、權限、錯誤處理、維護性、版本管理與交付邊界補齊，讓漂亮畫面變成可維護的系統。</li>
+                    <li><strong>上線前修飾：畫面不滿意再回到 Gemini。</strong>針對配色、排版、視覺層次、卡片密度與展示效果做最後調整，但不要讓視覺修飾越權改動正式邏輯。</li>
+                </ul>
+                <p><strong>Force 最常用的方法是樣板驅動（Template Driven）。</strong>不是叫 AI 從零開始幻想，而是先找一個喜歡的網站、系統、GitHub 頁面或 Dashboard，請 AI 參考它的留白、配色、卡片設計與排版方式，但不要複製內容，重新設計成自己的 ERP 顧問情境。</p>
+                <p>原因很簡單：AI 最強的不一定是憑空創造，而是理解、模仿、重構、客製化。這其實也很像 ERP 導入：不是從零發明一套 ERP，而是參考最佳實務，再依照客戶流程做合適的客製化。很多時候，好的樣板比更長的 Prompt 更有效。</p>
+                <p><strong>AI 分工建議：</strong></p>
+                <ul>
+                    <li><strong>Gemini</strong>：美感、視覺、Demo、簡報、客戶看得懂的畫面。</li>
+                    <li><strong>Codex</strong>：程式、架構、重構、測試、維護性與工程品質。</li>
+                    <li><strong>Antigravity</strong>：文件、SOP、教材、專案紀錄與任務整理。</li>
+                </ul>
+                <div class="risk-list">
+                    <div class="risk-item"><span class="risk-tag risk-green">綠燈</span><span>用 Gemini 做 POC、流程展示、客戶 demo、內部討論稿與視覺樣板。</span></div>
+                    <div class="risk-item"><span class="risk-tag risk-yellow">黃燈</span><span>把 mockup 變成可操作外掛時，需要 Antigravity / Codex 補上資料、權限、錯誤處理與維護設計。</span></div>
+                    <div class="risk-item"><span class="risk-tag risk-red">紅燈</span><span>直接把 AI 生成的漂亮頁面接上正式 ERP 寫入、客戶資料或核心流程。</span></div>
+                </div>
+                <p>一句話：<strong>Gemini 畫，Codex 做，Antigravity 整理，人類驗收。</strong>這比單押一個工具更符合台灣 SME、ERP 顧問與 OPC 的實務環境。</p>
+            </div>
+            <div class="answer-box">
+                <p><strong>有資源的最佳解（參考用）：</strong>如果企業資源較完整，可以把這件事升級成正式的「Design to Engineering Workflow」，讓設計、POC、工程、測試與文件都有清楚責任分工。</p>
+                <ul>
+                    <li><strong>樣板庫與設計系統</strong>：先建立企業常用版型、配色、元件、報表樣式、Dashboard 風格與提案頁模板，讓 AI 不必每次從零開始。</li>
+                    <li><strong>POC 工作區</strong>：允許顧問用 Gemini Canvas 或類似工具快速產生展示頁，但明確標示為 demo，不直接連正式資料。</li>
+                    <li><strong>工程審查清單</strong>：正式化前必須檢查 API、資料流、權限、稽核紀錄、錯誤處理、效能、測試與部署方式。</li>
+                    <li><strong>UX / QA 驗收</strong>：上線前由使用者、顧問、工程師共同驗收，確認畫面好看之外，也真的符合流程、權限與操作習慣。</li>
+                    <li><strong>文件與交接</strong>：將最終決策、樣板來源、AI 生成內容、人工調整與交付版本留下紀錄，方便後續維護。</li>
+                </ul>
+                <p>成熟企業不會只比較工具名稱，而會建立一條穩定流程：視覺 AI 負責讓想法被看見，工程 AI 負責讓系統可運作，文件 AI 負責讓知識可交接，最後由人類負責商業判斷與正式批准。</p>
+            </div>
+        </section>
+
+        <!-- Card 8: Clean Dev Environment -->
+        <section class="card">
+            <div class="card-header">
+                <div class="card-icon">
+                    <svg viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+                </div>
+                <div class="card-title-group">
+                    <div class="card-number">Question 08</div>
+                    <h2>打造乾淨與可移植的本機開發環境</h2>
+                </div>
+            </div>
+            <div class="question-box">
+                <p>我們電腦開發環境  要怎麼做 才是乾淨的?  移動到其他台電腦安裝才能確保我們軟體沒問題?</p>
+            </div>
+            <div class="strategy-note">
+                <div class="note-label">Force 顧問對銀河軟體 ERP 的拿捏</div>
+                <p>開宗明義：如果問工程標準答案，乾淨與可移植的環境通常會走向 <strong>Docker + 受規範的軟硬體環境</strong>。Docker 負責讓 runtime 一致，受規範的軟硬體環境則負責降低客戶現場差異，例如 Windows 版本、主機規格、瀏覽器、Office、IIS / .NET、SQL Server 連線、權限、備份與 log。</p>
+                <p>但 Force 對銀河軟體 ERP 台西分公司目前的建議，不是先把大家推進 Docker 操作，而是先把 <strong>AI 可以開發的軟體型態</strong>約束清楚。先決定「能做哪幾種案子」，再決定「需要什麼環境」。如果軟體邊界沒定義清楚，標準化環境也只是讓錯誤更穩定地被複製。</p>
+                <p><strong>以目前狀態，Force 建議先只做到三種開發方式：</strong></p>
+                <ul>
+                    <li><strong>第一種：HTML + GAS。</strong>適合查詢、表單、Dashboard、教材、Demo 與簡易 workflow。這是最穩、最少環境問題的方式，客戶通常只需要瀏覽器，不需要安裝 Python，也不需要理解 Docker。</li>
+                    <li><strong>第二種：HTML + API / SQL Gateway。</strong>適合 ERP 資料查詢、SQL Server、報表與二創應用。重點是 HTML 不直接碰資料庫，而是透過 API、權限、log，再進到 DB。這種方式要注意資料權限、API 維護責任與查詢紀錄。</li>
+                    <li><strong>第三種：HTML + Python Runtime。</strong>適合 OCR、ETL、SQLite、Excel、Polars、AI 處理與本機資料夾監控。但這一種不確定性最高，因為會受到 <span class="inline-warning">Python 版本、套件版本</span>、Office、作業系統、檔案路徑、權限與客戶電腦狀態影響。因此若要採用，就必須對軟硬體環境提出明確要求，才會比較穩。</li>
+                </ul>
+                <p>所以順序應該是：<strong>先約束軟體開發方式，再用標準化軟硬體環境與 Docker 提高可靠度。</strong>內部開發時就要遵守這個規範，避免做出只適合某台工程師電腦、最後反過來要求客戶調整環境的方案。</p>
+                <p><strong>Force 建議銀河軟體可以思考標準化軟硬體與部署邊界。</strong>與其讓每個客戶現場都變成開盲盒，不如建立建議規格，甚至讓客戶透過銀河軟體或合作系統商取得標準環境。這可以形成「資源環境部署包」，把可開發範圍、可部署環境、API Gateway、log、備份、監控、資安設定、版本更新、移轉與維護 SLA 一起包進去。</p>
+                <p><strong>Docker 的定位：</strong>Docker 不是讓程式變快的工具，而是環境標準化工具。它最大的價值，是讓開發、測試與部署環境一致，降低「我電腦可以跑，你電腦不能跑」的問題。但 Docker 仍要搭配受規範的軟硬體環境，才適合正式交付。</p>
+                <p><strong>AI Agent 時代的新觀念：</strong>過去是人學 Docker、人寫 Dockerfile、人維護 Docker。現在可以是人理解 Docker，由 Codex、Claude Code、Antigravity 等 AI Agent 協助產生 Dockerfile、docker-compose 與除錯建議。但 AI 能建立 Docker，不代表環境治理消失。</p>
+                <p>真正重要的是先定義標準：Python 版本、Node 版本、套件版本、DB 版本與安裝方式。<strong>AI 負責建立環境，人類負責定義標準。</strong></p>
+                <p><strong>Python 版本策略：</strong>Force 建議以 <strong>Python 3.11.x</strong> 作為主要標準版本。原因是穩定、AI 與資料處理相關套件支援成熟、套件相容性高，也比較適合 SME 情境。重點不是追最新版本，而是追穩定版本。</p>
+                <p><strong>客戶不用管環境。</strong>這是本題最重要的核心。理想情況下，客戶只需要開網址、上傳檔案、按按鈕、看結果，不需要理解 Python、Docker、CI/CD、venv 或 requirements。後端可以在銀河軟體主機、客戶主機、Google GAS、Cloud VM 或 Local Runtime 執行，但客戶面對的應該是服務，而不是環境建置。</p>
+                <div class="risk-list">
+                    <div class="risk-item"><span class="risk-tag risk-green">綠燈</span><span>HTML、GAS、GitHub Pages、靜態頁、Google Sheet / Drive 整合、脫敏 demo 與只讀查詢。</span></div>
+                    <div class="risk-item"><span class="risk-tag risk-yellow">黃燈</span><span>HTML + API / SQL Gateway、Python Runtime、Docker，需要先定義版本、權限、log、安裝方式與維護責任。</span></div>
+                    <div class="risk-item"><span class="risk-tag risk-red">紅燈</span><span>HTML 直接連資料庫、帳密寫在前端、依賴個人電腦環境、沒有負責人就交付客戶。</span></div>
+                </div>
+                <p>結論：乾淨環境的核心不是 Docker，而是可重建、可移植、可交接、可維護。AI Agent 正在降低環境建置門檻，但環境治理、版本標準與維護責任，仍然需要人類決定。</p>
+            </div>
+            <div class="answer-box">
+                <p><strong>有資源的最佳解（參考用）：</strong>有資源的企業不會只套一個固定答案，而是根據客戶現場狀態做最佳化配置。先盤點客戶的主機、作業系統、資料庫版本、網路權限、資安要求、備份能力、內部 IT 能力與維護預算，再決定使用 Web / Cloud / Local Runtime / Docker / API Gateway / GAS 等組合。</p>
+                <p>成熟服務商的價值，是提供完整的環境建議細節，而不是只交付程式。例如：建議硬體規格、OS 版本、DB 版本、Python / Node 標準、部署架構、權限模型、log 保存、備份策略、監控方式、更新週期、回復方案與移轉流程。客戶可以再透過 AI 與專家一起檢查這份建議，逐步最佳化自家環境。</p>
+                <ul>
+                    <li><strong>環境標準定義</strong>：
+                        <ul>
+                            <li>明確記錄 Python / Node / DB / API / 套件版本，以及安裝方式與升級週期。</li>
+                            <li>避免使用「我這台電腦剛好可以」當成專案交付標準。</li>
+                        </ul>
+                    </li>
+                    <li><strong>Docker / Container</strong>：
+                        <ul>
+                            <li>適合多人協作、正式維運、伺服器部署、多服務組合與 CI/CD。</li>
+                            <li>Docker 的價值是讓環境一致，而不是取代架構設計、權限治理或人類驗收。</li>
+                        </ul>
+                    </li>
+                    <li><strong>AI Agent 輔助建置</strong>：
+                        <ul>
+                            <li>讓 AI Agent 協助產生 Dockerfile、docker-compose、安裝腳本、環境檢查清單與除錯建議。</li>
+                            <li>但 AI 只能協助建立環境，不能替企業決定誰負責維護、哪些版本標準、哪些資料可以連接、哪些流程可以上線。</li>
+                        </ul>
+                    </li>
+                    <li><strong>服務商建議書與最佳化配置</strong>：
+                        <ul>
+                            <li>依客戶規模、資料敏感度、內網限制、IT 人力、維護能力與預算，提供不同等級的部署建議。</li>
+                            <li>讓客戶不是被迫自己摸索環境，而是拿到可被 AI、專家與內部 IT 共同檢查的治理底稿。</li>
+                        </ul>
+                    </li>
+                </ul>
+                <p>所以這題不是 Docker 教學，而是 AI 時代的環境治理思維。工具可以越來越自動化，但標準、責任、風險與交付邊界，仍然要由人類治理。</p>
+            </div>
+        </section>
+
+        <!-- Card 9: Code Scan and Security -->
+        <section class="card">
+            <div class="card-header">
+                <div class="card-icon">
+                    <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                </div>
+                <div class="card-title-group">
+                    <div class="card-number">Question 09</div>
+                    <h2>程式碼安全掃描與 SQL Injection 防禦</h2>
+                </div>
+            </div>
+            <div class="question-box">
+                <p>我要怎麼做程式碼掃描? 檢視邏輯 資安漏洞(例如: sql injection)相關問題?</p>
+            </div>
+            <div class="strategy-note">
+                <div class="note-label">Force 顧問對銀河軟體 ERP 的拿捏</div>
+                <p>這題不要先從 SonarQube、Snyk、CodeQL 這些工具名稱開始。工具當然重要，但對銀河軟體 ERP 顧問、SME 與 AI 使用者而言，更重要的是建立 <strong>AI 時代的安全檢查思維</strong>：AI 可以寫、AI 可以 review、AI 可以反向測試，但最後仍要有人類驗收。</p>
+                <p><strong>第一層：AI × AI Review。</strong>現在最容易落地的方式，不一定是先架掃描平台，而是讓第二個 AI 做 review。例如：Codex 寫程式，Claude Review，ChatGPT 找漏洞，最後由人類確認。AI Review 的成本已經非常低，善用第二個 AI，通常比單靠人工更有效率。</p>
+                <p>但要拿捏清楚：<strong>AI Review 是低成本第一道防線，不是正式保證。</strong>它適合做第一輪檢查、找明顯漏洞、補 checklist、產生反向測試案例；但凡是會碰到正式 ERP、SQL Server、客戶資料、權限或批次更新的內容，仍然要進入人類驗收與專業 review。</p>
+                <p>這就是 <strong>Cross-AI Validation</strong>：不要只相信同一個 AI 的第一版答案，而是讓不同 AI 扮演不同角色。過去可能是工程師 A 寫、工程師 B review、主管驗收；現在可以是 AI 1 寫、AI 2 review、AI 3 反向測試，最後由人類批准。</p>
+                <p><strong>第二層：Checklist 思維。</strong>很多人以為 AI 最重要的是寫程式；但在 AI 時代，更重要的是知道要檢查什麼。銀河軟體 ERP 顧問不一定要背熟所有資安工具，但要能要求 AI 針對必查清單與禁止清單逐項檢查。</p>
+                <p><strong>Force 必查清單：至少要檢查</strong></p>
+                <ul>
+                    <li>SQL Injection、XSS、API Key、Token、權限問題。</li>
+                    <li>資料刪除、錯誤處理、還原機制、log、正式資料保護。</li>
+                </ul>
+                <p><strong>Force 禁止清單：禁止出現</strong></p>
+                <ul>
+                    <li>帳密寫死、API Key 寫死、HTML 直接碰 DB。</li>
+                    <li>AI 直接改正式資料、不可回復的批次更新、無 log 的重要操作。</li>
+                </ul>
+                <p><strong>第三層：AI 其實已經很強。</strong>目前許多優秀 AI，例如 Codex、Claude Code、Gemini Agent，在特定領域其實已經比大多數開發人員更穩定，甚至部分情況下比許多資深工程師更能遵守規範。因此這題不要塑造成「AI 很危險」，而應該理解成：AI 很強，但仍然需要驗證機制。</p>
+                <p>更務實的做法，是把 <span class="inline-warning">有經驗的顧問（如 Force）、老師、工程師或資安專業公司</span> 也放進協作流程。銀河軟體 ERP 顧問可以用強大的 AI 工具寫出或操作接近專業級的軟體，但重要案子仍應找懂 ERP、懂資安、懂客戶現場的人一起討論如何搭配，確認哪些可以交給 AI，哪些需要專家 review，哪些必須進入正式驗收。</p>
+                <p><strong>HITL（Human-in-the-Loop）。</strong>AI 可產生、AI 可 review、AI 可測試，但最終批准仍由人類負責。尤其是 ERP、SQL Server、Excel、外掛與 workflow 場景，真正常見的風險未必是高階 Zero-Day，而是共用帳號、帳密寫死、SQL 直接拼接、正式資料誤更新、無法還原、權限過大。</p>
+                <div class="risk-list">
+                    <div class="risk-item"><span class="risk-tag risk-green">綠燈</span><span>用第二個 AI 檢查文件、SOP、靜態頁、查詢頁與非正式 demo 是否含敏感資訊或明顯邏輯漏洞。</span></div>
+                    <div class="risk-item"><span class="risk-tag risk-yellow">黃燈</span><span>外掛、API、上傳檔案、登入流程、SQL 查詢與 workflow，需要必查清單/禁止清單檢查、Cross-AI Review 與人類驗收。</span></div>
+                    <div class="risk-item"><span class="risk-tag risk-red">紅燈</span><span>帳密或 API Key 寫死、HTML 直接碰 DB、AI 直接改正式資料、不可回復批次更新、重要操作無 log。</span></div>
+                </div>
+                <p>一句話：不要追求 AI 永遠不犯錯，而是建立一套即使 AI 犯錯，也能快速發現與修正的治理機制。這才是 AI 時代真正的安全觀念。</p>
+            </div>
+            <div class="answer-box">
+                <p><strong>有資源的最佳解（企業版參考）：</strong>成熟企業仍然會搭配 SonarQube、Snyk、GitHub CodeQL、SAST、DAST、依賴套件掃描與 CI/CD 安全檢查。AI Review 與專業工具並非互斥，而是互補：工具負責穩定掃描，AI 負責解讀、分類、補測試、產生修補建議與整理治理報告，人類與專家負責批准與治理。</p>
+                <ul>
+                    <li><strong>工具層：企業常見安全與品質工具</strong>：
+                        <ul>
+                            <li><strong>SonarQube / SonarCloud</strong>：用於程式品質、Code Smell、維護風險、常見安全問題與技術債檢查。</li>
+                            <li><strong>Snyk / Dependabot</strong>：用於第三方套件漏洞管理、開源元件風險管理與相依套件升級提醒。</li>
+                            <li><strong>GitHub CodeQL</strong>：用於 Pull Request 安全分析、自動化程式碼檢查與潛在漏洞查詢。</li>
+                            <li><strong>SAST（Static Application Security Testing）</strong>：對原始碼做靜態分析，在系統尚未執行前找出可能的安全問題。</li>
+                            <li><strong>DAST（Dynamic Application Security Testing）</strong>：對執行中的系統做安全測試，觀察實際請求、回應、登入、權限與弱點暴露情況。</li>
+                        </ul>
+                    </li>
+                    <li><strong>流程層：工具不能取代治理</strong>：
+                        <ul>
+                            <li>建議流程：AI 產生 → 第二 AI Review → Checklist → 測試環境驗證 → 人類批准（HITL）→ 正式發布。</li>
+                            <li>工具可以協助找問題，但不能替企業決定風險是否可接受、資料是否可寫回、權限是否合理、客戶承諾是否成立。</li>
+                            <li>重要變更必須留下 log、測試資料、回復方式、審查紀錄與批准者。</li>
+                        </ul>
+                    </li>
+                    <li><strong>ERP 特別注意：高風險通常在資料與權限</strong>：
+                        <ul>
+                            <li>銀河軟體 ERP 情境下，真正高風險的通常是 SQL Server、ERP 權限、Excel 批次更新、API 寫回與客戶資料。</li>
+                            <li>涉及正式資料時，建議使用測試環境、脫敏資料、回復機制與審查紀錄，避免把測試動作變成正式事故。</li>
+                            <li>對 ERP 顧問而言，安全不只是漏洞掃描，也包含流程權限、資料責任、操作紀錄與能否復原。</li>
+                        </ul>
+                    </li>
+                    <li><strong>SQL Injection 結構性防禦：寫得簡單，但要做得嚴格</strong>：
+                        <ul>
+                            <li>不要將使用者輸入直接拼接進 SQL。</li>
+                            <li>優先使用參數化查詢、Stored Procedure、受控 View、API Gateway 與權限控管。</li>
+                            <li>HTML 前端不應直接碰資料庫，帳號、密碼、API Key 與 Token 不應放在前端。</li>
+                        </ul>
+                    </li>
+                </ul>
+                <p>AI 時代最大的改變，不是工具變強而已，而是 Code Review、安全檢查、流程驗證與邏輯驗證的成本大幅下降。對銀河軟體 ERP 顧問而言，最重要的能力是善用第二個 AI 做 review，建立必查清單與禁止清單，建立 HITL 驗收流程，並知道哪些地方一定要驗證；成熟企業則應同時搭配 SonarQube、Snyk、CodeQL、SAST、DAST 等專業工具，形成 AI Review + 工具掃描 + 人類治理的完整安全流程。</p>
+            </div>
+        </section>
+
+        <!-- Card 10: AI Scope Creep -->
+        <section class="card">
+            <div class="card-header">
+                <div class="card-icon">
+                    <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+                </div>
+                <div class="card-title-group">
+                    <div class="card-number">Question 10</div>
+                    <h2>防範 AI 技術越權與原生 Web 堆疊控制</h2>
+                </div>
+            </div>
+            <div class="question-box">
+                <p>如果我一開始指定 HTML5+CSS+JS 來去做開發，會不會系統越做越大，他就自行亂加其他程式語言來做達成我的指令? 如果會，我們要怎麼讓他保證能順? 到時候變成AI開發系統，系統維護移轉工程師手上，反而難度變很高?</p>
+            </div>
+            <div class="strategy-note">
+                <div class="note-label">Force 顧問對銀河軟體 ERP 的拿捏</div>
+                <p>Q10、Q11、Q12 其實不是三個獨立技術題，而是在問同一件事：<strong>AI 時代的專案治理與產品治理</strong>。不要先從 HTML、React、Docker、Git 或 App 開始講，而要先做專案分級。不同等級專案，治理強度應該不同。</p>
+                <p><strong>Project Tier：先判斷這是哪一級專案</strong></p>
+                <ul>
+                    <li><strong>Tier 1：個人工具</strong>：查詢頁、Dashboard、報表、SOP、Demo。壞掉影響有限，可以快速驗證。</li>
+                    <li><strong>Tier 2：部門工具</strong>：OCR、ETL、Workflow、AI 助手。開始需要 README、版本、負責人。</li>
+                    <li><strong>Tier 3：客戶工具</strong>：ERP 外掛、API、客戶入口。開始需要模組化、版本管理、權限管理、驗收流程。</li>
+                    <li><strong>Tier 4：正式系統</strong>：ERP 核心、財務、庫存、正式 DB。需要 review、governance、HITL 與專業顧問協作。</li>
+                </ul>
+                <p><strong>Q10 的核心：AI 如何避免技術失控。</strong>Force 的看法很直接：AI 一定會亂長。問題不是「會不會」，而是「如何管理」。如果任務一直追加，AI 很容易為了完成需求，自行引入新框架、新後端、新套件或新資料儲存方式。</p>
+                <p><strong>兩條路線要分清楚：</strong></p>
+                <ul>
+                    <li><strong>路線 A：先求有 → 後治理</strong>。適合 PoC、概念驗證、快速打樣。可以讓 AI 快速成長，但要承認它只是探索，不是正式交付架構。</li>
+                    <li><strong>路線 B：先規範 → 後開發</strong>。適合正式案、客戶案、長期維護案。必須先建立技術必用清單、技術禁止清單與開發規範。</li>
+                </ul>
+                <p>PoC 可以快速長大；正式案不能讓 AI 自由長大。正式案一開始就要寫清楚：允許哪些技術、禁止哪些技術、資料能不能保存、能不能登入、能不能接 API、能不能寫回 ERP、誰驗收、誰維護。</p>
+                <div class="risk-list">
+                    <div class="risk-item"><span class="risk-tag risk-green">綠燈</span><span>Tier 1 PoC、Demo、單頁工具，可以先求有，但要標示為非正式交付。</span></div>
+                    <div class="risk-item"><span class="risk-tag risk-yellow">黃燈</span><span>Tier 2 / Tier 3 部門工具與客戶工具，需要技術清單、資料邊界、負責人與驗收方式。</span></div>
+                    <div class="risk-item"><span class="risk-tag risk-red">紅燈</span><span>Tier 4 正式系統、正式 DB、財務、庫存、ERP 核心，不可讓 AI 自行決定架構或寫回流程。</span></div>
+                </div>
+            </div>
+            <div class="answer-box">
+                <p><strong>有資源的最佳解（企業版參考）：</strong>正式團隊會把「AI 技術越權」當成架構治理問題，而不只是 prompt 問題。AI 可以很會寫，但它必須在明確的 architecture boundary 裡寫。</p>
+                <ul>
+                    <li><strong>技術必用清單 / 禁止清單</strong>：
+                        <ul>
+                            <li>明定可用技術，例如 HTML、RWD、GAS、API Gateway、SQL View、Python Runtime、指定套件版本。</li>
+                            <li>明定禁止技術，例如未批准框架、未批准資料庫、未批准後端服務、未批准雲端儲存、直接寫回正式 ERP。</li>
+                        </ul>
+                    </li>
+                    <li><strong>開發規範與 AI 規則檔</strong>：
+                        <ul>
+                            <li>在 README、PROJECT.md、AI_RULES.md 或 coding agent 規則中寫清楚專案 Tier、允許技術、資料邊界與驗收條件。</li>
+                            <li>AI 每次改動後，要檢查是否新增未批准的框架、套件、後端、DB、權限或寫回能力。</li>
+                        </ul>
+                    </li>
+                    <li><strong>模組化與 HITL</strong>：
+                        <ul>
+                            <li>正式案要把 UI、API、資料存取、權限、log、錯誤處理分開，避免 AI 把所有邏輯塞在一起。</li>
+                            <li>涉及 Tier 3 / Tier 4 的變更，必須由人類或專業顧問 review，不能只靠 AI 自評。</li>
+                        </ul>
+                    </li>
+                </ul>
+                <p>結論：Q10 不是在問要不要用 React 或 Docker，而是在問 AI 開發如何不失控。PoC 可以快，正式案要有規範；AI 可以寫，技術邊界要由人類治理。</p>
+            </div>
+        </section>
+
+        <!-- Card 11: Systematic Maintenance -->
+        <section class="card">
+            <div class="card-header">
+                <div class="card-icon">
+                    <svg viewBox="0 0 24 24"><path d="M18 3a3 3 0 0 0-3 3v12a3 3 0 0 0 3 3 3 3 0 0 0 3-3V6a3 3 0 0 0-3-3zM6 3a3 3 0 0 0-3 3v12a3 3 0 0 0 3 3 3 3 0 0 0 3-3V6a3 3 0 0 0-3-3z"/></svg>
+                </div>
+                <div class="card-title-group">
+                    <div class="card-number">Question 11</div>
+                    <h2>系統性維護與規模化管理心法</h2>
+                </div>
+            </div>
+            <div class="question-box">
+                <p>日後維護一定會陸續增加很多功能，到底要怎麼樣有系統性維護??</p>
+            </div>
+            <div class="strategy-note">
+                <div class="note-label">Force 顧問對銀河軟體 ERP 的拿捏</div>
+                <p>Q11 的重點不是 Git、PR、Branch，而是 <strong>如何避免專案失控</strong>。AI 時代功能長得很快，客製也會變快；真正的風險不是做不出來，而是每個客戶最後都變成一套新系統，沒有人能維護。</p>
+                <p><strong>專案生命週期治理：</strong></p>
+                <ul>
+                    <li><strong>第一階段：PoC</strong>：先驗證價值，不急著變正式系統。</li>
+                    <li><strong>第二階段：收斂</strong>：找出共通功能，判斷哪些需求其實可以共用。</li>
+                    <li><strong>第三階段：標準化</strong>：建立元件庫，例如 OCR、Workflow、Dashboard、查詢模組、通知模組。</li>
+                    <li><strong>第四階段：治理</strong>：進入版本管理、差異管理、定期 Review 與 SLA。</li>
+                </ul>
+                <p>Force 的核心觀點是：不要急著統一所有客戶版本，而是建立 <strong>標準版、客製版、元件庫</strong>。標準版由銀河軟體維護；客製版獨立管理；客戶需求盡量建立在標準元件之上，避免每個客戶都從零變成一套新系統。</p>
+                <p><strong>客製化治理：</strong>客製功能不是不能做，但要明確管理。定期 Review 時要判斷：要收斂回標準版？保持客製版？還是退役？AI 讓客製速度變快，但維護成本沒有消失。</p>
+                <p><strong>SLA 與共同責任：</strong>標準功能可納入服務水準；客製功能要另行約定維護責任、相容性、測試責任、升級策略與支援範圍。系統維護不是單方面責任，銀河軟體負責開發、文件、建議與維護；客戶也要負責測試、驗收與回報。</p>
+                <p><strong>商業治理底線：</strong>AI 時代報價不應只看開發工時，而要看責任邊界。若銀河軟體要承擔正式營運、資料風險、長期維護、升級相容、客服支援與 SLA，成本就不應過低。只有在責任範圍明確降低，例如 PoC、Demo、內部參考、非正式營運工具、不含長期維護時，報價才有條件下修。</p>
+                <p><strong>客製版的合理做法：</strong>不要讓客製變成無限責任。較穩健的方式，是以標準元件為底，搭配明確客製化條件、客戶內部種子教育訓練、有限期保固，以及必要時的特殊保固合約。特殊責任就要特殊報價，不能把長期維護成本藏在一次性開發費裡。</p>
+                <div class="risk-list">
+                    <div class="risk-item"><span class="risk-tag risk-green">綠燈</span><span>PoC、內部工具、單一部門使用，可先用簡單版本紀錄與負責人管理。</span></div>
+                    <div class="risk-item"><span class="risk-tag risk-yellow">黃燈</span><span>客戶工具、多人使用、長期維護案，需要標準版/客製版、元件庫、驗收紀錄與 SLA。</span></div>
+                    <div class="risk-item"><span class="risk-tag risk-red">紅燈</span><span>每個客戶各做一套、無版本紀錄、無測試紀錄、無維護責任、無退役機制。</span></div>
+                </div>
+            </div>
+            <div class="answer-box">
+                <p><strong>有資源的最佳解（企業版參考）：</strong>成熟企業會把維護問題做成產品治理，不只是程式碼管理。Q8 是環境基礎，Q10 是技術治理，Q11 則是版本治理、客製治理與長期維運治理。</p>
+                <ul>
+                    <li><strong>標準版 / 客製版 / 元件庫</strong>：
+                        <ul>
+                            <li><strong>標準版</strong>：銀河軟體維護，納入服務水準與升級策略。</li>
+                            <li><strong>客製版</strong>：獨立管理，需明確記錄客戶、版本、差異、責任與支援範圍。</li>
+                            <li><strong>元件庫</strong>：OCR、Workflow、Dashboard、查詢模組、通知模組等共通能力，盡量重用而不是重做。</li>
+                        </ul>
+                    </li>
+                    <li><strong>定期 HITL Review</strong>：
+                        <ul>
+                            <li>建議每季或半年進行一次，檢查是否仍在使用、是否偏離標準、是否需要重構、是否需要退役。</li>
+                            <li>Review 不只是工程檢查，也包含客戶流程、權限、資料責任、SLA 與維護成本。</li>
+                        </ul>
+                    </li>
+                    <li><strong>SLA 與客戶共同責任</strong>：
+                        <ul>
+                            <li>標準功能可納入維護合約；客製功能需另行約定相容性、測試責任、升級策略與支援範圍。</li>
+                            <li>重要功能應留下測試紀錄、驗收紀錄與回報紀錄。這不只是保護客戶，也是保護銀河軟體。</li>
+                        </ul>
+                    </li>
+                    <li><strong>交付與保固模型</strong>：
+                        <ul>
+                            <li><strong>標準版</strong>：使用標準元件，納入一般 SLA，價格較可控。</li>
+                            <li><strong>客製版</strong>：標準元件 + 客製化條件 + 客戶內部種子訓練 + 有限期保固，例如 30 / 60 / 90 天。</li>
+                            <li><strong>特殊保固合約</strong>：高風險、高客製、正式營運功能，需另訂 SLA、相容性、升級責任、支援時間、測試責任與資料風險。</li>
+                        </ul>
+                    </li>
+                    <li><strong>Git / PR / Branch 是輔助，不是起點</strong>：
+                        <ul>
+                            <li>當專案進入 Tier 3 / Tier 4，才需要把 Git 分支、Pull Request、Code Review、自動化測試與 release note 做完整。</li>
+                            <li>工具是治理的載體；真正重要的是版本責任、差異責任與客戶承諾。</li>
+                        </ul>
+                    </li>
+                    <li><strong>保固檢核與異動性檢查</strong>：
+                        <ul>
+                            <li>定期 HITL Review 的目的，不只是確認功能是否仍在使用，也要確認系統狀態是否仍符合保固與維護條約。</li>
+                            <li>最小可行做法包含交付 <code>manifest.json</code>、版本號、檔案 hash（MD5 或 SHA256）、部署紀錄、設定檔差異、<code>deploy.log</code>、<code>maintenance.log</code> 與安裝清單。</li>
+                            <li>若程式碼、設定檔、套件版本、DB View / Stored Procedure 或安裝環境被客戶或第三方修改，應能透過檢核紀錄判斷是否仍屬於保固範圍。</li>
+                        </ul>
+                    </li>
+                </ul>
+                <p>長期來看，能不能維護不是看第一版功能多漂亮，而是看它能不能被重建、被理解、被測試、被移轉、被接手、被退役，並且能不能證明仍符合保固範圍。AI 時代客製速度變快，但維護成本沒有消失，所以客製功能要被管理，而不是被放任生長。</p>
+            </div>
+        </section>
+
+        <!-- Card 12: Mobile App Dev -->
+        <section class="card">
+            <div class="card-header">
+                <div class="card-icon">
+                    <svg viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+                </div>
+                <div class="card-title-group">
+                    <div class="card-number">Question 12</div>
+                    <h2>ERP 系統的手機 App 開發與上架維護挑戰</h2>
+                </div>
+            </div>
+            <div class="question-box">
+                <p>我們開發APP 對於銀河軟體 ERP 真的好維護嗎? 他不是也要上平台 被驗證和付費? APP開發概念 這領域很陌生 他會有很多手機規格 不同作業系統 受限程度有多高? 還是沒差異?</p>
+            </div>
+            <div class="strategy-note">
+                <div class="note-label">Force 顧問對銀河軟體 ERP 的拿捏</div>
+                <p>Q12 不要先問「要不要開發 App」，而要先問：<strong>真的需要 App 嗎？</strong>對大部分 ERP 客戶需求來說，HTML、RWD、PWA 就能解決很多行動化問題。App 是最後手段，不是第一選項。</p>
+                <p><strong>Force 建議：HTML First。</strong></p>
+                <div class="flow-diagram">
+                    <div class="flow-node">HTML</div> <div class="flow-arrow">→</div>
+                    <div class="flow-node">RWD</div> <div class="flow-arrow">→</div>
+                    <div class="flow-node">PWA</div> <div class="flow-arrow">→</div>
+                    <div class="flow-node">特殊需求才 App</div>
+                </div>
+                <p>先把報表、查詢、表單、Dashboard、客戶入口與內部 workflow 做成手機可讀、手機可操作的 Web。若需要接近 App 的體驗，再考慮 PWA。只有遇到推播深度整合、離線能力、特殊硬體、特殊手機能力、背景工作或平台整合時，才認真評估原生 App 或跨平台 App。</p>
+                <p>這題其實是 Q10、Q11 的延伸：Q10 是技術治理，Q11 是版本治理，Q12 是交付治理。交付型態越重，治理責任越高。App 一旦上架，就會牽涉審查、版本、相容性、手機型號、作業系統、權限、更新、客服與 SLA。</p>
+                <div class="risk-list">
+                    <div class="risk-item"><span class="risk-tag risk-green">綠燈</span><span>HTML、RWD、手機可讀報表、查詢頁、Dashboard、文件入口、PWA demo。</span></div>
+                    <div class="risk-item"><span class="risk-tag risk-yellow">黃燈</span><span>客戶登入、行動 workflow、PWA、API 寫回，需要權限、紀錄、驗收與支援範圍。</span></div>
+                    <div class="risk-item"><span class="risk-tag risk-red">紅燈</span><span>未經治理就上架 App，或讓 App 直接處理正式 ERP、財務、庫存、敏感資料與不可回復流程。</span></div>
+                </div>
+            </div>
+            <div class="answer-box">
+                <p><strong>有資源的最佳解（企業版參考）：</strong>行動化不是只有 App 一種交付型態。成熟企業會先做 delivery channel matrix，判斷每個功能適合 Web、RWD、PWA、內部入口、客戶入口、原生 App 或跨平台 App。</p>
+                <ul>
+                    <li><strong>HTML / RWD</strong>：
+                        <ul>
+                            <li>最適合報表、查詢、表單、Dashboard、SOP、客戶入口與內部 workflow。</li>
+                            <li>優點是部署快、更新快、維護成本低、客戶不用上架 App。</li>
+                        </ul>
+                    </li>
+                    <li><strong>PWA</strong>：
+                        <ul>
+                            <li>適合需要類 App 體驗、加入主畫面、部分離線快取、手機友善操作的情境。</li>
+                            <li>仍保有 Web 更新快速、免商店審查的優勢，但權限、離線與推播能力要依平台限制評估。</li>
+                        </ul>
+                    </li>
+                    <li><strong>特殊需求才 App</strong>：
+                        <ul>
+                            <li>App 適合推播深度整合、離線能力、特殊硬體、相機/定位/藍牙/NFC 等特殊手機能力，或需要企業 MDM / 平台政策整合的案子。</li>
+                            <li>一旦走 App，就要管理平台審查、版本發布、手機規格、OS 相容性、權限、客服、SLA 與資安責任。</li>
+                        </ul>
+                    </li>
+                    <li><strong>Q10~Q12 共同治理目標</strong>：
+                        <ul>
+                            <li><strong>Q10 技術治理</strong>：避免 AI 技術失控。</li>
+                            <li><strong>Q11 版本治理</strong>：避免客製失控與維護失控。</li>
+                            <li><strong>Q12 交付治理</strong>：避免交付型態過重、SLA 不清、客戶支援成本失控。</li>
+                        </ul>
+                    </li>
+                </ul>
+                <p>AI 時代最大的風險，不是 AI 不夠強，而是專案長太快、客製太快、技術太多、沒有人治理。因此 Q10~Q12 的共同目標，是建立規範、模組化、AI 管理、專案分級、SLA 與 HITL Review，讓系統能持續成長，而不會失控。</p>
+            </div>
+        </section>
+
+        <!-- Back Link -->
+        <a href="index.html" class="btn-back">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+            返回 Class 03 課程大綱
+        </a>
+    </main>
+
+    <div class="logs-panel">
+        <p>
+            銀河軟體 ERP 本次課程的操作、提問與架構日誌已歸檔於：
+            <a href="../../../../logs.md" target="_blank">logs.md (變更日誌)</a> | 
+            <a href="../../../../logs.json" target="_blank">logs.json (機器後設資料)</a>
+        </p>
+    </div>
+
+    <footer>
+        <p>銀河軟體 ERP 內訓課程 Class 03 Q&A &copy; 2026 | 設計符合 AI (Markdown) 與人類 (Premium HTML) 雙重閱讀標準</p>
+        <p style="margin-top: 0.5rem;"><a href="class03_qas.md">檢視 AI 專用 Markdown 檔案</a> | <a href="../../../../history.md">檢視歷史課程彙整 (Markdown)</a></p>
+    </footer>
+    <script>
+        document.querySelectorAll('.card').forEach((card, index) => {
+            const questionBox = card.querySelector('.question-box');
+            const button = document.createElement('button');
+            const buttonId = `qa-toggle-${index + 1}`;
+            button.type = 'button';
+            button.className = 'qa-toggle';
+            button.id = buttonId;
+            button.setAttribute('aria-expanded', 'false');
+            button.innerHTML = '<span class="toggle-icon">›</span><span class="toggle-text">展開答案</span>';
+            questionBox.insertAdjacentElement('afterend', button);
+
+            button.addEventListener('click', () => {
+                const isOpen = card.classList.toggle('is-open');
+                button.setAttribute('aria-expanded', String(isOpen));
+                button.querySelector('.toggle-text').textContent = isOpen ? '收合答案' : '展開答案';
+            });
+        });
+    </script>
+</body>
+</html>

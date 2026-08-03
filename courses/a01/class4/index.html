@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Class 04 企業級 AI Agent 自動化實戰 | Class 04 AI App Studio 工作坊</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&family=Noto+Sans+TC:wght@400;500;700;900&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-gradient: radial-gradient(circle at 50% 50%, #0b071e 0%, #020108 100%);
+            --text-main: #f3f4f6;
+            --text-muted: #9ca3af;
+            --card-bg: rgba(25, 18, 50, 0.45);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --card-hover-border: rgba(192, 132, 252, 0.45);
+            --primary: #8b5cf6;
+            --primary-glow: rgba(139, 92, 246, 0.15);
+            --accent: #c084fc;
+            --sidebar-bg: rgba(15, 10, 35, 0.85);
+            --sidebar-border: rgba(255, 255, 255, 0.08);
+            --toggle-bg: rgba(255, 255, 255, 0.05);
+            --toggle-border: rgba(255, 255, 255, 0.1);
+            --toggle-color: #f3f4f6;
+            --btn-bg: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+            --btn-shadow: rgba(139, 92, 246, 0.25);
+            --badge-bg: rgba(192, 132, 252, 0.12);
+            --badge-color: #d8b4fe;
+            --badge-border: rgba(192, 132, 252, 0.25);
+            --h1-gradient: linear-gradient(135deg, #ffffff 40%, #c084fc 100%);
+            --code-bg: #0d091e;
+            --topic-green: #4ade80;
+            --sidebar-blue: #38bdf8;
+        }
+
+        body.theme-light {
+            --bg-gradient: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 50%, #e2e8f0 100%);
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --card-bg: rgba(255, 255, 255, 0.75);
+            --card-border: rgba(99, 102, 241, 0.12);
+            --card-hover-border: rgba(99, 102, 241, 0.45);
+            --primary: #4f46e5;
+            --primary-glow: rgba(79, 70, 229, 0.1);
+            --accent: #0891b2;
+            --sidebar-bg: rgba(255, 255, 255, 0.9);
+            --sidebar-border: rgba(99, 102, 241, 0.15);
+            --toggle-bg: rgba(0, 0, 0, 0.05);
+            --toggle-border: rgba(0, 0, 0, 0.08);
+            --toggle-color: #4f46e5;
+            --btn-bg: linear-gradient(135deg, #4f46e5 0%, #3b82f6 100%);
+            --sidebar-blue: #0284c7;
+            --btn-shadow: rgba(79, 70, 229, 0.2);
+            --badge-bg: rgba(8, 145, 178, 0.08);
+            --badge-color: #0891b2;
+            --badge-border: rgba(8, 145, 178, 0.15);
+            --h1-gradient: linear-gradient(135deg, #1e293b 30%, #4f46e5 100%);
+            --code-bg: #f8fafc;
+            --topic-green: #16a34a;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: var(--bg-gradient);
+            color: var(--text-main);
+            font-family: 'Outfit', 'Noto Sans TC', sans-serif;
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            transition: background 0.4s ease, color 0.3s ease;
+        }
+
+        body.zoom-large { font-size: 1.15rem; }
+        body.zoom-large h1 { font-size: 2.5rem; }
+        body.zoom-large h2 { font-size: 1.8rem; }
+        
+        .layout-wrapper {
+            display: flex;
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+            position: relative;
+            transition: max-width 0.3s ease;
+        }
+        
+        body.width-wide .layout-wrapper {
+            max-width: 1600px;
+        }
+
+        /* Sidebar Navigation */
+        aside {
+            width: 300px;
+            flex-shrink: 0;
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            background: var(--sidebar-bg);
+            border-right: 1px solid var(--sidebar-border);
+            padding: 2.5rem 1.5rem;
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            display: flex;
+            flex-direction: column;
+            z-index: 100;
+            transition: background 0.4s ease, border-color 0.4s ease;
+        }
+
+        .brand h2 {
+            font-size: 1.35rem;
+            font-weight: 900;
+            color: var(--sidebar-blue);
+            margin-bottom: 0.25rem;
+        }
+
+        .brand .eyebrow {
+            font-size: 0.75rem;
+            font-weight: 800;
+            color: var(--sidebar-blue);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 0.5rem;
+        }
+
+        .brand .sub-brand {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+            border-bottom: 1px solid var(--sidebar-border);
+            padding-bottom: 0.75rem;
+        }
+
+        .toc {
+            list-style: none;
+            flex-grow: 1;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+        }
+
+        .toc-title {
+            font-size: 0.75rem;
+            font-weight: 800;
+            color: var(--sidebar-blue);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-top: 1rem;
+            margin-bottom: 0.4rem;
+            padding-left: 0.8rem;
+        }
+
+        /* 💡 Five topics highlighted in blue and white */
+        .toc-title a.toc-link {
+            color: var(--sidebar-blue) !important;
+            font-size: 0.82rem !important;
+            text-transform: none !important;
+            letter-spacing: normal !important;
+        }
+        .toc-title a.toc-link:hover {
+            color: var(--sidebar-blue) !important;
+            background: rgba(56, 189, 248, 0.05) !important;
+            padding-left: 1rem !important;
+        }
+        .toc-title a.toc-link.active {
+            color: var(--sidebar-blue) !important;
+            background: rgba(56, 189, 248, 0.08) !important;
+            border-left: 3px solid var(--sidebar-blue) !important;
+            border-radius: 8px !important;
+        }
+
+        .toc-link {
+            display: block;
+            padding: 0.6rem 0.8rem;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .toc-link:hover {
+            color: var(--sidebar-blue);
+            background: rgba(56, 189, 248, 0.04);
+            padding-left: 1.2rem;
+        }
+
+        .toc-link.active {
+            color: var(--sidebar-blue);
+            background: rgba(56, 189, 248, 0.08);
+            border-left: 3px solid var(--sidebar-blue);
+            border-radius: 8px;
+            padding-left: 1.2rem;
+        }
+
+        /* Yellow and Green highlights for cases & projects */
+        a[href*="topic7_real_cases.html"] {
+            color: #fbbf24 !important;
+        }
+        a[href*="topic7_real_cases.html"]:hover, a[href*="topic7_real_cases.html"].active {
+            background: rgba(251, 191, 36, 0.08) !important;
+            border-left: 3px solid #fbbf24 !important;
+            color: #fbbf24 !important;
+        }
+
+        a[href*="topic8_commercial_projects.html"] {
+            color: #34d399 !important;
+        }
+        a[href*="topic8_commercial_projects.html"]:hover, a[href*="topic8_commercial_projects.html"].active {
+            background: rgba(52, 211, 153, 0.08) !important;
+            border-left: 3px solid #34d399 !important;
+            color: #34d399 !important;
+        }
+
+        .sidebar-footer {
+            border-top: 1px solid var(--sidebar-border);
+            padding-top: 1.5rem;
+            margin-top: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .sidebar-btn {
+            display: block;
+            text-align: center;
+            padding: 0.6rem 0.8rem;
+            background: var(--toggle-bg);
+            border: 1px solid var(--toggle-border);
+            color: var(--text-main);
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 600;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .sidebar-btn:hover {
+            background: var(--primary-glow);
+            border-color: var(--primary);
+        }
+
+        /* Main Content Area */
+        main {
+            flex-grow: 1;
+            margin-left: 300px;
+            padding: 3.5rem 3rem;
+            max-width: 900px;
+            width: calc(100% - 300px);
+            transition: max-width 0.3s ease;
+        }
+
+        body.width-wide main {
+            max-width: 1300px;
+        }
+
+        header {
+            margin-bottom: 3rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding-bottom: 2rem;
+        }
+
+        header h1 {
+            font-size: 2.25rem;
+            font-weight: 900;
+            letter-spacing: -1px;
+            background: var(--h1-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+            line-height: 1.25;
+        }
+
+        header .subtitle {
+            font-size: 1.15rem;
+            color: var(--accent);
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 2.2rem;
+            margin-bottom: 2.2rem;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+        }
+
+        .card:hover {
+            border-color: var(--card-hover-border);
+            box-shadow: 0 15px 40px rgba(139, 92, 246, 0.1);
+            transform: translateY(-2px);
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            color: var(--topic-green);
+            border-left: 4px solid var(--primary);
+            padding-left: 12px;
+        }
+
+        h3 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+            color: var(--accent);
+        }
+
+        h4 {
+            font-size: 1.08rem;
+            font-weight: 700;
+            margin-top: 1.5rem;
+            margin-bottom: 0.8rem;
+            color: var(--text-main);
+        }
+
+        p {
+            margin-bottom: 1.2rem;
+            color: var(--text-muted);
+            font-size: 1rem;
+            line-height: 1.7;
+        }
+
+        body.theme-light p {
+            color: #334155;
+        }
+
+        /* Code Block Container */
+        .code-container {
+            position: relative;
+            background: var(--code-bg);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            margin: 1.5rem 0;
+            overflow: hidden;
+        }
+
+        .code-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 1.25rem;
+            background: rgba(0, 0, 0, 0.3);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            font-family: 'Fira Code', monospace;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .btn-copy {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-main);
+            padding: 0.35rem 0.75rem;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-copy:hover {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: #ffffff;
+        }
+
+        pre {
+            padding: 1.25rem;
+            overflow-x: auto;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.85rem;
+            color: var(--text-main);
+            line-height: 1.5;
+        }
+
+        /* Comparison Table */
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            font-size: 0.9rem;
+            text-align: left;
+        }
+
+        .comparison-table th, .comparison-table td {
+            padding: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        body.theme-light .comparison-table th, 
+        body.theme-light .comparison-table td {
+            border-bottom-color: rgba(0,0,0,0.05);
+        }
+
+        .comparison-table th {
+            background: rgba(255, 255, 255, 0.02);
+            color: var(--text-main);
+            font-weight: 600;
+        }
+
+        .comparison-table td {
+            color: var(--text-muted);
+        }
+
+        .comparison-table tr:hover {
+            background: rgba(255, 255, 255, 0.01);
+        }
+
+        /* Floating Accessibility Toolbar */
+        .accessibility-toolbar {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: rgba(15, 10, 35, 0.85);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 30px;
+            padding: 0.5rem 1rem;
+            display: flex;
+            gap: 0.75rem;
+            align-items: center;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            z-index: 999;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        body.theme-light .accessibility-toolbar {
+            background: rgba(255, 255, 255, 0.9);
+            border-color: rgba(99, 102, 241, 0.15);
+        }
+
+        .toolbar-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-main);
+            font-size: 0.9rem;
+            font-weight: 700;
+            cursor: pointer;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+
+        .toolbar-btn:hover {
+            background: var(--primary-glow);
+            color: var(--accent);
+        }
+
+        .divider {
+            width: 1px;
+            height: 18px;
+            background: var(--card-border);
+        }
+
+        .resources-details[open] summary span:last-child {
+            transform: rotate(180deg);
+        }
+
+        @media (max-width: 992px) {
+            aside {
+                display: none;
+            }
+            main {
+                margin-left: 0;
+                width: 100%;
+                padding: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="accessibility-toolbar">
+        <button class="toolbar-btn" onclick="toggleLocalTheme()" title="切換配色">💡</button>
+        <div class="divider"></div>
+        <button class="toolbar-btn" onclick="adjustZoom(true)" title="放大字體">A+</button>
+        <button class="toolbar-btn" onclick="adjustZoom(false)" title="縮小字體">A-</button>
+        <div class="divider"></div>
+        <button class="toolbar-btn" onclick="adjustWidth(true)" title="寬版版面">W+</button>
+        <button class="toolbar-btn" onclick="adjustWidth(false)" title="窄版版面">W-</button>
+    </div>
+
+    <div class="layout-wrapper">
+        <aside>
+            <div class="brand">
+                <div class="eyebrow">銀河 ERP 內訓</div>
+                <h2>Class 04</h2>
+                <div class="sub-brand">銀河軟體 台西分公司</div>
+            </div>
+            
+            <ul class="toc">
+                <!-- 本次課程說明 -->
+                <div class="toc-title"><a class="toc-link active" href="index.html" style="padding: 0.4rem 0.8rem; display: block; font-weight: bold; border-radius: 8px;">📋 本次課程說明</a></div>
+
+                <!-- 主題一：前三堂課程交流與補充 -->
+                <div class="toc-title"><a class="toc-link " href="topic1_retrospective.html" style="padding: 0.4rem 0.8rem; display: block; font-weight: bold; border-radius: 8px;">💬 1. 前三堂課程交流與補充</a></div>
+                <ul style="list-style: none; padding-left: 1rem; margin-bottom: 0.75rem; display: none; flex-direction: column; gap: 0.2rem;">
+                    <li><a class="toc-link" href="topic1_retrospective.html#guidelines">📌 1. 常見提醒與交付規範</a></li>
+                    <li><a class="toc-link" href="topic1_retrospective.html#double-track">📄 2. 雙軌文件策略 (md+html)</a></li>
+                    <li><a class="toc-link" href="topic1_retrospective.html#ai-native">🧠 3. AI-Native 思維</a></li>
+                    <li><a class="toc-link" href="topic1_retrospective.html#project-evaluation">⚖️ 4. 專案評估 (診斷指標)</a></li>
+                    <li><a class="toc-link" href="topic1_retrospective.html#agent-skills">🔌 5. 怎麼善用 Agent Skills</a></li>
+                </ul>
+
+                <!-- 主題二：AI App 專案腦力激盪 -->
+                <div class="toc-title"><a class="toc-link " href="topic5_brainstorming.html" style="padding: 0.4rem 0.8rem; display: block; font-weight: bold; border-radius: 8px;">🎯 2. AI App 專案腦力激盪</a></div>
+                <ul style="list-style: none; padding-left: 1rem; margin-bottom: 0.75rem; display: none; flex-direction: column; gap: 0.2rem;">
+                    <li><a class="toc-link" href="topic5_brainstorming.html">🎯 AI APP Studio 實作套件</a></li>
+                    <li style="padding-left: 0.8rem;"><a class="toc-link" href="topic5_brainstorming.html#direction-a" style="font-size: 0.85rem; padding: 0.3rem 0.6rem;">👉 方向 A：AI KM 知識庫</a></li>
+                    <li style="padding-left: 0.8rem;"><a class="toc-link" href="topic5_brainstorming.html#direction-b" style="font-size: 0.85rem; padding: 0.3rem 0.6rem;">👉 方向 B：銀河 ERP SaaS 增強</a></li>
+                    <li style="padding-left: 0.8rem;"><a class="toc-link" href="topic5_brainstorming.html#direction-c" style="font-size: 0.85rem; padding: 0.3rem 0.6rem;">👉 方向 C：SME 日常效率倍增器</a></li>
+                    <li><a class="toc-link" href="topic5_brainstorming.html#evaluation-metrics">🗺️ AI App 關鍵注意事項</a></li>
+                    <li><a class="toc-link" href="topic5_brainstorming.html#firewall-test">🛡️ 客戶環境測試（網絡防火牆）</a></li>
+                </ul>
+
+                <!-- 主題三：ETL 實務概念與小元件教學 -->
+                <div class="toc-title"><a class="toc-link " href="topic3_etl_cases.html" style="padding: 0.4rem 0.8rem; display: block; font-weight: bold; border-radius: 8px;">⚡ 3. ETL 實務概念與小元件教學</a></div>
+                <ul style="list-style: none; padding-left: 1rem; margin-bottom: 0.75rem; display: none; flex-direction: column; gap: 0.2rem;">
+                    <li><a class="toc-link" href="topic3_etl_cases.html#etl-e">📥 E (Extract) - 取得資料</a></li>
+                    <li><a class="toc-link" href="topic3_etl_cases.html#etl-t">⚡ T (Transform) - 整理 / 轉換</a></li>
+                    <li><a class="toc-link" href="topic3_etl_cases.html#etl-l">📤 L (Load) - 輸出 / 應用</a></li>
+                    <li><a class="toc-link" href="topic3_etl_cases.html#ai-war-room">🖥️ 雙軌戰情中心元件解構</a></li>
+                </ul>
+
+                <!-- 主題四：KM 建置與應用思維 -->
+                <div class="toc-title"><a class="toc-link " href="topic4_km_rag.html" style="padding: 0.4rem 0.8rem; display: block; font-weight: bold; border-radius: 8px;">📂 4. KM 建置與應用思維</a></div>
+                <ul style="list-style: none; padding-left: 1rem; margin-bottom: 0.75rem; display: none; flex-direction: column; gap: 0.2rem;">
+                    <li><a class="toc-link" href="topic4_km_rag.html#ai-km">📂 AI KM 建置範例</a></li>
+                    <li><a class="toc-link" href="topic4_km_rag.html#imitation-coding">🎯 實戰模仿開發</a></li>
+                    <li><a class="toc-link" href="topic4_km_rag.html#notebooklm">📓 NotebookLM 整合運用</a></li>
+                </ul>
+
+                <!-- 主題五：AI API 呼叫三大模式實戰 -->
+                <div class="toc-title"><a class="toc-link " href="topic6_ai_api.html" style="padding: 0.4rem 0.8rem; display: block; font-weight: bold; border-radius: 8px;">🛠️ 5. AI API 呼叫三大模式實戰</a></div>
+                <ul style="list-style: none; padding-left: 1rem; margin-bottom: 0.75rem; display: none; flex-direction: column; gap: 0.2rem;">
+                    <li><a class="toc-link" href="topic6_ai_api.html#hardware-detection">🖥️ 互動式硬體檢測選型</a></li>
+                    <li><a class="toc-link" href="topic6_ai_api.html#cloud-gemini">☁️ 雲端 Gemini API 申請與呼叫</a></li>
+                    <li><a class="toc-link" href="topic6_ai_api.html#local-ollama">🏠 地端 Ollama 本地服務呼叫</a></li>
+                    <li><a class="toc-link" href="topic6_ai_api.html#chrome-nano">🌐 Chrome Nano 瀏覽器原生 AI</a></li>
+                </ul>
+
+                <!-- 主題六：核心實戰案例展示 -->
+                <div class="toc-title"><a class="toc-link " href="topic7_real_cases.html" style="padding: 0.4rem 0.8rem; display: block; font-weight: bold; border-radius: 8px;">🚀 6. 核心實戰案例展示</a></div>
+
+                <!-- 主題七：商業型整合專案 -->
+                <div class="toc-title"><a class="toc-link " href="topic8_commercial_projects.html" style="padding: 0.4rem 0.8rem; display: block; font-weight: bold; border-radius: 8px;">💼 7. 商業型整合專案</a></div>
+
+                <!-- 📚 延伸精選閱讀 -->
+                <div class="toc-title">📚 延伸精選閱讀</div>
+                <ul style="list-style: none; padding-left: 1rem; margin-bottom: 0.75rem; display: flex; flex-direction: column; gap: 0.2rem;">
+                    <li><a class="toc-link" href="article_ai_efficiency.html" style="font-size: 0.85rem; padding: 0.3rem 0.6rem;">📝 企業 AI 轉型思維</a></li>
+                    <li><a class="toc-link" href="article_ornith_agent.html" style="font-size: 0.85rem; padding: 0.3rem 0.6rem;">🐦 Ornith-1.0 程式模型</a></li>
+                </ul>
+
+            </ul>
+
+
+        </aside>
+
+        <main>
+            <header>
+                <span class="badge">Class 04 AI App Studio 實作藍圖套件</span>
+                <h1 style="margin-top: 0.75rem;">Class 04 企業級 AI Agent 自動化實戰</h1>
+                <div class="subtitle">從創意到 AI 產品的完整實作藍圖與工作坊套件</div>
+            </header>
+
+            <article class="card">
+                <h1>Class 04 企業級 AI Agent 自動化實戰</h1>
+<br>
+<p>前三週還有部分內容尚未完整說明，本週將安排重點補充與回顧，並開放 QA 討論。希望能協助大家完成謝總交代理的功課，也透過彼此交流與問題討論，加深對 AI 工具、方法與實務應用的理解與印象。課程內容以工作上的應用為主，但加速個人日常運用的也是可以～</p>
+<br>
+<p>---</p>
+<br>
+<h2>課程資訊</h2>
+<ul style="margin-left: 24px; margin-bottom: 16px; color: var(--text-muted);">
+<li style="margin-bottom: 8px;">📅 <strong>上課時間</strong>：2026/06/26 (五) 09:00-12:00</li>
+<li style="margin-bottom: 8px;">👨‍🏫 <strong>授課教師</strong>：鄭穎臨 老師</li>
+<li style="margin-bottom: 8px;">📍 <strong>上課地點</strong>：台南市安平區育平九街49號 二樓教室</li>
+<li style="margin-bottom: 8px;">🔑 <strong>課程簡報</strong>：<a href="topic1_retrospective.html" style="color: var(--accent); font-weight: bold; text-decoration: underline;">📂 點此前往前三堂課簡報 PDF 下載頁面</a> (🔒 密碼提示：公司英文縮寫)</li>
+</ul>
+<br>
+<p>---</p>
+<br>
+<h2>🎯 Class 04 七大核心課程主題</h2>
+<br>
+<p>本課程已精確重構為以下七大獨立主題，點擊下方連結即可進入各主題專屬的主頁進行編修與瀏覽：</p>
+<br>
+<h3>1. <a href="topic1_retrospective.html" style="color: var(--accent); font-weight: bold; text-decoration: underline;">💬 主題一：前三堂課程交流與補充</a></h3>
+<p>   深度沉澱前三週學習精髓，針對開發盲點進行診斷、補充說明，並提供課前與即時 QA 問答互動。</p>
+<p>   *包含：常見提醒與交付規範、重點補充與問題解答、個別專案診斷與 FAQ。*</p>
+<br>
+<h3>2. <a href="topic5_brainstorming.html" style="color: var(--accent); font-weight: bold; text-decoration: underline;">🎯 主題二：AI App 專案腦力激盪</a></h3>
+<p>   引導同仁從業務痛點出發，共創銀河 ERP × FORCE AI App Store 三大業務方向之產品藍圖，並提供 AI App 落地評估指標與網絡防火牆檢測工具。</p>
+<p>   *包含：三大業務方向產品藍圖（11大 ERP 智慧加值模組、7大類28款日常組件全景圖譜）、AI App 企業落地關鍵注意事項與 FORCE 閘道相容性檢測工具。*</p>
+<br>
+<h3>3. <a href="topic3_etl_cases.html" style="color: var(--accent); font-weight: bold; text-decoration: underline;">⚡ 主題三：ETL 實務概念與小元件教學</a></h3>
+<p>   深入剖析數據管線之 E (Extract), T (Transform), L (Load) 三大階段，並引導同仁進行雙軌戰情監控與八大 KPI/快取/資安圖表小元件物理拆解。</p>
+<p>   *包含：E-T-L 核心階段解析、雙軌戰情大屏全景藍圖、大盤 KPI 面板、AI 分類 Donut 圖、熱力矩陣、性價比散佈圖、Token 快取節費折線圖、資安 Gatekeeper 等八大元件技術解構。*</p>
+<br>
+<h3>4. <a href="topic4_km_rag.html" style="color: var(--accent); font-weight: bold; text-decoration: underline;">📂 主題四：KM 建置與應用思維</a></h3>
+<p>   解構企業知識管理與 RAG 檢索系統，以政府補助案作為載體，探討落地經濟學、結構化交付、AI 模仿開發與 NotebookLM 整合運用。</p>
+<p>   *包含：AI KM 政府 RAG 智慧檢索、法規文本採集與清洗、學生實戰資源包下載、NotebookLM 整合運用架構圖。*</p>
+<br>
+<h3>5. <a href="topic6_ai_api.html" style="color: var(--accent); font-weight: bold; text-decoration: underline;">🛠️ 主題五：AI API 呼叫三大模式實戰</a></h3>
+<p>   手把手引導學員掌握當前主流的雲端、地端與瀏覽器原生三大 AI 呼叫技術，並提供完整的實戰 Fetch 程式碼與 API 金鑰用量監控指引。</p>
+<p>   *包含：互動式硬體檢測選型、雲端 Gemini API 申請與呼叫（7大步驟圖文指引）、地端 Ollama 本地服務呼叫（免 CORS 避坑指南）、Chrome built-in AI 瀏覽器原生調用。*</p>
+<br>
+<h3>6. <a href="topic7_real_cases.html" style="color: var(--accent); font-weight: bold; text-decoration: underline;">🚀 主題六：核心實戰案例展示</a></h3>
+<p>   收錄 Class 04 重點示範專案，著重於將電腦視覺、OCR 辨識與企業工作流/智慧稽核整合運作的實際落地設計。</p>
+<p>   *包含：IPAS AIAP 模擬考練習字卡 (OCR 自動刷題)、FALO Prompt Manager (提示詞資產管理)、從故障到能力包實踐 (故障診斷解決)、FALO OCR Workbench (可視化視覺驗證平台)、銀河 ERP 憑證下載助手、影片分析對抗、口語化政府資料 AI 爬蟲外掛、LINE 防封鎖變體生成器等八大核心案例。*</p>
+<br>
+<h3>7. <a href="topic8_commercial_projects.html" style="color: var(--accent); font-weight: bold; text-decoration: underline;">💼 主題七：商業型整合專案</a></h3>
+<p>   收錄具備高度商業應用價值與軟體工程規格的 AI 整合專案，以架構師視角規劃具備長期維運與商業彈性的解決方案。</p>
+<p>   *包含：FALO NotebookLM Runtime Lab (知識庫執行網關)、LINE 資訊過載助手 (深度研究報告)、FALO Web Share API (Cloudflare Workers 拍照部署與 QRCode 門戶)、FALO 萬佛朝宗 (多通道重要工作資訊流與 AI Agent 知識核心架構)、FALO Email 驅動智慧引擎 (Email 驅動雙軌 AI 翻譯與智能摘要服務)、Cloudflare 邊緣平台與合規通道設計 (資安與 AI 雙贏架構)、FALO 工廠設備 HMI 巡檢 AI 模擬器。*</p>
+<br>
+<p>---</p>
+<br>
+<h2>📚 延伸精選閱讀</h2>
+<br>
+<p>本課程特別收錄業界實戰觀點與最新 AI 技術快報，供同仁在課後進行觀念延伸與自主探索：</p>
+<br>
+<h3><a href="article_ai_efficiency.html" style="color: var(--accent); font-weight: bold; text-decoration: underline;">💬 延伸閱讀一：用了 AI，為什麼公司還是沒有變快？ (天地人文創)</a></h3>
+<p>探討企業導入 AI 時的「個人效率」與「公司流程」阻礙，說明中小企業如何從高頻低風險、明確欄位與主管有感的流程著手進行轉型。</p>
+<p>*包含：企業 AI 成熟度自我檢測器（互動式評估）、SME 導入 AI 工作流三部曲流程圖。*</p>
+<br>
+<h3><a href="article_ornith_agent.html" style="color: var(--accent); font-weight: bold; text-decoration: underline;">🐦 延伸閱讀二：Ornith-1.0 騰空出世：代理式程式設計的自主演進 (Will 保哥的技術交流中心)</a></h3>
+<p>介紹開源程式小模型新星 Ornith-1.0 家族，解析「自我改善腳手架 (Self-Scaffolding)」之核心機制與編碼基準測試亮眼表現。</p>
+<p>*包含：Ornith 開源模型家族規格、基準測試對照圖、本地 Ollama 部署與 Python 連接呼叫指南。*</p>
+<br>
+<br>
+<br>
+            </article>
+        </main>
+    </div>
+
+    <script>
+        function toggleLocalTheme() {
+            document.body.classList.toggle('theme-light');
+            localStorage.setItem('class04-theme', document.body.classList.contains('theme-light') ? 'light' : 'dark');
+        }
+        if (localStorage.getItem('class04-theme') === 'light') document.body.classList.add('theme-light');
+
+        function adjustZoom(enlarge) {
+            if (enlarge) {
+                document.body.classList.add('zoom-large');
+                localStorage.setItem('class04-zoom', 'large');
+            } else {
+                document.body.classList.remove('zoom-large');
+                localStorage.setItem('class04-zoom', 'normal');
+            }
+        }
+        if (localStorage.getItem('class04-zoom') === 'large') document.body.classList.add('zoom-large');
+
+        function adjustWidth(wide) {
+            if (wide) {
+                document.body.classList.add('width-wide');
+                localStorage.setItem('class04-width', 'wide');
+            } else {
+                document.body.classList.remove('width-wide');
+                localStorage.setItem('class04-width', 'normal');
+            }
+        }
+        if (localStorage.getItem('class04-width') === 'wide') document.body.classList.add('width-wide');
+
+        function copyCode(btn) {
+            const code = btn.parentElement.nextElementSibling.querySelector('code').innerText;
+            navigator.clipboard.writeText(code).then(() => {
+                const origText = btn.innerText;
+                btn.innerText = "已複製！";
+                setTimeout(() => btn.innerText = origText, 2000);
+            });
+        }
+    </script>
+</body>
+</html>

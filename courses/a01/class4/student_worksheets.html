@@ -1,0 +1,923 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI APP Studio：學員與團隊實作工作紙 | Class 04 AI App Studio 工作坊</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&family=Noto+Sans+TC:wght@400;500;700;900&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-gradient: radial-gradient(circle at 50% 50%, #0b071e 0%, #020108 100%);
+            --text-main: #f3f4f6;
+            --text-muted: #9ca3af;
+            --card-bg: rgba(25, 18, 50, 0.45);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --card-hover-border: rgba(192, 132, 252, 0.45);
+            --primary: #8b5cf6;
+            --primary-glow: rgba(139, 92, 246, 0.15);
+            --accent: #c084fc;
+            --sidebar-bg: rgba(15, 10, 35, 0.85);
+            --sidebar-border: rgba(255, 255, 255, 0.08);
+            --toggle-bg: rgba(255, 255, 255, 0.05);
+            --toggle-border: rgba(255, 255, 255, 0.1);
+            --toggle-color: #f3f4f6;
+            --btn-bg: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+            --btn-shadow: rgba(139, 92, 246, 0.25);
+            --badge-bg: rgba(192, 132, 252, 0.12);
+            --badge-color: #d8b4fe;
+            --badge-border: rgba(192, 132, 252, 0.25);
+            --h1-gradient: linear-gradient(135deg, #ffffff 40%, #c084fc 100%);
+            --code-bg: #0d091e;
+            --topic-green: #4ade80;
+            --sidebar-blue: #38bdf8;
+        }
+
+        body.theme-light {
+            --bg-gradient: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 50%, #e2e8f0 100%);
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --card-bg: rgba(255, 255, 255, 0.75);
+            --card-border: rgba(99, 102, 241, 0.12);
+            --card-hover-border: rgba(99, 102, 241, 0.45);
+            --primary: #4f46e5;
+            --primary-glow: rgba(79, 70, 229, 0.1);
+            --accent: #0891b2;
+            --sidebar-bg: rgba(255, 255, 255, 0.9);
+            --sidebar-border: rgba(99, 102, 241, 0.15);
+            --toggle-bg: rgba(0, 0, 0, 0.05);
+            --toggle-border: rgba(0, 0, 0, 0.08);
+            --toggle-color: #4f46e5;
+            --btn-bg: linear-gradient(135deg, #4f46e5 0%, #3b82f6 100%);
+            --sidebar-blue: #0284c7;
+            --btn-shadow: rgba(79, 70, 229, 0.2);
+            --badge-bg: rgba(8, 145, 178, 0.08);
+            --badge-color: #0891b2;
+            --badge-border: rgba(8, 145, 178, 0.15);
+            --h1-gradient: linear-gradient(135deg, #1e293b 30%, #4f46e5 100%);
+            --code-bg: #f8fafc;
+            --topic-green: #16a34a;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: var(--bg-gradient);
+            color: var(--text-main);
+            font-family: 'Outfit', 'Noto Sans TC', sans-serif;
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            transition: background 0.4s ease, color 0.3s ease;
+        }
+
+        body.zoom-large { font-size: 1.15rem; }
+        body.zoom-large h1 { font-size: 2.5rem; }
+        body.zoom-large h2 { font-size: 1.8rem; }
+        
+        .layout-wrapper {
+            display: flex;
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+            position: relative;
+            transition: max-width 0.3s ease;
+        }
+        
+        body.width-wide .layout-wrapper {
+            max-width: 1600px;
+        }
+
+        /* Sidebar Navigation */
+        aside {
+            width: 300px;
+            flex-shrink: 0;
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            background: var(--sidebar-bg);
+            border-right: 1px solid var(--sidebar-border);
+            padding: 2.5rem 1.5rem;
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            display: flex;
+            flex-direction: column;
+            z-index: 100;
+            transition: background 0.4s ease, border-color 0.4s ease;
+        }
+
+        .brand h2 {
+            font-size: 1.35rem;
+            font-weight: 900;
+            color: var(--sidebar-blue);
+            margin-bottom: 0.25rem;
+        }
+
+        .brand .eyebrow {
+            font-size: 0.75rem;
+            font-weight: 800;
+            color: var(--sidebar-blue);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 0.5rem;
+        }
+
+        .brand .sub-brand {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+            border-bottom: 1px solid var(--sidebar-border);
+            padding-bottom: 0.75rem;
+        }
+
+        .toc {
+            list-style: none;
+            flex-grow: 1;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+        }
+
+        .toc-title {
+            font-size: 0.75rem;
+            font-weight: 800;
+            color: var(--sidebar-blue);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-top: 1rem;
+            margin-bottom: 0.4rem;
+            padding-left: 0.8rem;
+        }
+
+        /* 💡 Five topics highlighted in blue and white */
+        .toc-title a.toc-link {
+            color: var(--sidebar-blue) !important;
+            font-size: 0.82rem !important;
+            text-transform: none !important;
+            letter-spacing: normal !important;
+        }
+        .toc-title a.toc-link:hover {
+            color: var(--sidebar-blue) !important;
+            background: rgba(56, 189, 248, 0.05) !important;
+            padding-left: 1rem !important;
+        }
+        .toc-title a.toc-link.active {
+            color: var(--sidebar-blue) !important;
+            background: rgba(56, 189, 248, 0.08) !important;
+            border-left: 3px solid var(--sidebar-blue) !important;
+            border-radius: 8px !important;
+        }
+
+        .toc-link {
+            display: block;
+            padding: 0.6rem 0.8rem;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .toc-link:hover {
+            color: var(--sidebar-blue);
+            background: rgba(56, 189, 248, 0.04);
+            padding-left: 1.2rem;
+        }
+
+        .toc-link.active {
+            color: var(--sidebar-blue);
+            background: rgba(56, 189, 248, 0.08);
+            border-left: 3px solid var(--sidebar-blue);
+            border-radius: 8px;
+            padding-left: 1.2rem;
+        }
+
+        /* Yellow and Green highlights for cases & projects */
+        a[href*="topic7_real_cases.html"] {
+            color: #fbbf24 !important;
+        }
+        a[href*="topic7_real_cases.html"]:hover, a[href*="topic7_real_cases.html"].active {
+            background: rgba(251, 191, 36, 0.08) !important;
+            border-left: 3px solid #fbbf24 !important;
+            color: #fbbf24 !important;
+        }
+
+        a[href*="topic8_commercial_projects.html"] {
+            color: #34d399 !important;
+        }
+        a[href*="topic8_commercial_projects.html"]:hover, a[href*="topic8_commercial_projects.html"].active {
+            background: rgba(52, 211, 153, 0.08) !important;
+            border-left: 3px solid #34d399 !important;
+            color: #34d399 !important;
+        }
+
+        .sidebar-footer {
+            border-top: 1px solid var(--sidebar-border);
+            padding-top: 1.5rem;
+            margin-top: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .sidebar-btn {
+            display: block;
+            text-align: center;
+            padding: 0.6rem 0.8rem;
+            background: var(--toggle-bg);
+            border: 1px solid var(--toggle-border);
+            color: var(--text-main);
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 600;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .sidebar-btn:hover {
+            background: var(--primary-glow);
+            border-color: var(--primary);
+        }
+
+        /* Main Content Area */
+        main {
+            flex-grow: 1;
+            margin-left: 300px;
+            padding: 3.5rem 3rem;
+            max-width: 900px;
+            width: calc(100% - 300px);
+            transition: max-width 0.3s ease;
+        }
+
+        body.width-wide main {
+            max-width: 1300px;
+        }
+
+        header {
+            margin-bottom: 3rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding-bottom: 2rem;
+        }
+
+        header h1 {
+            font-size: 2.25rem;
+            font-weight: 900;
+            letter-spacing: -1px;
+            background: var(--h1-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+            line-height: 1.25;
+        }
+
+        header .subtitle {
+            font-size: 1.15rem;
+            color: var(--accent);
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 2.2rem;
+            margin-bottom: 2.2rem;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+        }
+
+        .card:hover {
+            border-color: var(--card-hover-border);
+            box-shadow: 0 15px 40px rgba(139, 92, 246, 0.1);
+            transform: translateY(-2px);
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            color: var(--topic-green);
+            border-left: 4px solid var(--primary);
+            padding-left: 12px;
+        }
+
+        h3 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+            color: var(--accent);
+        }
+
+        h4 {
+            font-size: 1.08rem;
+            font-weight: 700;
+            margin-top: 1.5rem;
+            margin-bottom: 0.8rem;
+            color: var(--text-main);
+        }
+
+        p {
+            margin-bottom: 1.2rem;
+            color: var(--text-muted);
+            font-size: 1rem;
+            line-height: 1.7;
+        }
+
+        body.theme-light p {
+            color: #334155;
+        }
+
+        /* Code Block Container */
+        .code-container {
+            position: relative;
+            background: var(--code-bg);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            margin: 1.5rem 0;
+            overflow: hidden;
+        }
+
+        .code-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 1.25rem;
+            background: rgba(0, 0, 0, 0.3);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            font-family: 'Fira Code', monospace;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .btn-copy {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-main);
+            padding: 0.35rem 0.75rem;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-copy:hover {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: #ffffff;
+        }
+
+        pre {
+            padding: 1.25rem;
+            overflow-x: auto;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.85rem;
+            color: var(--text-main);
+            line-height: 1.5;
+        }
+
+        /* Comparison Table */
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            font-size: 0.9rem;
+            text-align: left;
+        }
+
+        .comparison-table th, .comparison-table td {
+            padding: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        body.theme-light .comparison-table th, 
+        body.theme-light .comparison-table td {
+            border-bottom-color: rgba(0,0,0,0.05);
+        }
+
+        .comparison-table th {
+            background: rgba(255, 255, 255, 0.02);
+            color: var(--text-main);
+            font-weight: 600;
+        }
+
+        .comparison-table td {
+            color: var(--text-muted);
+        }
+
+        .comparison-table tr:hover {
+            background: rgba(255, 255, 255, 0.01);
+        }
+
+        /* Floating Accessibility Toolbar */
+        .accessibility-toolbar {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: rgba(15, 10, 35, 0.85);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 30px;
+            padding: 0.5rem 1rem;
+            display: flex;
+            gap: 0.75rem;
+            align-items: center;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            z-index: 999;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        body.theme-light .accessibility-toolbar {
+            background: rgba(255, 255, 255, 0.9);
+            border-color: rgba(99, 102, 241, 0.15);
+        }
+
+        .toolbar-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-main);
+            font-size: 0.9rem;
+            font-weight: 700;
+            cursor: pointer;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+
+        .toolbar-btn:hover {
+            background: var(--primary-glow);
+            color: var(--accent);
+        }
+
+        .divider {
+            width: 1px;
+            height: 18px;
+            background: var(--card-border);
+        }
+
+        .resources-details[open] summary span:last-child {
+            transform: rotate(180deg);
+        }
+
+        @media (max-width: 992px) {
+            aside {
+                display: none;
+            }
+            main {
+                margin-left: 0;
+                width: 100%;
+                padding: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="accessibility-toolbar">
+        <button class="toolbar-btn" onclick="toggleLocalTheme()" title="切換配色">💡</button>
+        <div class="divider"></div>
+        <button class="toolbar-btn" onclick="adjustZoom(true)" title="放大字體">A+</button>
+        <button class="toolbar-btn" onclick="adjustZoom(false)" title="縮小字體">A-</button>
+        <div class="divider"></div>
+        <button class="toolbar-btn" onclick="adjustWidth(true)" title="寬版版面">W+</button>
+        <button class="toolbar-btn" onclick="adjustWidth(false)" title="窄版版面">W-</button>
+    </div>
+
+    <div class="layout-wrapper">
+        <aside>
+            <div class="brand">
+                <div class="eyebrow">銀河 ERP 內訓</div>
+                <h2>Class 04</h2>
+                <div class="sub-brand">銀河軟體 台西分公司</div>
+            </div>
+            
+            <ul class="toc">
+                <!-- 本次課程說明 -->
+                <div class="toc-title"><a class="toc-link " href="index.html" style="padding: 0.4rem 0.8rem; display: block; font-weight: bold; border-radius: 8px;">📋 本次課程說明</a></div>
+
+                <!-- 主題一：前三堂課程交流與補充 -->
+                <div class="toc-title"><a class="toc-link " href="topic1_retrospective.html" style="padding: 0.4rem 0.8rem; display: block; font-weight: bold; border-radius: 8px;">💬 1. 前三堂課程交流與補充</a></div>
+                <ul style="list-style: none; padding-left: 1rem; margin-bottom: 0.75rem; display: none; flex-direction: column; gap: 0.2rem;">
+                    <li><a class="toc-link" href="topic1_retrospective.html#guidelines">📌 1. 常見提醒與交付規範</a></li>
+                    <li><a class="toc-link" href="topic1_retrospective.html#double-track">📄 2. 雙軌文件策略 (md+html)</a></li>
+                    <li><a class="toc-link" href="topic1_retrospective.html#ai-native">🧠 3. AI-Native 思維</a></li>
+                    <li><a class="toc-link" href="topic1_retrospective.html#project-evaluation">⚖️ 4. 專案評估 (診斷指標)</a></li>
+                    <li><a class="toc-link" href="topic1_retrospective.html#agent-skills">🔌 5. 怎麼善用 Agent Skills</a></li>
+                </ul>
+
+                <!-- 主題二：AI App 專案腦力激盪 -->
+                <div class="toc-title"><a class="toc-link " href="topic5_brainstorming.html" style="padding: 0.4rem 0.8rem; display: block; font-weight: bold; border-radius: 8px;">🎯 2. AI App 專案腦力激盪</a></div>
+                <ul style="list-style: none; padding-left: 1rem; margin-bottom: 0.75rem; display: none; flex-direction: column; gap: 0.2rem;">
+                    <li><a class="toc-link" href="topic5_brainstorming.html">🎯 AI APP Studio 實作套件</a></li>
+                    <li style="padding-left: 0.8rem;"><a class="toc-link" href="topic5_brainstorming.html#direction-a" style="font-size: 0.85rem; padding: 0.3rem 0.6rem;">👉 方向 A：AI KM 知識庫</a></li>
+                    <li style="padding-left: 0.8rem;"><a class="toc-link" href="topic5_brainstorming.html#direction-b" style="font-size: 0.85rem; padding: 0.3rem 0.6rem;">👉 方向 B：銀河 ERP SaaS 增強</a></li>
+                    <li style="padding-left: 0.8rem;"><a class="toc-link" href="topic5_brainstorming.html#direction-c" style="font-size: 0.85rem; padding: 0.3rem 0.6rem;">👉 方向 C：SME 日常效率倍增器</a></li>
+                    <li><a class="toc-link" href="topic5_brainstorming.html#evaluation-metrics">🗺️ AI App 關鍵注意事項</a></li>
+                    <li><a class="toc-link" href="topic5_brainstorming.html#firewall-test">🛡️ 客戶環境測試（網絡防火牆）</a></li>
+                </ul>
+
+                <!-- 主題三：ETL 實務概念與小元件教學 -->
+                <div class="toc-title"><a class="toc-link " href="topic3_etl_cases.html" style="padding: 0.4rem 0.8rem; display: block; font-weight: bold; border-radius: 8px;">⚡ 3. ETL 實務概念與小元件教學</a></div>
+                <ul style="list-style: none; padding-left: 1rem; margin-bottom: 0.75rem; display: none; flex-direction: column; gap: 0.2rem;">
+                    <li><a class="toc-link" href="topic3_etl_cases.html#etl-e">📥 E (Extract) - 取得資料</a></li>
+                    <li><a class="toc-link" href="topic3_etl_cases.html#etl-t">⚡ T (Transform) - 整理 / 轉換</a></li>
+                    <li><a class="toc-link" href="topic3_etl_cases.html#etl-l">📤 L (Load) - 輸出 / 應用</a></li>
+                    <li><a class="toc-link" href="topic3_etl_cases.html#ai-war-room">🖥️ 雙軌戰情中心元件解構</a></li>
+                </ul>
+
+                <!-- 主題四：KM 建置與應用思維 -->
+                <div class="toc-title"><a class="toc-link " href="topic4_km_rag.html" style="padding: 0.4rem 0.8rem; display: block; font-weight: bold; border-radius: 8px;">📂 4. KM 建置與應用思維</a></div>
+                <ul style="list-style: none; padding-left: 1rem; margin-bottom: 0.75rem; display: none; flex-direction: column; gap: 0.2rem;">
+                    <li><a class="toc-link" href="topic4_km_rag.html#ai-km">📂 AI KM 建置範例</a></li>
+                    <li><a class="toc-link" href="topic4_km_rag.html#imitation-coding">🎯 實戰模仿開發</a></li>
+                    <li><a class="toc-link" href="topic4_km_rag.html#notebooklm">📓 NotebookLM 整合運用</a></li>
+                </ul>
+
+                <!-- 主題五：AI API 呼叫三大模式實戰 -->
+                <div class="toc-title"><a class="toc-link " href="topic6_ai_api.html" style="padding: 0.4rem 0.8rem; display: block; font-weight: bold; border-radius: 8px;">🛠️ 5. AI API 呼叫三大模式實戰</a></div>
+                <ul style="list-style: none; padding-left: 1rem; margin-bottom: 0.75rem; display: none; flex-direction: column; gap: 0.2rem;">
+                    <li><a class="toc-link" href="topic6_ai_api.html#hardware-detection">🖥️ 互動式硬體檢測選型</a></li>
+                    <li><a class="toc-link" href="topic6_ai_api.html#cloud-gemini">☁️ 雲端 Gemini API 申請與呼叫</a></li>
+                    <li><a class="toc-link" href="topic6_ai_api.html#local-ollama">🏠 地端 Ollama 本地服務呼叫</a></li>
+                    <li><a class="toc-link" href="topic6_ai_api.html#chrome-nano">🌐 Chrome Nano 瀏覽器原生 AI</a></li>
+                </ul>
+
+                <!-- 主題六：核心實戰案例展示 -->
+                <div class="toc-title"><a class="toc-link " href="topic7_real_cases.html" style="padding: 0.4rem 0.8rem; display: block; font-weight: bold; border-radius: 8px;">🚀 6. 核心實戰案例展示</a></div>
+
+                <!-- 主題七：商業型整合專案 -->
+                <div class="toc-title"><a class="toc-link " href="topic8_commercial_projects.html" style="padding: 0.4rem 0.8rem; display: block; font-weight: bold; border-radius: 8px;">💼 7. 商業型整合專案</a></div>
+
+                <!-- 📚 延伸精選閱讀 -->
+                <div class="toc-title">📚 延伸精選閱讀</div>
+                <ul style="list-style: none; padding-left: 1rem; margin-bottom: 0.75rem; display: flex; flex-direction: column; gap: 0.2rem;">
+                    <li><a class="toc-link" href="article_ai_efficiency.html" style="font-size: 0.85rem; padding: 0.3rem 0.6rem;">📝 企業 AI 轉型思維</a></li>
+                    <li><a class="toc-link" href="article_ornith_agent.html" style="font-size: 0.85rem; padding: 0.3rem 0.6rem;">🐦 Ornith-1.0 程式模型</a></li>
+                </ul>
+
+            </ul>
+
+
+        </aside>
+
+        <main>
+            <header>
+                <span class="badge">Class 04 AI App Studio 實作藍圖套件</span>
+                <h1 style="margin-top: 0.75rem;">AI APP Studio：學員與團隊實作工作紙</h1>
+                <div class="subtitle">從創意到 AI 產品的完整實作藍圖與工作坊套件</div>
+            </header>
+
+            <article class="card">
+                <h1>AI APP Studio：學員與團隊實作工作紙</h1>
+<br>
+<p>本文件包含 <strong>AI APP Studio</strong> 工作坊中所有實作單元所需的學員工作紙。小組或個人可直接將本文件列印輸出，或複製為數位文檔，在工作坊現場進行填寫與腦力激盪。</p>
+<br>
+<p>---</p>
+<br>
+<h2>📖 真實專案背景：兩大政府 AI 補助資料源之整合運用</h2>
+<br>
+<p>在本工作坊的實戰專案中，我們面對的是一個真實且極具商業價值的數位轉型案例。</p>
+<br>
+<h3>1. 原始官方資料來源 (Original Portals)</h3>
+<p>政府為扶助企業進行 AI 轉型，核定了上百款補助軟體工具，主要分布於以下兩大核心門戶網站：</p>
+<p>1.  <strong><a href="https://eii.nat.gov.tw/moeai-plus/ai-tools" target="_blank" rel="noopener noreferrer" style="color: var(--accent); font-weight: bold; text-decoration: underline;">經濟部產發署 AI 工具專區</a></strong>：由產業發展署運營，主要收錄高技術門檻的 AI 軟體與製程、生產管理相關演算法方案。</p>
+<p>2.  <strong><a href="https://www.smebiz.org.tw/service-ai.php" target="_blank" rel="noopener noreferrer" style="color: var(--accent); font-weight: bold; text-decoration: underline;">中小企業數位轉型入口網（SMEBiz）</a></strong>：由中小及新創企業署運營，收錄餐飲、零售、商務行銷與日常辦公等輕量化 AI 工具方案。</p>
+<br>
+<h3>2. 整合動機與商業價值 (Motivation & Value)</h3>
+<ul style="margin-left: 24px; margin-bottom: 16px; color: var(--text-muted);">
+<li style="margin-bottom: 8px;">  <strong>消除資訊碎片化</strong>：傳統上，企業與數位轉型顧問必須在兩個網站間反覆跳轉，人工核對。我們將兩大資料庫統一採集並正規化對齊（CCF 乾淨底層 + AAA 加值結構），實現單一窗口化檢索。</li>
+<li style="margin-bottom: 8px;">  <strong>突破「搜尋高牆」</strong>：傳統網站僅支援精確關鍵字字串比對，無法理解「手搖店預算 5 萬求 POS 與客服工具」等自然語言痛點。</li>
+<li style="margin-bottom: 8px;">  <strong>商業應用場景（秒級轉型提案）</strong>：</li>
+</ul>
+<p>    數位轉型顧問在訪談中小企業後，只需在我們開發的「AI 智慧診斷顧問平台」中輸入痛點，系統會秒級檢索整合後的 224 筆補助資料，自動在 10 秒內撰寫出結構嚴密、包含價格期程、政府補助申請連結（<code style="font-family: 'Fira Code', monospace; background: rgba(0,0,0,0.3); padding: 0.2rem 0.4rem; border-radius: 4px; color: var(--accent); font-size: 0.9em;">source_url</code>）且排版美觀的<strong>「數位轉型工具導入建議書」</strong>，將原本長達數週的提案週期壓縮至秒級，大幅提升商業轉化率。</p>
+<br>
+<p>---</p>
+<br>
+<h2>【工作紙 1】日常與工作痛點掃描表</h2>
+<br>
+<ul style="margin-left: 24px; margin-bottom: 16px; color: var(--text-muted);">
+<li style="margin-bottom: 8px;">  <strong>填寫指引</strong>：請回顧您每日的日常工作與生活，在以下 6 個維度中，各寫出 1-2 個最令您困擾的具體事件。寫得越具體越好（包含人、事、時、地、物），並與組員共同討論，評估其<strong>「痛苦指數 (1-5分)」</strong>與<strong>「發生頻率」</strong>。</li>
+</ul>
+<br>
+<table class="comparison-table"><thead><tr><th>掃描維度</th><th>具體痛點事件描述 (請寫出具體場景)</th><th>痛苦指數 (1-5分)</th><th>發生頻率 (每日/每週/每月)</th></tr></thead><tbody><tr><td><strong>1. 每天最花時間</strong><br>*(奪走你最多時間的低價值瑣事)*</td><td></td><td></td><td></td></tr><tr><td><strong>2. 最重複</strong><br>*(讓你像個複製貼上機器人的機械工作)*</td><td></td><td></td><td></td></tr><tr><td><strong>3. 最煩</strong><br>*(只要行程出現就想嘆氣、消耗能量的事)*</td><td></td><td></td><td></td></tr><tr><td><strong>4. 最容易忘記</strong><br>*(頻率低或細節雜，漏掉會有嚴重後果)*</td><td></td><td></td><td></td></tr><tr><td><strong>5. 最容易出錯</strong><br>*(細節多、邏輯雜，每次都要反覆檢查)*</td><td></td><td></td><td></td></tr><tr><td><strong>6. 最不想做</strong><br>*(明知重要但因為痛苦高而一直拖延的事)*</td><td></td><td></td><td></td></tr></tbody></table>
+<br>
+<ul style="margin-left: 24px; margin-bottom: 16px; color: var(--text-muted);">
+<li style="margin-bottom: 8px;">  <strong>【小組決策】本組最終選定的「黃金痛點」是：</strong></li>
+<li style="margin-bottom: 8px;">  *選定理由*：</li>
+</ul>
+<br>
+<p>---</p>
+<br>
+<h2>【工作紙 2】APP 解剖術練習表</h2>
+<br>
+<ul style="margin-left: 24px; margin-bottom: 16px; color: var(--text-muted);">
+<li style="margin-bottom: 8px;">  <strong>填寫指引</strong>：請小組任選 2 款日常主流 App（如：Gmail, LINE, Uber, Notion, Netflix, Spotify），分析其運作骨架，理解其在「沒有 AI」的情況下是如何解決問題並創造價值的。</li>
+</ul>
+<br>
+<h3>【解剖案例 A：__________________ 】</h3>
+<br>
+<p>1.  <strong>Problem (解決什麼問題/痛點)</strong>：</p>
+<ul style="margin-left: 24px; margin-bottom: 16px; color: var(--text-muted);">
+<li style="margin-bottom: 8px;">  *描述*：</li>
+</ul>
+<p>2.  <strong>Input (使用者輸入了什麼資料/操作)</strong>：</p>
+<ul style="margin-left: 24px; margin-bottom: 16px; color: var(--text-muted);">
+<li style="margin-bottom: 8px;">  *描述*：</li>
+</ul>
+<p>3.  <strong>Process (系統在後台做了什麼處理/運算)</strong>：</p>
+<ul style="margin-left: 24px; margin-bottom: 16px; color: var(--text-muted);">
+<li style="margin-bottom: 8px;">  *描述*：</li>
+</ul>
+<p>4.  <strong>Output (呈現給使用者的結果是什麼)</strong>：</p>
+<ul style="margin-left: 24px; margin-bottom: 16px; color: var(--text-muted);">
+<li style="margin-bottom: 8px;">  *描述*：</li>
+</ul>
+<p>5.  <strong>Value (為使用者創造的底層核心價值是什麼)</strong>：</p>
+<ul style="margin-left: 24px; margin-bottom: 16px; color: var(--text-muted);">
+<li style="margin-bottom: 8px;">  *描述*：</li>
+</ul>
+<br>
+<p>---</p>
+<br>
+<h3>【解剖案例 B：__________________ 】</h3>
+<br>
+<p>1.  <strong>Problem (解決什麼問題/痛點)</strong>：</p>
+<ul style="margin-left: 24px; margin-bottom: 16px; color: var(--text-muted);">
+<li style="margin-bottom: 8px;">  *描述*：</li>
+</ul>
+<p>2.  <strong>Input (使用者輸入了什麼資料/操作)</strong>：</p>
+<ul style="margin-left: 24px; margin-bottom: 16px; color: var(--text-muted);">
+<li style="margin-bottom: 8px;">  *描述*：</li>
+</ul>
+<p>3.  <strong>Process (系統在後台做了什麼處理/運算)</strong>：</p>
+<ul style="margin-left: 24px; margin-bottom: 16px; color: var(--text-muted);">
+<li style="margin-bottom: 8px;">  *描述*：</li>
+</ul>
+<p>4.  <strong>Output (呈現給使用者的結果是什麼)</strong>：</p>
+<ul style="margin-left: 24px; margin-bottom: 16px; color: var(--text-muted);">
+<li style="margin-bottom: 8px;">  *描述*：</li>
+</ul>
+<p>5.  <strong>Value (為使用者創造的底層核心價值是什麼)</strong>：</p>
+<ul style="margin-left: 24px; margin-bottom: 16px; color: var(--text-muted);">
+<li style="margin-bottom: 8px;">  *描述*：</li>
+</ul>
+<br>
+<p>---</p>
+<br>
+<h2>【工作紙 3】AI APP 發想演算法推導表</h2>
+<br>
+<ul style="margin-left: 24px; margin-bottom: 16px; color: var(--text-muted);">
+<li style="margin-bottom: 8px;">  <strong>填寫指引</strong>：請將小組在【工作紙 1】中選定的「黃金痛點」，代入以下五步發想演算法，系統化推導出您的 AI 產品雛形。</li>
+</ul>
+<br>
+<details class="code-details" style="border: 1px solid var(--card-border); border-radius: 12px; margin: 1.5rem 0; background: var(--code-bg); overflow: hidden;"><summary style="padding: 0.75rem 1.25rem; background: rgba(0,0,0,0.2); cursor: pointer; font-weight: bold; color: var(--accent); user-select: none; font-size: 0.9rem;">📦 點此展開 ➔ CODE 實戰代碼</summary><div class="code-container" style="border-top: 1px solid rgba(255,255,255,0.05); margin: 0; border-radius: 0; border: none;"><div class="code-header"><span>CODE</span><button class="btn-copy" onclick="copyCode(this)">複製代碼</button></div><pre style="padding: 1rem 1.25rem;"><code>【步驟 1：問題】 ───► 【步驟 2：流程】 ───► 【步驟 3：資料】 ───► 【步驟 4：AI】 ───► 【步驟 5：APP】</code></pre></div></details>
+<br>
+<ul style="margin-left: 24px; margin-bottom: 16px; color: var(--text-muted);">
+<li style="margin-bottom: 8px;">  <strong>步驟 1：問題 (Problem)</strong></li>
+<li style="margin-bottom: 8px;">  *誰* 在什麼 *情境下* 遇到了什麼 *痛苦*？</li>
+<li style="margin-bottom: 8px;">  *回答*：</li>
+<li style="margin-bottom: 8px;">  <strong>步驟 2：流程 (Workflow)</strong></li>
+<li style="margin-bottom: 8px;">  如果完全用<strong>手動</strong>解決這個問題，傳統的執行步驟是什麼？（請一步步列出，至少 3 步）。</li>
+<li style="margin-bottom: 8px;">  *步驟一*：</li>
+<li style="margin-bottom: 8px;">  *步驟二*：</li>
+<li style="margin-bottom: 8px;">  *步驟三*：</li>
+<li style="margin-bottom: 8px;">  *步驟四*：</li>
+<li style="margin-bottom: 8px;">  <strong>步驟 3：資料 (Data)</strong></li>
+<li style="margin-bottom: 8px;">  在這條手動流程中，輸入與產出的資料是什麼格式？（例如：紙本單據、Email 文字、LINE 照片）。</li>
+<li style="margin-bottom: 8px;">  *回答*：</li>
+<li style="margin-bottom: 8px;">  <strong>步驟 4：AI (Cognition - 核心切入點)</strong></li>
+<li style="margin-bottom: 8px;">  在這條流程中，哪一個步驟最適合引入 AI 的「語意理解、生成、推理或預測」能力來代替人類？為什麼？</li>
+<li style="margin-bottom: 8px;">  *回答*：</li>
+<li style="margin-bottom: 8px;">  <strong>步驟 5：APP (Value - 最終產品化)</strong></li>
+<li style="margin-bottom: 8px;">  這款產品叫什麼名字？使用者在介面上只需做什麼簡單操作，即可獲得什麼十倍的效率價值？</li>
+<li style="margin-bottom: 8px;">  *回答*：</li>
+</ul>
+<br>
+<p>---</p>
+<br>
+<h2>【工作紙 4】AI APP 規格定義書 (MVP Spec)</h2>
+<br>
+<ul style="margin-left: 24px; margin-bottom: 16px; color: var(--text-muted);">
+<li style="margin-bottom: 8px;">  <strong>填寫指引</strong>：請根據【工作紙 3】的推導結果，為小組的 AI APP 撰寫首發版本的規格定義書。請務必保持「MVP 的極簡思維」，只做最核心的功能。</li>
+</ul>
+<br>
+<table class="comparison-table"><thead><tr><th>規格項目</th><th>填寫內容 (小組討論共識)</th></tr></thead><tbody><tr><td><strong>1. 產品名稱 (Name)</strong></td><td></td></tr><tr><td><strong>2. 目標使用者 (Target User)</strong></td><td></td></tr><tr><td><strong>3. 使用者痛點 (User Pain)</strong></td><td></td></tr><tr><td><strong>4. 核心功能 (Core Feature)</strong><br>*(首發版本只做哪一件最核心的事？)*</td><td></td></tr><tr><td><strong>5. 產品輸入 (Product Input)</strong><br>*(使用者需要提供什麼資料給 AI？)*</td><td></td></tr><tr><td><strong>6. 產品輸出 (Product Output)</strong><br>*(AI 處理後呈現給用戶的具體結果？)*</td><td></td></tr><tr><td><strong>7. 成功指標 (Metrics)</strong><br>*(如何用數據證明這個 MVP 是成功的？)*</td><td></td></tr><tr><td><strong>8. MVP 實作方案 (MVP Scope)</strong><br>*(預計用哪些無程式碼工具在3天內做出？)*</td><td></td></tr><tr><td><strong>9. 未來版本規劃 (Roadmap)</strong><br>*(若驗證成功，V1.0/V2.0 會增加什麼功能？)*</td><td></td></tr></tbody></table>
+<br>
+<br>
+<p>---</p>
+<br>
+<h2>【工作紙 5】RAG 控制與雙模式人機互動實作表</h2>
+<br>
+<ul style="margin-left: 24px; margin-bottom: 16px; color: var(--text-muted);">
+<li style="margin-bottom: 8px;">  <strong>填寫指引</strong>：在 V2.00 系統升級中，我們引入了「防干擾智慧搜尋」、「雙模式 AI 互動（推薦回答 vs 不設限回答）」與「多模型動態選擇器」。請小組探討並填寫以下 RAG 系統架構與人機互動 (HCI) 的設計思考。</li>
+</ul>
+<br>
+<h3>1. 從「受限 RAG」到「無限 RAG」的架構思考</h3>
+<ul style="margin-left: 24px; margin-bottom: 16px; color: var(--text-muted);">
+<li style="margin-bottom: 8px;">  <strong>背景</strong>：過去 RAG 系統因為 Token 限制，必須先進行向量檢索 (Vector Search) 或過濾，只餵給 AI 極少數的方案（受限 RAG）。如今 Gemini 支援百萬級 (1.0M+) 超大 Context Window，可以直接載入整個方案庫（無限 RAG）。</li>
+<li style="margin-bottom: 8px;">  <strong>探討問題</strong>：</li>
+</ul>
+<p>    1. 既然 AI 能一次讀完所有資料，為什麼我們在側邊欄仍要提供「智慧條件篩選（過濾器）」？</p>
+<p>    2. 請從小組的「搜尋防干擾邏輯」出發，分析「前置過濾 (Pre-filtering)」對降低 AI 幻覺 (Hallucination) 與提升診斷精準度的價值。</p>
+<ul style="margin-left: 24px; margin-bottom: 16px; color: var(--text-muted);">
+<li style="margin-bottom: 8px;">  *回答 1*：</li>
+<li style="margin-bottom: 8px;">  *回答 2*：</li>
+</ul>
+<br>
+<h3>2. Token 的實用價值與 UX 設計：結構化診斷 vs 不設限對話</h3>
+<ul style="margin-left: 24px; margin-bottom: 16px; color: var(--text-muted);">
+<li style="margin-bottom: 8px;">  <strong>背景</strong>：我們在 AI 診斷區實作了兩個並排按鈕：「推薦回答 (精選診斷)」與「不設限回答 (自訂指令)」。</li>
+<li style="margin-bottom: 8px;">  <strong>探討問題</strong>：</li>
+</ul>
+<p>    1. 為什麼我們不能只提供一個對話框和單一發送按鈕？「雙按鈕」設計在使用者體驗 (UX) 與提示詞工程 (Prompt Engineering) 上有何好處？</p>
+<p>    2. 請為這兩個按鈕設計不同的 System Prompt 策略（推薦模式如何引導結構化輸出？自訂指令模式如何賦予 AI 彈性？）。</p>
+<ul style="margin-left: 24px; margin-bottom: 16px; color: var(--text-muted);">
+<li style="margin-bottom: 8px;">  *推薦回答 Prompt 策略*：</li>
+<li style="margin-bottom: 8px;">  *不設限回答 Prompt 策略*：</li>
+</ul>
+<br>
+<h3>3. 軟體架構之美：避免匯出檔案的「CSS 主題污染」</h3>
+<ul style="margin-left: 24px; margin-bottom: 16px; color: var(--text-muted);">
+<li style="margin-bottom: 8px;">  <strong>背景</strong>：主網頁使用的是暗色系 (Dark Theme) 科技美學，但使用者匯出的轉型建議書 (HTML) 必須是適合列印的亮色系 (Light Theme) Notion 風格。</li>
+<li style="margin-bottom: 8px;">  <strong>探討問題</strong>：</li>
+</ul>
+<p>    1. 在程式碼設計中，如果我們直接將網頁渲染出的 HTML 區塊（帶有 <code style="font-family: 'Fira Code', monospace; background: rgba(0,0,0,0.3); padding: 0.2rem 0.4rem; border-radius: 4px; color: var(--accent); font-size: 0.9em;">color: white;</code> 等 inline style）打包匯出，會造成什麼問題？</p>
+<p>    2. 我們如何透過「解析器分離 (Separating Parsers)」的設計，來解決這個問題？（提示：<code style="font-family: 'Fira Code', monospace; background: rgba(0,0,0,0.3); padding: 0.2rem 0.4rem; border-radius: 4px; color: var(--accent); font-size: 0.9em;">parseMarkdown</code> 與 <code style="font-family: 'Fira Code', monospace; background: rgba(0,0,0,0.3); padding: 0.2rem 0.4rem; border-radius: 4px; color: var(--accent); font-size: 0.9em;">parseMarkdownToCleanHtml</code> 的職責劃分）。</p>
+<ul style="margin-left: 24px; margin-bottom: 16px; color: var(--text-muted);">
+<li style="margin-bottom: 8px;">  *分析與設計架構回答*：</li>
+</ul>
+<br>
+<h3>4. 第二個 AI（不設限回答）的輸出真實性檢核 (Grounding Audit) 與防幻覺防線</h3>
+<ul style="margin-left: 24px; margin-bottom: 16px; color: var(--text-muted);">
+<li style="margin-bottom: 8px;">  <strong>背景</strong>：由於「不設限回答（自訂指令）」解除了所有角色扮演與格式約束，AI 的 Token 使用與回覆彈性達到 100%。然而，這也意味著 AI 容易產生「幻覺」，例如虛構不存在的補助方案、混淆廠商與價格、或將金額單位「萬元」誤植（例如將 10 萬元誤判為 10 元，或漏掉美元與台幣的換算）。</li>
+<li style="margin-bottom: 8px;">  <strong>探討問題</strong>：</li>
+</ul>
+<p>    1. 當學員使用「不設限回答」讓 AI 生成自訂轉型計劃或比較表時，應採取哪些步驟對 AI 輸出的「方案名稱」、「廠商名稱」、「價格金額」與「期程」進行真實性檢核（Grounding Audit）？（請參考我們對 <code style="font-family: 'Fira Code', monospace; background: rgba(0,0,0,0.3); padding: 0.2rem 0.4rem; border-radius: 4px; color: var(--accent); font-size: 0.9em;">unified_ai_tools_db</code> 金額正規化修正前後的差異）。</p>
+<p>    2. 在提示詞工程（Prompt Engineering）中，我們可以在自訂指令中加入哪些額外的「真實性約束限制（如要求輸出官方申請連結、比對真實 CSV 欄位）」，以降低無約束 AI 的幻覺風險？</p>
+<ul style="margin-left: 24px; margin-bottom: 16px; color: var(--text-muted);">
+<li style="margin-bottom: 8px;">  *真實性檢核步驟回答*：</li>
+<li style="margin-bottom: 8px;">  *提示詞防幻覺策略回答*：</li>
+</ul>
+<br>
+<p>---</p>
+<br>
+<h2>【工作紙 6】本地 LLM 部署與前端連線偵錯（Ollama CORS & 混合內容安全防線）</h2>
+<br>
+<ul style="margin-left: 24px; margin-bottom: 16px; color: var(--text-muted);">
+<li style="margin-bottom: 8px;">  <strong>填寫指引</strong>：在實作前端網頁直連地端或區網的 Ollama API（如 <code style="font-family: 'Fira Code', monospace; background: rgba(0,0,0,0.3); padding: 0.2rem 0.4rem; border-radius: 4px; color: var(--accent); font-size: 0.9em;">http://127.0.0.1:11434</code> 或 <code style="font-family: 'Fira Code', monospace; background: rgba(0,0,0,0.3); padding: 0.2rem 0.4rem; border-radius: 4px; color: var(--accent); font-size: 0.9em;">http://192.168.31.202:11434</code>）時，學員常會遭遇 <code style="font-family: 'Fira Code', monospace; background: rgba(0,0,0,0.3); padding: 0.2rem 0.4rem; border-radius: 4px; color: var(--accent); font-size: 0.9em;">Failed to fetch</code> 的連線阻礙。本工作紙引導學員動手分析並解決瀏覽器的安全防線問題。</li>
+</ul>
+<br>
+<h3>1. 偵錯分析：終端機成功 vs. 瀏覽器失敗</h3>
+<ul style="margin-left: 24px; margin-bottom: 16px; color: var(--text-muted);">
+<li style="margin-bottom: 8px;">  <strong>情境</strong>：在終端機中執行 <code style="font-family: 'Fira Code', monospace; background: rgba(0,0,0,0.3); padding: 0.2rem 0.4rem; border-radius: 4px; color: var(--accent); font-size: 0.9em;">curl http://192.168.31.202:11434/api/tags</code> 可以順利拿到模型清單，但在網頁上輸入相同的 IP 與 Port 點擊診斷時，卻噴出 <code style="font-family: 'Fira Code', monospace; background: rgba(0,0,0,0.3); padding: 0.2rem 0.4rem; border-radius: 4px; color: var(--accent); font-size: 0.9em;">Failed to fetch</code> 錯誤。</li>
+<li style="margin-bottom: 8px;">  <strong>探討問題</strong>：</li>
+</ul>
+<p>    1. 既然網路是通的（curl 成功），為什麼瀏覽器裡的 JavaScript 會連線失敗？請解釋瀏覽器<strong>跨來源資源共用 (CORS)</strong> 機制在此處扮演的角色。</p>
+<p>    2. 要如何在 Ollama 伺服器端（<code style="font-family: 'Fira Code', monospace; background: rgba(0,0,0,0.3); padding: 0.2rem 0.4rem; border-radius: 4px; color: var(--accent); font-size: 0.9em;">192.168.31.202</code> 這台電腦上）設定環境變數，以放行跨域連線？請寫出對應的設定指令。</p>
+<ul style="margin-left: 24px; margin-bottom: 16px; color: var(--text-muted);">
+<li style="margin-bottom: 8px;">  *CORS 機制分析回答*：</li>
+<li style="margin-bottom: 8px;">  *伺服器端跨域放行設定指令*：</li>
+</ul>
+<br>
+<h3>2. 安全壁壘：混合內容阻擋 (Mixed Content Block)</h3>
+<ul style="margin-left: 24px; margin-bottom: 16px; color: var(--text-muted);">
+<li style="margin-bottom: 8px;">  <strong>情境</strong>：當您將專案上傳並發布至 GitHub Pages 後（網址為 <code style="font-family: 'Fira Code', monospace; background: rgba(0,0,0,0.3); padding: 0.2rem 0.4rem; border-radius: 4px; color: var(--accent); font-size: 0.9em;">https://xxxx.github.io/tw-ai-grant/</code>），嘗試連線區網的 Ollama 服務（<code style="font-family: 'Fira Code', monospace; background: rgba(0,0,0,0.3); padding: 0.2rem 0.4rem; border-radius: 4px; color: var(--accent); font-size: 0.9em;">http://192.168.31.202:11434</code>），瀏覽器會在控制台直接封鎖此請求。</li>
+<li style="margin-bottom: 8px;">  <strong>探討問題</strong>：</li>
+</ul>
+<p>    1. 請說明何謂瀏覽器的「混合內容（Mixed Content）」安全保護政策？為什麼安全網址 (<code style="font-family: 'Fira Code', monospace; background: rgba(0,0,0,0.3); padding: 0.2rem 0.4rem; border-radius: 4px; color: var(--accent); font-size: 0.9em;">https</code>) 無法直接向非安全網址 (<code style="font-family: 'Fira Code', monospace; background: rgba(0,0,0,0.3); padding: 0.2rem 0.4rem; border-radius: 4px; color: var(--accent); font-size: 0.9em;">http</code>) 發送請求？</p>
+<p>    2. 針對此安全壁壘，除了手動關閉個人瀏覽器安全檢查之外，還有哪些更安全且標準的「繞過或解決連線方案」？（提示：本地 file 協議開啟、本地 http 伺服器、以及 ngrok 隧道技術的原理）。</p>
+<ul style="margin-left: 24px; margin-bottom: 16px; color: var(--text-muted);">
+<li style="margin-bottom: 8px;">  *混合內容政策分析回答*：</li>
+<li style="margin-bottom: 8px;">  *三種標準連線方案與原理回答*：</li>
+</ul>
+<br>
+<h3>3. 深度案例分析：專案資料源之資安與防爬蟲漏洞剖析</h3>
+<ul style="margin-left: 24px; margin-bottom: 16px; color: var(--text-muted);">
+<li style="margin-bottom: 8px;">  <strong>背景</strong>：在本次專案中，我們順利採集並標準化了兩個政府網站的 224 筆 AI 方案資料。然而，從專業資安與防爬蟲（Anti-Crawling）角度評估，這兩個網站的防禦設計存在顯著的缺失，幾乎處於「不設防」狀態。</li>
+<li style="margin-bottom: 8px;">  <strong>探討問題</strong>：</li>
+</ul>
+<p>    1. <strong>來源一（Google Sheet 暴露）</strong>：來源一直接將資料庫存放在公開的 Google Sheet 中，並在前端 JS 中暴露了 Sheet ID。請分析這種設計在「伺服器流量感知」與「IP 封鎖防禦」上會帶給政府網站什麼重大資安隱患？</p>
+<p>    2. <strong>來源二（自增 ID 與掃庫）</strong>：來源二採用了傳統的自增整數 ID（如 <code style="font-family: 'Fira Code', monospace; background: rgba(0,0,0,0.3); padding: 0.2rem 0.4rem; border-radius: 4px; color: var(--accent); font-size: 0.9em;">no=35</code>），且未設置任何請求速率限制（Rate Limiting）。這會如何協助爬蟲進行「暴力遍歷掃庫（ID Enumeration）」？若後台權限控管不當，可能會引發什麼嚴重的漏洞（提示：BOLA 漏洞）？</p>
+<p>    3. <strong>防禦性架構設計</strong>：如果您是這兩個政府網站的資安架構師，您會採取哪四道防線（如 WAF、動態簽章、UUID、敏感個資遮蔽與驗證）來重新設計其 API 與資料庫，以兼顧資料展示與安全防護？</p>
+<ul style="margin-left: 24px; margin-bottom: 16px; color: var(--text-muted);">
+<li style="margin-bottom: 8px;">  *來源一 Google Sheet 漏洞分析回答*：</li>
+<li style="margin-bottom: 8px;">  *來源二自增 ID 與速率控制缺陷回答*：</li>
+<li style="margin-bottom: 8px;">  *防禦性架構設計與四道防線回答*：</li>
+</ul>
+<br>
+<p>---</p>
+<br>
+<blockquote style="border-left: 4px solid var(--card-border); padding-left: 1rem; color: var(--text-muted); margin: 1.2rem 0; font-style: italic;">[!TIP]</blockquote>
+<blockquote style="border-left: 4px solid var(--card-border); padding-left: 1rem; color: var(--text-muted); margin: 1.2rem 0; font-style: italic;"><strong>實戰參考資源</strong>：小組在設計轉型建議書的排版與輸出規格時，可直接下載並參考專案目錄中的官方 RAG 範例報告：<a href="ERP公司AI 數位轉型工具導入建議書.pdf" style="color: var(--accent); font-weight: bold; text-decoration: underline;">ERP公司AI 數位轉型工具導入建議書.pdf</a>。這份範本展示了包含痛點剖析、工具對比表格、預期轉型效益以及官方補助通道的完整高水準商務結構。</blockquote>
+<br>
+<p>---</p>
+<br>
+<h2>【工作紙 7】前端 RAG 降噪與地端 Token 超載防禦實戰表</h2>
+<br>
+<ul style="margin-left: 24px; margin-bottom: 16px; color: var(--text-muted);">
+<li style="margin-bottom: 8px;">  <strong>填寫指引</strong>：在 V2.00 的地端 Ollama 深度整合中，我們實作了「前端 RAG 降噪引擎配置選單（5 種過濾技術）」與「發送前 4,096 tokens 超載攔截警示」。本工作紙引導學員探討本地模型 RAG 機制下的「物理極限」、「降噪演算法」與「安全防禦」工程設計。</li>
+</ul>
+<br>
+<h3>1. 物理極限：地端 4,096 Tokens 的崩潰與防禦</h3>
+<ul style="margin-left: 24px; margin-bottom: 16px; color: var(--text-muted);">
+<li style="margin-bottom: 8px;">  <strong>背景</strong>：本地輕量化模型（如 Gemma 2 2B/9B, Llama 3）預設的上下文長度限制通常為 <strong>4,096 tokens</strong>。如果將整個包含 200 多個補助方案的原始資料庫（超過 20,000 tokens）直接發送，模型會被強制截斷，導致輸入佔滿 4,095 tokens，僅留下 1 token 給模型生成，從而出現 AI 只輸出一個字（如「根據」）即卡死停止的現象。</li>
+<li style="margin-bottom: 8px;">  <strong>探討問題</strong>：</li>
+</ul>
+<p>    1. 當使用者點擊「推薦回答」時，我們的前端程式是如何在<strong>不發送 API 請求</strong>的情況下，精確「預估」即將發送的 Prompt Token 數？（提示：繁體中文與 JSON 的字元比率估算公式）。</p>
+<p>    2. 請分析網頁內建的「Token 超載預警玻璃對話框（Pre-flight Safeguard）」在提升使用者體驗 (UX) 與防止系統崩潰上的價值。如果沒有這道防線，使用者與主機會面臨什麼後果？</p>
+<ul style="margin-left: 24px; margin-bottom: 16px; color: var(--text-muted);">
+<li style="margin-bottom: 8px;">  *Token 預估演算法分析回答*：</li>
+<li style="margin-bottom: 8px;">  *超載防禦面板的 UX 價值回答*：</li>
+</ul>
+<br>
+<h3>2. 演算法對比：5 種前端 RAG 降噪技術的選擇</h3>
+<ul style="margin-left: 24px; margin-bottom: 16px; color: var(--text-muted);">
+<li style="margin-bottom: 8px;">  <strong>背景</strong>：我們提供了「無過濾」、「欄位投影與精簡」、「TF-IDF 相關性排序」、「語意特徵與同義詞擴展」、「UI 條件聯動過濾」共 5 種前端 RAG 優化技術。</li>
+<li style="margin-bottom: 8px;">  <strong>探討問題</strong>：</li>
+</ul>
+<p>    1. 請完成下表，對比不同降噪技術對「Token 佔用空間」與「模型推論速度/品質」的影響：</p>
+<br>
+<table class="comparison-table"><thead><tr><th>降噪技術</th><th>Token 壓縮比例 (估算值)</th><th>主要優點 (對地端 Ollama 而言)</th><th>潛在缺點或限制</th></tr></thead><tbody><tr><td><strong>無過濾 (全量資料)</strong></td><td><code style="font-family: 'Fira Code', monospace; background: rgba(0,0,0,0.3); padding: 0.2rem 0.4rem; border-radius: 4px; color: var(--accent); font-size: 0.9em;">0%</code> (約 20k+ tokens)</td><td>能考慮到資料庫所有的方案</td><td>極易引發 4096 溢出卡死</td></tr><tr><td><strong>欄位投影 (Token 壓縮)</strong></td><td></td><td></td><td>方案多時 Token 總量依然偏大</td></tr><tr><td><strong>TF-IDF 相關性排序</strong></td><td></td><td></td><td>當輸入詞彙無直接交集時無法配對</td></tr><tr><td><strong>語意同義詞擴展</strong></td><td></td><td></td><td>依賴同義詞字典的完整度</td></tr><tr><td><strong>UI 條件聯動過濾</strong></td><td></td><td>依據使用者明確意圖精準收斂</td><td>仰賴使用者手動勾選，非自動化</td></tr></tbody></table>
+<br>
+<h3>3. 字元級 N-gram TF-IDF 與語意擴展的 JS 實作</h3>
+<ul style="margin-left: 24px; margin-bottom: 16px; color: var(--text-muted);">
+<li style="margin-bottom: 8px;">  <strong>背景</strong>：在沒有引入任何 heavy NPM 套件或第三方向量資料庫的前提下，我們用純 JavaScript 實作了中英文雙向 TF-IDF 得分排序與同義詞關聯引擎。</li>
+<li style="margin-bottom: 8px;">  <strong>探討問題</strong>：</li>
+</ul>
+<p>    1. 為什麼我們不能直接在 JS 中使用英文的 <code style="font-family: 'Fira Code', monospace; background: rgba(0,0,0,0.3); padding: 0.2rem 0.4rem; border-radius: 4px; color: var(--accent); font-size: 0.9em;">split(' ')</code> 空格分詞來處理中文 RAG？我們在程式碼中使用的 <strong>Unigram（單字）與 Bigram（雙字）切分法</strong> 是如何解決中文分詞挑戰的？</p>
+<p>    2. 請閱讀並分析 <code style="font-family: 'Fira Code', monospace; background: rgba(0,0,0,0.3); padding: 0.2rem 0.4rem; border-radius: 4px; color: var(--accent); font-size: 0.9em;">SYNONYM_DICTIONARY</code> 的同義詞字典結構，當使用者輸入「我想開一家手搖飲料店，需要收銀系統」，這段輸入經過「同義詞擴充」與「TF-IDF 排序」後，是如何精準對位到資料庫中「POS 點餐收銀系統」方案的？</p>
+<ul style="margin-left: 24px; margin-bottom: 16px; color: var(--text-muted);">
+<li style="margin-bottom: 8px;">  *中文分詞與 N-gram 實作原理回答*：</li>
+<li style="margin-bottom: 8px;">  *同義詞擴充與檢索流程回答*：</li>
+</ul>
+<br>
+<h3>4. 資料安全與可追溯性：中繼數據足跡 (Metadata Footprint)</h3>
+<ul style="margin-left: 24px; margin-bottom: 16px; color: var(--text-muted);">
+<li style="margin-bottom: 8px;">  <strong>背景</strong>：在 V2.00 系統中，我們將該次使用的 RAG 降噪引擎名稱（如 <code style="font-family: 'Fira Code', monospace; background: rgba(0,0,0,0.3); padding: 0.2rem 0.4rem; border-radius: 4px; color: var(--accent); font-size: 0.9em;">TF-IDF 相關性排序</code>）寫入了歷程紀錄資料庫，並同步整合在 HTML 與 Markdown 匯出檔案中。</li>
+<li style="margin-bottom: 8px;">  <strong>探討問題</strong>：</li>
+</ul>
+<p>    1. 在企業級的 AI 應用開發中，為什麼「記錄該次生成所使用的 RAG 降噪引擎與檢索樣本數」如此重要？這對<strong>診斷報告的可重複性（Reproducibility）</strong>與<strong>商業審計（Auditing）</strong>有何幫助？</p>
+<ul style="margin-left: 24px; margin-bottom: 16px; color: var(--text-muted);">
+<li style="margin-bottom: 8px;">  *RAG 中繼數據足跡與商業審計價值回答*：</li>
+</ul>
+<br>
+<br>
+<br>
+<br>
+            </article>
+        </main>
+    </div>
+
+    <script>
+        function toggleLocalTheme() {
+            document.body.classList.toggle('theme-light');
+            localStorage.setItem('class04-theme', document.body.classList.contains('theme-light') ? 'light' : 'dark');
+        }
+        if (localStorage.getItem('class04-theme') === 'light') document.body.classList.add('theme-light');
+
+        function adjustZoom(enlarge) {
+            if (enlarge) {
+                document.body.classList.add('zoom-large');
+                localStorage.setItem('class04-zoom', 'large');
+            } else {
+                document.body.classList.remove('zoom-large');
+                localStorage.setItem('class04-zoom', 'normal');
+            }
+        }
+        if (localStorage.getItem('class04-zoom') === 'large') document.body.classList.add('zoom-large');
+
+        function adjustWidth(wide) {
+            if (wide) {
+                document.body.classList.add('width-wide');
+                localStorage.setItem('class04-width', 'wide');
+            } else {
+                document.body.classList.remove('width-wide');
+                localStorage.setItem('class04-width', 'normal');
+            }
+        }
+        if (localStorage.getItem('class04-width') === 'wide') document.body.classList.add('width-wide');
+
+        function copyCode(btn) {
+            const code = btn.parentElement.nextElementSibling.querySelector('code').innerText;
+            navigator.clipboard.writeText(code).then(() => {
+                const origText = btn.innerText;
+                btn.innerText = "已複製！";
+                setTimeout(() => btn.innerText = origText, 2000);
+            });
+        }
+    </script>
+</body>
+</html>

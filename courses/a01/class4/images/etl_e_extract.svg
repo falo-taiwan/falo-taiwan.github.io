@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 160" width="100%" height="100%">
+  <defs>
+    <linearGradient id="blueGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0284c7" />
+      <stop offset="100%" stop-color="#38bdf8" />
+    </linearGradient>
+    <linearGradient id="glowGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.25" />
+      <stop offset="100%" stop-color="#0284c7" stop-opacity="0" />
+    </linearGradient>
+  </defs>
+  <!-- Subtle Border background -->
+  <rect width="318" height="158" x="1" y="1" rx="12" fill="rgba(255, 255, 255, 0.01)" stroke="rgba(255, 255, 255, 0.05)" stroke-width="1" />
+  
+  <!-- Left Side: Source Icons -->
+  <!-- DB Icon -->
+  <g transform="translate(30, 32)">
+    <rect x="0" y="0" width="36" height="26" rx="4" fill="url(#blueGrad)" opacity="0.85" />
+    <path d="M6,7 h24 M6,13 h24 M6,19 h24" stroke="rgba(255,255,255,0.3)" stroke-width="1.5" />
+    <text x="18" y="-5" fill="rgba(255,255,255,0.5)" font-size="8" font-family="sans-serif" font-weight="bold" text-anchor="middle">Database</text>
+  </g>
+  <!-- Doc Icon -->
+  <g transform="translate(33, 82)">
+    <rect x="0" y="0" width="30" height="38" rx="3" fill="none" stroke="url(#blueGrad)" stroke-width="2" />
+    <line x1="6" y1="10" x2="24" y2="10" stroke="url(#blueGrad)" stroke-width="1.5" />
+    <line x1="6" y1="18" x2="24" y2="18" stroke="url(#blueGrad)" stroke-width="1.5" />
+    <line x1="6" y1="26" x2="18" y2="26" stroke="url(#blueGrad)" stroke-width="1.5" />
+    <text x="15" y="-5" fill="rgba(255,255,255,0.5)" font-size="8" font-family="sans-serif" font-weight="bold" text-anchor="middle">Document</text>
+  </g>
+  
+  <!-- Middle: Connection / Scan Paths -->
+  <g fill="none" stroke-width="1.5">
+    <path d="M76,45 Q140,45 180,72" stroke="url(#blueGrad)" stroke-dasharray="4,4" opacity="0.6" />
+    <path d="M73,101 Q140,101 180,82" stroke="url(#blueGrad)" stroke-dasharray="4,4" opacity="0.6" />
+    <!-- Pulse Effect -->
+    <circle cx="120" cy="57" r="3" fill="#38bdf8" />
+    <circle cx="130" cy="91" r="3" fill="#38bdf8" />
+  </g>
+  
+  <!-- Right Side: Extracting Hub -->
+  <g transform="translate(200, 42)">
+    <circle cx="35" cy="35" r="28" fill="url(#glowGrad)" stroke="url(#blueGrad)" stroke-width="2" />
+    <!-- Scanner line -->
+    <line x1="12" y1="35" x2="58" y2="35" stroke="#38bdf8" stroke-width="1.5" opacity="0.8" />
+    <!-- Target Box -->
+    <rect x="24" y="24" width="22" height="22" rx="2" fill="none" stroke="#ffffff" stroke-width="1.5" opacity="0.9" />
+    <circle cx="35" cy="35" r="3" fill="#ffffff" />
+    <text x="35" y="78" fill="url(#blueGrad)" font-size="9" font-weight="bold" font-family="sans-serif" text-anchor="middle">Raw Stream</text>
+  </g>
+</svg>

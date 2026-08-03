@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 400" width="500" height="400">
+  <defs>
+    <linearGradient id="cardGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#180f35" stop-opacity="0.9" />
+      <stop offset="100%" stop-color="#080314" stop-opacity="0.9" />
+    </linearGradient>
+    <linearGradient id="blueGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#38bdf8" />
+      <stop offset="100%" stop-color="#0284c7" />
+    </linearGradient>
+    <linearGradient id="purpleGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#c084fc" />
+      <stop offset="100%" stop-color="#8b5cf6" />
+    </linearGradient>
+    <linearGradient id="greenGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#4ade80" />
+      <stop offset="100%" stop-color="#16a34a" />
+    </linearGradient>
+    <linearGradient id="orangeGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#f59e0b" />
+      <stop offset="100%" stop-color="#d97706" />
+    </linearGradient>
+  </defs>
+
+  <!-- Background Card -->
+  <rect width="500" height="400" fill="#020108" rx="12" stroke="#25174d" stroke-width="1.5" />
+  <rect width="496" height="396" x="2" y="2" rx="10" fill="url(#cardGrad)" />
+
+  <text x="24" y="36" fill="#ffffff" font-family="system-ui, sans-serif" font-size="16" font-weight="800">SaaS Category Split / AI 標準化分類佔比</text>
+
+  <!-- Donut Circle (Center 150, 200) -->
+  <circle cx="150" cy="200" r="80" fill="none" stroke="#1c113b" stroke-width="26" />
+  
+  <!-- Slice 1: Human Resources / KM (40%) -->
+  <circle cx="150" cy="200" r="80" fill="none" stroke="url(#purpleGrad)" stroke-width="26" 
+          stroke-dasharray="502.6" stroke-dashoffset="201.0" transform="rotate(-90 150 200)" stroke-linecap="round" />
+          
+  <!-- Slice 2: Customer Service (25%) -->
+  <circle cx="150" cy="200" r="80" fill="none" stroke="url(#blueGrad)" stroke-width="26" 
+          stroke-dasharray="502.6" stroke-dashoffset="376.9" transform="rotate(54 150 200)" stroke-linecap="round" />
+
+  <!-- Slice 3: Marketing & Sales (20%) -->
+  <circle cx="150" cy="200" r="80" fill="none" stroke="url(#greenGrad)" stroke-width="26" 
+          stroke-dasharray="502.6" stroke-dashoffset="402.0" transform="rotate(144 150 200)" stroke-linecap="round" />
+
+  <!-- Slice 4: Operations (15%) -->
+  <circle cx="150" cy="200" r="80" fill="none" stroke="url(#orangeGrad)" stroke-width="26" 
+          stroke-dasharray="502.6" stroke-dashoffset="427.2" transform="rotate(216 150 200)" stroke-linecap="round" />
+
+  <!-- Text inside Donut -->
+  <text x="150" y="193" text-anchor="middle" fill="#ffffff" font-family="system-ui, sans-serif" font-size="12" font-weight="600">雙來源分類</text>
+  <text x="150" y="215" text-anchor="middle" fill="#38bdf8" font-family="system-ui, sans-serif" font-size="16" font-weight="900">4大維度</text>
+
+  <!-- Legend -->
+  <g transform="translate(275, 110)" font-family="system-ui, sans-serif" font-size="11" font-weight="600">
+    <g transform="translate(0, 0)">
+      <rect x="0" y="0" width="10" height="10" rx="2.5" fill="#c084fc" />
+      <text x="18" y="10" fill="#9ca3af">人資與知識管理</text>
+      <text x="18" y="24" fill="#ffffff" font-size="10">佔比 40% (98筆)</text>
+    </g>
+    
+    <g transform="translate(0, 42)">
+      <rect x="0" y="0" width="10" height="10" rx="2.5" fill="#38bdf8" />
+      <text x="18" y="10" fill="#9ca3af">客戶服務與溝通</text>
+      <text x="18" y="24" fill="#ffffff" font-size="10">佔比 25% (61筆)</text>
+    </g>
+
+    <g transform="translate(0, 84)">
+      <rect x="0" y="0" width="10" height="10" rx="2.5" fill="#4ade80" />
+      <text x="18" y="10" fill="#9ca3af">行銷與銷售加值</text>
+      <text x="18" y="24" fill="#ffffff" font-size="10">佔比 20% (49筆)</text>
+    </g>
+
+    <g transform="translate(0, 126)">
+      <rect x="0" y="0" width="10" height="10" rx="2.5" fill="#f59e0b" />
+      <text x="18" y="10" fill="#9ca3af">生產與運營管理</text>
+      <text x="18" y="24" fill="#ffffff" font-size="10">佔比 15% (36筆)</text>
+    </g>
+  </g>
+  
+  <line x1="24" y1="330" x2="476" y2="330" stroke="#25174d" stroke-width="1" />
+  <text x="24" y="358" fill="#6b7280" font-family="system-ui, sans-serif" font-size="11" font-weight="500">此圖表呈現政府 RAG 知識庫清洗後之核心結構佔比</text>
+</svg>

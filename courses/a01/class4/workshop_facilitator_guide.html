@@ -1,0 +1,1198 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI APP Studio：工作坊引導與講師指南 | Class 04 AI App Studio 工作坊</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&family=Noto+Sans+TC:wght@400;500;700;900&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-gradient: radial-gradient(circle at 50% 50%, #0b071e 0%, #020108 100%);
+            --text-main: #f3f4f6;
+            --text-muted: #9ca3af;
+            --card-bg: rgba(25, 18, 50, 0.45);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --card-hover-border: rgba(192, 132, 252, 0.45);
+            --primary: #8b5cf6;
+            --primary-glow: rgba(139, 92, 246, 0.15);
+            --accent: #c084fc;
+            --sidebar-bg: rgba(15, 10, 35, 0.85);
+            --sidebar-border: rgba(255, 255, 255, 0.08);
+            --toggle-bg: rgba(255, 255, 255, 0.05);
+            --toggle-border: rgba(255, 255, 255, 0.1);
+            --toggle-color: #f3f4f6;
+            --btn-bg: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+            --btn-shadow: rgba(139, 92, 246, 0.25);
+            --badge-bg: rgba(192, 132, 252, 0.12);
+            --badge-color: #d8b4fe;
+            --badge-border: rgba(192, 132, 252, 0.25);
+            --h1-gradient: linear-gradient(135deg, #ffffff 40%, #c084fc 100%);
+            --code-bg: #0d091e;
+            --topic-green: #4ade80;
+            --sidebar-blue: #38bdf8;
+        }
+
+        body.theme-light {
+            --bg-gradient: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 50%, #e2e8f0 100%);
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --card-bg: rgba(255, 255, 255, 0.75);
+            --card-border: rgba(99, 102, 241, 0.12);
+            --card-hover-border: rgba(99, 102, 241, 0.45);
+            --primary: #4f46e5;
+            --primary-glow: rgba(79, 70, 229, 0.1);
+            --accent: #0891b2;
+            --sidebar-bg: rgba(255, 255, 255, 0.9);
+            --sidebar-border: rgba(99, 102, 241, 0.15);
+            --toggle-bg: rgba(0, 0, 0, 0.05);
+            --toggle-border: rgba(0, 0, 0, 0.08);
+            --toggle-color: #4f46e5;
+            --btn-bg: linear-gradient(135deg, #4f46e5 0%, #3b82f6 100%);
+            --sidebar-blue: #0284c7;
+            --btn-shadow: rgba(79, 70, 229, 0.2);
+            --badge-bg: rgba(8, 145, 178, 0.08);
+            --badge-color: #0891b2;
+            --badge-border: rgba(8, 145, 178, 0.15);
+            --h1-gradient: linear-gradient(135deg, #1e293b 30%, #4f46e5 100%);
+            --code-bg: #f8fafc;
+            --topic-green: #16a34a;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: var(--bg-gradient);
+            color: var(--text-main);
+            font-family: 'Outfit', 'Noto Sans TC', sans-serif;
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            transition: background 0.4s ease, color 0.3s ease;
+        }
+
+        body.zoom-large { font-size: 1.15rem; }
+        body.zoom-large h1 { font-size: 2.5rem; }
+        body.zoom-large h2 { font-size: 1.8rem; }
+        
+        .layout-wrapper {
+            display: flex;
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+            position: relative;
+            transition: max-width 0.3s ease;
+        }
+        
+        body.width-wide .layout-wrapper {
+            max-width: 1600px;
+        }
+
+        /* Sidebar Navigation */
+        aside {
+            width: 300px;
+            flex-shrink: 0;
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            background: var(--sidebar-bg);
+            border-right: 1px solid var(--sidebar-border);
+            padding: 2.5rem 1.5rem;
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            display: flex;
+            flex-direction: column;
+            z-index: 100;
+            transition: background 0.4s ease, border-color 0.4s ease;
+        }
+
+        .brand h2 {
+            font-size: 1.35rem;
+            font-weight: 900;
+            color: var(--sidebar-blue);
+            margin-bottom: 0.25rem;
+        }
+
+        .brand .eyebrow {
+            font-size: 0.75rem;
+            font-weight: 800;
+            color: var(--sidebar-blue);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 0.5rem;
+        }
+
+        .brand .sub-brand {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+            border-bottom: 1px solid var(--sidebar-border);
+            padding-bottom: 0.75rem;
+        }
+
+        .toc {
+            list-style: none;
+            flex-grow: 1;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+        }
+
+        .toc-title {
+            font-size: 0.75rem;
+            font-weight: 800;
+            color: var(--sidebar-blue);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-top: 1rem;
+            margin-bottom: 0.4rem;
+            padding-left: 0.8rem;
+        }
+
+        /* 💡 Five topics highlighted in blue and white */
+        .toc-title a.toc-link {
+            color: var(--sidebar-blue) !important;
+            font-size: 0.82rem !important;
+            text-transform: none !important;
+            letter-spacing: normal !important;
+        }
+        .toc-title a.toc-link:hover {
+            color: var(--sidebar-blue) !important;
+            background: rgba(56, 189, 248, 0.05) !important;
+            padding-left: 1rem !important;
+        }
+        .toc-title a.toc-link.active {
+            color: var(--sidebar-blue) !important;
+            background: rgba(56, 189, 248, 0.08) !important;
+            border-left: 3px solid var(--sidebar-blue) !important;
+            border-radius: 8px !important;
+        }
+
+        .toc-link {
+            display: block;
+            padding: 0.6rem 0.8rem;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .toc-link:hover {
+            color: var(--sidebar-blue);
+            background: rgba(56, 189, 248, 0.04);
+            padding-left: 1.2rem;
+        }
+
+        .toc-link.active {
+            color: var(--sidebar-blue);
+            background: rgba(56, 189, 248, 0.08);
+            border-left: 3px solid var(--sidebar-blue);
+            border-radius: 8px;
+            padding-left: 1.2rem;
+        }
+
+        /* Yellow and Green highlights for cases & projects */
+        a[href*="topic7_real_cases.html"] {
+            color: #fbbf24 !important;
+        }
+        a[href*="topic7_real_cases.html"]:hover, a[href*="topic7_real_cases.html"].active {
+            background: rgba(251, 191, 36, 0.08) !important;
+            border-left: 3px solid #fbbf24 !important;
+            color: #fbbf24 !important;
+        }
+
+        a[href*="topic8_commercial_projects.html"] {
+            color: #34d399 !important;
+        }
+        a[href*="topic8_commercial_projects.html"]:hover, a[href*="topic8_commercial_projects.html"].active {
+            background: rgba(52, 211, 153, 0.08) !important;
+            border-left: 3px solid #34d399 !important;
+            color: #34d399 !important;
+        }
+
+        .sidebar-footer {
+            border-top: 1px solid var(--sidebar-border);
+            padding-top: 1.5rem;
+            margin-top: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .sidebar-btn {
+            display: block;
+            text-align: center;
+            padding: 0.6rem 0.8rem;
+            background: var(--toggle-bg);
+            border: 1px solid var(--toggle-border);
+            color: var(--text-main);
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 600;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .sidebar-btn:hover {
+            background: var(--primary-glow);
+            border-color: var(--primary);
+        }
+
+        /* Main Content Area */
+        main {
+            flex-grow: 1;
+            margin-left: 300px;
+            padding: 3.5rem 3rem;
+            max-width: 900px;
+            width: calc(100% - 300px);
+            transition: max-width 0.3s ease;
+        }
+
+        body.width-wide main {
+            max-width: 1300px;
+        }
+
+        header {
+            margin-bottom: 3rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding-bottom: 2rem;
+        }
+
+        header h1 {
+            font-size: 2.25rem;
+            font-weight: 900;
+            letter-spacing: -1px;
+            background: var(--h1-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+            line-height: 1.25;
+        }
+
+        header .subtitle {
+            font-size: 1.15rem;
+            color: var(--accent);
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 2.2rem;
+            margin-bottom: 2.2rem;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+        }
+
+        .card:hover {
+            border-color: var(--card-hover-border);
+            box-shadow: 0 15px 40px rgba(139, 92, 246, 0.1);
+            transform: translateY(-2px);
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            color: var(--topic-green);
+            border-left: 4px solid var(--primary);
+            padding-left: 12px;
+        }
+
+        h3 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+            color: var(--accent);
+        }
+
+        h4 {
+            font-size: 1.08rem;
+            font-weight: 700;
+            margin-top: 1.5rem;
+            margin-bottom: 0.8rem;
+            color: var(--text-main);
+        }
+
+        p {
+            margin-bottom: 1.2rem;
+            color: var(--text-muted);
+            font-size: 1rem;
+            line-height: 1.7;
+        }
+
+        body.theme-light p {
+            color: #334155;
+        }
+
+        /* Code Block Container */
+        .code-container {
+            position: relative;
+            background: var(--code-bg);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            margin: 1.5rem 0;
+            overflow: hidden;
+        }
+
+        .code-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 1.25rem;
+            background: rgba(0, 0, 0, 0.3);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            font-family: 'Fira Code', monospace;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .btn-copy {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-main);
+            padding: 0.35rem 0.75rem;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-copy:hover {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: #ffffff;
+        }
+
+        pre {
+            padding: 1.25rem;
+            overflow-x: auto;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.85rem;
+            color: var(--text-main);
+            line-height: 1.5;
+        }
+
+        /* Comparison Table */
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            font-size: 0.9rem;
+            text-align: left;
+        }
+
+        .comparison-table th, .comparison-table td {
+            padding: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        body.theme-light .comparison-table th, 
+        body.theme-light .comparison-table td {
+            border-bottom-color: rgba(0,0,0,0.05);
+        }
+
+        .comparison-table th {
+            background: rgba(255, 255, 255, 0.02);
+            color: var(--text-main);
+            font-weight: 600;
+        }
+
+        .comparison-table td {
+            color: var(--text-muted);
+        }
+
+        .comparison-table tr:hover {
+            background: rgba(255, 255, 255, 0.01);
+        }
+
+        /* Floating Accessibility Toolbar */
+        .accessibility-toolbar {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: rgba(15, 10, 35, 0.85);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 30px;
+            padding: 0.5rem 1rem;
+            display: flex;
+            gap: 0.75rem;
+            align-items: center;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            z-index: 999;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        body.theme-light .accessibility-toolbar {
+            background: rgba(255, 255, 255, 0.9);
+            border-color: rgba(99, 102, 241, 0.15);
+        }
+
+        .toolbar-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-main);
+            font-size: 0.9rem;
+            font-weight: 700;
+            cursor: pointer;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+
+        .toolbar-btn:hover {
+            background: var(--primary-glow);
+            color: var(--accent);
+        }
+
+        .divider {
+            width: 1px;
+            height: 18px;
+            background: var(--card-border);
+        }
+
+        .resources-details[open] summary span:last-child {
+            transform: rotate(180deg);
+        }
+
+        @media (max-width: 992px) {
+            aside {
+                display: none;
+            }
+            main {
+                margin-left: 0;
+                width: 100%;
+                padding: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="accessibility-toolbar">
+        <button class="toolbar-btn" onclick="toggleLocalTheme()" title="切換配色">💡</button>
+        <div class="divider"></div>
+        <button class="toolbar-btn" onclick="adjustZoom(true)" title="放大字體">A+</button>
+        <button class="toolbar-btn" onclick="adjustZoom(false)" title="縮小字體">A-</button>
+        <div class="divider"></div>
+        <button class="toolbar-btn" onclick="adjustWidth(true)" title="寬版版面">W+</button>
+        <button class="toolbar-btn" onclick="adjustWidth(false)" title="窄版版面">W-</button>
+    </div>
+
+    <div class="layout-wrapper">
+        <aside>
+            <div class="brand">
+                <div class="eyebrow">銀河 ERP 內訓</div>
+                <h2>Class 04</h2>
+                <div class="sub-brand">銀河軟體 台西分公司</div>
+            </div>
+            
+            <ul class="toc">
+                <!-- 本次課程說明 -->
+                <div class="toc-title"><a class="toc-link " href="index.html" style="padding: 0.4rem 0.8rem; display: block; font-weight: bold; border-radius: 8px;">📋 本次課程說明</a></div>
+
+                <!-- 主題一：前三堂課程交流與補充 -->
+                <div class="toc-title"><a class="toc-link " href="topic1_retrospective.html" style="padding: 0.4rem 0.8rem; display: block; font-weight: bold; border-radius: 8px;">💬 1. 前三堂課程交流與補充</a></div>
+                <ul style="list-style: none; padding-left: 1rem; margin-bottom: 0.75rem; display: none; flex-direction: column; gap: 0.2rem;">
+                    <li><a class="toc-link" href="topic1_retrospective.html#guidelines">📌 1. 常見提醒與交付規範</a></li>
+                    <li><a class="toc-link" href="topic1_retrospective.html#double-track">📄 2. 雙軌文件策略 (md+html)</a></li>
+                    <li><a class="toc-link" href="topic1_retrospective.html#ai-native">🧠 3. AI-Native 思維</a></li>
+                    <li><a class="toc-link" href="topic1_retrospective.html#project-evaluation">⚖️ 4. 專案評估 (診斷指標)</a></li>
+                    <li><a class="toc-link" href="topic1_retrospective.html#agent-skills">🔌 5. 怎麼善用 Agent Skills</a></li>
+                </ul>
+
+                <!-- 主題二：AI App 專案腦力激盪 -->
+                <div class="toc-title"><a class="toc-link " href="topic5_brainstorming.html" style="padding: 0.4rem 0.8rem; display: block; font-weight: bold; border-radius: 8px;">🎯 2. AI App 專案腦力激盪</a></div>
+                <ul style="list-style: none; padding-left: 1rem; margin-bottom: 0.75rem; display: none; flex-direction: column; gap: 0.2rem;">
+                    <li><a class="toc-link" href="topic5_brainstorming.html">🎯 AI APP Studio 實作套件</a></li>
+                    <li style="padding-left: 0.8rem;"><a class="toc-link" href="topic5_brainstorming.html#direction-a" style="font-size: 0.85rem; padding: 0.3rem 0.6rem;">👉 方向 A：AI KM 知識庫</a></li>
+                    <li style="padding-left: 0.8rem;"><a class="toc-link" href="topic5_brainstorming.html#direction-b" style="font-size: 0.85rem; padding: 0.3rem 0.6rem;">👉 方向 B：銀河 ERP SaaS 增強</a></li>
+                    <li style="padding-left: 0.8rem;"><a class="toc-link" href="topic5_brainstorming.html#direction-c" style="font-size: 0.85rem; padding: 0.3rem 0.6rem;">👉 方向 C：SME 日常效率倍增器</a></li>
+                    <li><a class="toc-link" href="topic5_brainstorming.html#evaluation-metrics">🗺️ AI App 關鍵注意事項</a></li>
+                    <li><a class="toc-link" href="topic5_brainstorming.html#firewall-test">🛡️ 客戶環境測試（網絡防火牆）</a></li>
+                </ul>
+
+                <!-- 主題三：ETL 實務概念與小元件教學 -->
+                <div class="toc-title"><a class="toc-link " href="topic3_etl_cases.html" style="padding: 0.4rem 0.8rem; display: block; font-weight: bold; border-radius: 8px;">⚡ 3. ETL 實務概念與小元件教學</a></div>
+                <ul style="list-style: none; padding-left: 1rem; margin-bottom: 0.75rem; display: none; flex-direction: column; gap: 0.2rem;">
+                    <li><a class="toc-link" href="topic3_etl_cases.html#etl-e">📥 E (Extract) - 取得資料</a></li>
+                    <li><a class="toc-link" href="topic3_etl_cases.html#etl-t">⚡ T (Transform) - 整理 / 轉換</a></li>
+                    <li><a class="toc-link" href="topic3_etl_cases.html#etl-l">📤 L (Load) - 輸出 / 應用</a></li>
+                    <li><a class="toc-link" href="topic3_etl_cases.html#ai-war-room">🖥️ 雙軌戰情中心元件解構</a></li>
+                </ul>
+
+                <!-- 主題四：KM 建置與應用思維 -->
+                <div class="toc-title"><a class="toc-link " href="topic4_km_rag.html" style="padding: 0.4rem 0.8rem; display: block; font-weight: bold; border-radius: 8px;">📂 4. KM 建置與應用思維</a></div>
+                <ul style="list-style: none; padding-left: 1rem; margin-bottom: 0.75rem; display: none; flex-direction: column; gap: 0.2rem;">
+                    <li><a class="toc-link" href="topic4_km_rag.html#ai-km">📂 AI KM 建置範例</a></li>
+                    <li><a class="toc-link" href="topic4_km_rag.html#imitation-coding">🎯 實戰模仿開發</a></li>
+                    <li><a class="toc-link" href="topic4_km_rag.html#notebooklm">📓 NotebookLM 整合運用</a></li>
+                </ul>
+
+                <!-- 主題五：AI API 呼叫三大模式實戰 -->
+                <div class="toc-title"><a class="toc-link " href="topic6_ai_api.html" style="padding: 0.4rem 0.8rem; display: block; font-weight: bold; border-radius: 8px;">🛠️ 5. AI API 呼叫三大模式實戰</a></div>
+                <ul style="list-style: none; padding-left: 1rem; margin-bottom: 0.75rem; display: none; flex-direction: column; gap: 0.2rem;">
+                    <li><a class="toc-link" href="topic6_ai_api.html#hardware-detection">🖥️ 互動式硬體檢測選型</a></li>
+                    <li><a class="toc-link" href="topic6_ai_api.html#cloud-gemini">☁️ 雲端 Gemini API 申請與呼叫</a></li>
+                    <li><a class="toc-link" href="topic6_ai_api.html#local-ollama">🏠 地端 Ollama 本地服務呼叫</a></li>
+                    <li><a class="toc-link" href="topic6_ai_api.html#chrome-nano">🌐 Chrome Nano 瀏覽器原生 AI</a></li>
+                </ul>
+
+                <!-- 主題六：核心實戰案例展示 -->
+                <div class="toc-title"><a class="toc-link " href="topic7_real_cases.html" style="padding: 0.4rem 0.8rem; display: block; font-weight: bold; border-radius: 8px;">🚀 6. 核心實戰案例展示</a></div>
+
+                <!-- 主題七：商業型整合專案 -->
+                <div class="toc-title"><a class="toc-link " href="topic8_commercial_projects.html" style="padding: 0.4rem 0.8rem; display: block; font-weight: bold; border-radius: 8px;">💼 7. 商業型整合專案</a></div>
+
+                <!-- 📚 延伸精選閱讀 -->
+                <div class="toc-title">📚 延伸精選閱讀</div>
+                <ul style="list-style: none; padding-left: 1rem; margin-bottom: 0.75rem; display: flex; flex-direction: column; gap: 0.2rem;">
+                    <li><a class="toc-link" href="article_ai_efficiency.html" style="font-size: 0.85rem; padding: 0.3rem 0.6rem;">📝 企業 AI 轉型思維</a></li>
+                    <li><a class="toc-link" href="article_ornith_agent.html" style="font-size: 0.85rem; padding: 0.3rem 0.6rem;">🐦 Ornith-1.0 程式模型</a></li>
+                </ul>
+
+            </ul>
+
+
+        </aside>
+
+        <main>
+            <header>
+                <span class="badge">Class 04 AI App Studio 實作藍圖套件</span>
+                <h1 style="margin-top: 0.75rem;">AI APP Studio：工作坊引導與講師指南</h1>
+                <div class="subtitle">從創意到 AI 產品的完整實作藍圖與工作坊套件</div>
+            </header>
+
+            <article class="card">
+                <h1>AI APP Studio：工作坊引導與講師指南</h1>
+<br>
+<p>本指南專為 <strong>AI APP Studio</strong> 的講師與引導者（Facilitator）設計。本課程的核心目標是協助學員從日常生活與工作中發掘需求，並將其轉化為 AI 產品構想。</p>
+<br>
+<p>本課程 <strong>「不教工具操作、不教程式設計、不教模型技術」</strong>，而是專注於培養學員 <strong>「發現值得被 AI 解決的問題」</strong> 的產品與創業思維。</p>
+<br>
+<p>---</p>
+<br>
+<h2>1. 課程時程表 (6 小時密集版)</h2>
+<br>
+<table class="comparison-table"><thead><tr><th>時間</th><th>時長</th><th>單元主題</th><th>核心活動與輸出物</th></tr></thead><tbody><tr><td><strong>09:00 - 09:30</strong></td><td>30分</td><td><strong>Part 1：AI APP 到底是什麼？</strong></td><td>破冰、白話釐清 APP/Workflow/Agent 概念。</td></tr><tr><td><strong>09:30 - 10:30</strong></td><td>60分</td><td><strong>Part 2：發現問題工作坊</strong></td><td><strong>活動一：日常痛點大掃描</strong>（產出：痛點清單）。</td></tr><tr><td><strong>10:30 - 10:45</strong></td><td>15分</td><td>*茶敘與休息*</td><td></td></tr><tr><td><strong>10:45 - 11:30</strong></td><td>45分</td><td><strong>Part 3：APP 解剖術</strong></td><td>解剖主流產品的 <code style="font-family: 'Fira Code', monospace; background: rgba(0,0,0,0.3); padding: 0.2rem 0.4rem; border-radius: 4px; color: var(--accent); font-size: 0.9em;">Problem → Input → Process → Output → Value</code>。</td></tr><tr><td><strong>11:30 - 12:15</strong></td><td>45分</td><td><strong>Part 4 & 5：AI APP 發想術與類型地圖</strong></td><td>學習 <code style="font-family: 'Fira Code', monospace; background: rgba(0,0,0,0.3); padding: 0.2rem 0.4rem; border-radius: 4px; color: var(--accent); font-size: 0.9em;">問題 → 流程 → 資料 → AI → APP</code> 演算法。</td></tr><tr><td><strong>12:15 - 13:30</strong></td><td>75分</td><td>*午餐與休息*</td><td></td></tr><tr><td><strong>13:30 - 14:00</strong></td><td>30分</td><td><strong>Part 6：AI Native APP 深度剖析</strong></td><td>探討 20 個「非 AI 不可」的典型產品案例。</td></tr><tr><td><strong>14:00 - 15:15</strong></td><td>75分</td><td><strong>Part 7：MVP & PoC Workshop</strong></td><td><strong>活動二：MVP 規格定義實作</strong>（產出：MVP 規格書）。</td></tr><tr><td><strong>15:15 - 15:30</strong></td><td>15分</td><td>*茶敘與休息*</td><td></td></tr><tr><td><strong>15:30 - 16:30</strong></td><td>60分</td><td><strong>Part 8：APP 評審大會</strong></td><td><strong>活動三：團隊提案發表與評分</strong>（產出：決策矩陣）。</td></tr><tr><td><strong>16:30 - 17:00</strong></td><td>30分</td><td><strong>結業與下一步：商業分流</strong></td><td>說明如何將創意分流至 ERP、FORCE 或獨立創業。</td></tr></tbody></table>
+<br>
+<p>---</p>
+<br>
+<h2>2. 核心分組活動指南 (Group Activities)</h2>
+<br>
+<h3>活動一：日常痛點大掃描 (60分鐘)</h3>
+<ul style="margin-left: 24px; margin-bottom: 16px; color: var(--text-muted);">
+<li style="margin-bottom: 8px;">  <strong>活動目標</strong>：引導學員從日常生活與工作習慣中，挖掘並記錄真實的痛點。</li>
+<li style="margin-bottom: 8px;">  <strong>分組任務</strong>：</li>
+</ul>
+<p>    1.  學員翻開 <a href="student_worksheets.html" style="color: var(--accent); font-weight: bold; text-decoration: underline;">student_worksheets.md</a> 的 <strong>【工作紙 1：痛點掃描表】</strong>。</p>
+<p>    2.  每位學員獨自思考並填寫自己在「時間、重複、煩躁、遺忘、出錯、抗拒」這 6 個維度遇到的具體事件（15 分鐘）。</p>
+<p>    3.  小組輪流分享自己的痛點，其他組員幫忙評估「痛苦指數」與「發生頻率」。</p>
+<p>    4.  小組討論後，共同挑選出 <strong>1 個最值得被解決的黃金痛點</strong>，準備在後續單元中進行解剖與產品設計（30 分鐘）。</p>
+<ul style="margin-left: 24px; margin-bottom: 16px; color: var(--text-muted);">
+<li style="margin-bottom: 8px;">  <strong>引導技巧</strong>：若學員卡住，講師可舉例：「你上一次因為忘記做某件事而被主管責備，是什麼時候？那時發生了什麼？」</li>
+</ul>
+<br>
+<h3>活動二：MVP 規格定義實作 (75分鐘)</h3>
+<ul style="margin-left: 24px; margin-bottom: 16px; color: var(--text-muted);">
+<li style="margin-bottom: 8px;">  <strong>活動目標</strong>：將選定的黃金痛點，利用「發想演算法」轉化為結構化的 AI APP，並定義其 MVP 規格。</li>
+<li style="margin-bottom: 8px;">  <strong>分組任務</strong>：</li>
+</ul>
+<p>    1.  小組使用 <strong>【工作紙 2：AI APP 發想演算法推導表】</strong>，將上一單元選定的痛點，一步步推導出：<code style="font-family: 'Fira Code', monospace; background: rgba(0,0,0,0.3); padding: 0.2rem 0.4rem; border-radius: 4px; color: var(--accent); font-size: 0.9em;">問題 → 流程 → 資料 → AI → APP</code>（25 分鐘）。</p>
+<p>    2.  接著填寫 <strong>【工作紙 3：AI APP 規格定義書】</strong>，明確定義：使用者、痛點、核心功能、輸入、輸出、成功指標，以及如何利用無程式碼工具（如 Dify + LINE Bot）搭建 MVP 的具體方案（30 分鐘）。</p>
+<p>    3.  準備一張 A1 海報紙或簡報投影片，將規格書以視覺化方式呈現，準備在下一單元進行 Pitch（20 分鐘）。</p>
+<ul style="margin-left: 24px; margin-bottom: 16px; color: var(--text-muted);">
+<li style="margin-bottom: 8px;">  <strong>引導技巧</strong>：提醒學員「不要貪心」，核心功能只能寫一個。如果什麼功能都想放，就不是 MVP 了。</li>
+</ul>
+<br>
+<h3>活動三：APP 評審大會 (60分鐘)</h3>
+<ul style="margin-left: 24px; margin-bottom: 16px; color: var(--text-muted);">
+<li style="margin-bottom: 8px;">  <strong>活動目標</strong>：通過提案發表與互評，學習如何科學評估產品價值，並進行分流決策。</li>
+<li style="margin-bottom: 8px;">  <strong>分組任務</strong>：</li>
+</ul>
+<p>    1.  <strong>Pitch 發表</strong>：每組有 <strong>3 分鐘</strong>時間上台發表他們的 AI APP 構想，另外 <strong>2 分鐘</strong>接受評審（講師與其他組別）的提問。</p>
+<p>    2.  <strong>互評打分</strong>：其他小組成員作為評審，使用 <a href="scorecard.html" style="color: var(--accent); font-weight: bold; text-decoration: underline;">scorecard.md</a> 中的指標，為發表組在「痛點強度、市場需求、AI 適合度、技術可行性、商業價值」五大維度打分（每維度滿分 20 分，總分 100 分）。</p>
+<p>    3.  <strong>決策分流</strong>：講師收集所有評分，將各組項目填入「決策優先級矩陣」，並現場給予「ERP 整合 / FORCE 平台 / 獨立創業」的分流建議。</p>
+<br>
+<p>---</p>
+<br>
+<h2>3. 講師逐字講稿與引導設計 (Lecturer Script)</h2>
+<br>
+<p>---</p>
+<br>
+<h3>Part 1：AI APP 到底是什麼？ (09:00 - 09:30)</h3>
+<br>
+<p><strong>【 slide 0：專案背景與商業轉型動機 】</strong></p>
+<br>
+<p><strong>講師發言</strong>：</p>
+<p>「各位學員早上好！在我們正式探討 AI 技術與產品思維之前，我先帶大家看一個<strong>極具商業價值的真實數位轉型案例</strong>。</p>
+<br>
+<p>如果大家是一家中小企業的老闆，或者是專職輔導數位轉型的顧問。當你想幫企業尋找最適合的政府 AI 補助工具時，你現在會面臨一個極其痛苦的『資訊鴻溝』。</p>
+<br>
+<p>目前，政府核定補助的 AI 軟體工具，散落在兩個完全獨立的官方網站：</p>
+<p>第一個是 <strong><a href="https://eii.nat.gov.tw/moeai-plus/ai-tools" target="_blank" rel="noopener noreferrer" style="color: var(--accent); font-weight: bold; text-decoration: underline;">經濟部產發署 AI 工具專區</a></strong>，它是由產業發展署主管，專注於中大型製程、生產管理與重工業的 AI 技術。</p>
+<p>第二個是 <strong><a href="https://www.smebiz.org.tw/service-ai.php" target="_blank" rel="noopener noreferrer" style="color: var(--accent); font-weight: bold; text-decoration: underline;">中小企業數位轉型入口網（SMEBiz）</a></strong>，是由中小及新創企業署主管，收錄了大量的商務行銷、POS 點餐、智慧客服等輕量化方案。</p>
+<br>
+<p>這會造成什麼痛點？</p>
+<p>首先，是<strong>資訊極度碎片化</strong>。顧問或老闆必須在兩個網站間來回跳轉，手動記錄，因為這兩個網站的分類完全不同、價格寫法更是五花八門。</p>
+<p>其次，是<strong>傳統搜尋的壁壘</strong>。這些官方入口網站僅支援簡單的『關鍵字字串精確比對』。如果一個手搖店老闆在搜尋框輸入：『我想開茶飲店，預算 5 萬元左右，想要找自動回 LINE 的客服和結帳工具』，網站會直接吐出『查無資料』。</p>
+<br>
+<p><strong>這就是我們本專案的整合動機！</strong></p>
+<p>我們透過先進的資料工程，將這兩大官方門戶的 224 筆方案進行深度採集、統一清洗並正規化對齊（CCF 乾淨底層 + AAA 加值結構），成功消除了政策壁壘！</p>
+<br>
+<p><strong>這能帶來多大的商業價值？</strong></p>
+<p>想像一下：數位轉型顧問以前需要花費數天甚至數週，去政府網站手動核對方案、確認補助資格，最後撰寫成 PPT 建議書送給客戶。</p>
+<p>現在，透過我們整合了 RAG 知識庫的『AI 智慧診斷顧問平台』，顧問只需在客戶面前，將訪談得到的客戶痛點直接輸入進對話框。</p>
+<p>系統會自動在毫秒內過濾兩大資料源，以 TF-IDF/語意檢索精選最契合的方案，並由大語言模型（LLM）<strong>在 10 秒內自動生成一份結構嚴緊、包含價格、政府官方補助申請連結（<code style="font-family: 'Fira Code', monospace; background: rgba(0,0,0,0.3); padding: 0.2rem 0.4rem; border-radius: 4px; color: var(--accent); font-size: 0.9em;">source_url</code>）且排版精美的「數位轉型工具導入建議書」</strong>！</p>
+<br>
+<p>我們將原本長達數週的顧問提案週期，<strong>直接壓縮到秒級</strong>！大幅降低了中小企業獲取補助的門檻，這就是數據管線（Data Pipeline）與生成式 AI 結合所創造的十倍效率商業價值！</p>
+<br>
+<p>而今天，我們就是要帶領大家，動手實現這樣一個完整的商業落地閉環！」</p>
+<br>
+<p><strong>【 slide 1：AI APP Studio 歡迎頁面 】</strong></p>
+<br>
+<p><strong>講師發言</strong>：</p>
+<p>「各位學員早上好！歡迎來到 <strong>AI APP Studio</strong>。在接下來的 6 個小時裡，我們不是要來學怎麼寫程式，也不是要教你背誦複雜的機器學習演算法。我們今天只有一個目標：<strong>訓練你長出一雙『產品經理的眼睛』，去發現日常生活與工作中，到底有哪些問題值得被 AI 解決。</strong></p>
+<br>
+<p>很多人會問我：『老師，現在到處都在講 AI，但到底什麼是 AI APP？它跟我們以前用的軟體有什麼不一樣？什麼又是 Workflow？什麼又是 Agent？聽得我頭都暈了。』</p>
+<br>
+<p>沒關係，我們今天用最白話的『日常生活案例』來拆解這三者的差異。</p>
+<br>
+<p><strong>【 slide 2：AI 三劍客：APP、Workflow、Agent 】</strong></p>
+<br>
+<p>我們先來想像一個場景：<strong>記帳與理財</strong>。</p>
+<br>
+<p>第一種情況，以前你用手動記帳 App，每天晚上要把收據拿出來，一筆一筆輸入：『早餐 50 元、午餐 120 元』。現在，有了 <strong>AI APP（單點式應用）</strong>。你只需要拿起手機，對著發票拍一張照片，AI 自動幫你把『品項、金額、時間』辨識出來，手動輸入變成一鍵確認。這就是 <strong>AI APP</strong>，它像是一個<strong>『認知放大器』</strong>，幫你把『單一個繁瑣的動作』用 AI 代替。你給它一個輸入，它立刻給你一個輸出。</p>
+<br>
+<p>第二種情況，你覺得每天拍照還是很麻煩，你希望流程更自動化。於是你設計了一個 <strong>AI Workflow（工作流）</strong>。這個流程是這樣的：每當你的電子信箱收到信用卡的『電子帳單 PDF』時，系統會自動觸發：第一步，AI 自動讀取 PDF 提取消費明細；第二步，AI 將明細進行分類（如餐飲、娛樂）；第三步，自動將數據寫入你的 Google 試算表；第四步，透過 LINE 自動發送一份『本週消費摘要』給你。整個過程，你完全不需要手動拍照或複製貼上，信件一進來，流水線自動運作。這就是 <strong>AI Workflow</strong>，它是<strong>『流程自動化發動機』</strong>。</p>
+<br>
+<p>第三種情況，你希望有一個真正的『理財秘書』。這時你需要的是 <strong>AI Agent（自主代理人）</strong>。你對它說：『嘿，幫我規劃下個月的省錢計畫，我下個月想買一台新電腦，預算 3 萬元。』</p>
+<p>這個 Agent 收到目標後，它不會只做一件事。它會自己去翻閱你過去半年的消費歷史（記憶能力）；它會上網查詢那台電腦目前在各大電商的最低價格與折價券（工具使用與行動）；它會預測你下個月的固定水電費支出（預測推理）；接著，它會自主做出一套規劃：『建議你本月減少外食次數，我已自動幫你把原本每週五的豪華外送取消，改為推薦三家健康餐盒，這樣下個月 15 號你就能順利存夠錢買電腦。』這就是 <strong>AI Agent</strong>，它是一個<strong>『虛擬員工』</strong>，你給它一個目標，它自己拆解步驟、自己找工具、自己完成。</p>
+<br>
+<p>大家聽懂這三者的差別了嗎？我們再來複習一次：</p>
+<ul style="margin-left: 24px; margin-bottom: 16px; color: var(--text-muted);">
+<li style="margin-bottom: 8px;">  <strong>AI APP</strong> 是幫你做『單一個動作』。</li>
+<li style="margin-bottom: 8px;">  <strong>AI Workflow</strong> 是幫你跑『一整條預設的流水線』。</li>
+<li style="margin-bottom: 8px;">  <strong>AI Agent</strong> 是你給它『一個大目標』，它自己想辦法幫你搞定。</li>
+</ul>
+<br>
+<p>在今天的課程中，我們會引導大家，一步步從最簡單的單點 APP 開始發想，慢慢串聯成工作流，甚至規劃出一個能幫你解決大問題的 Agent。</p>
+<br>
+<p>現在，我們準備進入下一個單元，動手找出你的日常痛點！」</p>
+<br>
+<p>---</p>
+<br>
+<h3>Part 2：發現問題工作坊 (09:30 - 10:30)</h3>
+<br>
+<p><strong>【 slide 3：尋找你的黃金釘子 】</strong></p>
+<br>
+<p><strong>講師發言</strong>：</p>
+<p>「好，既然我們要設計 AI 產品，第一步不是去想 AI 有多厲害，而是要去找<strong>『釘子』</strong>，也就是<strong>『痛點』</strong>。</p>
+<br>
+<p>很多工程師寫出來的 AI 軟體沒人要用，就是因為他們『手裡拿著 AI 這個大錘子，在路上盲目找釘子』，最後敲到的都是自己想像出來的『偽需求』。</p>
+<br>
+<p>我們要怎麼找到真痛點？我為大家整理了 <strong>6 大日常掃描維度</strong>。請大家看著你們桌上的 <strong>【工作紙 1：痛點掃描表】</strong>。</p>
+<br>
+<p>這 6 個維度分別是：</p>
+<p>1.  <strong>最花時間的事情</strong>：每天奪走你最多時間的低價值瑣事。</p>
+<p>2.  <strong>最常重複的事情</strong>：讓你覺得自己像個『複製貼上機器人』的工作。</p>
+<p>3.  <strong>最煩的事情</strong>：只要行事曆出現這件事，你就想嘆氣、極度消耗你精神能量的事。</p>
+<p>4.  <strong>最容易忘記的事情</strong>：因為頻率低或細節雜，不靠提醒一定會忘記，且忘記會有嚴重後果的事。</p>
+<p>5.  <strong>最容易出錯的事情</strong>：細節太多，你每次交付前都得深呼吸、檢查三遍以上的事。</p>
+<p>6.  <strong>最不想做的事情</strong>：明知重要，但因為痛苦指數高，你已經拖延了三週以上的事。</p>
+<br>
+<p>現在，我要給各位 <strong>15 分鐘的安靜思考時間</strong>。請大家在工作紙上，針對這 6 個維度，每個人至少寫出 2 個你在工作或生活中真實遇到的案例。寫得越具體越好！例如，不要只寫『整理報告很煩』，要寫『每週五下午要花 2 小時，手動把 10 位同仁散落在 LINE 群組裡的進度文字複製貼上，整理成一份 Excel 週報，這讓我非常煩躁』。</p>
+<br>
+<p>時間開始，請大家動筆！」</p>
+<br>
+<p>*(學員開始填寫工作紙，講師在各組間巡視，給予個別指導。15分鐘後...)*</p>
+<br>
+<p><strong>講師發言</strong>：</p>
+<p>「好的，時間到。我看大家都寫得密密麻麻，非常好！</p>
+<br>
+<p>接下來，我們要進行小組分享。每組的每位組員輪流分享你寫下的痛點，其他組員請幫忙做兩件事：第一，確認這個痛點是真實的，還是他個人特有的；第二，評估這個痛點的<strong>『痛苦指數（1-5分）』</strong>與<strong>『發生頻率（每日/每週/每月）』</strong>。</p>
+<br>
+<p>分享完後，請每組進行激烈的討論，從中挑選出 <strong>1 個痛苦指數最高、發生頻率最頻繁的『黃金痛點』</strong>。這個痛點將成為你們這組今天後續所有實作的專案主軸。</p>
+<br>
+<p>我們有 30 分鐘的時間，請各組組長開始引導討論！」</p>
+<br>
+<p>---</p>
+<br>
+<h3>Part 3：APP 解剖術 (10:45 - 11:30)</h3>
+<br>
+<p><strong>【 slide 4：看穿產品的骨架 】</strong></p>
+<br>
+<p><strong>講師發言</strong>：</p>
+<p>「歡迎回來！各組都已經選好了你們的黃金痛點，我剛剛看了一下，有組選了『出差報銷流程極度繁瑣』，有組選了『中小學生課後寫作業遇到困難家長無法解答』，這些都是非常棒的真實釘子！</p>
+<br>
+<p>但在我們動手用 AI 解決這些問題之前，我們必須先做一件事情：<strong>培養看穿產品結構的能力</strong>。這就像優秀的廚師，吃了一口菜，就能立刻在腦中還原這道菜用了哪些食材、經過了哪些工序。這就是 <strong>『APP 解剖術』</strong>。</p>
+<br>
+<p>不論有沒有 AI，任何成功的產品，底層都符合一個經典的<strong>『資訊輸入輸出模型』</strong>：</p>
+<br>
+<p>$$\text{Problem (問題)} \rightarrow \text{Input (輸入)} \rightarrow \text{Process (處理)} \rightarrow \text{Output (輸出)} \rightarrow \text{Value (價值)}$$</p>
+<br>
+<p>我們今天不談程式碼，我們用這個框架來解剖我們天天在用的 App。</p>
+<br>
+<p><strong>【 slide 5：解剖 Uber 】</strong></p>
+<br>
+<p>我們先來解剖 <strong>Uber</strong>。</p>
+<ul style="margin-left: 24px; margin-bottom: 16px; color: var(--text-muted);">
+<li style="margin-bottom: 8px;">  <strong>Problem（問題）</strong>：以前我們在路邊攔計程車，最痛苦的是資訊不對稱。你不知道車子什麼時候來、不知道司機好不好、也不知道今天坐這趟要花多少錢。司機也很痛苦，只能在街上空車亂晃找客人，效率極低。</li>
+<li style="margin-bottom: 8px;">  <strong>Input（輸入）</strong>：你打開 Uber，輸入了什麼？你的 GPS 位置、你想去的目的地、以及你選擇的車輛類型（如尊榮優步或樂聚優步）。</li>
+<li style="margin-bottom: 8px;">  <strong>Process（處理）</strong>：Uber 的系統在後台做了什麼？它呼叫了地圖 API 計算最佳路徑，利用動態定價演算法計算車資，並用匹配演算法尋找距離你最近的空車司機。</li>
+<li style="margin-bottom: 8px;">  <strong>Output（輸出）</strong>：呈現給你的結果是什麼？地圖上緩緩移動的司機小車、預估到達時間（ETA）、一口價的車資金額，以及司機的姓名與評分。</li>
+<li style="margin-bottom: 8px;">  <strong>Value（價值）</strong>：對乘客來說，獲得了透明、安全、可預測的出行體驗；對司機來說，降低了空車率，提升了收入。</li>
+</ul>
+<br>
+<p>大家看到了嗎？這就是 Uber 的骨架。</p>
+<br>
+<p>現在，我想請大家動動腦，我們桌上的工作紙有 <strong>9 款 mainstream APP</strong>，包含 Gmail、LINE、Notion、Netflix 等等。請各小組花 15 分鐘，任選其中的 2 款 App，試著用這個五步框架把它的骨架拆解出來，並寫在你們的 <strong>【工作紙 4：APP 解剖練習表】</strong> 上。</p>
+<br>
+<p>開始行動！」</p>
+<br>
+<p>---</p>
+<br>
+<h3>Part 4：AI APP 發想術 (11:30 - 12:15)</h3>
+<br>
+<p><strong>【 slide 6：AI APP 發想演算法 】</strong></p>
+<br>
+<p><strong>講師發言</strong>：</p>
+<p>「大家剛剛拆解得非常好！當你們能看透現有產品的骨架時，你們就已經超越了 90% 的普通用戶，具備了產品經理的思維。</p>
+<br>
+<p>現在，重點來了：<strong>我們該如何把剛剛各組選出的『黃金痛點』，轉化為一個全新的 AI APP 構想？</strong></p>
+<br>
+<p>我們為大家總結了一套<strong>『AI APP 發想演算法』</strong>。它是一套標準的推導公式：</p>
+<br>
+<p>$$\text{問題 (Problem)} \rightarrow \text{流程 (Workflow)} \rightarrow \text{資料 (Data)} \rightarrow \text{AI (Cognition)} \rightarrow \text{APP (Value)}$$</p>
+<br>
+<p>這五個步驟是這樣運作的：</p>
+<p>1.  <strong>問題</strong>：明確定義誰在什麼情境下遇到了什麼痛點。</p>
+<p>2.  <strong>流程</strong>：如果完全用<strong>手動</strong>解決這個問題，人類的傳統步驟是什麼？請一步步寫下來。</p>
+<p>3.  <strong>資料</strong>：在這些步驟中，輸入與產出的資料是什麼？（是手寫紙張、LINE 訊息、還是 Excel 表格？）</p>
+<p>4.  <strong>AI</strong>：在這條流程中，哪一個步驟需要用到 AI 的『理解、生成、推理、預測』能力，來取代或加速人類的脑力？這就是我們的 <strong>AI 切入點</strong>！</p>
+<p>5.  <strong>APP</strong>：最終呈現給使用者的介面長怎樣？它如何為使用者創造十倍的效率？</p>
+<br>
+<p><strong>【 slide 7：發想演算法案例推導 】</strong></p>
+<br>
+<p>我們來看一個實際的推導案例：<strong>小商家的社群小編</strong>。</p>
+<ul style="margin-left: 24px; margin-bottom: 16px; color: var(--text-muted);">
+<li style="margin-bottom: 8px;">  <strong>1. 問題</strong>：小蛋糕店的老闆，每天做蛋糕已經很累了，但為了行銷，每天還得花 2 小時拍照、寫 IG 貼文、想 Hashtag，感到非常痛苦。</li>
+<li style="margin-bottom: 8px;">  <strong>2. 流程</strong>：手動流程是：拍照 → 思考貼文主題 → 撰寫文案與 Hashtag → 手動發布到 IG。</li>
+<li style="margin-bottom: 8px;">  <strong>3. 資料</strong>：輸入是手機拍的無修圖蛋糕照片、蛋糕口味資訊；輸出是精美的社群貼文與 Hashtag。</li>
+<li style="margin-bottom: 8px;">  <strong>4. AI（核心切入點）</strong>：我們在『撰寫文案』這一步引入 AI。AI 讀取蛋糕照片（多模態視覺），並結合口味，自動分析當前 IG 流行風格，生成 3 種不同語氣的文案與 Hashtag。</li>
+<li style="margin-bottom: 8px;">  <strong>5. APP</strong>：產品叫 <strong>『小商小編 (PocketEditor AI)』</strong>。老闆介面極簡：拍一張照片，輸入『抹茶紅豆，今天打八折』，App 一鍵自動修圖、生成文案，並直接排程發布。</li>
+</ul>
+<br>
+<p>大家看看，這樣一推導，一個具體的 AI 產品是不是就誕生了？</p>
+<br>
+<p>現在，我們要進入午餐前的最後一個小實作。請各小組使用 <strong>【工作紙 2：AI APP 發想演算法推導表】</strong>，將你們小組在 Part 2 選定的『黃金痛點』，代入這套演算法，一步步推導出你們的 AI APP 雛形。</p>
+<br>
+<p>下午一回來，我們就要根據這個雛形，開始規劃具體的 MVP 規格！」</p>
+<br>
+<p>---</p>
+<br>
+<h3>Part 7：MVP & PoC Workshop (14:00 - 15:15)</h3>
+<br>
+<p>*(下午單元開始，講師先進行 Part 6 的 20 個 AI-Native 案例剖析，激發靈感後，進入 Part 7 實作)*</p>
+<br>
+<p><strong>【 slide 8：用最小成本驗證偉大創意 】</strong></p>
+<br>
+<p><strong>講師發言</strong>：</p>
+<p>「大家下午好！剛剛我們看完了 20 個『非 AI 不可』的 AI-Native 案例，是不是覺得靈感爆棚？</p>
+<br>
+<p>現在，我們要動真格的了。我們要為你們小組的 AI APP 構想，撰寫一份正式的 <strong>【AI APP 規格定義書】</strong>，並規劃你們的 <strong>MVP（最小可行性產品）</strong> 與 <strong>PoC（概念驗證）</strong> 計劃。</p>
+<br>
+<p>在規劃 AI MVP 時，請大家牢記一個核心原則：<strong>「不要貪心，只驗證最核心的 AI 認知價值。」</strong></p>
+<br>
+<p>很多團隊在做 MVP 時，花費三個月去開發用戶註冊系統、第三方支付、美緻的後台管理面板。結果做完後發現，底層的 AI 根本無法精準回答用戶的問題，整個專案宣告失敗。這就是本末倒置。</p>
+<br>
+<p><strong>【 slide 9：AI MVP 的極簡包裝 】</strong></p>
+<br>
+<p>在 MVP 階段，我們要把所有『非 AI 核心』的功能全部剝離。</p>
+<p>如果你的核心價值是『自動把英文合約翻譯並抓出風險條款』，你的 MVP 甚至不需要網頁介面。你可以：</p>
+<ul style="margin-left: 24px; margin-bottom: 16px; color: var(--text-muted);">
+<li style="margin-bottom: 8px;">  做一個簡單的 <strong>LINE 官方帳號</strong>，讓用戶把合約 PDF 傳進來，後台串接 Dify 知識庫，直接在 LINE 裡回覆他風險報告。</li>
+<li style="margin-bottom: 8px;">  或者做一個 <strong>Notion 頁面</strong>，讓用戶填寫表單，後台用 Make 自動執行，把結果寄到他的 Email。</li>
+</ul>
+<br>
+<p>這就是無程式碼/低程式碼的 AI MVP 規劃法。</p>
+<br>
+<p>現在，請各小組翻開 <strong>【工作紙 3：AI APP 規格定義書】</strong>。請大家在接下來的 <strong>45 分鐘內</strong>，共同討論並填寫以下 9 個項目：</p>
+<p>1.  <strong>產品名稱</strong></p>
+<p>2.  <strong>目標使用者</strong></p>
+<p>3.  <strong>使用者痛點</strong></p>
+<p>4.  <strong>核心功能</strong>（只能寫一個最核心的功能！）</p>
+<p>5.  <strong>產品輸入</strong>與<strong>產品輸出</strong></p>
+<p>6.  <strong>成功指標</strong>（例如：替用戶省下 80% 時間）</p>
+<p>7.  <strong>MVP 實作方案</strong>（預計用哪些無程式碼工具如 Dify + LINE Bot 搭建？）</p>
+<p>8.  <strong>未來版本規劃</strong>（如果 MVP 成功，V1.0 會加什麼？）</p>
+<br>
+<p>討論完成後，請將這些內容整理在你們小組的海報紙或簡報投影片上。因為在下一個單元，我們將舉辦一場激烈的 <strong>『AI APP 評審大會』</strong>，每組都要上台進行 3 分鐘的 Pitch，接受全場的考驗！</p>
+<br>
+<p>各組開始規劃！」</p>
+<br>
+<p>---</p>
+<br>
+<h3>Part 8：APP 評審大會 (15:30 - 16:30)</h3>
+<br>
+<p><strong>【 slide 10：AI APP Studio 評審大會 】</strong></p>
+<br>
+<p><strong>講師發言</strong>：</p>
+<p>「各位觀眾，緊張的時刻到了！歡迎來到 <strong>AI APP Studio 評審大會</strong>。</p>
+<br>
+<p>今天我們有五個小組上台提案。在每組發表時，其他組的學員你們不僅是聽眾，更是手握重權的<strong>『投資人與評審』</strong>。</p>
+<br>
+<p>請大家翻開 <a href="scorecard.html" style="color: var(--accent); font-weight: bold; text-decoration: underline;">scorecard.md</a> 或如果你們使用數位表單。我們將從以下 <strong>5 個維度</strong> 對每個提案進行 100 分制的嚴格評估，每個維度滿分 20 分：</p>
+<p>1.  <strong>痛點強度 (20分)</strong>：這到底是可有可無的『維他命』，還是非解決不可的『止痛藥』？</p>
+<p>2.  <strong>市場需求 (20分)</strong>：這只是單一公司的特例，還是跨行業、跨公司的普適性痛點？</p>
+<p>3.  <strong>AI 適合度 (20分)</strong>：這個問題為什麼非用 AI 不可？傳統程式能解決嗎？</p>
+<p>4.  <strong>技術可行性 (20分)</strong>：我們能在 3 天內做出 MVP 嗎？數據好不好取得？</p>
+<p>5.  <strong>商業價值 (20分)</strong>：解決這個問題能帶來多少金錢回報或時間節省？</p>
+<br>
+<p>每組發表時間為 <strong>3 分鐘</strong>，評審與觀眾提問 <strong>2 分鐘</strong>。時間控制非常嚴格，計時鈴聲響起請立即停止發言。</p>
+<br>
+<p>現在，我們掌聲歡迎第一組上台發表！」</p>
+<br>
+<p>*(各小組依序上台 Pitch，講師進行犀利但具建設性的點評，引導學員思考 AI-Native 的純度與 MVP 的範疇。學員在台下認真打分...)*</p>
+<br>
+<p>---</p>
+<br>
+<h3>結業與下一步：商業分流 (16:30 - 17:00)</h3>
+<br>
+<p><strong>【 slide 11：從創意到商業落地的分流軌道 】</strong></p>
+<br>
+<p><strong>講師發言</strong>：</p>
+<p>「太精彩了！今天五個小組的提案都非常令人驚豔。我們現場計算了所有評審的打分，並將大家的創意放進了我們的<strong>『決策優先級矩陣』</strong>中。</p>
+<br>
+<p>在課程的最後半小時，我想帶大家跳脫出課堂，看看<strong>『明天回到辦公室後，我們該怎麼做？』</strong></p>
+<br>
+<p>這也是我們這套 <strong>AI APP Studio 實作藍圖</strong> 最核心的落地哲學：<strong>「不要把思維鎖死在 ERP 系統裡。」</strong></p>
+<br>
+<p>今天大家發想出的這些偉大點子，如果我們一開始就說：『這都要塞進既有的 ERP 系統開發』，那 90% 的點子今天下午就會死掉。因為 ERP 開發週期長、容錯率低、數據要求極度精確。</p>
+<br>
+<p>我們應該將這些創意，依據我們的<strong>『商業分流決策模型』</strong>，分流到以下三個軌道：</p>
+<br>
+<p><strong>【 slide 12：三軌落地模型 】</strong></p>
+<br>
+<ul style="margin-left: 24px; margin-bottom: 16px; color: var(--text-muted);">
+<li style="margin-bottom: 8px;">  <strong>第一軌：ERP 整合軌</strong>。如果你的創意（例如發票審計、庫存呆滯料預警）需要實時讀寫公司的核心財務帳目、核心庫存，且容錯率極低。沒錯，它應該規規矩矩地作為功能模組，嵌入或串接既有的 ERP 系統。</li>
+<li style="margin-bottom: 8px;">  <strong>第二軌：FORCE 平台軌</strong>。如果你的創意（例如跨部門合約審查、會議記錄追蹤、競品價格監控）流程變動極快，且主要處理的是 Email、合約草稿等『非結構化資料』，請直接利用企業內部的 low-code 工作流平台（如 Dify 企業版）快速搭建。這能讓你們的運營保持極大的靈活性，下週流程變了，小編下午自己改拉線就能上線，完全不需要排隊等 IT 部門開發半年。</li>
+<li style="margin-bottom: 8px;">  <strong>第三軌：獨立創業軌</strong>。如果你們發現這組設計的產品（例如夢境繪本師、聲入人心），不僅解決了我們公司的痛點，更是全台灣、甚至全球幾十萬家企業或個人面臨的共同痛點，且大家有極高的付費訂閱意願。恭喜你！這個項目不應該被埋沒在公司內部，它具備獨立拿去市場融資、成立全新 SaaS 新創公司的巨大潛力！</li>
+</ul>
+<br>
+<p><strong>【 slide 13：恭喜結業，帶著你的 Backlog 改變世界！ 】</strong></p>
+<br>
+<p>今天，大家離開這間教室時，每個人手裡不僅僅是學到了一些 AI 的名詞，而是帶著一份屬於你們自己的 <strong>AI APP Backlog 創意清單</strong>，以及一份清晰的 <strong>MVP 落地路線圖</strong>。</p>
+<br>
+<p>回去之後，第一步：花 3 天時間，用 Dify + LINE Bot 把你們這組的 MVP 做出來；第二步：找 10 個真實用戶進行 PoC 測試；第三步：根據回饋決定是要併入 ERP、納入 FORCE 平台，還是準備去外面創業！</p>
+<br>
+<p>感謝大家今天的參與，我們 AI APP Studio，頂峰相見！謝謝大家！」</p>
+<br>
+<br>
+<p>---</p>
+<br>
+<h2>4. 進階教學單元：數位轉型 AI 互動中心與多模型實戰 (引導指引)</h2>
+<br>
+<ul style="margin-left: 24px; margin-bottom: 16px; color: var(--text-muted);">
+<li style="margin-bottom: 8px;">  <strong>引導目標</strong>：本單元專為 V2.00 系統設計，引導學員從「底層架構」與「人機互動 (HCI)」的角度，探討 RAG 系統控制、提示詞工程折衷，以及乾淨代碼架構的實戰心法。</li>
+</ul>
+<br>
+<h3>引導活動：雙對話模式與 Token 使用決策 (30分鐘)</h3>
+<ul style="margin-left: 24px; margin-bottom: 16px; color: var(--text-muted);">
+<li style="margin-bottom: 8px;">  <strong>引導問題</strong>：</li>
+</ul>
+<p>    1.  <strong>「為什麼要限制推薦方案的數量？」</strong></p>
+<ul style="margin-left: 24px; margin-bottom: 16px; color: var(--text-muted);">
+<li style="margin-bottom: 8px;">  *講師引導*：帶領學員思考，當 AI 幫忙做決策時，人類的大腦在資訊過載下的選擇困難。推薦 3~5 套是認知心理學上的黃金數字；若超過 10 套，則失去「精選顧問」的價值。</li>
+</ul>
+<p>    2.  <strong>「如何讓使用者掌握 Token 主導權？」</strong></p>
+<ul style="margin-left: 24px; margin-bottom: 16px; color: var(--text-muted);">
+<li style="margin-bottom: 8px;">  *講師引導*：分析「推薦回答（精選診斷）」與「不設限回答（自訂指令）」的底層差異。前者是「封閉型專家（嚴格 Prompt 模板，保證報告品質）」，後者是「開放型助手（無限 RAG，使用者決定怎麼用 Token，可進行對比、時程表編排、甚至寫詩）」。這能讓學員理解，好產品不應該替使用者做死所有決定，而應提供清晰的「模式選擇（Dual-Mode Buttons）」。</li>
+<li style="margin-bottom: 8px;">  <strong>引導技巧</strong>：講師可現場開啟 V2.00 儀表板，展示這兩個按鈕，並輸入同一個痛點（例如「排隊漏單」），點擊兩個按鈕分別展示結構化報告與自由對話的結果對比，讓學員直觀感受 UX 設計的威力。</li>
+</ul>
+<br>
+<h3>講師逐字稿：多模型選擇與前後端架構之美</h3>
+<p><strong>【 slide 14：AI 產品的成本/速度折衷與架構防線 】</strong></p>
+<br>
+<p><strong>講師發言</strong>：</p>
+<p>「各位學員，在我們完成了 MVP 之後，我們在 V2.00 系統中實作了兩個非常高階且優雅的產品設計：<strong>動態模型選擇器</strong> 與 <strong>前後端解析器分離</strong>。這兩個概念是所有頂尖 AI 軟體工程師必須掌握的『架構防線』。</p>
+<br>
+<p>首先是 <strong>模型選擇（Model Selector）</strong>。大家在介面上可以看到我們提供了 Gemini 2.5 Flash、3.1 Flash-Lite、3.1 Flash 以及 3.5 Flash 的選擇。</p>
+<p>為什麼要這樣設計？因為在真實的商業場景中，<strong>AI 的使用是有成本的，且速度各不相同。</strong></p>
+<ul style="margin-left: 24px; margin-bottom: 16px; color: var(--text-muted);">
+<li style="margin-bottom: 8px;">  當使用者只需要簡單查詢或進行快速的『不設限回答』時，我們預設使用最輕量、速度極快且成本極低的 <strong>3.1 Flash-Lite</strong>。</li>
+<li style="margin-bottom: 8px;">  但當使用者需要生成一份深度的、供董事會決策的『精選轉型建議書』，或是包含複雜表格的大型比對時，使用者可以手動切換到更強大的 <strong>3.1 Flash</strong> 或 <strong>3.5 Flash</strong>。</li>
+</ul>
+<p>這就是產品經理的『成本與體驗控制思維』——把選擇權交給使用者，且系統<strong>『不儲存使用者最後選擇』</strong>（每次重新載入都回到預設 Lite），以防止使用者因為忘記切換而造成不必要的 API 額度消耗。</p>
+<br>
+<p>其次，是軟體工程中極具美感的 <strong>『解析器分離（Separating Parsers）』</strong> 設計。</p>
+<p>大家有沒有注意到，我們的網頁介面是一個充滿科技感、深色背景的暗黑主題（Dark Theme）。為了在網頁上看得清楚，我們內建的 Markdown 解析器 <code style="font-family: 'Fira Code', monospace; background: rgba(0,0,0,0.3); padding: 0.2rem 0.4rem; border-radius: 4px; color: var(--accent); font-size: 0.9em;">parseMarkdown</code> 會把 AI 的輸出加上很多 <code style="font-family: 'Fira Code', monospace; background: rgba(0,0,0,0.3); padding: 0.2rem 0.4rem; border-radius: 4px; color: var(--accent); font-size: 0.9em;">color: white</code> 的 inline 樣式。</p>
+<p>但是，當使用者點擊『匯出 HTML 診斷報告』時，這份報告是會被列印出來呈報給老闆的，老闆一定是在白色背景下閱讀。如果我們直接把網頁渲染出來的 HTML 匯出，會發生什麼慘劇？<strong>白色的文字在白色的紙張上，全部隱形了！</strong></p>
+<br>
+<p>這就是典型的 <strong>『CSS 主題污染（Theme Bleed）』</strong>。</p>
+<p>為了解決這個問題，我們實作了兩套獨立的解析器：</p>
+<p>1.  網頁渲染用 <code style="font-family: 'Fira Code', monospace; background: rgba(0,0,0,0.3); padding: 0.2rem 0.4rem; border-radius: 4px; color: var(--accent); font-size: 0.9em;">parseMarkdown</code>：負責輸出帶有暗色主題 inline style 的 HTML，用於本網頁的即時呈現。</p>
+2.  檔案匯出用 <code style="font-family: 'Fira Code', monospace; background: rgba(0,0,0,0.3); padding: 0.2rem 0.4rem; border-radius: 4px; color: var(--accent); font-size: 0.9em;">parseMarkdownToCleanHtml</code>：<strong>只輸出純淨的語意 HTML 標籤（如 <code style="font-family: 'Fira Code', monospace; background: rgba(0,0,0,0.3); padding: 0.2rem 0.4rem; border-radius: 4px; color: var(--accent); font-size: 0.9em;">&lt;h2&gt;</code>, <code style="font-family: 'Fira Code', monospace; background: rgba(0,0,0,0.3); padding: 0.2rem 0.4rem; border-radius: 4px; color: var(--accent); font-size: 0.9em;">&lt;table&gt;</code>）</strong>，不帶任何 inline 顏色。而在導出的 HTML 檔案頂部，我們嵌入了一套精美、專為亮色紙張設計的 <strong>Notion 風格 CSS 樣式表</strong>。
+
+這樣一來，前後端職責劃分得乾乾淨淨。網頁上是科技感十足的暗黑主題儀表板，導出來的是乾淨無暇、極具商務質感的 Notion 白色報告。
+這就是細節！這就是一個 premium 產品和玩具產品的本質差異！」
+
+<h3>講師逐字稿增補：自由 Token 下的 AI 幻覺防線與真實性檢核 (Grounding Audit)</h3>
+<strong>【 slide 15：自由的 Token 與嚴謹的真實性檢核防線 】</strong>
+
+<strong>講師發言</strong>：
+「各位學員，當我們賦予使用者完全自由的 Token 主導權、讓他們在『不設限回答（自訂指令）』模式中隨心所欲地向 AI 提問時，我們也開啟了一扇高風險的門——那就是 <strong>AI 的幻覺（Hallucination）</strong>。
+
+因為在不設限模式中，我們移除了所有引導模板與角色限制，AI 成了完全自由的靈魂。這時，如果 AI 從我們的補助數據庫中讀取資料，它很有可能編造出不存在的補助方案、混淆了廠商與價格，甚至犯下經典的『數量級與幣別錯誤』。
+
+例如，在我們進行這次數據清洗與金額正規化升級之前，舊資料庫中存在著嚴重的數據硬傷：
+1.  <strong>金額數量級誤判</strong>：很多原始資料的價格是『價格:20萬元』，而舊版的爬蟲解析器把金額欄位直接取成了『20』。結果在不設限模式下，AI 就會直接告訴業主：『這款高階製造業 AI 工具只需要 20 元台幣！』這在商務上會造成極為嚴重的誤導。
+2.  <strong>髒值混淆聯絡資料</strong>：很多 email 欄位中混雜了電話和中文標籤（如 <code style="font-family: 'Fira Code', monospace; background: rgba(0,0,0,0.3); padding: 0.2rem 0.4rem; border-radius: 4px; color: var(--accent); font-size: 0.9em;">聯絡電話02-8979-6868客服信箱gwsteam@...</code>），導致 AI 在整理聯絡清單時輸出垃圾字串。
+3.  <strong>期程遺漏</strong>：舊版資料缺失了許多工具的授權期程月數，導致 AI 無法準確規劃導入時程。
+
+因此，我們在本次系統升級中採取了 <strong>『ccf 乾淨底層 + aaa 加值結構 + 金額正規化修正』</strong> 的最佳實踐，成功將『20萬元』正規化為 <code style="font-family: 'Fira Code', monospace; background: rgba(0,0,0,0.3); padding: 0.2rem 0.4rem; border-radius: 4px; color: var(--accent); font-size: 0.9em;">200000</code> 元，將美元換算為台幣，並徹底洗淨了 35 筆垃圾 email。這確保了我們 RAG 背景知識庫的絕對真實度。
+
+這對我們的教學有什麼重大意義？
+這就是我們要在【工作紙 5】的第四部分中帶大家探討的 <strong>『真實性檢核（Grounding Audit）』</strong>。
+當大家在使用不設限 AI 助理時，我會要求大家進行 <strong>『三步對位檢核法』</strong>：
+<ul style="margin-left: 24px; margin-bottom: 16px; color: var(--text-muted);">
+<li style="margin-bottom: 8px;">  <strong>第一步：數據對位</strong>。比對 AI 生成推薦的 <code style="font-family: 'Fira Code', monospace; background: rgba(0,0,0,0.3); padding: 0.2rem 0.4rem; border-radius: 4px; color: var(--accent); font-size: 0.9em;">price_amount</code> 與後台 CSV 檔案中的真實數字，看看是否發生了數量級錯誤（如萬元誤判）或幣別混淆。</li>
+<li style="margin-bottom: 8px;">  <strong>第二步：聯絡管道檢核</strong>。驗證 AI 給予的 contact_email 是否乾淨無雜質，能否一鍵發送郵件。</li>
+<li style="margin-bottom: 8px;">  <strong>第三步：RAG 提示詞防線建立</strong>。引導學員學習在自訂的 Prompt 中，主動加入真實性檢核指令（例如要求 AI 必須在推薦的方案旁附帶標準的 <code style="font-family: 'Fira Code', monospace; background: rgba(0,0,0,0.3); padding: 0.2rem 0.4rem; border-radius: 4px; color: var(--accent); font-size: 0.9em;">source_url</code> 連結以便追溯官網）。</li>
+</ul>
+
+記住，<strong>自由的 Token 需要嚴謹的檢核防線</strong>。在教授學員如何運用大模型的強大能力的同時，培養他們對 AI 輸出進行 Grounding Audit 的批判思維，才是這堂 AI 應用實戰課最為核心、最具價值的精髓所在！」
+
+---
+
+<h2>5. 進階教學單元二：地端 SLM 連線偵錯與瀏覽器安全障礙 (引導指引)</h2>
+
+<ul style="margin-left: 24px; margin-bottom: 16px; color: var(--text-muted);">
+<li style="margin-bottom: 8px;">  <strong>引導目標</strong>：本單元專為前端與地端/區網 API（如 Ollama）的整合設計，引導學員深入探討瀏覽器安全防線的阻礙（CORS 與 Mixed Content）以及生產環境中的繞過策略，這是典型的全端 AI 系統整合通識課。</li>
+</ul>
+
+<h3>講師逐字稿：跨來源資源共用 (CORS) 與混合內容 (Mixed Content) 壁壘</h3>
+<strong>【 slide 16：前端網頁與地端 LLM 整合的安全兩道牆 】</strong>
+
+<strong>講師發言</strong>：
+「各位學員，在我們興高采烈地用 HTML 和 JavaScript 寫好 AI 診斷網頁，並且準備連線到區域網路內的 Ollama 伺服器（例如 <code style="font-family: 'Fira Code', monospace; background: rgba(0,0,0,0.3); padding: 0.2rem 0.4rem; border-radius: 4px; color: var(--accent); font-size: 0.9em;">192.168.31.202:11434</code>）時，你們一定有很大機率會遇到一個讓人崩潰的紅字錯誤：<strong>『連線失敗：Failed to fetch』</strong>。
+
+這時候，很多同學會跟我說：『老師，我的網路一定是斷了！』
+但是當我帶領他在 Mac 終端機中輸入 <code style="font-family: 'Fira Code', monospace; background: rgba(0,0,0,0.3); padding: 0.2rem 0.4rem; border-radius: 4px; color: var(--accent); font-size: 0.9em;">curl http://192.168.31.202:11434/api/tags</code> 時，登登！模型清單啪地一聲全部印了出來。這證明了<strong>網路是百分之百暢通的，連接埠也是開的。</strong>
+
+那為什麼在終端機裡成功，在瀏覽器裡卻失敗了？
+因為在我們面前，聳立著<strong>『瀏覽器安全機制的兩道高牆』</strong>！
+
+這兩道牆分別是：<strong>CORS 跨域防線</strong>，與 <strong>Mixed Content 混合內容防線</strong>。
+
+<strong>第一道牆，叫做 CORS（Cross-Origin Resource Sharing，跨來源資源共用）</strong>。
+這是一道安全門禁。當瀏覽器裡的 JavaScript 嘗試向非本網站的外部網址（如本地 Ollama 服務）發送請求時，瀏覽器出於保護用戶的立場，會先問目標伺服器：『嘿，你允許這個網頁存取你嗎？』。
+如果這台 Ollama 伺服器沒有表明它的態度（沒有回傳 <code style="font-family: 'Fira Code', monospace; background: rgba(0,0,0,0.3); padding: 0.2rem 0.4rem; border-radius: 4px; color: var(--accent); font-size: 0.9em;">Access-Control-Allow-Origin</code> 標頭），瀏覽器就會基於安全機制，<strong>無情地在前端將回應攔截並直接封鎖</strong>，並回傳 <code style="font-family: 'Fira Code', monospace; background: rgba(0,0,0,0.3); padding: 0.2rem 0.4rem; border-radius: 4px; color: var(--accent); font-size: 0.9em;">Failed to fetch</code>。
+而終端機的 <code style="font-family: 'Fira Code', monospace; background: rgba(0,0,0,0.3); padding: 0.2rem 0.4rem; border-radius: 4px; color: var(--accent); font-size: 0.9em;">curl</code> 是一個命令行工具，它不屬於瀏覽器，它沒有這套門禁安全機制，所以它不會被攔。
+
+為了解決第一道牆，我們必須在 <strong>Ollama 伺服器端</strong>（就是執行 Ollama 的那台電腦上），設定環境變數 <code style="font-family: 'Fira Code', monospace; background: rgba(0,0,0,0.3); padding: 0.2rem 0.4rem; border-radius: 4px; color: var(--accent); font-size: 0.9em;">OLLAMA_ORIGINS="*"</code>，並且重啟 Ollama，以允許所有的跨來源存取。這就是為什麼我們在錯誤提示中特地印出了這一點。
+
+<strong>第二道牆，叫做 Mixed Content（混合內容阻擋）</strong>。
+這是許多學生在上傳專案到 GitHub Pages（<code style="font-family: 'Fira Code', monospace; background: rgba(0,0,0,0.3); padding: 0.2rem 0.4rem; border-radius: 4px; color: var(--accent); font-size: 0.9em;">https://</code>）後最容易撞牆的地方！
+大家要記住一個瀏覽器的黃金鐵律：<strong>『安全網頁（HTTPS）絕對不能向非安全服務（HTTP）發送異步請求（Fetch/XHR）』</strong>。
+因為 GitHub Pages 是強制的 <code style="font-family: 'Fira Code', monospace; background: rgba(0,0,0,0.3); padding: 0.2rem 0.4rem; border-radius: 4px; color: var(--accent); font-size: 0.9em;">https://</code> 加密安全網站，而我們的本地或區網 Ollama（<code style="font-family: 'Fira Code', monospace; background: rgba(0,0,0,0.3); padding: 0.2rem 0.4rem; border-radius: 4px; color: var(--accent); font-size: 0.9em;">192.168.31.202:11434</code>）是未加密的 <code style="font-family: 'Fira Code', monospace; background: rgba(0,0,0,0.3); padding: 0.2rem 0.4rem; border-radius: 4px; color: var(--accent); font-size: 0.9em;">http://</code>。
+這在瀏覽器的眼裡，就像是『一個防禦嚴密的城堡，試圖去引進一條完全沒有經過檢查的污水管』。為了保護城堡的安全，瀏覽器會直接判定這是 <code style="font-family: 'Fira Code', monospace; background: rgba(0,0,0,0.3); padding: 0.2rem 0.4rem; border-radius: 4px; color: var(--accent); font-size: 0.9em;">Mixed Content</code> 錯誤並在第一時間將其強制掐斷！
+
+這兩道牆是我們在實作 RAG 地端部署時最棒的資安教材。那我們要怎麼帶領學生安全地跨越它們？
+
+我們提供了三套在教學與實戰中最推薦的策略：
+<ul style="margin-left: 24px; margin-bottom: 16px; color: var(--text-muted);">
+<li style="margin-bottom: 8px;">  <strong>第一，本地 file 協議開啟</strong>：直接雙擊打開本地的 <code style="font-family: 'Fira Code', monospace; background: rgba(0,0,0,0.3); padding: 0.2rem 0.4rem; border-radius: 4px; color: var(--accent); font-size: 0.9em;">index.html</code> 或 <code style="font-family: 'Fira Code', monospace; background: rgba(0,0,0,0.3); padding: 0.2rem 0.4rem; border-radius: 4px; color: var(--accent); font-size: 0.9em;">v2.html</code> 檔案。此時網址是 <code style="font-family: 'Fira Code', monospace; background: rgba(0,0,0,0.3); padding: 0.2rem 0.4rem; border-radius: 4px; color: var(--accent); font-size: 0.9em;">file://</code> 開頭，瀏覽器會放行混合內容限制，只要設定好 CORS 即可暢通連線。</li>
+<li style="margin-bottom: 8px;">  <strong>第二，本地網頁伺服器運作</strong>：在專案目錄下執行 <code style="font-family: 'Fira Code', monospace; background: rgba(0,0,0,0.3); padding: 0.2rem 0.4rem; border-radius: 4px; color: var(--accent); font-size: 0.9em;">python3 -m http.server 7777</code>。透過本地 HTTP 協議訪問 <code style="font-family: 'Fira Code', monospace; background: rgba(0,0,0,0.3); padding: 0.2rem 0.4rem; border-radius: 4px; color: var(--accent); font-size: 0.9em;">http://localhost:7777/v2.html</code>，既能測試，也能避開瀏覽器對於 <code style="font-family: 'Fira Code', monospace; background: rgba(0,0,0,0.3); padding: 0.2rem 0.4rem; border-radius: 4px; color: var(--accent); font-size: 0.9em;">file://</code> 協議某些更嚴格的本地檔案沙盒限制。</li>
+<li style="margin-bottom: 8px;">  <strong>第三，建立安全加密隧道 (ngrok)</strong>：在 Ollama 主機執行 <code style="font-family: 'Fira Code', monospace; background: rgba(0,0,0,0.3); padding: 0.2rem 0.4rem; border-radius: 4px; color: var(--accent); font-size: 0.9em;">ngrok http 11434</code>。這會產生一個臨時的 <code style="font-family: 'Fira Code', monospace; background: rgba(0,0,0,0.3); padding: 0.2rem 0.4rem; border-radius: 4px; color: var(--accent); font-size: 0.9em;">https://xxxx.ngrok-free.app</code> 加密網址。因為是 <code style="font-family: 'Fira Code', monospace; background: rgba(0,0,0,0.3); padding: 0.2rem 0.4rem; border-radius: 4px; color: var(--accent); font-size: 0.9em;">https</code>，它就能與 GitHub Pages 線上版完美融合，繞過混合內容阻擋，實現真正的線上版直連地端！</li>
+</ul>
+
+這就是資安工程與架構設計的魅力。當我們遇到 <code style="font-family: 'Fira Code', monospace; background: rgba(0,0,0,0.3); padding: 0.2rem 0.4rem; border-radius: 4px; color: var(--accent); font-size: 0.9em;">Failed to fetch</code> 時，不要只覺得是壞掉了，它其實是瀏覽器在用最嚴密的方式保護我們的隱私，而理解這兩道牆，就是大家成為高階系統架構師的第一步！」
+
+<h3>講師逐字稿增補：防範惡意掃庫：專案資料源之資安與防爬蟲漏洞深度剖析</h3>
+<strong>【 slide 16b：防爬蟲與網頁安全防線實戰剖析 】</strong>
+
+<strong>講師發言</strong>：
+「各位學員，在我們完成了這套資料庫的爬取與 RAG 應用開發之後，我想帶領大家站在 <strong>『網路安全與防爬蟲（Anti-Crawling）』</strong> 的高度，來進行一次深度案例分析（Case Study）。
+
+大家在寫爬蟲時可能覺得很爽，隨便發幾個請求，224 筆資料就全部到手了。
+但如果我們今天轉換角色，成為這兩個政府網站的資安防護長（CISO），我們必須非常嚴肅地面對一個事實：<strong>這兩個政府網站的防護設計，在業界標準中是完全不合格的。</strong>
+
+首先，我們來看 <strong>來源一（經濟部 AI 工具庫）</strong>。
+它是怎麼被我們『破譯』的？它的底層根本沒有任何資料庫查詢 API。它只是非常偷懶地，把所有的廠商名單和方案內容，放在一個 <strong>公開的 Google Sheet</strong> 上，並將權限設為『知道連結的人都能查看』。
+接著，它的前端 JS 直接把這個 Sheet ID 暴露在網頁代碼中。
+這種做法有什麼嚴重的資安隱患？
+<ul style="margin-left: 24px; margin-bottom: 16px; color: var(--text-muted);">
+<li style="margin-bottom: 8px;">  <strong>流量監控真空</strong>：因為爬蟲是直接向 Google Sheet 發送請求，政府自家的網頁伺服器對這些流量<strong>完全沒有感知能力</strong>。也就是說，即便每天有十萬個爬蟲把他們的資料拉走，政府網站後台也只會看到『零流量』，根本無法阻擋，也無法對異常 IP 進行封鎖。</li>
+<li style="margin-bottom: 8px;">  <strong>個資外洩風險</strong>：一旦有員工在該公開試算表內放了未公開的廠商私人電話、內部評估備註等敏感個資，就會在一瞬間對全世界赤裸裸地暴露。</li>
+</ul>
+
+其次，我們來看 <strong>來源二（商業服務業數位轉型專區）</strong>。
+它雖然使用了傳統的伺服器端渲染，沒有暴露 Google Sheet，但它犯了兩個更為致命的後台設計錯誤：
+<ul style="margin-left: 24px; margin-bottom: 16px; color: var(--text-muted);">
+<li style="margin-bottom: 8px;">  <strong>自增整數 ID 的暴力枚舉（ID Enumeration）</strong>：它的詳細頁網址是 <code style="font-family: 'Fira Code', monospace; background: rgba(0,0,0,0.3); padding: 0.2rem 0.4rem; border-radius: 4px; color: var(--accent); font-size: 0.9em;">no=35</code>。這種自增 ID 簡直是爬蟲的綠色通道。爬蟲甚至不需要去抓取分頁列表，只要寫一個簡單的 <code style="font-family: 'Fira Code', monospace; background: rgba(0,0,0,0.3); padding: 0.2rem 0.4rem; border-radius: 4px; color: var(--accent); font-size: 0.9em;">for</code> 迴圈從 <code style="font-family: 'Fira Code', monospace; background: rgba(0,0,0,0.3); padding: 0.2rem 0.4rem; border-radius: 4px; color: var(--accent); font-size: 0.9em;">no=1</code> 跑到 <code style="font-family: 'Fira Code', monospace; background: rgba(0,0,0,0.3); padding: 0.2rem 0.4rem; border-radius: 4px; color: var(--accent); font-size: 0.9em;">no=1000</code>，就能用極其暴力的手段，把所有歷史方案與廠商資料全部拖下來。</li>
+<li style="margin-bottom: 8px;">  *資安崩潰點（BOLA 漏洞）*：這在 OWASP Top 10 API 安全漏洞中被稱為 <strong>BOLA（失效的物件層級授權）</strong>。如果後台邏輯沒有對權限做嚴格的檢驗，爬蟲只要修改 <code style="font-family: 'Fira Code', monospace; background: rgba(0,0,0,0.3); padding: 0.2rem 0.4rem; border-radius: 4px; color: var(--accent); font-size: 0.9em;">no</code> 的數值，就極有可能直接讀取到其他商家的『未公開草稿』、『補助申請書細節』甚至是『財務申報個資』。</li>
+<li style="margin-bottom: 8px;">  <strong>缺乏速率限制（Rate Limiting）</strong>：該網站沒有對單一 IP 的請求頻率做任何限制。如果我們發起高併發的惡意請求，它會毫無抵抗地持續響應，直到伺服器資源耗盡而當機（DDoS）。</li>
+</ul>
+
+那麼，如果我們要重新設計這兩個網站，一個合格的資安架構應該長怎樣？
+我希望大家能記住 <strong>『防爬蟲與 API 安全的四道防線』</strong>：
+1.  <strong>第一道防線：Web 應用程式防火牆 (WAF)</strong>。在伺服器前部署 Cloudflare，當偵測到單一 IP 在 1 秒內請求超過 10 次詳細頁，或 User-Agent 帶有 Python 等爬蟲特徵時，自動彈出人機驗證（reCAPTCHA）或直接封鎖 IP。
+2.  <strong>第二道防線：請求加密簽章 (Dynamic Token)</strong>。前端與後端通訊時，必須攜帶由前端 JS 混淆代碼動態計算出的雜湊值與時間戳，防止爬蟲直接調用後台 API。
+3.  <strong>第三道防線：UUID / 隨機 ID 化</strong>。將詳細頁網址的自增 ID <code style="font-family: 'Fira Code', monospace; background: rgba(0,0,0,0.3); padding: 0.2rem 0.4rem; border-radius: 4px; color: var(--accent); font-size: 0.9em;">no=35</code> 改為無規律的隨機雜湊 UUID（如 <code style="font-family: 'Fira Code', monospace; background: rgba(0,0,0,0.3); padding: 0.2rem 0.4rem; border-radius: 4px; color: var(--accent); font-size: 0.9em;">no=a8f9b2c4...</code>）。這能徹底瓦解爬蟲的暴力遍歷計畫。
+4.  <strong>第四道防線：敏感個資遮蔽與延遲加載</strong>。廠商的 Email、電話與公司統編等敏感個資，在網頁初始化時不應出現在 HTML 中。必須經過部分遮蔽（如 <code style="font-family: 'Fira Code', monospace; background: rgba(0,0,0,0.3); padding: 0.2rem 0.4rem; border-radius: 4px; color: var(--accent); font-size: 0.9em;">te**@company.com</code>），且只有當真實用戶點擊『顯示聯絡方式』並通過人機驗證後，才發送獨立 API 加載。
+
+大家看看，從寫爬蟲、破解網站，到最後反過來進行資安架構設計。這才是我們在實戰專案中，長出『系統架構師眼睛』的最高境界！」
+
+---
+
+<ul style="margin-left: 24px; margin-bottom: 16px; color: var(--text-muted);">
+<li style="margin-bottom: 8px;">  <strong>🎙️ 實戰案例引導提示 (Facilitator Tip)</strong>：</li>
+</ul>
+    講師可提前開啟並向學員投影展示專案目錄中的 <strong><code style="font-family: 'Fira Code', monospace; background: rgba(0,0,0,0.3); padding: 0.2rem 0.4rem; border-radius: 4px; color: var(--accent); font-size: 0.9em;">ERP公司AI 數位轉型工具導入建議書.pdf</code></strong> 官方實戰報告。這份報告是由本診斷中心 AI 顧問引擎，針對特定 ERP 公司的轉型痛點進行深度 RAG 檢索與語意重構後，所自動生成的高規格商業建議書範本。展示此範本能讓學員直觀感受到「AI 智慧診斷」的強大商業潛力與極致輸出排版，並做為他們填寫【工作紙 4（MVP Spec）】時的絕佳參照標準。
+
+---
+
+<h2>6. 進階教學單元三：前端 RAG 降噪引擎與 4096 Token 超載防禦 (講師與引導指引)</h2>
+
+<ul style="margin-left: 24px; margin-bottom: 16px; color: var(--text-muted);">
+<li style="margin-bottom: 8px;">  <strong>引導目標</strong>：引導學員探討本地輕量化大模型（SLM）在硬體物理限制下的架構對接方案。學習如何利用前端輕量化檢索排序（TF-IDF）與同義詞擴充演算法，在瀏覽器端實現極速、精準且防超載的 RAG 降噪防線。</li>
+</ul>
+
+<h3>講師逐字稿：地端 LLM 的 4,096 Token 物理壁壘與降噪救星</h3>
+<strong>【 slide 17：地端 LLM 的 4,096 上限崩潰與降噪引擎 】</strong>
+
+<strong>講師發言</strong>：
+「各位學員，在我們完成了 V2.00 的多模型與本地 Ollama 整合後，我們在課堂上經常會遇到一個最典型的『地端物理壁壘』——那就是 <strong>4,096 tokens 的上下文極限</strong>。
+
+當大家選擇 Ollama 本地模型（例如 <code style="font-family: 'Fira Code', monospace; background: rgba(0,0,0,0.3); padding: 0.2rem 0.4rem; border-radius: 4px; color: var(--accent); font-size: 0.9em;">gemma4:e2b</code> 或 <code style="font-family: 'Fira Code', monospace; background: rgba(0,0,0,0.3); padding: 0.2rem 0.4rem; border-radius: 4px; color: var(--accent); font-size: 0.9em;">gemma4:e4b</code>）時，如果我們不對 RAG 的知識庫進行任何過濾，直接把資料庫中 200 多款方案（超過 20,000 字，序列化後高達 20,000+ tokens）全部塞入 Prompt 中，會發生什麼事？
+
+<strong>本地大模型會在一瞬間崩潰！</strong>
+
+因為 Ollama 模型預設的硬性限制是 4,096 tokens。當它接收到 20,000 tokens 的 Prompt 時，它別無選擇，只能把輸入<strong>硬生生截斷</strong>成 4,095 tokens 以符合它的胃口。這導致什麼後果？輸入佔滿了 4,095 tokens，<strong>大模型只剩下恰好 1 個 token 的額度可以用來生成回覆！</strong>
+於是，AI 在吐出一個字（例如『根據』或『您』）之後，就因為觸及 4,096 的天花板而被系統強制掐斷，畫面上就出現了『AI 只回答了一個字就卡住』的奇特故障。
+
+為了解決這個嚴重的物理限制，並帶領大家學習真正的『生產級 RAG 架構』，我們在 V2.00 中實作了一套<strong>「前端 RAG 降噪引擎配置選單」</strong>！
+
+我們提供了 5 種前端降噪技術，這是一套完美的 RAG 效能調優教學沙盒。
+尤其是我們的 <strong>『TF-IDF 相關性排序（精選 Top 10）』</strong> 與 <strong>『語意特徵與同義詞擴展』</strong>。
+
+大家可能會問：『老師，網頁端又沒有資料庫，我們要怎麼在瀏覽器裡對 200 多款方案進行全文檢索與相關性排序？』
+
+這就是演算法的魅力！我們用純 JavaScript 寫了一套 <strong>字元級中英文雙向 TF-IDF 檢索排序引擎</strong>。
+因為中文不像英文可以用空格直接切分單字，所以我們在 JS 程式碼中實作了 <strong>Unigram（單字元）與 Bigram（雙字元）的 N-gram 切分法</strong>。當使用者輸入痛點時，前端 JS 會在 <strong>5 毫秒內</strong> 計算出資料庫中每款方案的字頻得分與逆文件頻率（IDF），並將最相關的前 10 筆方案挑選出來。
+
+這樣一來，送入地端的資料量從 20,000 tokens <strong>瞬間被降噪、壓縮到僅約 800 tokens</strong>！
+大模型不再超載，推論速度提升了數十倍，且因為去除了無關方案的干擾，生成的轉型建議書變得極度精確！這就是『前端粗篩 + 後端推理』的標準 RAG 降噪美學！」
+
+---
+
+<h3>講師逐字稿：防禦性設計：發送前預檢與 Token 超載攔截</h3>
+<strong>【 slide 18：防禦性編程：發送前的 Token 防護網 】</strong>
+
+<strong>講師發言</strong>：
+「但作為一名優秀的產品經理與架構師，光有演算法還不夠，我們還必須在軟體設計中貫徹 <strong>『防禦性設計（Defensive Design）』</strong> 的哲學。
+
+如果學員手動將降噪引擎切換到『無過濾（全量資料）』並堅持點擊發送，系統不就又崩潰了嗎？
+
+為此，我們在 <code style="font-family: 'Fira Code', monospace; background: rgba(0,0,0,0.3); padding: 0.2rem 0.4rem; border-radius: 4px; color: var(--accent); font-size: 0.9em;">v2.html</code> 中實作了 <strong>發送前 Token 預檢與安全攔截機制（Pre-flight Safeguard）</strong>！
+當使用者點擊發送按鈕時，JavaScript 會先調用估算公式，精確計算即將發送的 Prompt 字元長度：
+$$\text{預估 Token 數} = \text{Prompt 字元長度} \times 0.45$$
+如果算出來的 Token 數 <strong>大於 4,096</strong>，且當前使用的是地端 Ollama 模型，系統會<strong>立刻強制攔截發送動作</strong>，並在畫面上彈出一個非常精美、帶有強烈警示效果的 <strong>『地端 Token 容量超載預警』玻璃帷幕對話框</strong>！
+
+這個對話框會告訴使用者：『目前的 Prompt 已經達到 X,XXX tokens，這會導致模型截斷或卡死。』
+並且給予使用者三個充滿引導價值的行動按鈕：
+1.  <strong>套用 TF-IDF 自動優化並執行</strong>：點擊後，系統會貼心地自動將引擎切換至 TF-IDF 模式，完成安全快速的生成。
+2.  <strong>仍要嘗試地端全文</strong>：這是一個專為教學設計的『對照組通道』。我們不封死路徑，允許學員繞過限制去強制執行，讓他們親眼見證地端大模型超載截斷的失敗過程，這比任何課本理論都更能深刻印在腦海中。
+3.  <strong>取消並返回手動調整</strong>：讓使用者手動調整側邊欄的行業別與預算，親身體會『透過 UI 收斂樣本數』的動手樂趣。
+
+這就是極致的 HCI（人機互動）與防禦性編程！我們把軟體的潛在崩潰，轉化成了一個主動的、正面引導的教育學習反饋環！」
+
+---
+
+<h3>講師逐字稿：數據足跡與商業審計 (RAG Metadata Parity)</h3>
+<strong>【 slide 19：數據足跡：可審計的 RAG 決策鏈 】</strong>
+
+<strong>講師發言</strong>：
+「最後，我們要探討一個在企業級 AI 應用中至關重要的概念——<strong>中繼數據足跡（Metadata Footprint）</strong>。
+
+在傳統的軟體開發中，我們只要記錄『誰在什麼時候做了什麼操作』。但在生成式 AI 的時代，因為 LLM 的輸出具有隨機性，如果我們只記錄『AI 的回覆』，我們根本無法在事後追溯：<strong>『為什麼 AI 當時會做出這項轉型建議？它當時參考了哪些背景數據？使用了哪種前端檢索技術？』</strong>
+
+這在商業審計與合規性（Compliance）上是一個巨大的黑洞。
+
+為了解決這個痛點，我們在 V2.00 系統中實作了 <strong>全端數據足跡整合</strong>！
+每一次的 AI 診斷生成，系統都會把當前使用的 RAG 降噪引擎名稱（如 <code style="font-family: 'Fira Code', monospace; background: rgba(0,0,0,0.3); padding: 0.2rem 0.4rem; border-radius: 4px; color: var(--accent); font-size: 0.9em;">TF-IDF 相關性排序</code>、<code style="font-family: 'Fira Code', monospace; background: rgba(0,0,0,0.3); padding: 0.2rem 0.4rem; border-radius: 4px; color: var(--accent); font-size: 0.9em;">欄位投影與精簡</code> 等）以及精確的 Token 拆分比例，打包存入本地的 <code style="font-family: 'Fira Code', monospace; background: rgba(0,0,0,0.3); padding: 0.2rem 0.4rem; border-radius: 4px; color: var(--accent); font-size: 0.9em;">localStorage</code> 歷史紀錄中。
+
+更優雅的是，不論使用者將這份報告匯出成亮色的 Notion 風格 HTML，還是 Markdown 檔案，報告的頭部與底部都會被強行嵌入這行中繼數據：
+<code style="font-family: 'Fira Code', monospace; background: rgba(0,0,0,0.3); padding: 0.2rem 0.4rem; border-radius: 4px; color: var(--accent); font-size: 0.9em;">├── 🔍 RAG 降噪引擎: TF-IDF 相關性排序</code>
+
+這有什麼好處？
+1.  <strong>可重複性（Reproducibility）</strong>：任何審計人員或技術人員，拿到導出報告後，都能百分之百還原當時 RAG 的檢索參數與輸入範疇。
+2.  <strong>架構透明度</strong>：這向學員與企業客戶展示了，我們不是盲目地把資料塞給 AI，而是有一套嚴謹的、可追溯的前端過濾與降噪工程在背後支撐。
+
+記住，<strong>沒有中繼數據的 AI 報告，只是一份不可信的隨機文字；有了中繼數據足跡的 AI 報告，才是一份具備商業嚴謹度與可審計價值的專業顧問建議書！</strong>」
+
+
+
+
+            </article>
+        </main>
+    </div>
+
+    <script>
+        function toggleLocalTheme() {
+            document.body.classList.toggle('theme-light');
+            localStorage.setItem('class04-theme', document.body.classList.contains('theme-light') ? 'light' : 'dark');
+        }
+        if (localStorage.getItem('class04-theme') === 'light') document.body.classList.add('theme-light');
+
+        function adjustZoom(enlarge) {
+            if (enlarge) {
+                document.body.classList.add('zoom-large');
+                localStorage.setItem('class04-zoom', 'large');
+            } else {
+                document.body.classList.remove('zoom-large');
+                localStorage.setItem('class04-zoom', 'normal');
+            }
+        }
+        if (localStorage.getItem('class04-zoom') === 'large') document.body.classList.add('zoom-large');
+
+        function adjustWidth(wide) {
+            if (wide) {
+                document.body.classList.add('width-wide');
+                localStorage.setItem('class04-width', 'wide');
+            } else {
+                document.body.classList.remove('width-wide');
+                localStorage.setItem('class04-width', 'normal');
+            }
+        }
+        if (localStorage.getItem('class04-width') === 'wide') document.body.classList.add('width-wide');
+
+        function copyCode(btn) {
+            const code = btn.parentElement.nextElementSibling.querySelector('code').innerText;
+            navigator.clipboard.writeText(code).then(() => {
+                const origText = btn.innerText;
+                btn.innerText = "已複製！";
+                setTimeout(() => btn.innerText = origText, 2000);
+            });
+        }
+    </script>
+</body>
+</html>

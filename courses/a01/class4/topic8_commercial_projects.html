@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>💼 7. 商業型整合專案 | Class 04 AI App Studio 工作坊</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&family=Noto+Sans+TC:wght@400;500;700;900&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-gradient: radial-gradient(circle at 50% 50%, #0b071e 0%, #020108 100%);
+            --text-main: #f3f4f6;
+            --text-muted: #9ca3af;
+            --card-bg: rgba(25, 18, 50, 0.45);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --card-hover-border: rgba(192, 132, 252, 0.45);
+            --primary: #8b5cf6;
+            --primary-glow: rgba(139, 92, 246, 0.15);
+            --accent: #c084fc;
+            --sidebar-bg: rgba(15, 10, 35, 0.85);
+            --sidebar-border: rgba(255, 255, 255, 0.08);
+            --toggle-bg: rgba(255, 255, 255, 0.05);
+            --toggle-border: rgba(255, 255, 255, 0.1);
+            --toggle-color: #f3f4f6;
+            --btn-bg: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+            --btn-shadow: rgba(139, 92, 246, 0.25);
+            --badge-bg: rgba(192, 132, 252, 0.12);
+            --badge-color: #d8b4fe;
+            --badge-border: rgba(192, 132, 252, 0.25);
+            --h1-gradient: linear-gradient(135deg, #ffffff 40%, #c084fc 100%);
+            --code-bg: #0d091e;
+            --topic-green: #4ade80;
+            --sidebar-blue: #38bdf8;
+        }
+
+        body.theme-light {
+            --bg-gradient: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 50%, #e2e8f0 100%);
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --card-bg: rgba(255, 255, 255, 0.75);
+            --card-border: rgba(99, 102, 241, 0.12);
+            --card-hover-border: rgba(99, 102, 241, 0.45);
+            --primary: #4f46e5;
+            --primary-glow: rgba(79, 70, 229, 0.1);
+            --accent: #0891b2;
+            --sidebar-bg: rgba(255, 255, 255, 0.9);
+            --sidebar-border: rgba(99, 102, 241, 0.15);
+            --toggle-bg: rgba(0, 0, 0, 0.05);
+            --toggle-border: rgba(0, 0, 0, 0.08);
+            --toggle-color: #4f46e5;
+            --btn-bg: linear-gradient(135deg, #4f46e5 0%, #3b82f6 100%);
+            --sidebar-blue: #0284c7;
+            --btn-shadow: rgba(79, 70, 229, 0.2);
+            --badge-bg: rgba(8, 145, 178, 0.08);
+            --badge-color: #0891b2;
+            --badge-border: rgba(8, 145, 178, 0.15);
+            --h1-gradient: linear-gradient(135deg, #1e293b 30%, #4f46e5 100%);
+            --code-bg: #f8fafc;
+            --topic-green: #16a34a;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: var(--bg-gradient);
+            color: var(--text-main);
+            font-family: 'Outfit', 'Noto Sans TC', sans-serif;
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            transition: background 0.4s ease, color 0.3s ease;
+        }
+
+        body.zoom-large { font-size: 1.15rem; }
+        body.zoom-large h1 { font-size: 2.5rem; }
+        body.zoom-large h2 { font-size: 1.8rem; }
+        
+        .layout-wrapper {
+            display: flex;
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+            position: relative;
+            transition: max-width 0.3s ease;
+        }
+        
+        body.width-wide .layout-wrapper {
+            max-width: 1600px;
+        }
+
+        /* Sidebar Navigation */
+        aside {
+            width: 300px;
+            flex-shrink: 0;
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            background: var(--sidebar-bg);
+            border-right: 1px solid var(--sidebar-border);
+            padding: 2.5rem 1.5rem;
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            display: flex;
+            flex-direction: column;
+            z-index: 100;
+            transition: background 0.4s ease, border-color 0.4s ease;
+        }
+
+        .brand h2 {
+            font-size: 1.35rem;
+            font-weight: 900;
+            color: var(--sidebar-blue);
+            margin-bottom: 0.25rem;
+        }
+
+        .brand .eyebrow {
+            font-size: 0.75rem;
+            font-weight: 800;
+            color: var(--sidebar-blue);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 0.5rem;
+        }
+
+        .brand .sub-brand {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+            border-bottom: 1px solid var(--sidebar-border);
+            padding-bottom: 0.75rem;
+        }
+
+        .toc {
+            list-style: none;
+            flex-grow: 1;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+        }
+
+        .toc-title {
+            font-size: 0.75rem;
+            font-weight: 800;
+            color: var(--sidebar-blue);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-top: 1rem;
+            margin-bottom: 0.4rem;
+            padding-left: 0.8rem;
+        }
+
+        /* 💡 Five topics highlighted in blue and white */
+        .toc-title a.toc-link {
+            color: var(--sidebar-blue) !important;
+            font-size: 0.82rem !important;
+            text-transform: none !important;
+            letter-spacing: normal !important;
+        }
+        .toc-title a.toc-link:hover {
+            color: var(--sidebar-blue) !important;
+            background: rgba(56, 189, 248, 0.05) !important;
+            padding-left: 1rem !important;
+        }
+        .toc-title a.toc-link.active {
+            color: var(--sidebar-blue) !important;
+            background: rgba(56, 189, 248, 0.08) !important;
+            border-left: 3px solid var(--sidebar-blue) !important;
+            border-radius: 8px !important;
+        }
+
+        .toc-link {
+            display: block;
+            padding: 0.6rem 0.8rem;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .toc-link:hover {
+            color: var(--sidebar-blue);
+            background: rgba(56, 189, 248, 0.04);
+            padding-left: 1.2rem;
+        }
+
+        .toc-link.active {
+            color: var(--sidebar-blue);
+            background: rgba(56, 189, 248, 0.08);
+            border-left: 3px solid var(--sidebar-blue);
+            border-radius: 8px;
+            padding-left: 1.2rem;
+        }
+
+        /* Yellow and Green highlights for cases & projects */
+        a[href*="topic7_real_cases.html"] {
+            color: #fbbf24 !important;
+        }
+        a[href*="topic7_real_cases.html"]:hover, a[href*="topic7_real_cases.html"].active {
+            background: rgba(251, 191, 36, 0.08) !important;
+            border-left: 3px solid #fbbf24 !important;
+            color: #fbbf24 !important;
+        }
+
+        a[href*="topic8_commercial_projects.html"] {
+            color: #34d399 !important;
+        }
+        a[href*="topic8_commercial_projects.html"]:hover, a[href*="topic8_commercial_projects.html"].active {
+            background: rgba(52, 211, 153, 0.08) !important;
+            border-left: 3px solid #34d399 !important;
+            color: #34d399 !important;
+        }
+
+        .sidebar-footer {
+            border-top: 1px solid var(--sidebar-border);
+            padding-top: 1.5rem;
+            margin-top: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .sidebar-btn {
+            display: block;
+            text-align: center;
+            padding: 0.6rem 0.8rem;
+            background: var(--toggle-bg);
+            border: 1px solid var(--toggle-border);
+            color: var(--text-main);
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 600;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .sidebar-btn:hover {
+            background: var(--primary-glow);
+            border-color: var(--primary);
+        }
+
+        /* Main Content Area */
+        main {
+            flex-grow: 1;
+            margin-left: 300px;
+            padding: 3.5rem 3rem;
+            max-width: 900px;
+            width: calc(100% - 300px);
+            transition: max-width 0.3s ease;
+        }
+
+        body.width-wide main {
+            max-width: 1300px;
+        }
+
+        header {
+            margin-bottom: 3rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding-bottom: 2rem;
+        }
+
+        header h1 {
+            font-size: 2.25rem;
+            font-weight: 900;
+            letter-spacing: -1px;
+            background: var(--h1-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+            line-height: 1.25;
+        }
+
+        header .subtitle {
+            font-size: 1.15rem;
+            color: var(--accent);
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 2.2rem;
+            margin-bottom: 2.2rem;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+        }
+
+        .card:hover {
+            border-color: var(--card-hover-border);
+            box-shadow: 0 15px 40px rgba(139, 92, 246, 0.1);
+            transform: translateY(-2px);
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            color: var(--topic-green);
+            border-left: 4px solid var(--primary);
+            padding-left: 12px;
+        }
+
+        h3 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+            color: var(--accent);
+        }
+
+        h4 {
+            font-size: 1.08rem;
+            font-weight: 700;
+            margin-top: 1.5rem;
+            margin-bottom: 0.8rem;
+            color: var(--text-main);
+        }
+
+        p {
+            margin-bottom: 1.2rem;
+            color: var(--text-muted);
+            font-size: 1rem;
+            line-height: 1.7;
+        }
+
+        body.theme-light p {
+            color: #334155;
+        }
+
+        /* Code Block Container */
+        .code-container {
+            position: relative;
+            background: var(--code-bg);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            margin: 1.5rem 0;
+            overflow: hidden;
+        }
+
+        .code-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 1.25rem;
+            background: rgba(0, 0, 0, 0.3);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            font-family: 'Fira Code', monospace;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .btn-copy {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-main);
+            padding: 0.35rem 0.75rem;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-copy:hover {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: #ffffff;
+        }
+
+        pre {
+            padding: 1.25rem;
+            overflow-x: auto;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.85rem;
+            color: var(--text-main);
+            line-height: 1.5;
+        }
+
+        /* Comparison Table */
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            font-size: 0.9rem;
+            text-align: left;
+        }
+
+        .comparison-table th, .comparison-table td {
+            padding: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        body.theme-light .comparison-table th, 
+        body.theme-light .comparison-table td {
+            border-bottom-color: rgba(0,0,0,0.05);
+        }
+
+        .comparison-table th {
+            background: rgba(255, 255, 255, 0.02);
+            color: var(--text-main);
+            font-weight: 600;
+        }
+
+        .comparison-table td {
+            color: var(--text-muted);
+        }
+
+        .comparison-table tr:hover {
+            background: rgba(255, 255, 255, 0.01);
+        }
+
+        /* Floating Accessibility Toolbar */
+        .accessibility-toolbar {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: rgba(15, 10, 35, 0.85);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 30px;
+            padding: 0.5rem 1rem;
+            display: flex;
+            gap: 0.75rem;
+            align-items: center;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            z-index: 999;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        body.theme-light .accessibility-toolbar {
+            background: rgba(255, 255, 255, 0.9);
+            border-color: rgba(99, 102, 241, 0.15);
+        }
+
+        .toolbar-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-main);
+            font-size: 0.9rem;
+            font-weight: 700;
+            cursor: pointer;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+
+        .toolbar-btn:hover {
+            background: var(--primary-glow);
+            color: var(--accent);
+        }
+
+        .divider {
+            width: 1px;
+            height: 18px;
+            background: var(--card-border);
+        }
+
+        .resources-details[open] summary span:last-child {
+            transform: rotate(180deg);
+        }
+
+        @media (max-width: 992px) {
+            aside {
+                display: none;
+            }
+            main {
+                margin-left: 0;
+                width: 100%;
+                padding: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="accessibility-toolbar">
+        <button class="toolbar-btn" onclick="toggleLocalTheme()" title="切換配色">💡</button>
+        <div class="divider"></div>
+        <button class="toolbar-btn" onclick="adjustZoom(true)" title="放大字體">A+</button>
+        <button class="toolbar-btn" onclick="adjustZoom(false)" title="縮小字體">A-</button>
+        <div class="divider"></div>
+        <button class="toolbar-btn" onclick="adjustWidth(true)" title="寬版版面">W+</button>
+        <button class="toolbar-btn" onclick="adjustWidth(false)" title="窄版版面">W-</button>
+    </div>
+
+    <div class="layout-wrapper">
+        <aside>
+            <div class="brand">
+                <div class="eyebrow">銀河 ERP 內訓</div>
+                <h2>Class 04</h2>
+                <div class="sub-brand">銀河軟體 台西分公司</div>
+            </div>
+            
+            <ul class="toc">
+                <!-- 本次課程說明 -->
+                <div class="toc-title"><a class="toc-link " href="index.html" style="padding: 0.4rem 0.8rem; display: block; font-weight: bold; border-radius: 8px;">📋 本次課程說明</a></div>
+
+                <!-- 主題一：前三堂課程交流與補充 -->
+                <div class="toc-title"><a class="toc-link " href="topic1_retrospective.html" style="padding: 0.4rem 0.8rem; display: block; font-weight: bold; border-radius: 8px;">💬 1. 前三堂課程交流與補充</a></div>
+                <ul style="list-style: none; padding-left: 1rem; margin-bottom: 0.75rem; display: none; flex-direction: column; gap: 0.2rem;">
+                    <li><a class="toc-link" href="topic1_retrospective.html#guidelines">📌 1. 常見提醒與交付規範</a></li>
+                    <li><a class="toc-link" href="topic1_retrospective.html#double-track">📄 2. 雙軌文件策略 (md+html)</a></li>
+                    <li><a class="toc-link" href="topic1_retrospective.html#ai-native">🧠 3. AI-Native 思維</a></li>
+                    <li><a class="toc-link" href="topic1_retrospective.html#project-evaluation">⚖️ 4. 專案評估 (診斷指標)</a></li>
+                    <li><a class="toc-link" href="topic1_retrospective.html#agent-skills">🔌 5. 怎麼善用 Agent Skills</a></li>
+                </ul>
+
+                <!-- 主題二：AI App 專案腦力激盪 -->
+                <div class="toc-title"><a class="toc-link " href="topic5_brainstorming.html" style="padding: 0.4rem 0.8rem; display: block; font-weight: bold; border-radius: 8px;">🎯 2. AI App 專案腦力激盪</a></div>
+                <ul style="list-style: none; padding-left: 1rem; margin-bottom: 0.75rem; display: none; flex-direction: column; gap: 0.2rem;">
+                    <li><a class="toc-link" href="topic5_brainstorming.html">🎯 AI APP Studio 實作套件</a></li>
+                    <li style="padding-left: 0.8rem;"><a class="toc-link" href="topic5_brainstorming.html#direction-a" style="font-size: 0.85rem; padding: 0.3rem 0.6rem;">👉 方向 A：AI KM 知識庫</a></li>
+                    <li style="padding-left: 0.8rem;"><a class="toc-link" href="topic5_brainstorming.html#direction-b" style="font-size: 0.85rem; padding: 0.3rem 0.6rem;">👉 方向 B：銀河 ERP SaaS 增強</a></li>
+                    <li style="padding-left: 0.8rem;"><a class="toc-link" href="topic5_brainstorming.html#direction-c" style="font-size: 0.85rem; padding: 0.3rem 0.6rem;">👉 方向 C：SME 日常效率倍增器</a></li>
+                    <li><a class="toc-link" href="topic5_brainstorming.html#evaluation-metrics">🗺️ AI App 關鍵注意事項</a></li>
+                    <li><a class="toc-link" href="topic5_brainstorming.html#firewall-test">🛡️ 客戶環境測試（網絡防火牆）</a></li>
+                </ul>
+
+                <!-- 主題三：ETL 實務概念與小元件教學 -->
+                <div class="toc-title"><a class="toc-link " href="topic3_etl_cases.html" style="padding: 0.4rem 0.8rem; display: block; font-weight: bold; border-radius: 8px;">⚡ 3. ETL 實務概念與小元件教學</a></div>
+                <ul style="list-style: none; padding-left: 1rem; margin-bottom: 0.75rem; display: none; flex-direction: column; gap: 0.2rem;">
+                    <li><a class="toc-link" href="topic3_etl_cases.html#etl-e">📥 E (Extract) - 取得資料</a></li>
+                    <li><a class="toc-link" href="topic3_etl_cases.html#etl-t">⚡ T (Transform) - 整理 / 轉換</a></li>
+                    <li><a class="toc-link" href="topic3_etl_cases.html#etl-l">📤 L (Load) - 輸出 / 應用</a></li>
+                    <li><a class="toc-link" href="topic3_etl_cases.html#ai-war-room">🖥️ 雙軌戰情中心元件解構</a></li>
+                </ul>
+
+                <!-- 主題四：KM 建置與應用思維 -->
+                <div class="toc-title"><a class="toc-link " href="topic4_km_rag.html" style="padding: 0.4rem 0.8rem; display: block; font-weight: bold; border-radius: 8px;">📂 4. KM 建置與應用思維</a></div>
+                <ul style="list-style: none; padding-left: 1rem; margin-bottom: 0.75rem; display: none; flex-direction: column; gap: 0.2rem;">
+                    <li><a class="toc-link" href="topic4_km_rag.html#ai-km">📂 AI KM 建置範例</a></li>
+                    <li><a class="toc-link" href="topic4_km_rag.html#imitation-coding">🎯 實戰模仿開發</a></li>
+                    <li><a class="toc-link" href="topic4_km_rag.html#notebooklm">📓 NotebookLM 整合運用</a></li>
+                </ul>
+
+                <!-- 主題五：AI API 呼叫三大模式實戰 -->
+                <div class="toc-title"><a class="toc-link " href="topic6_ai_api.html" style="padding: 0.4rem 0.8rem; display: block; font-weight: bold; border-radius: 8px;">🛠️ 5. AI API 呼叫三大模式實戰</a></div>
+                <ul style="list-style: none; padding-left: 1rem; margin-bottom: 0.75rem; display: none; flex-direction: column; gap: 0.2rem;">
+                    <li><a class="toc-link" href="topic6_ai_api.html#hardware-detection">🖥️ 互動式硬體檢測選型</a></li>
+                    <li><a class="toc-link" href="topic6_ai_api.html#cloud-gemini">☁️ 雲端 Gemini API 申請與呼叫</a></li>
+                    <li><a class="toc-link" href="topic6_ai_api.html#local-ollama">🏠 地端 Ollama 本地服務呼叫</a></li>
+                    <li><a class="toc-link" href="topic6_ai_api.html#chrome-nano">🌐 Chrome Nano 瀏覽器原生 AI</a></li>
+                </ul>
+
+                <!-- 主題六：核心實戰案例展示 -->
+                <div class="toc-title"><a class="toc-link " href="topic7_real_cases.html" style="padding: 0.4rem 0.8rem; display: block; font-weight: bold; border-radius: 8px;">🚀 6. 核心實戰案例展示</a></div>
+
+                <!-- 主題七：商業型整合專案 -->
+                <div class="toc-title"><a class="toc-link active" href="topic8_commercial_projects.html" style="padding: 0.4rem 0.8rem; display: block; font-weight: bold; border-radius: 8px;">💼 7. 商業型整合專案</a></div>
+
+                <!-- 📚 延伸精選閱讀 -->
+                <div class="toc-title">📚 延伸精選閱讀</div>
+                <ul style="list-style: none; padding-left: 1rem; margin-bottom: 0.75rem; display: flex; flex-direction: column; gap: 0.2rem;">
+                    <li><a class="toc-link" href="article_ai_efficiency.html" style="font-size: 0.85rem; padding: 0.3rem 0.6rem;">📝 企業 AI 轉型思維</a></li>
+                    <li><a class="toc-link" href="article_ornith_agent.html" style="font-size: 0.85rem; padding: 0.3rem 0.6rem;">🐦 Ornith-1.0 程式模型</a></li>
+                </ul>
+
+            </ul>
+
+
+        </aside>
+
+        <main>
+            <header>
+                <span class="badge">Class 04 AI App Studio 實作藍圖套件</span>
+                <h1 style="margin-top: 0.75rem;">💼 7. 商業型整合專案</h1>
+                <div class="subtitle">從創意到 AI 產品的完整實作藍圖與工作坊套件</div>
+            </header>
+
+            <article class="card">
+                <h1>💼 7. 商業型整合專案</h1>
+<br>
+<p>本區塊收錄具備高度商業應用價值與軟體工程規格的 AI 整合專案。相較於前述針對特定場景的基礎 ETL 實作案例，商業型整合專案更著重於解決企業實際落地時的複雜架構痛點（如多模型性能對比、地端與雲端網絡安全穿透、Serverless 雲端邊緣計算部署等），協助同仁以架構師的視角規劃具備長期維運與商業彈性的解決方案。</p>
+<br>
+<h3>商業型整合專案 A：FALO NotebookLM Runtime Lab ─ 企業級知識庫整合運行網關</h3>
+<ul style="margin-left: 24px; margin-bottom: 16px; color: var(--text-muted);">
+<li style="margin-bottom: 8px;"><strong>專案精神</strong>：針對企業內部部署知識管理（KM）與自動化同步設計的網關（Gateway）。本案例由於涉及地端文件同步與自動化指令碼，線上展示僅提供「高階架構示意圖與原型卡片」，完整功能需結合本機開發環境與 <strong>ngrok 安全隧道技術</strong> 穿透進行實時操作與展示。</li>
+<li style="margin-bottom: 8px;"><strong>技術對比與特點</strong>：</li>
+<li style="margin-bottom: 8px;"><strong>雙版本門戶網關</strong>：提供雙版本門戶入口，支援自動化文件同步腳本，免去手動上傳 NotebookLM 來源庫的限制；透過 ngrok 將地端自動化服務安全映射至公網。</li>
+<li style="margin-bottom: 8px;"><strong>地端與 ngrok 隧道穿透</strong>：利用地端指令列工具（CLI）與 ngrok 隧道，實現「非同步文件監聽 ➔ 自動同步上傳 ➔ 團隊共用導覽」之地端與雲端橋接技術驗證。</li>
+<li style="margin-bottom: 8px;"><strong>研究報告入口</strong>：</li>
+<li style="margin-bottom: 8px;"><a href="https://falo-taiwan.github.io/ai-notebooklm/" target="_blank" rel="noopener noreferrer" style="color: var(--accent); font-weight: bold; text-decoration: underline;">🌐 開啟 FALO NotebookLM Runtime Lab 門戶入口 (僅提供示意圖)</a> *(將於新分頁中開啟)*</li>
+</ul>
+<br>
+<br>
+<h3>商業型整合專案 B：LINE 資訊過載助手 ─ 深度研究彙總報告</h3>
+<ul style="margin-left: 24px; margin-bottom: 16px; color: var(--text-muted);">
+<li style="margin-bottom: 8px;"><strong>專案精神</strong>：解決 LINE 群組對話資訊過載痛點，透過極致 Prompt 工程與多模型並行測試，將碎片化對話自動提煉為高品質的結構化彙總與待辦清單。</li>
+<li style="margin-bottom: 8px;"><strong>技術對比與特點</strong>：</li>
+<li style="margin-bottom: 8px;"><strong>六大模型實測</strong>：基於同一套基準 Prompt，深度對比 Google DeepThink（慢思考推理）、Google DeepResearch（長篇研究）、Claude（繁體中文美感）、Grok（即時社交熱點）、Kimi（超長文本細節）與 Perplexity（智慧搜尋背景）在對話摘要上的效能表現。</li>
+<li style="margin-bottom: 8px;"><strong>ETL 資料管線</strong>：探討非結構化聊天紀錄（TXT/CSV）的降噪、清洗、分段切片與級聯彙總設計，並提供多模型性能與 Token 成本評估，協助架構師規劃最優落地路徑。</li>
+<li style="margin-bottom: 8px;"><strong>研究報告入口</strong>：</li>
+<li style="margin-bottom: 8px;"><a href="https://falo-taiwan.github.io/ai-line-help/" target="_blank" rel="noopener noreferrer" style="color: var(--accent); font-weight: bold; text-decoration: underline;">🌐 開啟 LINE 資訊過載助手 ─ 深度研究彙總報告</a> *(將於新分頁中開啟)*</li>
+</ul>
+<br>
+<h3>商業型整合專案 C：FALO Web Share API ─ 雲端 Workers 拍照快易部署與 QRCode 門戶</h3>
+<ul style="margin-left: 24px; margin-bottom: 16px; color: var(--text-muted);">
+<li style="margin-bottom: 8px;"><strong>專案精神</strong>：針對 AI 與雲端新手設計的超輕量 Web Share API 應用服務。本案例運用 <strong>Cloudflare Workers</strong> 進行 Serverless 邊緣計算部署，免去繁瑣的地端伺服器環境設定。協助 AI 新手小白簡單地使用 AI 服務，使用者只需透過手機拍照，即可將照片或檔案一鍵快速部署至雲端，並實時生成專屬的下載分享 QRCode，打通「實體捕捉 ➔ 邊緣負載 ➔ 雲端共享」的極簡化工作流。</li>
+<li style="margin-bottom: 8px;"><strong>技術對比與特點</strong>：</li>
+<li style="margin-bottom: 8px;"><strong>Cloudflare Workers 邊緣部署</strong>：利用 Cloudflare Workers 的極速分佈式邊緣網絡架構，實現微毫秒級的請求響應與零維護伺服器成本。</li>
+<li style="margin-bottom: 8px;"><strong>拍立即存與 QRCode 閘道</strong>：串接 Web Share API 與雲端暫存機制，實時生成高精度的 QRCode，方便同仁在不同裝置（如手機、平板與電腦）間無縫流通圖片與資料資產。</li>
+<li style="margin-bottom: 8px;"><strong>研究報告入口</strong>：</li>
+<li style="margin-bottom: 8px;"><a href="https://falo-web-share-api.force-chinese.workers.dev/" target="_blank" rel="noopener noreferrer" style="color: var(--accent); font-weight: bold; text-decoration: underline;">🌐 開啟 FALO Web Share API 雲端 Workers 部署平台</a> *(將於新分頁中開啟)*</li>
+</ul>
+<br>
+<br>
+<h3>商業型整合專案 D：FALO 萬佛朝宗 ─ 企業級多通道重要工作資訊流與 AI Agent 知識核心架構</h3>
+<ul style="margin-left: 24px; margin-bottom: 16px; color: var(--text-muted);">
+<li style="margin-bottom: 8px;"><strong>專案精神</strong>：為解決企業內部多種溝通管道（Email、LINE、Telegram）資訊碎片化與難以沉澱的問題，本架構提出「萬佛朝宗」的終極解決方案。透過標準化的 ETL 資料管線將多元輸入進行擷取、清洗與 OCR 解析，匯聚至統一的 AI 知識庫（KM Core）進行向量化與關聯記憶。以此核心支撐各類 AI Agent（智慧問答、任務執行、內容生成、決策支援等），最後透過多通道（如自動信件、LINE 回覆、戰情看板、API/Webhook 等）進行反饋，建立企業智慧運作的完整資訊閉環。</li>
+<li style="margin-bottom: 8px;"><strong>技術對比與特點</strong>：</li>
+<li style="margin-bottom: 8px;"><strong>多元輸入與輸出管道整合</strong>：整合 Email、LINE 官方帳號、Telegram 機器人等工作管道，並具備高度可延伸性（支援 Web 表單、WhatsApp、Slack、Teams），同時將產出反饋回多元終端。</li>
+<li style="margin-bottom: 8px;"><strong>標準化 ETL 處理與知識核心</strong>：採用標準的六大處理階段（擷取、清洗、解析、語意理解、向量化、載入），將無序的原始工作資訊轉化為統一知識庫（包含文件、對話、結構化數據、向量、知識圖譜、時間軸、安全權限控制等），支撐智慧問答與決策代理。</li>
+<li style="margin-bottom: 8px;"><strong>跨層能力與合規支撐</strong>：具備端到端加密、監控日誌、多模型管理、工作流自動化、合規稽核等平台級支撐能力，提供企業安全防護生命線。</li>
+<li style="margin-bottom: 8px;"><strong>系統架構圖</strong>：</li>
+</ul>
+<br>
+<p>  <img src="images/chatgpt_image_20260630_213301.png" alt="FALO 萬佛朝宗：重要工作資訊整合至統一 AI 知識核心示意圖" style="max-width: 100%; height: auto; border-radius: 12px; border: 1px solid var(--card-border); box-shadow: 0 10px 30px rgba(0,0,0,0.4); margin: 1.5rem 0; display: block;"></p>
+<br>
+<p>  <img src="images/chatgpt_image_20260630_213306.png" alt="FALO 統一多通道重要工作資訊流與 AI Agent 企業級系統架構圖" style="max-width: 100%; height: auto; border-radius: 12px; border: 1px solid var(--card-border); box-shadow: 0 10px 30px rgba(0,0,0,0.4); margin: 1.5rem 0; display: block;"></p>
+<br>
+<br>
+<h3>商業型整合專案 E：FALO Email 驅動雙軌 AI 翻譯與智能摘要服務</h3>
+<ul style="margin-left: 24px; margin-bottom: 16px; color: var(--text-muted);">
+<li style="margin-bottom: 8px;"><strong>專案精神</strong>：為降低同仁學習新 AI 工具的門檻，本案例採用企業最熟悉的「Email」作為交互媒介。使用者只需寄送一封郵件，即可自動驅動後台 AI 智慧引擎（進行翻譯、摘要、文件辨識、數據分析或行事曆管理等處理），並在數秒內收到 AI 的結構化回覆。特別針對外文信件設計「雙軌處理模式」，透過寄送至不同收件地址，自動分流為「Reading Mode 全文翻譯（忠實對照、適合工程/法務/執行者）」或「Executive Mode 智能摘要（提煉三大重點與行動項目、適合主管/決策者）」，實現「一封信件、兩種模式、無限可能」之無門檻 AI 落地應用。</li>
+<li style="margin-bottom: 8px;"><strong>技術對比與特點</strong>：</li>
+<li style="margin-bottom: 8px;"><strong>Email 2.0 AI Event Gateway 技術架構</strong>：引進 Cloudflare Email Routing 免費路由別名，免去購買額外企業信箱的成本。透過 Edge Workers 作為前端處理，將不同的 Email 地址映射為專屬的「AI Function」接口（例如 <code style="font-family: 'Fira Code', monospace; background: rgba(0,0,0,0.3); padding: 0.2rem 0.4rem; border-radius: 4px; color: var(--accent); font-size: 0.9em;">ocr@company.com</code>、<code style="font-family: 'Fira Code', monospace; background: rgba(0,0,0,0.3); padding: 0.2rem 0.4rem; border-radius: 4px; color: var(--accent); font-size: 0.9em;">meeting@company.com</code>、<code style="font-family: 'Fira Code', monospace; background: rgba(0,0,0,0.3); padding: 0.2rem 0.4rem; border-radius: 4px; color: var(--accent); font-size: 0.9em;">audit@company.com</code>、<code style="font-family: 'Fira Code', monospace; background: rgba(0,0,0,0.3); padding: 0.2rem 0.4rem; border-radius: 4px; color: var(--accent); font-size: 0.9em;">invoice@company.com</code> 等），讓寄信自動觸發後台 AI 自動化工作流（Workflow），將 AI 默默運作於無形。</li>
+<li style="margin-bottom: 8px;"><strong>零門檻 Email 驅動介面</strong>：使用者無需登入任何新系統或學習 Prompt，沿用熟悉的郵件習慣即可啟動後台複雜的 AI 數據管線（含清洗、分類、摘要與回信）。</li>
+<li style="margin-bottom: 8px;"><strong>雙軌自動分流與客製化處理</strong>：系統根據收件地址（如 <code style="font-family: 'Fira Code', monospace; background: rgba(0,0,0,0.3); padding: 0.2rem 0.4rem; border-radius: 4px; color: var(--accent); font-size: 0.9em;">Transfer1</code> 與 <code style="font-family: 'Fira Code', monospace; background: rgba(0,0,0,0.3); padding: 0.2rem 0.4rem; border-radius: 4px; color: var(--accent); font-size: 0.9em;">Transfer2</code>）自動路由：</li>
+<li style="margin-bottom: 8px;"><strong>Reading Mode (全文翻譯模式)</strong>：自動提取外文信件原文，進行精準的段落比對翻譯，輸出雙語對照之結構化信件。</li>
+<li style="margin-bottom: 8px;"><strong>Executive Mode (智能摘要模式)</strong>：自動提取核心要點（Key Points）、待辦行動項目（Action Items）、重要時程（Timeline）及原信附件，為決策者快速降噪提煉。</li>
+<li style="margin-bottom: 8px;"><strong>安全與經濟性兼顧</strong>：信件內容自動去敏感化並進行 Token 快取節費，確保企業機密與成本效益。</li>
+<li style="margin-bottom: 8px;"><strong>服務架構與運行模式圖</strong>：</li>
+</ul>
+<br>
+<p>  <img src="images/chatgpt_image_20260630_213556.png" alt="FALO Email 驅動 AI 服務與多功能分析示意圖" style="max-width: 100%; height: auto; border-radius: 12px; border: 1px solid var(--card-border); box-shadow: 0 10px 30px rgba(0,0,0,0.4); margin: 1.5rem 0; display: block;"></p>
+<br>
+<p>  <img src="images/chatgpt_image_20260630_213604.png" alt="FALO 雙軌 AI 翻譯與智能摘要雙模式處理流程圖" style="max-width: 100%; height: auto; border-radius: 12px; border: 1px solid var(--card-border); box-shadow: 0 10px 30px rgba(0,0,0,0.4); margin: 1.5rem 0; display: block;"></p>
+<br>
+<p>  <img src="images/chatgpt_image_20260630_213818.png" alt="Email 2.0 從通訊工具進化成 AI Event Gateway 架構與價值分析圖" style="max-width: 100%; height: auto; border-radius: 12px; border: 1px solid var(--card-border); box-shadow: 0 10px 30px rgba(0,0,0,0.4); margin: 1.5rem 0; display: block;"></p>
+<ul style="margin-left: 24px; margin-bottom: 16px; color: var(--text-muted);">
+<li style="margin-bottom: 8px;"><strong>研究報告入口</strong>：</li>
+<li style="margin-bottom: 8px;"><a href="https://falo-taiwan.github.io/email_platform/dual_track_translation_summary.html" target="_blank" rel="noopener noreferrer" style="color: var(--accent); font-weight: bold; text-decoration: underline;">🌐 開啟 FALO Email 雙軌 AI 翻譯與智能摘要服務門戶</a> *(將於新分頁中開啟)*</li>
+</ul>
+<br>
+<br>
+<h3>商業型整合專案 F：資安與 AI 雙贏的下一代企業級架構 ─ Cloudflare 邊緣平台與合規通道設計</h3>
+<ul style="margin-left: 24px; margin-bottom: 16px; color: var(--text-muted);">
+<li style="margin-bottom: 8px;"><strong>專案精神</strong>：企業在導入 AI 服務時，常面臨「AI 的創新效率（希望快速測試、無障礙調用）」與「資安的風規控管（拒絕隨意架設 Tunnel、要求內網解密與全面審計）」之間的拉鋸衝突。本專案由「資安高手 Harrison」與「AI 高手 Force」共同研討，提出「合規通道，可控創新」的雙贏架構。全面採用<strong>國際頂尖大廠（Google 生態系與 Cloudflare）的企業級雲端基礎設施</strong>：前端以 Google Apps Script (GAS) 或 Cloudflare Edge 作為安全門戶，中間處理層搭載 Google Cloud Run 執行高效彈性的 Python AI 微服務，後端則完美整合 Google Workspace 的安全資料協作中心（Drive、Sheets、Docs、Gmail 與 NotebookLM），實現資料安全隔離、權限分明且留存在客戶自有安全空間的設計。此架構不僅能免去內網穿透風險，更無縫對接 Zero Trust 企業資安治理標準，為大廠級別的落地標竿。</li>
+<li style="margin-bottom: 8px;"><strong>技術對比與特點</strong>：</li>
+<li style="margin-bottom: 8px;"><strong>國際大廠級別零信任治理</strong>：採用 Google Cloud 與 Cloudflare 兩大國際雲端巨頭的防護架構，前端免去安裝任何 Tunnel Client，全線經由合法的 HTTPS (443) 加密通道傳輸。結合 Cloudflare Access 權限管控與 Google 生態系的檔案權限隔離，兼顧 DLP/CASB 資安審計。</li>
+<li style="margin-bottom: 8px;"><strong>Cloudflare Edge 與 Google Cloud 協同運算</strong>：前端靜態門戶與路由利用 Cloudflare Workers 的極速分佈式邊緣網絡；AI 核心運算（ETL、OCR、Agent 微服務）則在 Google Cloud Run 容器中執行，達到毫秒級回應與國際級 SLA 穩定度。</li>
+<li style="margin-bottom: 8px;"><strong>開發與正式部署之雙軌思維</strong>：</li>
+<li style="margin-bottom: 8px;"><strong>開發測試期 (ngrok)</strong>：供開發者快速生成公開隧道進行 PoC/MVP 概念驗證。</li>
+<li style="margin-bottom: 8px;"><strong>企業正式上線期 (Cloudflare + Google)</strong>：綁定自有網域、全球 CDN 加速、WAF/DDoS 安全防護，提供 99.99% 的生產級可用度。</li>
+<li style="margin-bottom: 8px;"><strong>技術架構與部署差異圖</strong>：</li>
+</ul>
+<br>
+<p>  <img src="images/chatgpt_image_20260630_214914.png" alt="Google生態系＋Cloudflare的企業級架構" style="max-width: 100%; height: auto; border-radius: 12px; border: 1px solid var(--card-border); box-shadow: 0 10px 30px rgba(0,0,0,0.4); margin: 1.5rem 0; display: block;"></p>
+<br>
+<p>  <img src="images/chatgpt_image_20260630_213940.png" alt="資安與 AI 雙贏的下一代 AI 服務合規傳輸架構圖" style="max-width: 100%; height: auto; border-radius: 12px; border: 1px solid var(--card-border); box-shadow: 0 10px 30px rgba(0,0,0,0.4); margin: 1.5rem 0; display: block;"></p>
+<br>
+<p>  <img src="images/chatgpt_image_20260630_213955.png" alt="ngrok vs Cloudflare 部署定位與重點差異對比圖" style="max-width: 100%; height: auto; border-radius: 12px; border: 1px solid var(--card-border); box-shadow: 0 10px 30px rgba(0,0,0,0.4); margin: 1.5rem 0; display: block;"></p>
+<br>
+<br>
+<h3>商業型整合專案 G：FALO 工廠設備 HMI 巡檢 AI 模擬器 ─ 2x2 四分割工業 HMI 智慧監控與邊緣 OCR 解析系統</h3>
+<ul style="margin-left: 24px; margin-bottom: 16px; color: var(--text-muted);">
+<li style="margin-bottom: 8px;"><strong>專案精神</strong>：本專案為針對工業物聯網（IIoT）與智慧巡檢量身打造的互動式模擬系統。展示了 2x2 四分割工業 HMI（Boiler 鍋爐系統、CNC 主軸、Dosing Pump 化學加藥泵、Conveyor 輸送帶）畫面之實時數據波動與動態 AI 影像辨識、邊緣 OCR 欄位提取。特別設計「物理干擾與抗噪演算法模組」，支援極端環境下的鏡頭劇烈震動、眩光反射與斜角陰影干擾，讓使用者能直觀對比「純 LLM 模式」與「二值化預處理 + 混合優化模式」的辨識精度差異，並提供歷史對帳日誌回溯定位與 CSV 一鍵匯出，為工業視覺巡檢提供極具實用價值的原型範例。</li>
+<li style="margin-bottom: 8px;"><strong>技術對比與特點</strong>：</li>
+<li style="margin-bottom: 8px;"><strong>2x2 四分割動態 HMI 監控</strong>：即時模擬蒸汽溫度、壓力、流速及總產量等關鍵參數波動，內置警報器狀態變更。</li>
+<li style="margin-bottom: 8px;"><strong>抗干擾機器視覺與邊緣 OCR</strong>：包含物理干擾器（鏡頭抖動偏移、Specular Glare 眩光、Shadow Mask 陰影），並搭載二值化預處理與 HSV 閥值預處理，大幅提升極端工業環境下 OCR 字元辨識之穩定性。</li>
+<li style="margin-bottom: 8px;"><strong>系統運維與對帳日誌</strong>：記錄巡檢狀態（SUCCESS / FAIL）及詳細數據日誌，支援一鍵 CSV 數據日誌導出，作為數據溯源與 AI Auditing（審計）的核心基礎。</li>
+<li style="margin-bottom: 8px;"><strong>研究報告與展示入口</strong>：</li>
+<li style="margin-bottom: 8px;"><a href="https://falo-taiwan.github.io/factory-simulator/" target="_blank" rel="noopener noreferrer" style="color: var(--accent); font-weight: bold; text-decoration: underline;">🌐 開啟 FALO 工廠設備 HMI 巡檢 AI 模擬器</a> *(將於新分頁中開啟)*</li>
+<li style="margin-bottom: 8px;"><strong>運行系統與巡檢介面圖</strong>：</li>
+</ul>
+<br>
+<p>  <img src="images/chatgpt_image_20260630_223234.png" alt="FALO 工廠設備 HMI 巡檢 AI 模擬器運行介面示意圖" style="max-width: 100%; height: auto; border-radius: 12px; border: 1px solid var(--card-border); box-shadow: 0 10px 30px rgba(0,0,0,0.4); margin: 1.5rem 0; display: block;"></p>
+            </article>
+        </main>
+    </div>
+
+    <script>
+        function toggleLocalTheme() {
+            document.body.classList.toggle('theme-light');
+            localStorage.setItem('class04-theme', document.body.classList.contains('theme-light') ? 'light' : 'dark');
+        }
+        if (localStorage.getItem('class04-theme') === 'light') document.body.classList.add('theme-light');
+
+        function adjustZoom(enlarge) {
+            if (enlarge) {
+                document.body.classList.add('zoom-large');
+                localStorage.setItem('class04-zoom', 'large');
+            } else {
+                document.body.classList.remove('zoom-large');
+                localStorage.setItem('class04-zoom', 'normal');
+            }
+        }
+        if (localStorage.getItem('class04-zoom') === 'large') document.body.classList.add('zoom-large');
+
+        function adjustWidth(wide) {
+            if (wide) {
+                document.body.classList.add('width-wide');
+                localStorage.setItem('class04-width', 'wide');
+            } else {
+                document.body.classList.remove('width-wide');
+                localStorage.setItem('class04-width', 'normal');
+            }
+        }
+        if (localStorage.getItem('class04-width') === 'wide') document.body.classList.add('width-wide');
+
+        function copyCode(btn) {
+            const code = btn.parentElement.nextElementSibling.querySelector('code').innerText;
+            navigator.clipboard.writeText(code).then(() => {
+                const origText = btn.innerText;
+                btn.innerText = "已複製！";
+                setTimeout(() => btn.innerText = origText, 2000);
+            });
+        }
+    </script>
+</body>
+</html>

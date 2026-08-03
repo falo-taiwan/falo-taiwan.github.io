@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FORCE 企業環境部署評估矩陣：專案建置與技術教學講義</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&family=Noto+Sans+TC:wght@400;500;700;900&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Dark Mode Theme */
+            --bg-gradient: radial-gradient(circle at 50% 50%, #0d0925 0%, #03020a 100%);
+            --text-main: #f3f4f6;
+            --text-muted: #9ca3af;
+            --card-bg: rgba(25, 18, 50, 0.45);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --card-hover-border: rgba(192, 132, 252, 0.45);
+            --primary: #8b5cf6;
+            --primary-glow: rgba(139, 92, 246, 0.15);
+            --accent: #c084fc;
+            --sidebar-bg: rgba(15, 10, 35, 0.85);
+            --sidebar-border: rgba(255, 255, 255, 0.08);
+            --toggle-bg: rgba(255, 255, 255, 0.05);
+            --toggle-border: rgba(255, 255, 255, 0.1);
+            --toggle-color: #f3f4f6;
+            --btn-bg: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+            --btn-shadow: rgba(139, 92, 246, 0.25);
+            --badge-bg: rgba(192, 132, 252, 0.12);
+            --badge-color: #d8b4fe;
+            --badge-border: rgba(192, 132, 252, 0.25);
+            --h1-gradient: linear-gradient(135deg, #ffffff 40%, #c084fc 100%);
+            --code-bg: #0b071e;
+        }
+
+        body.theme-light {
+            /* Light Mode Theme */
+            --bg-gradient: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 50%, #e2e8f0 100%);
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --card-bg: rgba(25, 255, 255, 0.75);
+            --card-bg: rgba(255, 255, 255, 0.75);
+            --card-border: rgba(99, 102, 241, 0.12);
+            --card-hover-border: rgba(99, 102, 241, 0.45);
+            --primary: #4f46e5;
+            --primary-glow: rgba(79, 70, 229, 0.1);
+            --accent: #0891b2;
+            --sidebar-bg: rgba(255, 255, 255, 0.9);
+            --sidebar-border: rgba(99, 102, 241, 0.15);
+            --toggle-bg: rgba(0, 0, 0, 0.05);
+            --toggle-border: rgba(0, 0, 0, 0.08);
+            --toggle-color: #4f46e5;
+            --btn-bg: linear-gradient(135deg, #4f46e5 0%, #3b82f6 100%);
+            --btn-shadow: rgba(79, 70, 229, 0.2);
+            --badge-bg: rgba(8, 145, 178, 0.08);
+            --badge-color: #0891b2;
+            --badge-border: rgba(8, 145, 178, 0.15);
+            --h1-gradient: linear-gradient(135deg, #1e293b 30%, #4f46e5 100%);
+            --code-bg: #f8fafc;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: var(--bg-gradient);
+            color: var(--text-main);
+            font-family: 'Outfit', 'Noto Sans TC', sans-serif;
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            transition: background 0.4s ease, color 0.3s ease;
+        }
+
+        body.zoom-large { font-size: 1.15rem; }
+        body.zoom-large h1 { font-size: 2.5rem; }
+        body.zoom-large h2 { font-size: 1.8rem; }
+
+        .layout-wrapper {
+            display: flex;
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+            position: relative;
+            transition: max-width 0.3s ease;
+        }
+
+        body.width-wide .layout-wrapper {
+            max-width: 1600px;
+        }
+
+        /* Sidebar Navigation */
+        aside {
+            width: 300px;
+            flex-shrink: 0;
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            background: var(--sidebar-bg);
+            border-right: 1px solid var(--sidebar-border);
+            padding: 2.5rem 1.5rem;
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            display: flex;
+            flex-direction: column;
+            z-index: 100;
+            transition: background 0.4s ease, border-color 0.4s ease;
+        }
+
+        .brand h2 {
+            font-size: 1.2rem;
+            font-weight: 900;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.25rem;
+        }
+
+        .brand .eyebrow {
+            font-size: 0.75rem;
+            font-weight: 800;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 0.5rem;
+        }
+
+        .brand .sub-brand {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid var(--sidebar-border);
+            padding-bottom: 0.75rem;
+        }
+
+        .toc {
+            list-style: none;
+            flex-grow: 1;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+        }
+
+        .toc-link {
+            display: block;
+            padding: 0.5rem 0.8rem;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 500;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .toc-link:hover, .toc-link.active {
+            color: var(--text-main);
+            background: var(--primary-glow);
+            padding-left: 1.2rem;
+        }
+
+        .sidebar-footer {
+            border-top: 1px solid var(--sidebar-border);
+            padding-top: 1.5rem;
+            margin-top: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .sidebar-btn {
+            display: block;
+            text-align: center;
+            padding: 0.6rem 0.8rem;
+            background: var(--toggle-bg);
+            border: 1px solid var(--toggle-border);
+            color: var(--text-main);
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 600;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .sidebar-btn:hover {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: #ffffff;
+        }
+
+        /* Main Content */
+        main {
+            margin-left: 300px;
+            flex-grow: 1;
+            padding: 3.5rem 2.5rem;
+            width: calc(100% - 300px);
+            box-sizing: border-box;
+        }
+
+        header {
+            margin-bottom: 3rem;
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            background: var(--h1-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.5px;
+            line-height: 1.3;
+        }
+
+        .subtitle {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            font-weight: 300;
+        }
+
+        .section-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 2.5rem;
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            margin-bottom: 2.5rem;
+            scroll-margin-top: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .section-card:hover {
+            border-color: var(--card-hover-border);
+            box-shadow: 0 15px 35px rgba(139, 92, 246, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .section-num {
+            font-size: 0.8rem;
+            font-weight: 800;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 0.5rem;
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--text-main);
+            border-bottom: 1px solid var(--sidebar-border);
+            padding-bottom: 0.5rem;
+        }
+
+        h3 {
+            font-size: 1.15rem;
+            font-weight: 700;
+            margin: 1.5rem 0 0.75rem 0;
+            color: var(--accent);
+        }
+
+        p {
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+            font-size: 0.98rem;
+        }
+
+        strong {
+            color: var(--text-main);
+        }
+
+        ul, ol {
+            margin-left: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--text-muted);
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+        }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            font-size: 0.9rem;
+        }
+
+        th, td {
+            padding: 0.8rem 1rem;
+            border: 1px solid var(--card-border);
+            text-align: left;
+        }
+
+        th {
+            background: rgba(255, 255, 255, 0.02);
+            color: var(--text-main);
+            font-weight: 600;
+        }
+
+        body.theme-light th {
+            background: rgba(0, 0, 0, 0.02);
+        }
+
+        /* Code Blocks */
+        pre {
+            background: var(--code-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 1.25rem;
+            overflow-x: auto;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.85rem;
+            color: var(--text-main);
+            margin: 1rem 0;
+        }
+
+        code {
+            font-family: 'Fira Code', monospace;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 0.15rem 0.35rem;
+            border-radius: 4px;
+            font-size: 0.85rem;
+        }
+
+        body.theme-light code {
+            background: rgba(0,0,0,0.05);
+        }
+
+        /* Alert block */
+        .alert-box {
+            background: var(--primary-glow);
+            border-left: 4px solid var(--primary);
+            border-radius: 0 10px 10px 0;
+            padding: 1.25rem;
+            margin: 1.5rem 0;
+        }
+
+        .alert-title {
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Accessibility Floating Toolbar */
+        .accessibility-toolbar {
+            position: fixed;
+            top: 2rem;
+            right: 2rem;
+            background: var(--sidebar-bg);
+            border: 1px solid var(--sidebar-border);
+            border-radius: 30px;
+            padding: 0.4rem 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            z-index: 1000;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+            transition: all 0.3s ease;
+        }
+
+        body.theme-light .accessibility-toolbar {
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            background: rgba(255, 255, 255, 0.95);
+        }
+
+        .toolbar-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-main);
+            width: 2.4rem;
+            height: 2.4rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            outline: none;
+        }
+
+        .toolbar-btn:hover {
+            background: var(--primary-glow);
+            color: var(--primary);
+            transform: scale(1.1);
+        }
+
+        .accessibility-toolbar .divider {
+            width: 1px;
+            height: 1.2rem;
+            background: var(--sidebar-border);
+        }
+
+        /* RWD Support */
+        @media (max-width: 900px) {
+            aside {
+                display: none;
+            }
+            main {
+                margin-left: 0;
+                width: 100%;
+                padding: 1.5rem;
+            }
+            .accessibility-toolbar {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating accessibility toolbar -->
+    <div class="accessibility-toolbar">
+        <button class="toolbar-btn" onclick="toggleLocalTheme()" title="切換配色">💡</button>
+        <div class="divider"></div>
+        <button class="toolbar-btn" onclick="adjustZoom(true)" title="放大字體">A+</button>
+        <button class="toolbar-btn" onclick="adjustZoom(false)" title="縮小字體">A-</button>
+        <div class="divider"></div>
+        <button class="toolbar-btn" onclick="adjustWidth(true)" title="寬版版面">W+</button>
+        <button class="toolbar-btn" onclick="adjustWidth(false)" title="窄版版面">W-</button>
+    </div>
+
+    <div class="layout-wrapper">
+        <!-- Left Sidebar Navigation -->
+        <aside>
+            <div class="brand">
+                <div class="eyebrow">FORCE Academy</div>
+                <h2>Class 04 講義</h2>
+                <div class="sub-brand">專案建置與技術教學筆記</div>
+            </div>
+            
+            <ul class="toc">
+                <li><a class="toc-link" href="#intro-section">學習目標</a></li>
+                <li><a class="toc-link" href="#unit-1">單元一：為什麼選擇行動優先？</a></li>
+                <li><a class="toc-link" href="#unit-2">單元二：Reachability 檢測引擎</a></li>
+                <li><a class="toc-link" href="#unit-3">單元三：DNS NXDOMAIN 假性阻擋</a></li>
+                <li><a class="toc-link" href="#unit-4">單元四：HTML 報告數據內嵌技術</a></li>
+                <li><a class="toc-link" href="#unit-5">單元五：課堂思辨與 AI 盲點</a></li>
+                <li><a class="toc-link" href="#unit-6">單元六：隱形浮水印版權防護</a></li>
+                <li><a class="toc-link" href="#unit-7">單元七：AI 友善爬取優化 (GEO)</a></li>
+                <li><a class="toc-link" href="#unit-8">單元八：瀏覽器指紋診斷與曝光</a></li>
+            </ul>
+
+            <div class="sidebar-footer">
+                <a class="sidebar-btn" href="index.html">⬅ 返回 Class 04 首頁</a>
+                <a class="sidebar-btn" href="../../../../gov-audit.html" style="background: var(--primary); border-color: var(--primary); color: #ffffff;">🏛️ 政府檢核專案頁</a>
+            </div>
+        </aside>
+
+        <!-- Right Main Content -->
+        <main>
+            <header id="intro-section">
+                <h1>FORCE 企業環境部署評估矩陣：專案建置與技術教學講義</h1>
+                <div class="subtitle">Force 課程教學專用講義與實戰踩坑筆記</div>
+            </header>
+
+            <!-- Learning Goals -->
+            <section class="card section-card">
+                <div class="section-num">OVERVIEW / GOALS</div>
+                <h2>學習目標</h2>
+                <ol>
+                    <li>理解如何利用單一 HTML + 響應式卡片流 (Mobile-First RWD) 滿足現場訪談的機動性。</li>
+                    <li>掌握如何利用 <code>mode: 'no-cors'</code> 探針繞過瀏覽器跨域限制，測試客戶端防火牆放行。</li>
+                    <li><strong>（核心踩坑點）</strong> 理解雲端架構的 DNS 解析機制，學會排除「DNS 網域不存在 (NXDOMAIN)」造成的假性網路阻擋。</li>
+                    <li>掌握「HTML 報告數據內嵌與回載技術」，在無資料庫情況下達成完整的數據交流閉環。</li>
+                </ol>
+            </section>
+
+            <!-- Unit 1 -->
+            <section id="unit-1" class="card section-card">
+                <div class="section-num">UNIT 01</div>
+                <h2>單元一：為什麼選擇「單一 HTML」與「行動優先 (Mobile-First)」？</h2>
+                <h3>1. 痛點分析</h3>
+                <p>售前顧問進入企業客戶會議室時，網路往往極受限制，且需要快速查閱各平台指標。</p>
+                <ul>
+                    <li><strong>無後端/無資料庫</strong>：免去繁瑣的伺服器架構部署，100% 保障客戶企業的資安隱私，網頁下載下來直接離線即開即用。</li>
+                    <li><strong>行動優先 (Mobile-First RWD)</strong>：
+                        <ul>
+                            <li>傳統的「大矩陣表格」在手機上會被迫產生水平滾動條，極難閱讀。</li>
+                            <li>我們改用 <strong>「卡片流 (Card Grid)」</strong> 設計。手機上是垂直排列的溫潤水彩圓角卡片，觸控面積大；當螢幕拉寬到平板和電腦時，再利用 CSS Grid 自動擴展為雙欄或三至四欄佈局。</li>
+                            <li>頂部使用可單指滑動的分類列（Category Swiper），點擊快速篩選，大幅降低滾動頁面的疲勞度。</li>
+                        </ul>
+                    </li>
+                </ul>
+            </section>
+
+            <!-- Unit 2 -->
+            <section id="unit-2" class="card section-card">
+                <div class="section-num">UNIT 02</div>
+                <h2>單元二：瀏覽器沙盒下的網路連線檢測 (Reachability Engine)</h2>
+                <h3>1. CORS 限制與跨域沙盒</h3>
+                <p>當我們在 <code>file://</code> 或非目標伺服器的網域下，嘗試用瀏覽器對 <code>https://api.openai.com</code> 發送一般的 <code>fetch()</code> 請求時，瀏覽器會直接因為 <strong>CORS (跨來源資源共用)</strong> 安全政策而<strong>攔截回應內容</strong>，並在 Console 報出跨域錯誤。</p>
+                
+                <h3>2. 解決手段：無 CORS 連線探針 (no-cors)</h3>
+                <p>為了解決這個限制，我們在 <code>fetch</code> 參數中加入了：</p>
+                <pre><code>fetch(url, {
+  method: "GET",
+  mode: "no-cors",  // 繞過 CORS 回傳讀取限制
+  cache: "no-store",
+  signal: controller.signal // 超時中止控制
+})</code></pre>
+                <ul>
+                    <li><strong>原理</strong>：<code>mode: 'no-cors'</code> 告訴瀏覽器：「我只是想把請求發出去建立連線，我不需要、也**不讀取**你回傳的具體 JSON 回應（此時回應類型會被瀏覽器封裝為 Opaque）」。</li>
+                    <li><strong>檢測邏輯</strong>：
+                        <ul>
+                            <li><strong>連線成功</strong>：只要 TCP/TLS 三向交握成功（不論 HTTP 狀態碼，因為無跨域權限，取得的狀態碼一律為 0），代表客戶網路**並未阻擋該網域**。</li>
+                            <li><strong>受阻 (Blocked)</strong>：如果客戶網路被防火牆（如 Fortinet, Palo Alto）阻擋或 DNS 遭劫持，Promise 會直接進入 <code>catch</code> 分支，此時便判定為受阻 ❌。</li>
+                            <li><strong>超時 (Timeout)</strong>：如果客戶內網把該網域丟棄（Drop Packet）導致連線無限期等待，系統會以 <code>AbortController</code> 於 5 秒後強制中止，並判定為受阻。</li>
+                        </ul>
+                    </li>
+                </ul>
+            </section>
+
+            <!-- Unit 3 -->
+            <section id="unit-3" class="card section-card">
+                <div class="section-num">UNIT 03</div>
+                <h2>單元三：（核心重點）真實連線測試下的「DNS NXDOMAIN」與假性阻擋</h2>
+                <h3>1. 踩坑現況描述</h3>
+                <p>在開發第一版時，顧問即使在<strong>完全沒有防火牆限制的家用網路</strong>中進行檢測，以下幾個網域依然顯示 **「受阻 ❌」**：</p>
+                <ul>
+                    <li><code>lambda.amazonaws.com</code></li>
+                    <li><code>execute-api.amazonaws.com</code></li>
+                    <li><code>bedrock.amazonaws.com</code></li>
+                    <li><code>openai.azure.com</code></li>
+                    <li><code>www.hinet.net</code></li>
+                    <li><code>fly.dev</code></li>
+                </ul>
+
+                <h3>2. 原因剖析：DNS 解析失敗 (NXDOMAIN) 與安全阻擋</h3>
+                <p>我們在終端機執行 <code>nslookup</code> 網域解析後，發現了根本原因：</p>
+                <ul>
+                    <li><strong>A. 雲端服務的「非實體根網域」</strong>
+                        <p>AWS 的服務端點是**區域型（Region-specific）**的。例如 AWS Lambda 在 DNS 中根本沒有 <code>lambda.amazonaws.com</code> 這個「根」紀錄（查詢會得到 <code>NXDOMAIN</code>，即網域不存在）。真正的實體解析端點必須是 <code>lambda.us-east-1.amazonaws.com</code>。</p>
+                        <p>AWS Bedrock 也是如此，根域名 <code>bedrock.amazonaws.com</code> 是 NXDOMAIN，必須帶有區域。而 Azure OpenAI 的網域必須包含客戶自己申請的資源前綴（如 <code>your-resource.openai.azure.com</code>），直接 ping <code>openai.azure.com</code> 是無 IP 回應的。</p>
+                    </li>
+                    <li><strong>B. 通配域名安全政策與過期網域</strong>
+                        <p><code>fly.dev</code> 是 Fly.io 提供給開發者的通配後綴（如 <code>appName.fly.dev</code>），其根網域 <code>https://fly.dev</code> 因為安全考量，拒絕了直接的網頁請求。而 <code>www.hinet.net</code> 在 DNS 中已不復存在，目前中華電信主業務網域已全數移轉。</p>
+                    </li>
+                </ul>
+
+                <h3>3. 解決方案：更換為「實體可解析且通暢」的公共網域</h3>
+                <p>為了解決此問題，我們對測試網域進行了修正，對照表如下，這些新網域皆能在沒有防火牆的網路下 100% 通暢解析：</p>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>平台類別</th>
+                            <th>原配置網域 (假性阻擋)</th>
+                            <th>修正後網域 (正確連通)</th>
+                            <th>修正原因說明</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>AWS Lambda</strong></td>
+                            <td><code>lambda.amazonaws.com</code></td>
+                            <td><code>lambda.us-east-1.amazonaws.com</code></td>
+                            <td>AWS 端點為區域型，補上 <code>us-east-1</code> 取得 DNS A 紀錄。</td>
+                        </tr>
+                        <tr>
+                            <td><strong>AWS API Gateway</strong></td>
+                            <td><code>execute-api.amazonaws.com</code></td>
+                            <td><code>apigateway.us-east-1.amazonaws.com</code></td>
+                            <td>根域名無解析。改用區域型 API Gateway 管理端點。</td>
+                        </tr>
+                        <tr>
+                            <td><strong>AWS Bedrock</strong></td>
+                            <td><code>bedrock.amazonaws.com</code></td>
+                            <td><code>bedrock.us-east-1.amazonaws.com</code></td>
+                            <td>補上區域，防止 DNS NXDOMAIN 錯誤。</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Azure OpenAI</strong></td>
+                            <td><code>openai.azure.com</code></td>
+                            <td><code>management.azure.com</code></td>
+                            <td>改用 Azure 雲資源管理入口 (ARM API) 全球公共解析端點。</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Fly.io</strong></td>
+                            <td><code>fly.dev</code></td>
+                            <td><code>fly.io</code></td>
+                            <td><code>fly.dev</code> 根網域限制連線，改用 Fly.io 官網主域。</td>
+                        </tr>
+                        <tr>
+                            <td><strong>HiNet 虛擬主機</strong></td>
+                            <td><code>www.hinet.net</code></td>
+                            <td><code>www.cht.com.tw</code></td>
+                            <td>原網域廢棄。改用中華電信公共官網。</td>
+                        </tr>
+                        <tr>
+                            <td><strong>HiNet 主機代管</strong></td>
+                            <td><code>colocation.hinet.net</code></td>
+                            <td><code>hicloud.hinet.net</code></td>
+                            <td>伺服器拒絕空連線，改用 hicloud 企業雲網域。</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="alert-box">
+                    <div class="alert-title">💡 課堂教學提示</div>
+                    <p>可以引導學生在終端機輸入 <code>nslookup lambda.amazonaws.com</code> 來親自體驗 <code>NXDOMAIN</code> 的回報，並對比 <code>nslookup lambda.us-east-1.amazonaws.com</code> 成功返回 IP 的差別，這能讓學生深刻理解 DNS A 紀錄在網路開發中的底層原理。</p>
+                </div>
+            </section>
+
+            <!-- Unit 4 -->
+            <section id="unit-4" class="card section-card">
+                <div class="section-num">UNIT 04</div>
+                <h2>單元四：去中心化雙向交流黑科技 —— HTML 數據內嵌技術</h2>
+                <p>這套工具最酷的地方在於：<strong>顧問發出去的 HTML 評估報告，不僅能用來閱讀列印，它自己本身也是一個備份數據包！</strong></p>
+                
+                <h3>1. 數據是如何被隱藏內嵌的？</h3>
+                <p>在顧問點擊「產生 HTML 報告」時，JavaScript 會將當前記憶體中的資料封裝為 JSON，並進行 Base64 編碼，隨後寫入導出報告最底部的隱藏標籤中：</p>
+                <pre><code>&lt;div id="force-embedded-data" style="display:none;" data-payload="[Base64加密數據]"&gt;&lt;/div&gt;</code></pre>
+
+                <h3>2. 如何反向還原 (HTML Parser)？</h3>
+                <p>當顧問拿到客戶發回的 <code>Report.html</code> 報告並上傳時，我們在純前端使用瀏覽器內建的 <strong><code>DOMParser</code></strong> 進行解析還原：</p>
+                <pre><code>const parser = new DOMParser();
+const doc = parser.parseFromString(htmlText, "text/html");
+const div = doc.getElementById("force-embedded-data");
+const encodedPayload = div.getAttribute("data-payload");
+const decodedJson = decodeURIComponent(escape(atob(encodedPayload)));
+const parsedPayload = JSON.parse(decodedJson);</code></pre>
+                <p>這套黑科技免去了「既要傳 HTML 報告、又要傳 JSON 資料」的雙檔案麻煩，達成了**「報告即資料，資料即報告」**的無縫協作體驗。</p>
+            </section>
+
+            <!-- Unit 5 -->
+            <section id="unit-5" class="card section-card">
+                <div class="section-num">UNIT 05</div>
+                <h2>單元五：課堂思辨與技術盲點反思（本案例之核心靈魂）</h2>
+                
+                <h3>概念一：優先排除「軟體配置缺陷」，再評估「環境網路阻擋」</h3>
+                <p>在實務開發或顧問現場，當我們看到一個連線顯示「受阻 ❌」時，工程師非常容易陷入直覺偏誤：<strong>「一定是客戶那邊的防火牆或安全閘道把連線擋掉了。」</strong></p>
+                <ul>
+                    <li><strong>本案例的教訓</strong>：在第一版的網域測試中，我們在完全沒有防火牆限制的網路環境下測試，卻有多個網域回報失敗。這並非環境問題，而是我們代碼中配置了無 DNS 解析的虛擬根網域。</li>
+                    <li><strong>課堂思維引導</strong>：如果顧問直接把錯誤網域清單丟給客戶網管，網管工程師配置時會發現「網域無 IP 紀錄，無法配置策略」而退件。這會立即讓客戶質疑顧問的專業度。</li>
+                    <li><strong>結論</strong>：工程師必須建立**「先驗證本地配置正確性（如用 nslookup 確保 DNS 解析正常），再指控網路環境阻擋」**的標準排查思維。</li>
+                </ul>
+
+                <h3>概念二：AI 生成內容不等於「正確」或「符合實戰」</h3>
+                <p>在生成式 AI 時代，包含大量平台與 JSON 欄位的程式碼，交給 AI 輔助生成（AI-Assisted Coding）可以在 10 秒內完成，但也帶來了關鍵盲點：</p>
+                <ul>
+                    <li><strong>AI 的盲點</strong>：AI 是基於概率生成文字與代碼的。當你讓它生成 AWS 或 Azure 平台的測試網址時，它會按照語言邏輯，吐出「看起來極度合理、拼字完全正確」但實際上根本不存在於真實 DNS 系統中的網址。</li>
+                    <li><strong>語法正確 vs. 實務合用</strong>：AI 生成的這段程式碼，其語法結構是 100% 正確的，但當它被放到真實網路環境下運作時，它卻是失效的。</li>
+                    <li><strong>給學生的啟示</strong>：AI 是極佳的「加速器」，但它無法替工程師做「真實物理世界的狀態驗證」。這說明了：**在 AI 時代，工程師的基本功（如掌握 DNS 解析、CORS 原理、TCP 握手與 Chrome 開發者工具排查）不僅沒有貶值，反而變得更加珍貴。**</li>
+                </ul>
+            </section>
+
+            <!-- Unit 6 -->
+            <section id="unit-6" class="card section-card">
+                <div class="section-num">UNIT 06</div>
+                <h2>單元六：網頁版權防護黑科技 —— 多層次隱形浮水印 (Watermark)</h2>
+                <p>本專案在前端設計了**「多層次隱形浮水印 (Multi-layered Invisible Watermarks)」**防護機制以防範代碼被輕易剽竊：</p>
+                
+                <h3>1. HTML 註解浮水印</h3>
+                <p>在 HTML 頂部和核心函數內嵌開發版權與發佈日期，防止初階複製。</p>
+
+                <h3>2. DOM 隱身浮水印</h3>
+                <p>利用 CSS 的絕對裁切技術（Absolute Clipping），建立一個存在於 DOM 樹中，但完全不佔用版面、對訪客完全不可見的 DOM 節點。當抄襲者直接複製代碼或爬蟲抓取時，該浮水印文字將會被一併複製，成為侵權鐵證。</p>
+                <pre><code>.force-invisible-watermark {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  pointer-events: none;
+  user-select: none;
+  color: rgba(0, 0, 0, 0.001);
+  background: transparent;
+}</code></pre>
+
+                <h3>3. JavaScript 全域唯讀浮水印</h3>
+                <p>利用 ES5 的 <code>Object.defineProperty()</code> 註冊全域變數，並將 <code>writable</code> 與 <code>configurable</code> 設為 <code>false</code>，防範第三方指令碼惡意覆寫或刪除版權。</p>
+                <pre><code>Object.defineProperty(window, '__FORCE_WATERMARK__', {
+  value: "Falo x Force Cheng 2026/6/22",
+  writable: false,
+  configurable: false
+});</code></pre>
+            </section>
+
+            <!-- Unit 7 -->
+            <section id="unit-7" class="card section-card">
+                <div class="section-num">UNIT 07</div>
+                <h2>單元七：智慧型搜尋優化與 AI 友善爬取 (GEO)</h2>
+                <p>隨著 AI 搜尋引擎（Perplexity, Gemini, ChatGPT Search）普及，傳統的 SEO 已轉變為 **GEO (Generative Engine Optimization)**：</p>
+                <ul>
+                    <li><strong>JSON-LD 語意化 Schema 結構化數據</strong>：在網頁 <code>&lt;head&gt;</code> 中注入 JSON-LD（宣告 <code>@type: "SoftwareApplication"</code>），向 AI 爬蟲精確宣告軟體名稱、作者（Force Cheng）與發布日期。</li>
+                    <li><strong>結構化問答定義區 (FAQ Schema)</strong>：在評估指南中建立 FAQ 段落。AI 搜尋引擎傾向於直接摘錄有明確「問答對應 (Q&A)」的段落，這能使 AI 搜尋引擎精準提取我們網頁的 FAQ，提高引用率與排名。</li>
+                </ul>
+            </section>
+
+            <!-- Unit 8 -->
+            <section id="unit-8" class="card section-card">
+                <div class="section-num">UNIT 08</div>
+                <h2>單元八：瀏覽器指紋追蹤與環境曝光 (Cleartext Diagnostics)</h2>
+                <p>本專案特意將收集到的客戶端特徵以**「明碼 (Cleartext) / 明文」**呈現在環境診斷面板與導出的 HTML 報告中。這包含了深層的資安教學意義：</p>
+                
+                <h3>1. 偵測原理與隱私邊界</h3>
+                <ul>
+                    <li><strong>AdBlocker 廣告防護偵測</strong>：透過前端 <code>fetch(adTestUrl, { mode: 'no-cors' })</code> 模擬請求廣告資源腳本。若連線失敗，則判定訪客啟用了 AdBlocker。這展示了如何利用「異常連線反向推導訪客軟體特徵」。</li>
+                    <li><strong>設備特徵蒐集</strong>：利用 <code>navigator.connection</code>、<code>navigator.deviceMemory</code>、<code>hardwareConcurrency</code>、時區 API、以及 Battery API 獲取設備硬體特徵與隱私數據。</li>
+                </ul>
+
+                <h3>2. 資安教育思維：為什麼明碼顯示？</h3>
+                <ul>
+                    <li><strong>消除技術神秘感</strong>：許多用戶以為靜態網頁（Static HTML）沒有後端資料庫就不會收集隱私。我們以明碼將數據直接呈現在用戶眼前，提醒用戶隱私特徵在靜態代碼中依然瞭若指掌。</li>
+                    <li><strong>明碼傳輸風險示範</strong>：當這份報告在顧問與客戶間傳遞時，所有系統特徵均在 HTML 中明文保存。這可用於示範「敏感特徵（Metadata）未加密傳輸的資安風險」，提升學生對於數據傳輸安全（Data-in-Transit Security）的警覺度。</li>
+                </ul>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        // Theme switcher
+        function toggleLocalTheme() {
+            document.body.classList.toggle('theme-light');
+            const current = document.body.classList.contains('theme-light') ? 'light' : 'dark';
+            localStorage.setItem('teaching-notes-theme', current);
+        }
+
+        if (localStorage.getItem('teaching-notes-theme') === 'light') {
+            document.body.classList.add('theme-light');
+        }
+
+        // Accessibility zoom
+        let fontScale = 1.0;
+        function adjustZoom(enlarge) {
+            if (enlarge) {
+                if (fontScale < 1.3) {
+                    fontScale += 0.05;
+                    document.documentElement.style.fontSize = (fontScale * 100) + '%';
+                }
+            } else {
+                if (fontScale > 0.85) {
+                    fontScale -= 0.05;
+                    document.documentElement.style.fontSize = (fontScale * 100) + '%';
+                }
+            }
+        }
+
+        // Layout width
+        function adjustWidth(wide) {
+            if (wide) {
+                document.body.classList.add('width-wide');
+                localStorage.setItem('teaching-notes-width', 'wide');
+            } else {
+                document.body.classList.remove('width-wide');
+                localStorage.setItem('teaching-notes-width', 'normal');
+            }
+        }
+
+        if (localStorage.getItem('teaching-notes-width') === 'wide') {
+            document.body.classList.add('width-wide');
+        }
+    </script>
+</body>
+</html>

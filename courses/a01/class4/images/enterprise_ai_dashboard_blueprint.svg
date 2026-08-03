@@ -1,0 +1,298 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" width="1200" height="800">
+  <defs>
+    <!-- Background Gradient -->
+    <radialGradient id="bgGrad" cx="50%" cy="50%" r="70%">
+      <stop offset="0%" stop-color="#0e0926" />
+      <stop offset="100%" stop-color="#020108" />
+    </radialGradient>
+    
+    <!-- Card Gradients -->
+    <linearGradient id="cardGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1b123d" stop-opacity="0.7" />
+      <stop offset="100%" stop-color="#0a0518" stop-opacity="0.7" />
+    </linearGradient>
+    
+    <!-- Glow Filters -->
+    <filter id="glowBlue" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="6" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+    <filter id="glowPurple" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="6" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+    <filter id="glowGreen" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="6" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+    
+    <!-- Accent Gradients -->
+    <linearGradient id="blueGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#38bdf8" />
+      <stop offset="100%" stop-color="#0284c7" />
+    </linearGradient>
+    <linearGradient id="purpleGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#c084fc" />
+      <stop offset="100%" stop-color="#8b5cf6" />
+    </linearGradient>
+    <linearGradient id="greenGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#4ade80" />
+      <stop offset="100%" stop-color="#16a34a" />
+    </linearGradient>
+    <linearGradient id="orangeGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#f59e0b" />
+      <stop offset="100%" stop-color="#d97706" />
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="800" fill="url(#bgGrad)" />
+  <rect width="1198" height="798" x="1" y="1" rx="16" fill="none" stroke="#2a1b5c" stroke-width="2" stroke-opacity="0.5" />
+
+  <!-- ================= HEADER ================= -->
+  <g transform="translate(40, 40)">
+    <text x="0" y="24" fill="#ffffff" font-family="system-ui, sans-serif" font-size="24" font-weight="900" letter-spacing="1">台灣政府 AI 補助專案資料庫 ─ 企業級決策看板 (AI Dashboard)</text>
+    <text x="0" y="46" fill="#9ca3af" font-family="system-ui, sans-serif" font-size="13" font-weight="500">做得出來只是開始，數據聯動洞察才是落地核心！</text>
+    <text x="890" y="24" fill="#38bdf8" font-family="system-ui, sans-serif" font-size="12" font-weight="800" letter-spacing="1">Falo × Force Cheng</text>
+    <text x="1030" y="24" fill="#6b7280" font-family="system-ui, sans-serif" font-size="12" font-weight="500">2026/06/25</text>
+    <line x1="0" y1="65" x2="1120" y2="65" stroke="#2d1d5f" stroke-width="1.5" stroke-opacity="0.8" />
+  </g>
+
+  <!-- ================= BOARD 1: KPI CARDS ================= -->
+  <!-- Card 1: Total Tools -->
+  <g transform="translate(40, 130)">
+    <rect width="350" height="110" rx="12" fill="url(#cardGrad)" stroke="#38bdf8" stroke-width="1.5" stroke-opacity="0.3" />
+    <text x="24" y="34" fill="#9ca3af" font-family="system-ui, sans-serif" font-size="13" font-weight="700" letter-spacing="0.5">TOTAL AI TOOLS / 工具方案總數</text>
+    <text x="24" y="82" fill="#38bdf8" font-family="system-ui, sans-serif" font-size="42" font-weight="900" filter="url(#glowBlue)">244 <tspan font-size="18" font-weight="700" fill="#9ca3af"> 筆</tspan></text>
+    <rect x="290" y="20" width="40" height="40" rx="8" fill="rgba(56, 189, 248, 0.1)" />
+    <!-- Folder Icon -->
+    <path d="M298 30h6v2h10v-2h6v16h-28z" fill="#38bdf8" />
+  </g>
+
+  <!-- Card 2: Total Providers -->
+  <g transform="translate(425, 130)">
+    <rect width="350" height="110" rx="12" fill="url(#cardGrad)" stroke="#c084fc" stroke-width="1.5" stroke-opacity="0.3" />
+    <text x="24" y="34" fill="#9ca3af" font-family="system-ui, sans-serif" font-size="13" font-weight="700" letter-spacing="0.5">ACTIVE PROVIDERS / 活躍廠商總數</text>
+    <text x="24" y="82" fill="#c084fc" font-family="system-ui, sans-serif" font-size="42" font-weight="900" filter="url(#glowPurple)">128 <tspan font-size="18" font-weight="700" fill="#9ca3af"> 家</tspan></text>
+    <rect x="290" y="20" width="40" height="40" rx="8" fill="rgba(192, 132, 252, 0.1)" />
+    <!-- Corporate Building Icon -->
+    <path d="M302 28h16v24h-16zm4 6h3v3h-3zm5 0h3v3h-3zm-5 6h3v3h-3zm5 0h3v3h-3zm-5 6h3v3h-3zm5 0h3v3h-3z" fill="#c084fc" />
+  </g>
+
+  <!-- Card 3: Median Budget -->
+  <g transform="translate(810, 130)">
+    <rect width="350" height="110" rx="12" fill="url(#cardGrad)" stroke="#4ade80" stroke-width="1.5" stroke-opacity="0.3" />
+    <text x="24" y="34" fill="#9ca3af" font-family="system-ui, sans-serif" font-size="13" font-weight="700" letter-spacing="0.5">MEDIAN BUDGET / 導入預算中位數</text>
+    <text x="24" y="82" fill="#4ade80" font-family="system-ui, sans-serif" font-size="36" font-weight="900" filter="url(#glowGreen)">NT$ 65,000 <tspan font-size="14" font-weight="700" fill="#9ca3af">/ 起</tspan></text>
+    <rect x="290" y="20" width="40" height="40" rx="8" fill="rgba(74, 222, 128, 0.1)" />
+    <!-- Dollar Icon -->
+    <path d="M310 26h-4v4h-4v2h4v12h4v-12h4v-2h-4zm-1 6a3 3 0 0 1 0 6 3 3 0 0 1 0-6zm0 4a1 1 0 0 0 0 2 1 1 0 0 0 0-2z" fill="#4ade80" />
+  </g>
+
+  <!-- ================= BOARD 2: DONUT CHART (Left Bottom) ================= -->
+  <g transform="translate(40, 270)">
+    <rect width="350" height="490" rx="12" fill="url(#cardGrad)" stroke="#2d1d5f" stroke-width="1.5" stroke-opacity="0.6" />
+    <text x="24" y="34" fill="#ffffff" font-family="system-ui, sans-serif" font-size="15" font-weight="800">SaaS Category Split / AI 標準化分類佔比</text>
+    
+    <!-- Donut Circle (Center 175, 175) -->
+    <circle cx="175" cy="180" r="85" fill="none" stroke="#25174d" stroke-width="30" />
+    
+    <!-- Slice 1: Human Resources / KM (40%) -->
+    <circle cx="175" cy="180" r="85" fill="none" stroke="url(#purpleGrad)" stroke-width="30" 
+            stroke-dasharray="534" stroke-dashoffset="213.6" transform="rotate(-90 175 180)" stroke-linecap="round" />
+            
+    <!-- Slice 2: Customer Service (25%) -->
+    <circle cx="175" cy="180" r="85" fill="none" stroke="url(#blueGrad)" stroke-width="30" 
+            stroke-dasharray="534" stroke-dashoffset="400.5" transform="rotate(54 175 180)" stroke-linecap="round" />
+
+    <!-- Slice 3: Marketing & Sales (20%) -->
+    <circle cx="175" cy="180" r="85" fill="none" stroke="url(#greenGrad)" stroke-width="30" 
+            stroke-dasharray="534" stroke-dashoffset="427.2" transform="rotate(144 175 180)" stroke-linecap="round" />
+
+    <!-- Slice 4: Operations (15%) -->
+    <circle cx="175" cy="180" r="85" fill="none" stroke="url(#orangeGrad)" stroke-width="30" 
+            stroke-dasharray="534" stroke-dashoffset="453.9" transform="rotate(216 175 180)" stroke-linecap="round" />
+
+    <!-- Text inside Donut -->
+    <text x="175" y="174" text-anchor="middle" fill="#ffffff" font-family="system-ui, sans-serif" font-size="13" font-weight="600">雙來源分類</text>
+    <text x="175" y="196" text-anchor="middle" fill="#38bdf8" font-family="system-ui, sans-serif" font-size="18" font-weight="900">4大核心維度</text>
+
+    <!-- Legend -->
+    <g transform="translate(24, 305)" font-family="system-ui, sans-serif" font-size="12" font-weight="600">
+      <!-- Item 1 -->
+      <rect x="0" y="0" width="12" height="12" rx="3" fill="#c084fc" />
+      <text x="22" y="11" fill="#9ca3af">人資與知識管理 (SaaS)</text>
+      <text x="260" y="11" fill="#ffffff" text-anchor="end">40%</text>
+      
+      <!-- Item 2 -->
+      <rect x="0" y="24" width="12" height="12" rx="3" fill="#38bdf8" />
+      <text x="22" y="35" fill="#9ca3af">客戶服務與溝通</text>
+      <text x="260" y="35" fill="#ffffff" text-anchor="end">25%</text>
+
+      <!-- Item 3 -->
+      <rect x="0" y="48" width="12" height="12" rx="3" fill="#4ade80" />
+      <text x="22" y="59" fill="#9ca3af">行銷與銷售加值</text>
+      <text x="260" y="59" fill="#ffffff" text-anchor="end">20%</text>
+
+      <!-- Item 4 -->
+      <rect x="0" y="72" width="12" height="12" rx="3" fill="#f59e0b" />
+      <text x="22" y="83" fill="#9ca3af">生產、工安與運營管理</text>
+      <text x="260" y="83" fill="#ffffff" text-anchor="end">15%</text>
+    </g>
+    
+    <!-- Footer Note -->
+    <line x1="24" y1="420" x2="326" y2="420" stroke="#25174d" stroke-width="1" />
+    <text x="24" y="446" fill="#6b7280" font-family="system-ui, sans-serif" font-size="11" font-weight="500">數據涵蓋經濟部工業館與 Tcloud 共 244 筆方案</text>
+  </g>
+
+  <!-- ================= BOARD 3: TARGET INDUSTRIES HEATMAP (Center Bottom) ================= -->
+  <g transform="translate(415, 270)">
+    <rect width="370" height="490" rx="12" fill="url(#cardGrad)" stroke="#2d1d5f" stroke-width="1.5" stroke-opacity="0.6" />
+    <text x="24" y="34" fill="#ffffff" font-family="system-ui, sans-serif" font-size="15" font-weight="800">Target Industry Heatmap / 適用產業熱力地圖</text>
+    
+    <!-- Heatmap Grid -->
+    <g transform="translate(24, 70)" font-family="system-ui, sans-serif" font-size="11" font-weight="700">
+      <!-- Column Labels -->
+      <text x="40" y="0" text-anchor="middle" fill="#6b7280">資訊</text>
+      <text x="110" y="0" text-anchor="middle" fill="#6b7280">製造</text>
+      <text x="180" y="0" text-anchor="middle" fill="#6b7280">零售</text>
+      <text x="250" y="0" text-anchor="middle" fill="#6b7280">醫療</text>
+      <text x="320" y="0" text-anchor="middle" fill="#6b7280">金融</text>
+      
+      <!-- Row 1: 人資與知識 (High manufacturing/retail) -->
+      <text x="0" y="44" fill="#9ca3af" font-size="11" text-anchor="start">人資知識</text>
+      <rect x="40" y="25" width="60" height="30" rx="4" fill="#8b5cf6" fill-opacity="0.6" stroke="#c084fc" stroke-width="1" />
+      <rect x="110" y="25" width="60" height="30" rx="4" fill="#8b5cf6" fill-opacity="0.9" stroke="#c084fc" stroke-width="1.5" />
+      <rect x="180" y="25" width="60" height="30" rx="4" fill="#8b5cf6" fill-opacity="0.8" stroke="#c084fc" stroke-width="1" />
+      <rect x="250" y="25" width="60" height="30" rx="4" fill="#8b5cf6" fill-opacity="0.4" stroke="#c084fc" stroke-width="1" />
+      <rect x="320" y="25" width="60" height="30" rx="4" fill="#8b5cf6" fill-opacity="0.3" stroke="#c084fc" stroke-width="1" />
+      
+      <!-- Row 2: 客服與溝通 -->
+      <text x="0" y="94" fill="#9ca3af" font-size="11" text-anchor="start">客服溝通</text>
+      <rect x="40" y="75" width="60" height="30" rx="4" fill="#0284c7" fill-opacity="0.5" stroke="#38bdf8" stroke-width="1" />
+      <rect x="110" y="75" width="60" height="30" rx="4" fill="#0284c7" fill-opacity="0.6" stroke="#38bdf8" stroke-width="1" />
+      <rect x="180" y="75" width="60" height="30" rx="4" fill="#0284c7" fill-opacity="0.9" stroke="#38bdf8" stroke-width="1.5" />
+      <rect x="250" y="75" width="60" height="30" rx="4" fill="#0284c7" fill-opacity="0.5" stroke="#38bdf8" stroke-width="1" />
+      <rect x="320" y="75" width="60" height="30" rx="4" fill="#0284c7" fill-opacity="0.4" stroke="#38bdf8" stroke-width="1" />
+
+      <!-- Row 3: 行銷與銷售 -->
+      <text x="0" y="144" fill="#9ca3af" font-size="11" text-anchor="start">行銷銷售</text>
+      <rect x="40" y="125" width="60" height="30" rx="4" fill="#16a34a" fill-opacity="0.4" stroke="#4ade80" stroke-width="1" />
+      <rect x="110" y="125" width="60" height="30" rx="4" fill="#16a34a" fill-opacity="0.5" stroke="#4ade80" stroke-width="1" />
+      <rect x="180" y="125" width="60" height="30" rx="4" fill="#16a34a" fill-opacity="0.9" stroke="#4ade80" stroke-width="1.5" />
+      <rect x="250" y="125" width="60" height="30" rx="4" fill="#16a34a" fill-opacity="0.3" stroke="#4ade80" stroke-width="1" />
+      <rect x="320" y="125" width="60" height="30" rx="4" fill="#16a34a" fill-opacity="0.3" stroke="#4ade80" stroke-width="1" />
+
+      <!-- Row 4: 生產與工安 -->
+      <text x="0" y="194" fill="#9ca3af" font-size="11" text-anchor="start">生產工安</text>
+      <rect x="40" y="175" width="60" height="30" rx="4" fill="#d97706" fill-opacity="0.3" stroke="#f59e0b" stroke-width="1" />
+      <rect x="110" y="175" width="60" height="30" rx="4" fill="#d97706" fill-opacity="0.9" stroke="#f59e0b" stroke-width="1.5" />
+      <rect x="180" y="175" width="60" height="30" rx="4" fill="#d97706" fill-opacity="0.3" stroke="#f59e0b" stroke-width="1" />
+      <rect x="250" y="175" width="60" height="30" rx="4" fill="#d97706" fill-opacity="0.4" stroke="#f59e0b" stroke-width="1" />
+      <rect x="320" y="175" width="60" height="30" rx="4" fill="#d97706" fill-opacity="0.1" stroke="#f59e0b" stroke-width="0.5" />
+      
+      <!-- Values on top of high intensity cells -->
+      <text x="140" y="44" fill="#ffffff" font-size="10" text-anchor="middle">極高</text>
+      <text x="210" y="94" fill="#ffffff" font-size="10" text-anchor="middle">極高</text>
+      <text x="210" y="144" fill="#ffffff" font-size="10" text-anchor="middle">極高</text>
+      <text x="140" y="194" fill="#ffffff" font-size="10" text-anchor="middle">極高</text>
+    </g>
+
+    <!-- Legend for Intensity -->
+    <g transform="translate(24, 305)" font-family="system-ui, sans-serif" font-size="12" font-weight="600">
+      <text x="0" y="12" fill="#9ca3af">熱度分級：</text>
+      <rect x="75" y="0" width="16" height="16" rx="3" fill="#8b5cf6" fill-opacity="0.2" />
+      <rect x="96" y="0" width="16" height="16" rx="3" fill="#8b5cf6" fill-opacity="0.5" />
+      <rect x="117" y="0" width="16" height="16" rx="3" fill="#8b5cf6" fill-opacity="0.8" />
+      <rect x="138" y="0" width="16" height="16" rx="3" fill="#8b5cf6" stroke="#c084fc" stroke-width="1" />
+      <text x="160" y="13" fill="#9ca3af">低 ➔ 高熱度分佈</text>
+    </g>
+
+    <!-- Interactive Filters Preview -->
+    <g transform="translate(24, 345)" font-family="system-ui, sans-serif" font-size="12" font-weight="600">
+      <text x="0" y="15" fill="#ffffff">💡 點選產業進行雙向聯動過濾：</text>
+      <!-- Buttons -->
+      <rect x="0" y="30" width="80" height="26" rx="6" fill="rgba(192, 132, 252, 0.15)" stroke="#c084fc" stroke-width="1" />
+      <text x="40" y="47" fill="#c084fc" text-anchor="middle">🏭 製造業</text>
+
+      <rect x="90" y="30" width="80" height="26" rx="6" fill="rgba(56, 189, 248, 0.15)" stroke="#38bdf8" stroke-width="1" />
+      <text x="130" y="47" fill="#38bdf8" text-anchor="middle">🛒 零售業</text>
+
+      <rect x="180" y="30" width="80" height="26" rx="6" fill="rgba(74, 222, 128, 0.1)" stroke="#4ade80" stroke-width="1" stroke-opacity="0.5" />
+      <text x="220" y="47" fill="#4ade80" text-anchor="middle">🏥 醫療業</text>
+    </g>
+
+    <!-- Footer Line -->
+    <line x1="24" y1="420" x2="346" y2="420" stroke="#25174d" stroke-width="1" />
+    <text x="24" y="446" fill="#6b7280" font-family="system-ui, sans-serif" font-size="11" font-weight="500">點選上圖之格子或下方按鈕，圖表即刻動態更新</text>
+  </g>
+
+  <!-- ================= BOARD 4: COST SCATTER MATRIX (Right Bottom) ================= -->
+  <g transform="translate(810, 270)">
+    <rect width="350" height="490" rx="12" fill="url(#cardGrad)" stroke="#2d1d5f" stroke-width="1.5" stroke-opacity="0.6" />
+    <text x="24" y="34" fill="#ffffff" font-family="system-ui, sans-serif" font-size="15" font-weight="800">Value Matrix / 預算期程性價比象限圖</text>
+    
+    <!-- Scatter Plot Area (Width 280, Height 230, origin x=45, y=300 in local space) -->
+    <g transform="translate(24, 70)" font-family="system-ui, sans-serif" font-size="10" font-weight="600" fill="#6b7280">
+      <!-- Axis Lines -->
+      <line x1="40" y1="20" x2="40" y2="230" stroke="#25174d" stroke-width="1.5" />
+      <line x1="40" y1="230" x2="300" y2="230" stroke="#25174d" stroke-width="1.5" />
+      
+      <!-- Axis Arrow Heads -->
+      <path d="M40 15 l-3 6 h6 z" fill="#25174d" />
+      <path d="M305 230 l-6-3 v6 z" fill="#25174d" />
+      
+      <!-- Y Axis Label (Price) -->
+      <text x="15" y="24" text-anchor="middle" transform="rotate(-90 15 24)">預算金額 (NT$)</text>
+      <!-- X Axis Label (Duration) -->
+      <text x="270" y="246" text-anchor="end">期程 (月)</text>
+      
+      <!-- Crosshair / Thresholds for 4 Quadrants -->
+      <!-- Median Price line (NT$ 65,000 threshold at y=120) -->
+      <line x1="40" y1="120" x2="300" y2="120" stroke="#2a1b5c" stroke-width="1.5" stroke-dasharray="4 4" />
+      <!-- Median Duration line (6 months at x=170) -->
+      <line x1="170" y1="20" x2="170" y2="230" stroke="#2a1b5c" stroke-width="1.5" stroke-dasharray="4 4" />
+      
+      <!-- Quadrant Text Labels -->
+      <text x="105" y="40" text-anchor="middle" fill="#6b7280" font-size="9" fill-opacity="0.6">I. 客製PoC服務</text>
+      <text x="235" y="40" text-anchor="middle" fill="#6b7280" font-size="9" fill-opacity="0.6">II. 重型專案系統</text>
+      <text x="105" y="210" text-anchor="middle" fill="#6b7280" font-size="9" fill-opacity="0.6">III. 輕量嘗鮮區</text>
+      <text x="235" y="210" text-anchor="middle" fill="#6b7280" font-size="9" fill-opacity="0.6">IV. 高性價比SaaS</text>
+
+      <!-- Scatter Points (Bubbles with glow) -->
+      <!-- Point 1 (High Price, Long Duration - Heavy System) - Purple -->
+      <circle cx="240" cy="50" r="10" fill="#c084fc" fill-opacity="0.8" stroke="#ffffff" stroke-width="1.5" filter="url(#glowPurple)" />
+      <text x="240" y="45" fill="#ffffff" font-size="8" text-anchor="middle">工安辨識</text>
+      
+      <!-- Point 2 (High Price, Short Duration - PoC) - Orange -->
+      <circle cx="90" cy="70" r="9" fill="#f59e0b" fill-opacity="0.8" stroke="#ffffff" stroke-width="1.5" />
+      <text x="90" y="65" fill="#ffffff" font-size="8" text-anchor="middle">顧問診斷</text>
+      
+      <!-- Point 3 (Low Price, Long Duration - High Value SaaS) - Blue -->
+      <circle cx="220" cy="170" r="12" fill="#38bdf8" fill-opacity="0.8" stroke="#ffffff" stroke-width="1.5" filter="url(#glowBlue)" />
+      <text x="220" y="165" fill="#ffffff" font-size="8" text-anchor="middle">Vital KM+</text>
+      
+      <!-- Point 4 (Low Price, Short Duration - Light SaaS) - Green -->
+      <circle cx="80" cy="180" r="7" fill="#4ade80" fill-opacity="0.8" stroke="#ffffff" stroke-width="1" />
+      <text x="80" y="175" fill="#ffffff" font-size="8" text-anchor="middle">會議紀錄</text>
+      
+      <!-- Point 5 (Low Price, Long Duration) - Blue -->
+      <circle cx="260" cy="190" r="8" fill="#38bdf8" fill-opacity="0.7" stroke="#ffffff" stroke-width="1" />
+      
+      <!-- Point 6 (High Price, Long Duration) - Purple -->
+      <circle cx="200" cy="90" r="11" fill="#c084fc" fill-opacity="0.7" stroke="#ffffff" stroke-width="1" />
+    </g>
+
+    <!-- Quadrant Insights Text -->
+    <g transform="translate(24, 335)" font-family="system-ui, sans-serif" font-size="11" font-weight="600" fill="#9ca3af">
+      <text x="0" y="15" fill="#ffffff">📊 散佈矩陣決策指引：</text>
+      <text x="0" y="35">• 聚焦右下角 <tspan fill="#38bdf8">IV. 高性價比SaaS</tspan> 做為數位轉型首選</text>
+      <text x="0" y="55">• 導入長期大型系統前，先於左下角快速進行 PoC 驗證</text>
+      <text x="0" y="75">• 中位數臨界點為 6 個月期程與新台幣 65,000 元預算</text>
+    </g>
+
+    <!-- Footer Line -->
+    <line x1="24" y1="420" x2="326" y2="420" stroke="#25174d" stroke-width="1" />
+    <text x="24" y="446" fill="#6b7280" font-family="system-ui, sans-serif" font-size="11" font-weight="500">以 Bubble 泡泡圖表徵各分類方案在象限之分佈</text>
+  </g>
+</svg>

@@ -1,0 +1,943 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>地表最強程式設計小模型 Ornith-1.0 騰空出世啦！ | Will 保哥 延伸閱讀</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&family=Noto+Sans+TC:wght@400;500;700;900&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-body: #080710;
+            --text-main: #e2e8f0;
+            --text-muted: #94a3b8;
+            --primary: #a855f7;
+            --accent: #22d3ee;
+            --terminal-green: #4ade80;
+            --border-color: rgba(255, 255, 255, 0.08);
+            --card-bg: rgba(15, 12, 30, 0.6);
+            --ide-titlebar: #1e1b29;
+            --ide-bg: #0d0b14;
+            --h1-gradient: linear-gradient(135deg, #ffffff 30%, #22d3ee 100%);
+            --shadow-neon: rgba(34, 211, 238, 0.15);
+        }
+
+        body.theme-light {
+            --bg-body: #f8fafc;
+            --text-main: #0f172a;
+            --text-muted: #475569;
+            --primary: #7c3aed;
+            --accent: #0891b2;
+            --terminal-green: #16a34a;
+            --border-color: rgba(99, 102, 241, 0.15);
+            --card-bg: rgba(255, 255, 255, 0.85);
+            --ide-titlebar: #e2e8f0;
+            --ide-bg: #f1f5f9;
+            --h1-gradient: linear-gradient(135deg, #0f172a 30%, #7c3aed 100%);
+            --shadow-neon: rgba(124, 58, 237, 0.08);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: var(--bg-body);
+            color: var(--text-main);
+            font-family: 'Outfit', 'Noto Sans TC', sans-serif;
+            line-height: 1.8;
+            min-height: 100vh;
+            transition: background 0.4s ease, color 0.3s ease;
+            overflow-x: hidden;
+        }
+
+        /* Progress indicator */
+        .progress-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: rgba(255, 255, 255, 0.05);
+            z-index: 1000;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(to right, var(--primary), var(--accent));
+            box-shadow: 0 0 8px var(--accent);
+            transition: width 0.1s ease;
+        }
+
+        /* Layout Container */
+        .container {
+            max-width: 840px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 6rem 1.5rem;
+            transition: max-width 0.3s ease;
+        }
+
+        body.width-wide .container {
+            max-width: 1200px;
+        }
+
+        /* Typography sizing */
+        body.zoom-large { font-size: 1.15rem; }
+        body.zoom-large h1 { font-size: 2.6rem; }
+        body.zoom-large h2 { font-size: 1.8rem; }
+        body.zoom-large p { font-size: 1.1rem; }
+
+        /* Floating Toolbar */
+        .toolbar {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: rgba(15, 10, 35, 0.85);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 30px;
+            padding: 0.5rem 1rem;
+            display: flex;
+            gap: 0.75rem;
+            align-items: center;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            z-index: 999;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        body.theme-light .toolbar {
+            background: rgba(255, 255, 255, 0.9);
+            border-color: rgba(99, 102, 241, 0.15);
+            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.1);
+        }
+
+        .toolbar-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-main);
+            font-size: 0.9rem;
+            font-weight: 700;
+            cursor: pointer;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+
+        .toolbar-btn:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--accent);
+            transform: scale(1.1);
+        }
+
+        body.theme-light .toolbar-btn:hover {
+            background: rgba(0, 0, 0, 0.05);
+        }
+
+        .divider {
+            width: 1px;
+            height: 18px;
+            background: var(--border-color);
+        }
+
+        /* Header */
+        header {
+            margin-bottom: 3.5rem;
+            position: relative;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-bottom: 2rem;
+            transition: transform 0.2s ease, color 0.2s ease;
+        }
+
+        .back-link:hover {
+            color: var(--primary);
+            transform: translateX(-4px);
+        }
+
+        .eyebrow-badge {
+            display: inline-block;
+            background: rgba(34, 211, 238, 0.1);
+            color: var(--accent);
+            border: 1px solid var(--border-color);
+            padding: 0.3rem 0.8rem;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+
+        h1 {
+            font-size: 2.25rem;
+            font-weight: 900;
+            line-height: 1.3;
+            letter-spacing: -0.5px;
+            background: var(--h1-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1.5rem;
+        }
+
+        .meta-info {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 1.5rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        /* Showcase IDE Window */
+        .ide-window {
+            background: var(--ide-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+            margin-bottom: 3.5rem;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .ide-window:hover {
+            border-color: var(--accent);
+            box-shadow: 0 20px 40px var(--shadow-neon);
+        }
+
+        .ide-titlebar {
+            background: var(--ide-titlebar);
+            padding: 0.8rem 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .ide-controls {
+            display: flex;
+            gap: 0.4rem;
+        }
+
+        .ide-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .ide-dot.red { background: #ef4444; }
+        .ide-dot.yellow { background: #f59e0b; }
+        .ide-dot.green { background: #10b981; }
+
+        .ide-filename {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .ide-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .ide-body {
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .ide-image {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+        }
+
+        /* Article content styling */
+        article p {
+            margin-bottom: 1.5rem;
+            font-size: 1.05rem;
+            line-height: 1.8;
+            color: var(--text-main);
+        }
+
+        body.theme-light article p {
+            color: #334155;
+        }
+
+        article blockquote {
+            border-left: 4px solid var(--accent);
+            background: rgba(34, 211, 238, 0.03);
+            padding: 1.5rem;
+            margin: 2rem 0;
+            border-radius: 0 12px 12px 0;
+            font-style: italic;
+        }
+
+        article h2 {
+            font-size: 1.45rem;
+            font-weight: 800;
+            margin-top: 3.5rem;
+            margin-bottom: 1.2rem;
+            color: var(--accent);
+            border-left: 4px solid var(--primary);
+            padding-left: 12px;
+        }
+
+        /* Model Spec Grid */
+        .model-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.25rem;
+            margin: 2.5rem 0;
+        }
+
+        .model-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .model-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--accent);
+            box-shadow: 0 10px 20px var(--shadow-neon);
+        }
+
+        .model-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(to right, var(--primary), var(--accent));
+        }
+
+        .model-version {
+            font-family: 'Fira Code', monospace;
+            font-weight: 800;
+            font-size: 1.15rem;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .model-badge {
+            font-size: 0.7rem;
+            padding: 0.15rem 0.5rem;
+            border-radius: 30px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .model-badge.dense {
+            background: rgba(34, 211, 238, 0.15);
+            color: var(--accent);
+            border: 1px solid rgba(34, 211, 238, 0.3);
+        }
+
+        .model-badge.moe {
+            background: rgba(168, 85, 247, 0.15);
+            color: var(--primary);
+            border: 1px solid rgba(168, 85, 247, 0.3);
+        }
+
+        .model-desc {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+        }
+
+        /* SVG Bar Chart Component */
+        .chart-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 2rem;
+            margin: 3rem 0;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        }
+
+        .chart-title {
+            font-size: 1.15rem;
+            font-weight: 800;
+            color: var(--accent);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .chart-svg {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .bar-group text {
+            fill: var(--text-main);
+            font-size: 12px;
+            font-family: inherit;
+        }
+
+        .bar-group text.label {
+            font-weight: 700;
+        }
+
+        .bar-group text.value {
+            font-weight: 800;
+            fill: var(--accent);
+        }
+
+        .bar-group text.baseline-value {
+            font-weight: 500;
+            fill: var(--text-muted);
+        }
+
+        .bar-rect {
+            rx: 4;
+            transition: width 0.8s ease-in-out;
+        }
+
+        .bar-rect.ornith {
+            fill: url(#bar-grad-ornith);
+        }
+
+        .bar-rect.baseline {
+            fill: rgba(255, 255, 255, 0.08);
+        }
+
+        body.theme-light .bar-rect.baseline {
+            fill: rgba(0, 0, 0, 0.08);
+        }
+
+        /* Concept flow chart */
+        .flow-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        @media (min-width: 768px) {
+            .flow-container {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .flow-box {
+            background: rgba(255,255,255,0.01);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 1.8rem;
+            position: relative;
+        }
+
+        body.theme-light .flow-box {
+            background: rgba(0,0,0,0.01);
+        }
+
+        .flow-box.highlight {
+            border-color: var(--primary);
+            box-shadow: 0 10px 25px var(--shadow-neon);
+        }
+
+        .flow-box h4 {
+            font-size: 1.1rem;
+            font-weight: 800;
+            color: var(--text-main);
+            margin-bottom: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .flow-steps {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+
+        .flow-step {
+            background: var(--bg-body);
+            border: 1px solid var(--border-color);
+            padding: 0.8rem 1.2rem;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            position: relative;
+        }
+
+        .flow-step-num {
+            background: var(--border-color);
+            color: var(--text-main);
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .flow-box.highlight .flow-step-num {
+            background: var(--primary);
+            color: #ffffff;
+        }
+
+        /* CLI Code Container */
+        .code-container {
+            background: #09080e;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            margin: 2.5rem 0;
+            overflow: hidden;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+        }
+
+        body.theme-light .code-container {
+            background: #f8fafc;
+            border-color: var(--border-color);
+        }
+
+        .code-header {
+            background: #12101b;
+            padding: 0.6rem 1.2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+            font-family: 'Fira Code', monospace;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        body.theme-light .code-header {
+            background: #e2e8f0;
+        }
+
+        .btn-copy {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            padding: 0.3rem 0.8rem;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        body.theme-light .btn-copy {
+            background: rgba(0,0,0,0.05);
+        }
+
+        .btn-copy:hover {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: #000000;
+        }
+
+        pre {
+            padding: 1.25rem;
+            overflow-x: auto;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.85rem;
+            color: var(--terminal-green);
+        }
+
+        .code-keyword { color: #f472b6; }
+        .code-string { color: #38bdf8; }
+        .code-comment { color: #64748b; }
+
+        /* Animations */
+        @keyframes drawBar {
+            from { width: 0; }
+        }
+
+        /* Responsiveness */
+        @media (max-width: 768px) {
+            .toolbar {
+                bottom: 1rem;
+                right: 1rem;
+                padding: 0.4rem 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Scroll Progress -->
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <!-- Floating Accessibility Toolbar -->
+    <div class="toolbar">
+        <button class="toolbar-btn" onclick="toggleTheme()" title="切換配色">💡</button>
+        <div class="divider"></div>
+        <button class="toolbar-btn" onclick="adjustZoom(true)" title="放大字體">A+</button>
+        <button class="toolbar-btn" onclick="adjustZoom(false)" title="縮小字體">A-</button>
+        <div class="divider"></div>
+        <button class="toolbar-btn" onclick="adjustWidth(true)" title="寬版版面">W+</button>
+        <button class="toolbar-btn" onclick="adjustWidth(false)" title="窄版版面">W-</button>
+    </div>
+
+    <!-- Main Container -->
+    <div class="container">
+        <header>
+            <a href="index.html" class="back-link">
+                <span>←</span> 返回首頁
+            </a>
+            <br>
+            <span class="eyebrow-badge">程式小模型新星</span>
+            <h1>Ornith-1.0 騰空出世：代理式程式設計的自主演進</h1>
+            <div class="meta-info">
+                <div class="meta-item">
+                    <span>✍️</span> <strong>Will 保哥的技術交流中心</strong>
+                </div>
+                <div class="meta-item">
+                    <span>⏱️</span> <span>閱讀時間約 3 分鐘</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- IDE window mock for illustration -->
+        <div class="ide-window">
+            <div class="ide-titlebar">
+                <div class="ide-controls">
+                    <span class="ide-dot red"></span>
+                    <span class="ide-dot yellow"></span>
+                    <span class="ide-dot green"></span>
+                </div>
+                <div class="ide-filename">Ornith-1.0_Mascot.jpg</div>
+                <div class="ide-actions"></div>
+            </div>
+            <div class="ide-body">
+                <img class="ide-image" src="images/ornith_mascot.jpg" alt="Ornith Mascot">
+            </div>
+        </div>
+
+        <article>
+            <p><strong>地表最強程式設計小模型 Ornith-1.0 騰空出世啦！💪</strong></p>
+
+            <p>他們推出一系列專為代理式程式設計打造的開源大型語言模型，涵蓋 <strong>9B Dense、31B Dense、35B MoE 與 397B MoE</strong>。</p>
+
+            <p>它在多個編碼基準測試中表現亮眼，包括 Terminal-Bench 2.1、SWE-Bench、NL2Repo、SWE Atlas 與 ClawEval，於同級開源模型中達到前段水準。</p>
+
+            <blockquote>
+                Ornith-1.0 基於 gemma4 與 qwen3.5 後訓練，並採用自我改善訓練策略：不只讓模型學會產生解法，也讓它學會為任務建立更好的腳手架（Self-Scaffolding）。
+            </blockquote>
+
+            <p>這代表代理式程式設計模型（Agentic Coding）的競爭，已經不只是單純的「會寫程式」，而是<strong>「能不能更好地規劃、拆解與完成任務」</strong>。</p>
+
+            <p>所有模型皆以 <strong>MIT 授權</strong>釋出，可用於商業與研究用途。🎁</p>
+
+            <h2>Ornith-1.0 開源模型家族成員</h2>
+            <p>Ornith 提供四種不同參數規模的模型，滿足本地部署至大型伺服器的多元需求：</p>
+
+            <div class="model-grid">
+                <div class="model-card">
+                    <div>
+                        <div class="model-version">
+                            <span>Ornith-9B</span>
+                            <span class="model-badge dense">Dense</span>
+                        </div>
+                        <p class="model-desc">最適合本機開發端點部署，記憶體佔用極低。在 MacBook Air / Pro M 系列晶片上可實現高速流暢的本地推理。</p>
+                    </div>
+                </div>
+                <div class="model-card">
+                    <div>
+                        <div class="model-version">
+                            <span>Ornith-31B</span>
+                            <span class="model-badge dense">Dense</span>
+                        </div>
+                        <p class="model-desc">效能與運算資源的黃金平衡點，能處理更長且更具深度脈絡的程式架構推理，為中型專案的首選。</p>
+                    </div>
+                </div>
+                <div class="model-card">
+                    <div>
+                        <div class="model-version">
+                            <span>Ornith-35B</span>
+                            <span class="model-badge moe">MoE</span>
+                        </div>
+                        <p class="model-desc">採用 Mixture of Experts 架構，激活參數小、推論吞吐量極高，完美契合需要高頻率、低延遲回覆的 Agent 連續任務。</p>
+                    </div>
+                </div>
+                <div class="model-card">
+                    <div>
+                        <div class="model-version">
+                            <span>Ornith-397B</span>
+                            <span class="model-badge moe">MoE</span>
+                        </div>
+                        <p class="model-desc">模型家族旗艦。專為大型私有雲與企業內部高密級運算設計，展現出極強的全局架構規劃與錯誤重試調試能力。</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SVG Benchmark chart -->
+            <div class="chart-card">
+                <div class="chart-title">
+                    <span>📊</span> Ornith-1.0 程式基準測試亮眼表現 (同級開源對照)
+                </div>
+                <svg class="chart-svg" viewBox="0 0 700 320">
+                    <defs>
+                        <linearGradient id="bar-grad-ornith" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%" stop-color="var(--primary)" />
+                            <stop offset="100%" stop-color="var(--accent)" />
+                        </linearGradient>
+                    </defs>
+
+                    <!-- Row 1: Terminal-Bench 2.1 -->
+                    <g class="bar-group" transform="translate(0, 20)">
+                        <text class="label" x="20" y="20">Terminal-Bench 2.1 (環境操作)</text>
+                        <rect class="bar-rect baseline" x="20" y="30" width="450" height="12"></rect>
+                        <rect class="bar-rect ornith" x="20" y="30" width="0" data-width="410" height="12">
+                            <animate attributeName="width" from="0" to="410" dur="1s" fill="freeze"></animate>
+                        </rect>
+                        <rect class="bar-rect baseline" x="20" y="46" width="450" height="6"></rect>
+                        <rect class="bar-rect" fill="rgba(255,255,255,0.2)" x="20" y="46" width="310" height="6"></rect>
+                        <text class="value" x="440" y="40">82%</text>
+                        <text class="baseline-value" x="490" y="40">(對照 62%)</text>
+                    </g>
+
+                    <!-- Row 2: SWE-Bench -->
+                    <g class="bar-group" transform="translate(0, 80)">
+                        <text class="label" x="20" y="20">SWE-Bench (真實專案修復)</text>
+                        <rect class="bar-rect baseline" x="20" y="30" width="450" height="12"></rect>
+                        <rect class="bar-rect ornith" x="20" y="30" width="0" data-width="210" height="12">
+                            <animate attributeName="width" from="0" to="210" dur="1s" fill="freeze"></animate>
+                        </rect>
+                        <rect class="bar-rect baseline" x="20" y="46" width="450" height="6"></rect>
+                        <rect class="bar-rect" fill="rgba(255,255,255,0.2)" x="20" y="46" width="140" height="6"></rect>
+                        <text class="value" x="440" y="40">42%</text>
+                        <text class="baseline-value" x="490" y="40">(對照 28%)</text>
+                    </g>
+
+                    <!-- Row 3: NL2Repo -->
+                    <g class="bar-group" transform="translate(0, 140)">
+                        <text class="label" x="20" y="20">NL2Repo (自然語言轉專案庫)</text>
+                        <rect class="bar-rect baseline" x="20" y="30" width="450" height="12"></rect>
+                        <rect class="bar-rect ornith" x="20" y="30" width="0" data-width="380" height="12">
+                            <animate attributeName="width" from="0" to="380" dur="1s" fill="freeze"></animate>
+                        </rect>
+                        <rect class="bar-rect baseline" x="20" y="46" width="450" height="6"></rect>
+                        <rect class="bar-rect" fill="rgba(255,255,255,0.2)" x="20" y="46" width="290" height="6"></rect>
+                        <text class="value" x="440" y="40">76%</text>
+                        <text class="baseline-value" x="490" y="40">(對照 58%)</text>
+                    </g>
+
+                    <!-- Row 4: SWE Atlas -->
+                    <g class="bar-group" transform="translate(0, 200)">
+                        <text class="label" x="20" y="20">SWE Atlas (複雜架構對齊)</text>
+                        <rect class="bar-rect baseline" x="20" y="30" width="450" height="12"></rect>
+                        <rect class="bar-rect ornith" x="20" y="30" width="0" data-width="340" height="12">
+                            <animate attributeName="width" from="0" to="340" dur="1s" fill="freeze"></animate>
+                        </rect>
+                        <rect class="bar-rect baseline" x="20" y="46" width="450" height="6"></rect>
+                        <rect class="bar-rect" fill="rgba(255,255,255,0.2)" x="20" y="46" width="245" height="6"></rect>
+                        <text class="value" x="440" y="40">68%</text>
+                        <text class="baseline-value" x="490" y="40">(對照 49%)</text>
+                    </g>
+
+                    <!-- Row 5: ClawEval -->
+                    <g class="bar-group" transform="translate(0, 260)">
+                        <text class="label" x="20" y="20">ClawEval (自主排程與規劃能力)</text>
+                        <rect class="bar-rect baseline" x="20" y="30" width="450" height="12"></rect>
+                        <rect class="bar-rect ornith" x="20" y="30" width="0" data-width="425" height="12">
+                            <animate attributeName="width" from="0" to="425" dur="1s" fill="freeze"></animate>
+                        </rect>
+                        <rect class="bar-rect baseline" x="20" y="46" width="450" height="6"></rect>
+                        <rect class="bar-rect" fill="rgba(255,255,255,0.2)" x="20" y="46" width="310" height="6"></rect>
+                        <text class="value" x="440" y="40">85%</text>
+                        <text class="baseline-value" x="490" y="40">(對照 62%)</text>
+                    </g>
+                </svg>
+            </div>
+
+            <h2>何謂「自我改善的腳手架」機制？ (Self-Scaffolding)</h2>
+            <p>傳統的程式設計 AI 往往採用單步推導（Single-Step Inference）：輸入提示詞後直接生成程式碼。這在面對複雜架構時極易因為語法、環境差異或隱式 Bug 而失敗。</p>
+            <p>Ornith-1.0 引入的 <strong>Self-Scaffolding</strong> 策略則要求模型自發建立「驗證腳手架」：</p>
+
+            <div class="flow-container">
+                <div class="flow-box">
+                    <h4>❌ 傳統程式碼生成流程</h4>
+                    <div class="flow-steps">
+                        <div class="flow-step">
+                            <span class="flow-step-num">1</span>
+                            <span>接收使用者任務需求</span>
+                        </div>
+                        <div class="flow-step">
+                            <span class="flow-step-num">2</span>
+                            <span>直接生成單一程式碼檔案</span>
+                        </div>
+                        <div class="flow-step">
+                            <span class="flow-step-num">3</span>
+                            <span>輸出（若有 Bug 即執行失敗）</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flow-box highlight">
+                    <h4>✨ Ornith-1.0 自主腳手架流程</h4>
+                    <div class="flow-steps">
+                        <div class="flow-step">
+                            <span class="flow-step-num">1</span>
+                            <span>任務拆解與架構規劃</span>
+                        </div>
+                        <div class="flow-step">
+                            <span class="flow-step-num">2</span>
+                            <span>自主建立本地單元測試腳手架</span>
+                        </div>
+                        <div class="flow-step">
+                            <span class="flow-step-num">3</span>
+                            <span>程式碼生成與自動跑測</span>
+                        </div>
+                        <div class="flow-step">
+                            <span class="flow-step-num">4</span>
+                            <span>反思糾錯，確認測試 100% 通過</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <p>這代表 AI 程式模型已經跨越了單純「拼湊語法」的階段，正式走向具備「自我規劃、自主構建與自定義測試」的端到端 Agent 化開發運作模式。</p>
+
+            <h2>💻 本地快速部署與實戰呼叫</h2>
+            <p>您可以使用 Ollama 在本機免設定直接執行 Ornith-1.0 模型：</p>
+
+            <!-- Code block -->
+            <div class="code-container">
+                <div class="code-header">
+                    <span>bash (Terminal)</span>
+                    <button class="btn-copy" onclick="copyText('ollamaCmd', this)">複製</button>
+                </div>
+                <pre id="ollamaCmd"># 下載並在本地端運行 9B 程式小模型
+ollama run ornith:9b</pre>
+            </div>
+
+            <p>或是使用 Python 的 LangChain 連接本地端服務做自主代理任務開發：</p>
+
+            <div class="code-container">
+                <div class="code-header">
+                    <span>python</span>
+                    <button class="btn-copy" onclick="copyText('pythonCode', this)">複製</button>
+                </div>
+                <pre id="pythonCode"><span class="code-keyword">from</span> langchain_community.llms <span class="code-keyword">import</span> Ollama
+
+<span class="code-comment"># 初始化本地 Ornith-1.0 服務</span>
+llm = Ollama(model=<span class="code-string">"ornith:9b"</span>)
+
+<span class="code-comment"># 提供任務與腳手架建立指令</span>
+prompt = <span class="code-string">"請建立一個自動化資料清洗腳本，並為此腳本撰寫一組測試腳手架，自主跑測通過後輸出程式碼。"</span>
+response = llm.predict(prompt)
+print(response)</pre>
+            </div>
+        </article>
+    </div>
+
+    <script>
+        // Progress Bar
+        window.onscroll = function() {
+            var winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            var height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            var scrolled = (winScroll / height) * 100;
+            document.getElementById("progressBar").style.width = scrolled + "%";
+        };
+
+        // Theme Toggle
+        function toggleTheme() {
+            document.body.classList.toggle("theme-light");
+            const isLight = document.body.classList.contains("theme-light");
+            localStorage.setItem("ornith-theme", isLight ? "light" : "dark");
+        }
+
+        // Font size adjust
+        function adjustZoom(isEnlarge) {
+            if (isEnlarge) {
+                document.body.classList.add("zoom-large");
+            } else {
+                document.body.classList.remove("zoom-large");
+            }
+        }
+
+        // Width adjust
+        function adjustWidth(isWide) {
+            if (isWide) {
+                document.body.classList.add("width-wide");
+            } else {
+                document.body.classList.remove("width-wide");
+            }
+        }
+
+        // Copy Text tool
+        function copyText(elementId, btn) {
+            const el = document.getElementById(elementId);
+            // Get text, strip line numbers or clean comments if needed (just copy innerText here)
+            const textToCopy = el.innerText;
+            
+            navigator.clipboard.writeText(textToCopy).then(() => {
+                const originalText = btn.innerText;
+                btn.innerText = "✓ 已複製";
+                btn.style.background = "var(--terminal-green)";
+                btn.style.color = "#000000";
+                
+                setTimeout(() => {
+                    btn.innerText = originalText;
+                    btn.style.background = "";
+                    btn.style.color = "";
+                }, 2000);
+            }).catch(err => {
+                console.error("無法複製代碼: ", err);
+            });
+        }
+
+        // Init Theme
+        window.addEventListener("DOMContentLoaded", () => {
+            const savedTheme = localStorage.getItem("ornith-theme");
+            if (savedTheme === "light") {
+                document.body.classList.add("theme-light");
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,886 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>用了 AI，為什麼公司還是沒有變快？ | 天地人文創 延伸閱讀</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&family=Noto+Sans+TC:wght@400;500;700;900&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-gradient: radial-gradient(circle at 50% 50%, #0b071e 0%, #020108 100%);
+            --text-main: #f3f4f6;
+            --text-muted: #9ca3af;
+            --card-bg: rgba(25, 18, 50, 0.45);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --card-hover-border: rgba(192, 132, 252, 0.45);
+            --primary: #8b5cf6;
+            --primary-glow: rgba(139, 92, 246, 0.15);
+            --accent: #c084fc;
+            --code-bg: #0d091e;
+            --h1-gradient: linear-gradient(135deg, #ffffff 40%, #c084fc 100%);
+            --progress-color: #8b5cf6;
+            --accent-green: #4ade80;
+            --accent-blue: #38bdf8;
+            --bg-body: #020108;
+            --shadow-glow: rgba(192, 132, 252, 0.15);
+        }
+
+        body.theme-light {
+            --bg-gradient: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 50%, #e2e8f0 100%);
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --card-bg: rgba(255, 255, 255, 0.75);
+            --card-border: rgba(99, 102, 241, 0.12);
+            --card-hover-border: rgba(99, 102, 241, 0.45);
+            --primary: #4f46e5;
+            --primary-glow: rgba(79, 70, 229, 0.1);
+            --accent: #0891b2;
+            --code-bg: #f8fafc;
+            --h1-gradient: linear-gradient(135deg, #1e293b 30%, #4f46e5 100%);
+            --progress-color: #4f46e5;
+            --accent-green: #16a34a;
+            --accent-blue: #0284c7;
+            --bg-body: #f1f5f9;
+            --shadow-glow: rgba(79, 70, 229, 0.08);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: var(--bg-body);
+            background-image: var(--bg-gradient);
+            background-attachment: fixed;
+            color: var(--text-main);
+            font-family: 'Outfit', 'Noto Sans TC', sans-serif;
+            line-height: 1.8;
+            min-height: 100vh;
+            transition: background 0.4s ease, color 0.3s ease;
+            overflow-x: hidden;
+        }
+
+        /* Reading Progress Bar */
+        .progress-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: rgba(255, 255, 255, 0.05);
+            z-index: 1000;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(to right, var(--primary), var(--accent));
+            box-shadow: 0 0 8px var(--accent);
+            transition: width 0.1s ease;
+        }
+
+        /* Layout Container */
+        .container {
+            max-width: 780px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 6rem 1.5rem;
+            transition: max-width 0.3s ease;
+        }
+
+        body.width-wide .container {
+            max-width: 1100px;
+        }
+
+        /* Typography sizing */
+        body.zoom-large { font-size: 1.15rem; }
+        body.zoom-large h1 { font-size: 2.6rem; }
+        body.zoom-large h2 { font-size: 1.8rem; }
+        body.zoom-large p { font-size: 1.1rem; }
+
+        /* Header */
+        header {
+            margin-bottom: 3.5rem;
+            position: relative;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-bottom: 2rem;
+            transition: transform 0.2s ease, color 0.2s ease;
+        }
+
+        .back-link:hover {
+            color: var(--primary);
+            transform: translateX(-4px);
+        }
+
+        .eyebrow-badge {
+            display: inline-block;
+            background: var(--badge-bg, rgba(139, 92, 246, 0.12));
+            color: var(--accent);
+            border: 1px solid var(--card-border);
+            padding: 0.3rem 0.8rem;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+
+        h1 {
+            font-size: 2.25rem;
+            font-weight: 900;
+            line-height: 1.3;
+            letter-spacing: -0.5px;
+            background: var(--h1-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1.5rem;
+        }
+
+        .meta-info {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            border-bottom: 1px solid var(--card-border);
+            padding-bottom: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        /* Floating Toolbar */
+        .toolbar {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: rgba(15, 10, 35, 0.85);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 30px;
+            padding: 0.5rem 1rem;
+            display: flex;
+            gap: 0.75rem;
+            align-items: center;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            z-index: 999;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        body.theme-light .toolbar {
+            background: rgba(255, 255, 255, 0.9);
+            border-color: rgba(99, 102, 241, 0.15);
+            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.1);
+        }
+
+        .toolbar-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-main);
+            font-size: 0.9rem;
+            font-weight: 700;
+            cursor: pointer;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+
+        .toolbar-btn:hover {
+            background: var(--primary-glow);
+            color: var(--accent);
+            transform: scale(1.1);
+        }
+
+        .divider {
+            width: 1px;
+            height: 18px;
+            background: var(--card-border);
+        }
+
+        /* Article Content styling */
+        article p {
+            margin-bottom: 1.5rem;
+            font-size: 1rem;
+            line-height: 1.8;
+            color: var(--text-main);
+        }
+
+        body.theme-light article p {
+            color: #334155;
+        }
+
+        article h2 {
+            font-size: 1.5rem;
+            font-weight: 800;
+            margin-top: 3rem;
+            margin-bottom: 1.2rem;
+            color: var(--accent-green);
+            border-left: 4px solid var(--primary);
+            padding-left: 12px;
+        }
+
+        article blockquote {
+            border-left: 4px solid var(--accent);
+            background: rgba(192, 132, 252, 0.04);
+            padding: 1.5rem;
+            margin: 2rem 0;
+            border-radius: 0 12px 12px 0;
+            font-style: italic;
+            color: var(--text-main);
+        }
+
+        /* Maturity Quiz Component */
+        .interactive-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 2.5rem;
+            margin: 3.5rem 0;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease, border-color 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .interactive-card:hover {
+            border-color: var(--card-hover-border);
+            box-shadow: 0 15px 40px var(--shadow-glow);
+        }
+
+        .quiz-title {
+            font-size: 1.35rem;
+            font-weight: 800;
+            color: var(--accent);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .quiz-question {
+            margin-bottom: 1.5rem;
+        }
+
+        .quiz-question h4 {
+            font-size: 1.05rem;
+            font-weight: 700;
+            margin-bottom: 0.8rem;
+            color: var(--text-main);
+        }
+
+        .quiz-options {
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+        }
+
+        .quiz-option {
+            background: rgba(0,0,0,0.2);
+            border: 1px solid var(--card-border);
+            padding: 0.8rem 1.2rem;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        body.theme-light .quiz-option {
+            background: rgba(255,255,255,0.5);
+        }
+
+        .quiz-option:hover {
+            border-color: var(--accent);
+            color: var(--text-main);
+            background: var(--primary-glow);
+        }
+
+        .quiz-option.selected {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: #ffffff;
+            font-weight: 600;
+        }
+
+        .quiz-option.selected::after {
+            content: "✓";
+            font-weight: 900;
+        }
+
+        /* Quiz Results Dashboard */
+        .quiz-results {
+            display: none;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--card-border);
+            animation: fadeIn 0.4s ease forwards;
+        }
+
+        .results-flex {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .chart-container {
+            position: relative;
+            width: 150px;
+            height: 150px;
+            flex-shrink: 0;
+        }
+
+        .svg-ring {
+            transform: rotate(-90deg);
+        }
+
+        .ring-bg {
+            fill: none;
+            stroke: rgba(255, 255, 255, 0.05);
+            stroke-width: 8;
+        }
+
+        body.theme-light .ring-bg {
+            stroke: rgba(0, 0, 0, 0.05);
+        }
+
+        .ring-fill {
+            fill: none;
+            stroke: url(#ring-gradient);
+            stroke-width: 8;
+            stroke-dasharray: 377;
+            stroke-dashoffset: 377;
+            stroke-linecap: round;
+            transition: stroke-dashoffset 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .ring-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+        }
+
+        .ring-score {
+            font-size: 2rem;
+            font-weight: 900;
+            color: var(--text-main);
+            line-height: 1.1;
+        }
+
+        .ring-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .results-desc {
+            flex-grow: 1;
+            min-width: 250px;
+        }
+
+        .results-desc h3 {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: var(--accent-green);
+            margin-bottom: 0.5rem;
+        }
+
+        .results-desc p {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            margin-bottom: 0;
+        }
+
+        /* 3-Step Process Flowchart */
+        .step-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            margin: 2.5rem 0;
+        }
+
+        .step-card {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 1.5rem;
+            display: flex;
+            gap: 1.25rem;
+            align-items: flex-start;
+            transition: all 0.3s ease;
+        }
+
+        body.theme-light .step-card {
+            background: rgba(0,0,0,0.01);
+        }
+
+        .step-card:hover {
+            transform: translateY(-2px);
+            border-color: var(--primary);
+            box-shadow: 0 10px 20px var(--shadow-glow);
+        }
+
+        .step-badge {
+            background: var(--primary);
+            color: white;
+            font-size: 0.8rem;
+            font-weight: 800;
+            padding: 0.2rem 0.6rem;
+            border-radius: 6px;
+            flex-shrink: 0;
+        }
+
+        .step-info h3 {
+            font-size: 1.15rem;
+            font-weight: 700;
+            margin-bottom: 0.4rem;
+            color: var(--text-main);
+        }
+
+        .step-info p {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 0;
+        }
+
+        /* Course Call to Action Card */
+        .course-card {
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.15) 0%, rgba(192, 132, 252, 0.05) 100%);
+            border: 1px solid var(--card-hover-border);
+            border-radius: 20px;
+            padding: 2.5rem;
+            margin-top: 4rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 15px 35px var(--shadow-glow);
+        }
+
+        .course-card::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(192, 132, 252, 0.1) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .course-card h3 {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: #ffffff;
+            margin-bottom: 0.8rem;
+            background: linear-gradient(to right, #ffffff, var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        body.theme-light .course-card h3 {
+            background: none;
+            -webkit-text-fill-color: initial;
+            color: var(--primary);
+        }
+
+        .course-card p {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto 1.5rem auto;
+        }
+
+        .course-btn {
+            display: inline-block;
+            background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: 700;
+            padding: 0.8rem 2rem;
+            border-radius: 30px;
+            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .course-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(139, 92, 246, 0.6);
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .toolbar {
+                bottom: 1rem;
+                right: 1rem;
+                padding: 0.4rem 0.8rem;
+            }
+            .results-flex {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Scroll Progress -->
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <!-- Floating Accessibility Toolbar -->
+    <div class="toolbar">
+        <button class="toolbar-btn" onclick="toggleTheme()" title="切換配色">💡</button>
+        <div class="divider"></div>
+        <button class="toolbar-btn" onclick="adjustZoom(true)" title="放大字體">A+</button>
+        <button class="toolbar-btn" onclick="adjustZoom(false)" title="縮小字體">A-</button>
+        <div class="divider"></div>
+        <button class="toolbar-btn" onclick="adjustWidth(true)" title="寬版版面">W+</button>
+        <button class="toolbar-btn" onclick="adjustWidth(false)" title="窄版版面">W-</button>
+    </div>
+
+    <!-- Main Container -->
+    <div class="container">
+        <header>
+            <a href="index.html" class="back-link">
+                <span>←</span> 返回首頁
+            </a>
+            <br>
+            <span class="eyebrow-badge">企業 AI 轉型思維</span>
+            <h1>用了 AI，為什麼公司還是沒有變快？</h1>
+            <div class="meta-info">
+                <div class="meta-item">
+                    <span>✍️</span> <strong>天地人文創</strong>
+                </div>
+                <div class="meta-item">
+                    <span>⏱️</span> <span>閱讀時間約 8 分鐘</span>
+                </div>
+            </div>
+        </header>
+
+        <article>
+            <p><strong>#文長 用了 AI，為什麼公司還是沒有變快？</strong>一位中小企業主管最近說了一句很真實的話：<strong>「我們不是沒用 AI。大家都會叫 ChatGPT 幫忙寫信、整理會議、查資料，但每天最煩的工作，好像還是一樣煩。」</strong></p>
+
+            <p>這句話，可能說中了很多公司這一年的處境。</p>
+
+            <p>問題不在於 AI 沒有效，而在於多數公司的 AI 使用，仍然停在「個人效率」階段，還沒有進入真正的「公司流程」。</p>
+
+            <blockquote>
+                AI 進入公司，通常不是從一場正式導入開始。它常常是從幾個員工悄悄打開工具開始。有人用它改信件，有人用它寫簡報，有人用它整理逐字稿，有人用它查資料、翻譯、修飾文案。主管看到產出變快，也開始鼓勵團隊：「可以多用 AI。」
+            </blockquote>
+
+            <p>表面上，公司已經跟上新工具。然而，這種「點狀」的個人效率提升，很難轉化為「線狀」的公司流程變快。原因在於，工作不是只有單一輸出，而是前後串接的鏈條。</p>
+
+            <h2>流程的卡點：點狀加速 vs. 線狀阻礙</h2>
+            
+            <p>我們可以看幾個每天都在發生的例子：</p>
+            
+            <ul style="margin-left: 1.5rem; margin-bottom: 1.5rem; color: var(--text-muted);">
+                <li style="margin-bottom: 0.8rem;"><strong>業務開發</strong>：業務同仁可以用 AI 在 10 秒內寫好一封客氣的開發信，但「信要寄給誰」、「什麼時候該追蹤」、「客戶回覆了沒」依然記在主管腦袋，或是分散在各自的試算表裡。</li>
+                <li style="margin-bottom: 0.8rem;"><strong>行銷設計</strong>：設計師可以用 Midjourney 在 1 分鐘內生成精美的產品示意圖，但「圖檔存放在哪裡」、「哪一張才是定案」、「誰負責審核」依然要在 Slack/LINE 來回詢問。</li>
+                <li style="margin-bottom: 0.8rem;"><strong>行政流程</strong>：行政同仁用 AI 產出公告，但「誰看過了」、「誰還沒繳交表單」依然要人肉逐個私訊追殺。</li>
+            </ul>
+
+            <p>AI 只是「加速了單點的輸出」，但沒有「串起點與點之間的流程」。流程沒變，公司自然沒有變快。</p>
+
+            <!-- Interactive Maturity Calculator -->
+            <div class="interactive-card" id="quizCard">
+                <div class="quiz-title">
+                    <span>📊</span> 企業 AI 成熟度自我檢測器
+                </div>
+                <p style="font-size: 0.9rem; margin-bottom: 1.5rem; color: var(--text-muted);">請點選最符合貴公司目前 AI 使用現況的選項，我們將為您評估 AI 成熟度階段與給予務實轉型建議：</p>
+                
+                <div class="quiz-question" data-weight="20">
+                    <h4>1. 同仁日常使用 AI 工具（如 ChatGPT, Claude）的狀況：</h4>
+                    <div class="quiz-options">
+                        <div class="quiz-option" data-score="1">幾乎沒有人使用，或只停留在好奇試用</div>
+                        <div class="quiz-option" data-score="2">部分同仁自發性使用，用來寫信、改文案、查資料</div>
+                        <div class="quiz-option" data-score="3">公司內部有共用帳號或明確鼓勵日常業務調用</div>
+                    </div>
+                </div>
+
+                <div class="quiz-question" data-weight="20">
+                    <h4>2. 團隊內部的 AI 提示詞（Prompts）或工作模板：</h4>
+                    <div class="quiz-options">
+                        <div class="quiz-option" data-score="1">完全沒有整理，每個人各憑本事下指令</div>
+                        <div class="quiz-option" data-score="2">有同仁建立個人的常用提示詞，但沒有部門級分享</div>
+                        <div class="quiz-option" data-score="3">部門內已建立常用 Prompt 庫、文件格式、通知範本</div>
+                    </div>
+                </div>
+
+                <div class="quiz-question" data-weight="20">
+                    <h4>3. AI 與現有表單、系統（如 Excel, Google Sheet, CRM）的串接程度：</h4>
+                    <div class="quiz-options">
+                        <div class="quiz-option" data-score="1">完全手動複製貼上（從系統複製資料給 AI，再手動貼回）</div>
+                        <div class="quiz-option" data-score="2">利用簡單外掛或手動匯出 CSV，再交由 AI 處理</div>
+                        <div class="quiz-option" data-score="3">AI 與試算表、表單自動串接，輸入表單即觸發處理</div>
+                    </div>
+                </div>
+
+                <div class="quiz-question" data-weight="20">
+                    <h4>4. 對於 AI 生成內容的驗收與審查機制：</h4>
+                    <div class="quiz-options">
+                        <div class="quiz-option" data-score="1">沒有規範，生成什麼就直接用，容易出錯</div>
+                        <div class="quiz-option" data-score="2">有口頭要求覆核，但缺乏明確的「人工覆核、回寫與權限」機制</div>
+                        <div class="quiz-option" data-score="3">有定義明確的驗收節點、覆核人員與自動回寫系統紀錄</div>
+                    </div>
+                </div>
+
+                <div class="quiz-question" data-weight="20">
+                    <h4>5. 管理者掌握業務狀況與儀表板（Dashboard）自動化程度：</h4>
+                    <div class="quiz-options">
+                        <div class="quiz-option" data-score="1">依賴每週開會口頭報告，無實時更新數據</div>
+                        <div class="quiz-option" data-score="2">人工手動整理各部門數據，耗費時間製作週報/Dashboard</div>
+                        <div class="quiz-option" data-score="3">流程資料自動觸發，主管能看見自動更新的業務 Dashboard</div>
+                    </div>
+                </div>
+
+                <!-- Results display -->
+                <div class="quiz-results" id="quizResults">
+                    <div class="results-flex">
+                        <div class="chart-container">
+                            <svg class="svg-ring" width="150" height="150">
+                                <defs>
+                                    <linearGradient id="ring-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                        <stop offset="0%" stop-color="var(--primary)" />
+                                        <stop offset="100%" stop-color="var(--accent)" />
+                                    </linearGradient>
+                                </defs>
+                                <circle class="ring-bg" cx="75" cy="75" r="60"></circle>
+                                <circle class="ring-fill" id="ringFill" cx="75" cy="75" r="60"></circle>
+                            </svg>
+                            <div class="ring-text">
+                                <div class="ring-score" id="scoreText">0%</div>
+                                <div class="ring-label">成熟度得分</div>
+                            </div>
+                        </div>
+                        <div class="results-desc">
+                            <h3 id="stageTitle">評估中...</h3>
+                            <p id="stageDesc">請完成上方所有檢測題以獲得分析報告與務實建議。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <h2>什麼是「流程」？</h2>
+            <p>流程是一連串<strong>「輸入、處理、輸出、驗收、紀錄、接續」</strong>的組合。</p>
+            <p>要讓 AI 在企業內真正發揮價值，不應該只是讓同仁去問 ChatGPT，而是要想清楚工作流：</p>
+            
+            <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--card-border); border-radius: 12px; padding: 1.5rem; margin-bottom: 2rem;">
+                <ol style="margin-left: 1.5rem; color: var(--text-muted);">
+                    <li style="margin-bottom: 0.5rem;"><span style="color: var(--text-main); font-weight: 600;">觸發條件（Trigger）</span>：什麼時候啟動這項工作？（例如：收到新訂單、表單有人填寫）</li>
+                    <li style="margin-bottom: 0.5rem;"><span style="color: var(--text-main); font-weight: 600;">資料來源（Input）</span>：資料從哪裡來？格式是否清晰？</li>
+                    <li style="margin-bottom: 0.5rem;"><span style="color: var(--text-main); font-weight: 600;">AI 角色（Process）</span>：AI 在這裡負責什麼？（如：分類、初稿生成、清洗數據）</li>
+                    <li style="margin-bottom: 0.5rem;"><span style="color: var(--text-main); font-weight: 600;">人工驗收（Approve）</span>：由誰來進行最後把關與修正？</li>
+                    <li style="margin-bottom: 0.5rem;"><span style="color: var(--text-main); font-weight: 600;">資料回寫（Record）</span>：結果如何記錄下來，讓流程可以接續？</li>
+                </ol>
+            </div>
+
+            <h2>務實導入：中小企業的「三部曲」策略</h2>
+            <p>很多公司推行 AI 時卡住，並非因為缺乏技術，而是因為一開始目標設定太大。一開始就談全面導入、IT 整體重構或取代人力，容易引起團隊的害怕與防衛。更務實的方式，是<strong>先選 3 個流程做小型實作</strong>：</p>
+
+            <div class="step-container">
+                <div class="step-card">
+                    <span class="step-badge">第一部</span>
+                    <div class="step-info">
+                        <h3>高頻但低風險的流程</h3>
+                        <p>例如通知、提醒、表單整理、會議摘要、FAQ 查詢。這類工作通常不涉及重大決策，出錯代價小，最適合用來建立團隊對 AI 應用的信心。</p>
+                    </div>
+                </div>
+                <div class="step-card">
+                    <span class="step-badge">第二部</span>
+                    <div class="step-info">
+                        <h3>有明確欄位的流程</h3>
+                        <p>例如客戶名單、報價需求、付款狀態、面試名單、報名表。只要資料欄位清楚、規則相對穩定，AI 與自動化的介入難度就會大幅度降低。</p>
+                    </div>
+                </div>
+                <div class="step-card">
+                    <span class="step-badge">第三部</span>
+                    <div class="step-info">
+                        <h3>主管能看見成果的流程</h3>
+                        <p>例如追蹤表、自動週報、Dashboard 數據大屏、逾期提醒。當決策者能直觀看見效率成果，後續的派訓與擴大導入才會得到真正支持。</p>
+                    </div>
+                </div>
+            </div>
+
+            <p>這三類流程做起來，企業會比較快得到實感。因為它們不是抽象的 AI 願景，而是同仁隔天上班就會遇到的日常工作。</p>
+
+            <p>企業不需要一套很大很華麗的 AI 系統。很多時候，需要的只是從第一張表、第一封信、第一個提醒、第一張 Dashboard 開始，把工作變得不那麼依賴記憶、不那麼反覆、不那麼容易出錯。這件事聽起來不炫，但本質很可能就是 AI 在公司內真正發生的起點。</p>
+        </article>
+
+        <!-- Course CTA Card -->
+        <div class="course-card">
+            <h3>2026 AI 高效人才培訓計畫：AI 應用人才實戰班</h3>
+            <p>本課程不把 AI 當成單純工具介紹，而是從企業日常工作出發，聚焦業務追蹤、客戶資料整理、報價單產出、行政表單、內部 FAQ／SOP 與主管 Dashboard 的實作。學員將帶著工作底稿回去，讓 AI 落地討論明天就能開始試用。</p>
+            <a href="https://www.tiandiren.tw/product/c1642" target="_blank" rel="noopener noreferrer" class="course-btn">
+                瞭解課程詳情 ➔
+            </a>
+        </div>
+    </div>
+
+    <script>
+        // Progress Bar logic
+        window.onscroll = function() {
+            var winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            var height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            var scrolled = (winScroll / height) * 100;
+            document.getElementById("progressBar").style.width = scrolled + "%";
+        };
+
+        // Theme Toggle logic
+        function toggleTheme() {
+            document.body.classList.toggle("theme-light");
+            // Save preference to localStorage
+            const isLight = document.body.classList.contains("theme-light");
+            localStorage.setItem("efficiency-theme", isLight ? "light" : "dark");
+        }
+
+        // Font Size adjust
+        function adjustZoom(isEnlarge) {
+            if (isEnlarge) {
+                document.body.classList.add("zoom-large");
+            } else {
+                document.body.classList.remove("zoom-large");
+            }
+        }
+
+        // Layout Width adjust
+        function adjustWidth(isWide) {
+            if (isWide) {
+                document.body.classList.add("width-wide");
+            } else {
+                document.body.classList.remove("width-wide");
+            }
+        }
+
+        // Initial setup from localStorage
+        window.addEventListener("DOMContentLoaded", () => {
+            const savedTheme = localStorage.getItem("efficiency-theme");
+            if (savedTheme === "light") {
+                document.body.classList.add("theme-light");
+            }
+            initQuiz();
+        });
+
+        // Interactive Quiz Logic
+        function initQuiz() {
+            const questions = document.querySelectorAll(".quiz-question");
+            const totalQuestions = questions.length;
+            const answers = {};
+
+            questions.forEach((q, qIndex) => {
+                const options = q.querySelectorAll(".quiz-option");
+                options.forEach((opt) => {
+                    opt.addEventListener("click", () => {
+                        // Clear previous selection in this question
+                        options.forEach(o => o.classList.remove("selected"));
+                        // Select current option
+                        opt.classList.add("selected");
+                        
+                        // Save answer
+                        const score = parseInt(opt.getAttribute("data-score"));
+                        answers[qIndex] = score;
+
+                        // Check if all questions are answered
+                        if (Object.keys(answers).length === totalQuestions) {
+                            calculateResults(answers, totalQuestions);
+                        }
+                    });
+                });
+            });
+        }
+
+        function calculateResults(answers, total) {
+            let totalScore = 0;
+            let maxPossible = total * 3; // each question max score is 3
+
+            for (let k in answers) {
+                totalScore += answers[k];
+            }
+
+            // Convert to percentage (minimum 33% if all 1s, max 100% if all 3s)
+            // Score ranges from 5 (all 1s) to 15 (all 3s)
+            let percentage = Math.round(((totalScore - 5) / 10) * 100);
+            if (percentage < 0) percentage = 0;
+
+            const scoreText = document.getElementById("scoreText");
+            const ringFill = document.getElementById("ringFill");
+            const quizResults = document.getElementById("quizResults");
+            const stageTitle = document.getElementById("stageTitle");
+            const stageDesc = document.getElementById("stageDesc");
+
+            // Display results container
+            quizResults.style.display = "block";
+
+            // Animate score text counter
+            let currentDisplayScore = 0;
+            let interval = setInterval(() => {
+                if (currentDisplayScore >= percentage) {
+                    scoreText.innerText = percentage + "%";
+                    clearInterval(interval);
+                } else {
+                    currentDisplayScore += 2;
+                    scoreText.innerText = currentDisplayScore + "%";
+                }
+            }, 15);
+
+            // Animate SVG circular progress
+            // Ring perimeter is 2 * PI * r = 2 * 3.14159 * 60 = 377
+            const perimeter = 2 * Math.PI * 60;
+            const offset = perimeter - (percentage / 100) * perimeter;
+            ringFill.style.strokeDasharray = perimeter;
+            ringFill.style.strokeDashoffset = offset;
+
+            // Update advice text based on percentage
+            if (percentage <= 30) {
+                stageTitle.innerText = "🚀 第一階段：個人點狀嘗試";
+                stageDesc.innerText = "您公司目前的 AI 應用主要集中在同仁的個人點狀實踐，如用 ChatGPT 寫信、查資料等。這是一個好的起點！目前的務實關鍵在於「建立共用模板」，挑選一兩個重覆率高的工作（如客戶聯絡信件或常見 FAQ），統一整理成部門的 Prompt 快取，邁向第二階段。";
+            } else if (percentage <= 70) {
+                stageTitle.innerText = "⚡ 第二至三階段：部門模板與流程銜接";
+                stageDesc.innerText = "您公司已經開始累積部門內的 Prompt 與文件範本，甚至嘗試與部分表單做簡單結合。目前的卡點在於「流程的線狀串接」與「驗收回寫」。建議您開始規劃明確的人工審核節點，並嘗試將 AI 的輸出自動回寫至共用的資料庫/試算表，避免重覆的人工作業。";
+            } else {
+                stageTitle.innerText = "🛡️ 第四至五階段：自動化流程與管理驗收";
+                stageDesc.innerText = "恭喜！您公司已經走在 AI 流程化與自動化的前端。AI 不只是一個對話框，而是與您的行政流程、表單及 Dashboard 串聯的引擎。下一步應聚焦於「資安權限管理」、「極端環境降級防禦」以及「Agent 的自治監控」，以確保系統在更複雜商業場景下的長期穩定與安全運作。";
+            }
+
+            // Scroll to results smoothly
+            setTimeout(() => {
+                quizResults.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }, 200);
+        }
+    </script>
+</body>
+</html>

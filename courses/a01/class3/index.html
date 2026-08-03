@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>銀河 ERP 內訓課程 | Class 03 核心教學主軸</title>
+    <!-- Falo x Force Cheng 2026/6/8 -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Dark Mode (Default Premium Violet Theme) */
+            --bg-gradient: radial-gradient(circle at 50% 50%, #0b071e 0%, #020108 100%);
+            --text-main: #f3f4f6;
+            --text-muted: #9ca3af;
+            --card-bg: rgba(25, 18, 50, 0.45);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --card-hover-border: rgba(192, 132, 252, 0.45);
+            --primary: #8b5cf6; /* Purple */
+            --primary-glow: rgba(139, 92, 246, 0.15);
+            --accent: #c084fc; /* Violet Light */
+            --accent-glow: rgba(192, 132, 252, 0.15);
+            --sidebar-bg: rgba(15, 10, 35, 0.85);
+            --sidebar-border: rgba(255, 255, 255, 0.08);
+            --toggle-bg: rgba(255, 255, 255, 0.05);
+            --toggle-border: rgba(255, 255, 255, 0.1);
+            --toggle-color: #f3f4f6;
+            --btn-bg: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+            --btn-shadow: rgba(139, 92, 246, 0.25);
+            --badge-bg: rgba(192, 132, 252, 0.12);
+            --badge-color: #d8b4fe;
+            --badge-border: rgba(192, 132, 252, 0.25);
+            --h1-gradient: linear-gradient(135deg, #ffffff 40%, #c084fc 100%);
+        }
+
+        body.theme-light {
+            /* Fresh White Mode */
+            --bg-gradient: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 50%, #e2e8f0 100%);
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --card-bg: rgba(255, 255, 255, 0.75);
+            --card-border: rgba(99, 102, 241, 0.12);
+            --card-hover-border: rgba(99, 102, 241, 0.45);
+            --primary: #4f46e5;
+            --primary-glow: rgba(79, 70, 229, 0.1);
+            --accent: #0891b2;
+            --accent-glow: rgba(8, 145, 178, 0.1);
+            --sidebar-bg: rgba(255, 255, 255, 0.9);
+            --sidebar-border: rgba(99, 102, 241, 0.15);
+            --toggle-bg: rgba(0, 0, 0, 0.05);
+            --toggle-border: rgba(0, 0, 0, 0.08);
+            --toggle-color: #4f46e5;
+            --btn-bg: linear-gradient(135deg, #4f46e5 0%, #3b82f6 100%);
+            --btn-shadow: rgba(79, 70, 229, 0.2);
+            --badge-bg: rgba(8, 145, 178, 0.08);
+            --badge-color: #0891b2;
+            --badge-border: rgba(8, 145, 178, 0.15);
+            --h1-gradient: linear-gradient(135deg, #1e293b 30%, #4f46e5 100%);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: var(--bg-gradient);
+            color: var(--text-main);
+            font-family: 'Outfit', 'Noto Sans TC', sans-serif;
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            transition: background 0.4s ease, color 0.3s ease;
+        }
+
+        .layout-wrapper {
+            display: flex;
+            max-width: 1280px;
+            width: 100%;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        /* Sidebar Navigation */
+        aside {
+            width: 300px;
+            flex-shrink: 0;
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            background: var(--sidebar-bg);
+            border-right: 1px solid var(--sidebar-border);
+            padding: 2.5rem 1.5rem;
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            display: flex;
+            flex-direction: column;
+            z-index: 100;
+            transition: background 0.4s ease, border-color 0.4s ease;
+        }
+
+        .brand h2 {
+            font-size: 1.35rem;
+            font-weight: 900;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.25rem;
+        }
+
+        .brand .eyebrow {
+            font-size: 0.75rem;
+            font-weight: 800;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 0.5rem;
+        }
+
+        .brand .sub-brand {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+            border-bottom: 1px solid var(--sidebar-border);
+            padding-bottom: 0.75rem;
+        }
+
+        .toc {
+            list-style: none;
+            flex-grow: 1;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+        }
+
+        .toc-link {
+            display: block;
+            padding: 0.6rem 0.8rem;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .toc-link:hover, .toc-link.active {
+            color: var(--text-main);
+            background: var(--primary-glow);
+            padding-left: 1.2rem;
+        }
+
+        .sidebar-footer {
+            border-top: 1px solid var(--sidebar-border);
+            padding-top: 1.5rem;
+            margin-top: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .sidebar-btn {
+            display: block;
+            text-align: center;
+            padding: 0.6rem 0.8rem;
+            background: var(--toggle-bg);
+            border: 1px solid var(--toggle-border);
+            color: var(--text-main);
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 600;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .sidebar-btn:hover {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: #ffffff;
+        }
+
+        /* Main Content */
+        main {
+            margin-left: 300px;
+            flex-grow: 1;
+            padding: 3.5rem 2.5rem;
+            width: calc(100% - 300px);
+            box-sizing: border-box;
+        }
+
+        header {
+            margin-bottom: 3rem;
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            background: var(--h1-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.5px;
+        }
+
+        .subtitle {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            font-weight: 300;
+        }
+
+        .section-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 2.5rem;
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            margin-bottom: 2.5rem;
+            scroll-margin-top: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .section-card:hover {
+            border-color: var(--card-hover-border);
+            box-shadow: 0 15px 35px rgba(139, 92, 246, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .section-header {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .section-header::before {
+            content: '';
+            display: inline-block;
+            width: 5px;
+            height: 20px;
+            background: var(--primary);
+            border-radius: 3px;
+        }
+
+        .section-subtitle {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--accent);
+            margin-bottom: 1.25rem;
+            padding-left: 1.25rem;
+        }
+
+        .section-card p {
+            color: var(--text-muted);
+            font-size: 1rem;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        /* Resource links */
+        .resource-links {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            margin-top: 1.5rem;
+        }
+
+        .resource-link {
+            display: flex;
+            align-items: center;
+            padding: 0.9rem 1.2rem;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            border-radius: 10px;
+            color: var(--text-main);
+            text-decoration: none;
+            transition: all 0.25s ease;
+        }
+
+        body.theme-light .resource-link {
+            background: rgba(0, 0, 0, 0.015);
+            border: 1px solid rgba(0, 0, 0, 0.04);
+        }
+
+        .resource-link:hover {
+            background: var(--primary-glow);
+            border-color: var(--card-hover-border);
+            padding-left: 1.5rem;
+        }
+
+        .link-icon {
+            font-size: 1.2rem;
+            margin-right: 0.75rem;
+        }
+
+        .link-text {
+            font-weight: 600;
+            font-size: 0.95rem;
+            flex-grow: 1;
+        }
+
+        .link-arrow {
+            font-size: 0.9rem;
+            opacity: 0.6;
+            transition: transform 0.2s ease;
+        }
+
+        .resource-link:hover .link-arrow {
+            transform: translateX(3px);
+            opacity: 1;
+        }
+
+        .badge {
+            background: var(--badge-bg);
+            color: var(--badge-color);
+            border: 1px solid var(--badge-border);
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 0.2rem 0.5rem;
+            border-radius: 6px;
+            margin-right: 0.75rem;
+            white-space: nowrap;
+        }
+
+        /* Accessibility Floating Toolbar */
+        .accessibility-toolbar {
+            position: fixed;
+            top: 2rem;
+            right: 2rem;
+            background: var(--sidebar-bg);
+            border: 1px solid var(--sidebar-border);
+            border-radius: 30px;
+            padding: 0.4rem 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            z-index: 1000;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+            transition: all 0.3s ease;
+        }
+
+        body.theme-light .accessibility-toolbar {
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            background: rgba(255, 255, 255, 0.95);
+        }
+
+        .toolbar-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-main);
+            width: 2.4rem;
+            height: 2.4rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            outline: none;
+        }
+
+        .toolbar-btn:hover {
+            background: var(--primary-glow);
+            color: var(--primary);
+            transform: scale(1.1);
+        }
+
+        .accessibility-toolbar .divider {
+            width: 1px;
+            height: 1.2rem;
+            background: var(--sidebar-border);
+        }
+
+        .sun-icon {
+            display: block;
+            width: 1.25rem;
+            height: 1.25rem;
+        }
+
+        .moon-icon {
+            display: none;
+            width: 1.25rem;
+            height: 1.25rem;
+        }
+
+        body.theme-light .sun-icon {
+            display: none;
+        }
+
+        body.theme-light .moon-icon {
+            display: block;
+        }
+
+        .visual-watermark {
+            position: fixed;
+            bottom: 15px;
+            right: 15px;
+            font-size: 0.72rem;
+            color: var(--text-muted);
+            opacity: 0.22;
+            pointer-events: none;
+            user-select: none;
+            z-index: 9999;
+        }
+
+        /* RWD Support */
+        @media (max-width: 960px) {
+            body {
+                flex-direction: column;
+            }
+            .layout-wrapper {
+                flex-direction: column;
+            }
+            aside {
+                position: static;
+                width: 100%;
+                box-sizing: border-box;
+                height: auto;
+                border-right: none;
+                border-bottom: 1px solid var(--sidebar-border);
+                padding: 1.5rem;
+            }
+            main {
+                margin-left: 0;
+                width: 100%;
+                padding: 2rem 1.5rem;
+            }
+            .brand .sub-brand {
+                margin-bottom: 1rem;
+            }
+            .toc {
+                display: none; /* Hide TOC on mobile */
+            }
+            .sidebar-footer {
+                margin-top: 1rem;
+                flex-direction: row;
+            }
+            .sidebar-btn {
+                flex: 1;
+            }
+            .accessibility-toolbar {
+                top: 1.5rem;
+                right: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Watermarks & Metadata (Falo x Force Cheng) -->
+    <div class="visual-watermark">
+        Falo x Force Cheng 2026/6/8 | 教學用途，商業用途請聯繫作者
+    </div>
+
+    <!-- Floating Accessibility Toolbar -->
+    <div class="accessibility-toolbar">
+        <button id="theme-toggle" class="toolbar-btn" aria-label="切換配色" title="切換深淺配色">
+            <!-- Sun icon -->
+            <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="5"></circle>
+                <line x1="12" y1="1" x2="12" y2="3"></line>
+                <line x1="12" y1="21" x2="12" y2="23"></line>
+                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                <line x1="1" y1="12" x2="3" y2="12"></line>
+                <line x1="21" y1="12" x2="23" y2="12"></line>
+                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+            </svg>
+            <!-- Moon icon -->
+            <svg class="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+            </svg>
+        </button>
+        <div class="divider"></div>
+        <button id="font-increase" class="toolbar-btn" title="放大字體 (A+)" aria-label="放大字體">
+            <span style="font-size: 1.1rem; font-weight: bold; position: relative; top: -1px;">A⁺</span>
+        </button>
+        <button id="font-decrease" class="toolbar-btn" title="縮小字體 (A-)" aria-label="縮小字體">
+            <span style="font-size: 0.9rem; font-weight: bold; position: relative; top: -1px;">A⁻</span>
+        </button>
+        <div class="divider"></div>
+        <button id="layout-increase" class="toolbar-btn" title="加寬版面 (W+)" aria-label="加寬版面">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12h16M4 12l4-4m-4 4l4 4m12-8l4 4-4 4"/></svg>
+        </button>
+        <button id="layout-decrease" class="toolbar-btn" title="收窄版面 (W-)" aria-label="收窄版面">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 12h8M12 8l-4 4 4 4m0-8l4 4-4 4"/></svg>
+        </button>
+    </div>
+
+    <div class="layout-wrapper">
+        <!-- Left Sidebar Navigation -->
+        <aside>
+            <div class="brand">
+                <div class="eyebrow">FALO Taiwan Academy</div>
+                <h2>銀河 ERP 內訓</h2>
+                <div class="sub-brand">Class 03 課程主軸導航</div>
+            </div>
+            
+            <ul class="toc">
+                <li class="toc-item"><a href="#history-review" class="toc-link active">歷史課程回顧</a></li>
+                <li class="toc-item"><a href="#practical-resources" class="toc-link">實戰專案與進階手冊</a></li>
+                <li class="toc-item"><a href="class03_qas.html" target="_blank" rel="noopener noreferrer" class="toc-link">學員提問與技術解答</a></li>
+                <li class="toc-item"><a href="#other-resources" class="toc-link">其他資源</a></li>
+            </ul>
+        </aside>
+
+
+        <!-- Right Main Content -->
+        <main>
+            <header>
+                <h1>Class 03：AI Agent & Vibe Coding 實戰及知識資產化</h1>
+                <div class="subtitle">天心同仁 (ERP 專業開發團隊) 培訓專題 ➔ 銀河軟體 台西分公司 Class03</div>
+            </header>
+
+            <!-- History Review -->
+            <section id="history-review" class="section-card">
+                <h2 class="section-header">歷史課程回顧</h2>
+                <div class="section-subtitle">Class 01 & Class 02 培訓教材存檔</div>
+                <p>
+                    此專區提供本培訓系列先前課程之完整簡報與實戰教材連結，協助同仁進行知識複習與技術對齊。目前採用簡易密碼保護，未來將升級為基於 Google Apps Script (GAS) 驗證的高強度保密安全版本。
+                </p>
+                <div class="resource-links" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem;">
+                    <a href="https://drive.google.com/file/d/1lcTQQ4ceWf8-I-qxifTIbkTq8gwW0Pp7/view?usp=sharing" class="resource-link protected-link" style="margin-top: 0;">
+                        <span class="badge">Class 01</span>
+                        <span class="link-text">Class 01 課程簡報 (🔒 密碼保護)</span>
+                        <span class="link-arrow">➔</span>
+                    </a>
+                    <a href="https://drive.google.com/file/d/1FV_SEjwf68vgd_CH28ScJSjz1FiwxxTw/view?usp=sharing" class="resource-link protected-link" style="margin-top: 0;">
+                        <span class="badge">Class 02</span>
+                        <span class="link-text">Class 02 課程簡報 (🔒 密碼保護)</span>
+                        <span class="link-arrow">➔</span>
+                    </a>
+                </div>
+            </section>
+
+            <!-- Practical Resources -->
+            <section id="practical-resources" class="section-card">
+                <h2 class="section-header">實戰專案與進階手冊</h2>
+                <div class="section-subtitle">延伸學習：高階實務指南與開源專案</div>
+                <p>
+                    以下為本培訓主題之實務應用專案與技術手冊，協助同仁深入掌握 AI Agent、Chrome 外掛、GAS 與 ETL 等進階技術：
+                </p>
+                <div class="resource-links" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem;">
+                    <a href="https://falo-taiwan.github.io/antigravity/" target="_blank" rel="noopener noreferrer" class="resource-link" style="margin-top: 0;">
+                        <span class="badge">Antigravity</span>
+                        <span class="link-text">Antigravity 實戰開發與協作教學手冊</span>
+                        <span class="link-arrow">➔</span>
+                    </a>
+                    <a href="https://falo-taiwan.github.io/class/a01/class3/cases/chrome_extension/" target="_blank" rel="noopener noreferrer" class="resource-link" style="margin-top: 0;">
+                        <span class="badge">Chrome Ext</span>
+                        <span class="link-text">Chrome Extension 填單助手實戰</span>
+                        <span class="link-arrow">➔</span>
+                    </a>
+                    <a href="https://falo-taiwan.github.io/class/a01/class3/cases/ipas-etl/" target="_blank" rel="noopener noreferrer" class="resource-link" style="margin-top: 0;">
+                        <span class="badge">ETL 實務</span>
+                        <span class="link-text">教材開發革命：從 PDF 到互動網站</span>
+                        <span class="link-arrow">➔</span>
+                    </a>
+                    <a href="https://falo-taiwan.github.io/gas-demo/#gas-v3-security-practice" target="_blank" rel="noopener noreferrer" class="resource-link" style="margin-top: 0;">
+                        <span class="badge">GAS 自動化</span>
+                        <span class="link-text">GAS 開發架構與部署實戰手冊</span>
+                        <span class="link-arrow">➔</span>
+                    </a>
+                    <a href="class03_qas.html" target="_blank" rel="noopener noreferrer" class="resource-link" style="margin-top: 0;">
+                        <span class="badge">學員 QA</span>
+                        <span class="link-text">學員課前提問解答 (QA)</span>
+                        <span class="link-arrow">➔</span>
+                    </a>
+                </div>
+            </section>
+
+
+
+
+            <!-- Other Resources -->
+            <section id="other-resources" class="section-card">
+                <h2 class="section-header">其他資源</h2>
+                <div class="section-subtitle">專題探討與技術延伸</div>
+                <p>
+                    此專區供延伸學習與特定技術主題深度探討使用，後續將持續新增與擴充相關內容。
+                </p>
+                <div class="resource-links">
+                    <a href="class03_coexistence.html" target="_blank" rel="noopener noreferrer" class="resource-link" style="margin-top: 0;">
+                        <span class="link-icon">🌱</span>
+                        <span class="link-text">人與 AI 共創共生觀念教材</span>
+                        <span class="link-arrow">➔</span>
+                    </a>
+                    <a href="class03_collaboration.html" target="_blank" rel="noopener noreferrer" class="resource-link">
+                        <span class="link-icon">💬</span>
+                        <span class="link-text">AI 協同討論與即時知識工程化實務</span>
+                        <span class="link-arrow">➔</span>
+                    </a>
+                    <a href="agent_tools.html" target="_blank" rel="noopener noreferrer" class="resource-link">
+                        <span class="link-icon">📊</span>
+                        <span class="link-text">AI Agent & Vibe Coding 開發工具分析與對比表</span>
+                        <span class="link-arrow">➔</span>
+                    </a>
+                    <a href="https://falo-taiwan.github.io/class/a01/class3/class03_notebooklm_upgrade.html" target="_blank" rel="noopener noreferrer" class="resource-link">
+                        <span class="link-icon">📈</span>
+                        <span class="link-text">Google NotebookLM 重磅升級與 Antigravity 實戰</span>
+                        <span class="link-arrow">➔</span>
+                    </a>
+                    <a href="class03_wwdc_prompt.html" target="_blank" rel="noopener noreferrer" class="resource-link">
+                        <span class="link-icon">🎯</span>
+                        <span class="link-text">WWDC 26 Deep Research 實戰 Prompt 示範</span>
+                        <span class="link-arrow">➔</span>
+                    </a>
+                    <a href="class03_ocr_hitl.html" target="_blank" rel="noopener noreferrer" class="resource-link">
+                        <span class="link-icon">👁️</span>
+                        <span class="link-text">OCR 辨識策略與 HITL 人機協作實務 (分揀案例)</span>
+                        <span class="link-arrow">➔</span>
+                    </a>
+                    <a href="https://falo-taiwan.github.io/gemini_chrome/" target="_blank" rel="noopener noreferrer" class="resource-link">
+                        <span class="link-icon">🔑</span>
+                        <span class="link-text">Chrome 內建 Gemini 解鎖與 FALO 六層模型實戰</span>
+                        <span class="link-arrow">➔</span>
+                    </a>
+                    <a href="https://falo-taiwan.github.io/ai-line-help/" target="_blank" rel="noopener noreferrer" class="resource-link">
+                        <span class="link-icon">💬</span>
+                        <span class="link-text"><strong>LINE Bot 專業開發專區 (ai-line-help)</strong> — 專家級 LINE 聊天機器人整合實務與 AI 自動對答技巧</span>
+                        <span class="link-arrow">➔</span>
+                    </a>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- JS for theme toggle and Scroll spy -->
+    <script>
+        // Theme switcher
+        const toggleBtn = document.getElementById('theme-toggle');
+        const currentTheme = localStorage.getItem('theme') || 'dark';
+
+        if (currentTheme === 'light') {
+            document.body.classList.add('theme-light');
+        }
+
+        toggleBtn.addEventListener('click', () => {
+            document.body.classList.toggle('theme-light');
+            let theme = 'dark';
+            if (document.body.classList.contains('theme-light')) {
+                theme = 'light';
+            }
+            localStorage.setItem('theme', theme);
+        });
+
+        // Scroll spy active links
+        const sections = document.querySelectorAll('section');
+        const navLinks = document.querySelectorAll('.toc-link');
+
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                // Offset of 180px to trigger activation early
+                if (pageYOffset >= (sectionTop - 180)) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                const href = link.getAttribute('href');
+                if (href && href.startsWith('#') && href.substring(1) === current) {
+                    link.classList.add('active');
+                }
+            });
+        });
+
+
+        // Protected links password check
+        document.querySelectorAll('.protected-link').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const pwd = prompt('請輸入歷史教材存取密碼：');
+                if (pwd === 'attn') {
+                    window.open(link.getAttribute('href'), '_blank');
+                } else if (pwd !== null) {
+                    alert('密碼錯誤，拒絕存取！');
+                }
+            });
+        });
+
+        // Font size adjustment
+        let fontScale = 1.0;
+        const btnFontIncrease = document.getElementById('font-increase');
+        const btnFontDecrease = document.getElementById('font-decrease');
+
+        btnFontIncrease.addEventListener('click', () => {
+            if (fontScale < 1.4) {
+                fontScale += 0.1;
+                document.documentElement.style.fontSize = (fontScale * 100) + '%';
+            }
+        });
+
+        btnFontDecrease.addEventListener('click', () => {
+            if (fontScale > 0.8) {
+                fontScale -= 0.1;
+                document.documentElement.style.fontSize = (fontScale * 100) + '%';
+            }
+        });
+
+        // Layout width adjustment
+        let layoutWidth = 1280;
+        const btnLayoutIncrease = document.getElementById('layout-increase');
+        const btnLayoutDecrease = document.getElementById('layout-decrease');
+        const layoutWrapper = document.querySelector('.layout-wrapper');
+
+        btnLayoutIncrease.addEventListener('click', () => {
+            if (layoutWidth < 1680) {
+                layoutWidth += 100;
+                layoutWrapper.style.maxWidth = layoutWidth + 'px';
+            }
+        });
+
+        btnLayoutDecrease.addEventListener('click', () => {
+            if (layoutWidth > 980) {
+                layoutWidth -= 100;
+                layoutWrapper.style.maxWidth = layoutWidth + 'px';
+            }
+        });
+    </script>
+</body>
+</html>

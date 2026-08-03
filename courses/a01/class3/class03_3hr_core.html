@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Class 03 實戰精華 | 3小時 AI Agent & Vibe Coding 核心速成</title>
+    <meta name="description" content="銀河 ERP 內訓課程：3小時實戰核心精華。涵蓋 Gemini Canvas 痛點解法、Antigravity/Codex 對比、MD+HTML 雙軌策略、本地與線上部署 Prompt、地端 Server 控制與 GAS 範例。">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&family=Noto+Sans+TC:wght@300;400;500;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-gradient: radial-gradient(circle at 50% 50%, #080516 0%, #010105 100%);
+            --primary: #a78bfa;
+            --primary-glow: rgba(167, 139, 250, 0.12);
+            --secondary: #60a5fa;
+            --secondary-glow: rgba(96, 165, 250, 0.12);
+            --accent: #34d399;
+            --accent-glow: rgba(52, 211, 153, 0.15);
+            --card-bg: rgba(20, 15, 38, 0.5);
+            --card-border: rgba(255, 255, 255, 0.06);
+            --card-hover-border: rgba(167, 139, 250, 0.35);
+            --text-primary: #f3f4f6;
+            --text-secondary: #9ca3af;
+            --text-muted: #535a6b;
+            --code-bg: #0d091e;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Outfit', 'Inter', 'Noto Sans TC', sans-serif;
+            background: var(--bg-gradient);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 3.5rem 1.5rem;
+            overflow-x: hidden;
+        }
+
+        .glow {
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            border-radius: 50%;
+            background: radial-gradient(circle, var(--primary-glow) 0%, transparent 70%);
+            z-index: -1;
+            filter: blur(80px);
+            pointer-events: none;
+        }
+        .glow-1 { top: 5%; left: 5%; }
+        .glow-2 { bottom: 10%; right: 5%; }
+
+        header {
+            max-width: 1000px;
+            margin: 0 auto 3.5rem auto;
+            text-align: center;
+        }
+
+        .tagline {
+            display: inline-block;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            color: #ffffff;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            padding: 0.4rem 1.25rem;
+            border-radius: 9999px;
+            margin-bottom: 1.25rem;
+            box-shadow: 0 4px 15px rgba(167, 139, 250, 0.25);
+        }
+
+        h1 {
+            font-size: 2.8rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #ffffff 40%, #c084fc 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.75rem;
+            letter-spacing: -0.01em;
+        }
+
+        header p {
+            color: var(--text-secondary);
+            font-size: 1.15rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        main {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 3rem;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 2.5rem;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            border-color: var(--card-hover-border);
+            box-shadow: 0 20px 45px rgba(167, 139, 250, 0.15);
+            transform: translateY(-3px);
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            opacity: 0.7;
+        }
+
+        .section-num {
+            font-size: 0.85rem;
+            font-weight: 800;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 0.5rem;
+        }
+
+        h2 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 1.5rem;
+        }
+
+        p.intro {
+            color: var(--text-secondary);
+            font-size: 1.05rem;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Lists */
+        ul, ol {
+            padding-left: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-secondary);
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+        }
+
+        strong {
+            color: #ffffff;
+        }
+
+        /* Comparison Table */
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            font-size: 0.95rem;
+            text-align: left;
+        }
+
+        .comparison-table th, .comparison-table td {
+            padding: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .comparison-table th {
+            background: rgba(255, 255, 255, 0.03);
+            color: #ffffff;
+            font-weight: 600;
+        }
+
+        .comparison-table td {
+            color: var(--text-secondary);
+        }
+
+        .comparison-table tr:hover {
+            background: rgba(255, 255, 255, 0.01);
+        }
+
+        /* Code Block Container */
+        .code-container {
+            position: relative;
+            background: var(--code-bg);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            margin: 1.5rem 0;
+            overflow: hidden;
+        }
+
+        .code-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 1.25rem;
+            background: rgba(0, 0, 0, 0.3);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            font-family: 'Fira Code', monospace;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .btn-copy {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-primary);
+            padding: 0.35rem 0.75rem;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-copy:hover {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: #000000;
+        }
+
+        pre {
+            padding: 1.25rem;
+            overflow-x: auto;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.9rem;
+            color: #e2e8f0;
+            line-height: 1.5;
+        }
+
+        /* Alerts */
+        .alert {
+            background: rgba(52, 211, 153, 0.05);
+            border-left: 4px solid var(--accent);
+            padding: 1.25rem;
+            border-radius: 0 12px 12px 0;
+            margin: 1.5rem 0;
+        }
+
+        .alert-title {
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .alert-content {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        .alert-warning {
+            background: rgba(245, 158, 11, 0.05);
+            border-left: 4px solid #f59e0b;
+        }
+
+        .alert-warning .alert-title {
+            color: #f59e0b;
+        }
+
+        /* Back Button */
+        .btn-back {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            color: #ffffff;
+            font-size: 0.9rem;
+            font-weight: 600;
+            padding: 0.75rem 1.5rem;
+            border-radius: 10px;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            margin: 2rem auto;
+            align-self: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-back:hover {
+            background: rgba(167, 139, 250, 0.1);
+            border-color: rgba(167, 139, 250, 0.3);
+            color: var(--primary);
+            transform: translateY(-1px);
+        }
+
+        .btn-back svg {
+            transition: transform 0.2s ease;
+        }
+
+        .btn-back:hover svg {
+            transform: translateX(-3px);
+        }
+
+        footer {
+            max-width: 1000px;
+            margin: 4rem auto 1.5rem auto;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding-top: 2.5rem;
+        }
+
+        footer a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        footer a:hover {
+            color: var(--primary);
+        }
+    </style>
+</head>
+<body>
+    <div class="glow glow-1"></div>
+    <div class="glow glow-2"></div>
+
+    <header>
+        <div class="tagline">Yinhe ERP 3hr Core Intensive</div>
+        <h1>Class 03 實戰精華核心速成</h1>
+        <p>這是一份聚焦於 AI Agent 運作架構、對話痛點解鎖、雙軌開發策略與「地端-雲端」整合通信的 3 小時速成實戰教材。</p>
+    </header>
+
+    <main>
+        <!-- Section 1 -->
+        <section class="card">
+            <div class="section-num">Part 01</div>
+            <h2>AI 開發工具教學與模式對比</h2>
+            <p class="intro">理解 Vibe Coding（意念編程）的工具邊界。不同工具各有優劣，混用才能發揮最大戰力：</p>
+            
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>工具模式</th>
+                        <th>核心定位</th>
+                        <th>優勢</th>
+                        <th>限制與短板</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Gemini Canvas</strong></td>
+                        <td>網頁對話式代碼沙盒</td>
+                        <td>適合視覺化調整、快速原型開發，介面直觀</td>
+                        <td>長文本對話後上下文易膨脹、代碼容易被整份蓋掉</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Antigravity / Codex</strong></td>
+                        <td>本機自動化寫檔與測試代理</td>
+                        <td>具備 Plan-Task-Verify 閉環，精密 Diff 行級替換</td>
+                        <td>依賴本地權限、需要較高的推理模型支持</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Claude Code</strong></td>
+                        <td>CLI 終端機開發代理</td>
+                        <td>終端對話、多檔案重構、自動執行本地測試與提交</td>
+                        <td>無圖形化介面，對非工程師學員門檻稍高</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Section 2 -->
+        <section class="card">
+            <div class="section-num">Part 02</div>
+            <h2>Gemini Canvas 常見困擾與解法</h2>
+            <p class="intro">在使用網頁版 Gemini Canvas 等對話式代碼沙盒時，學員最常遇到以下三個困擾：</p>
+            
+            <ul>
+                <li>
+                    <strong>困擾一：對話太長導致 Context 膨脹、速度變慢與 Token 耗盡</strong>
+                    <br><span style="color: var(--text-muted);">解法：</span>將已穩定的網頁代碼存為本地靜態 `.html`，另開新的對話視窗。只把目前需要修改的函數與邏輯餵給新對話，切斷歷史記憶。
+                </li>
+                <li>
+                    <strong>困擾二：AI 輸出整份程式碼，直接蓋掉人類手動修改的細節</strong>
+                    <br><span style="color: var(--text-muted);">解法：</span>明確在 Prompt 中下指令：「請只輸出修改的函數/區塊，其餘部分用 `// ... 保持不變 ...` 代替」。或改用地端 Agent，進行精確的行級替換。
+                </li>
+                <li>
+                    <strong>困擾三：網頁端沙盒無法存取本機環境與檔案</strong>
+                    <br><span style="color: var(--text-muted);">解法：</span>建立地端 Bridge（例如 localhost 伺服器），使網頁能傳送 Fetch 請求控制本地系統。
+                </li>
+            </ul>
+        </section>
+
+        <!-- Section 3 -->
+        <section class="card">
+            <div class="section-num">Part 03</div>
+            <h2>Markdown 與 HTML 雙軌策略</h2>
+            <p class="intro">我們在開發中大力推行「AI 讀 md，人類讀 HTML」的雙軌並行模式，以大幅降低 AI Context 的 Token 浪費：</p>
+
+            <div class="alert">
+                <div class="alert-title">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+                    雙軌並行核心效益
+                </div>
+                <div class="alert-content">
+                    <strong>Markdown (.md) - AI 專用記憶</strong>：去除了繁雜的 HTML 排版代碼，僅留下標籤（#、-）與純邏輯文字，最適合 LLM 作為外部記憶庫，可省下高達 60% 的 Token。<br>
+                    <strong>HTML (.html) - 人類專用視覺</strong>：採用 Outfit 與 Noto Sans TC 精緻排版，具備霓虹光暈與一鍵複製按鈕，方便講師操作與學員瀏覽。
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 4 -->
+        <section class="card">
+            <div class="section-num">Part 04</div>
+            <h2>Prompt 工程與部署實戰</h2>
+            <p class="intro">精準的提示詞能夠讓 AI 生成的網頁品質大幅提昇，並減少部署出錯的機率：</p>
+
+            <h3>4.1 一鍵刻出 Premium 網頁提示詞 (Prompt)</h3>
+            <div class="code-container">
+                <div class="code-header">
+                    <span>Premium UI Prompt.txt</span>
+                    <button class="btn-copy" id="btn-copy-prompt" onclick="copyToClipboard('btn-copy-prompt', 'code-prompt')">複製 Prompt</button>
+                </div>
+                <pre id="code-prompt">請為我建立一個獨立的 HTML 網頁。要求：
+1. 採用 dark mode 設計，背景使用暗色放射漸層 (radial-gradient)，主色調為紫色 (#8b5cf6) 與藍色 (#3b82f6)。
+2. 卡片設計使用玻璃擬態 (glassmorphism)，包含 border: 1px solid rgba(255,255,255,0.08) 與 backdrop-filter: blur(20px)。
+3. 所有程式碼區塊旁需配備一鍵複製按鈕，點擊後會顯示「已複製！」並帶有 200ms 的淡入淡出動畫。
+4. 使用 Google Fonts 的 Outfit 與 Noto Sans TC。</pre>
+            </div>
+
+            <div class="alert alert-warning">
+                <div class="alert-title">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                    本機測試 (Local) 與 GitHub Pages 部署注意點
+                </div>
+                <div class="alert-content">
+                    <strong>絕對路徑的陷阱</strong>：在本地開啟 HTML 檔時，請避免讓 AI 生成絕對路徑（如 `/images/`），應全部使用相對路徑（如 `./images/`），否則部署到 GitHub Pages 時會找不到靜態資源。<br>
+                    <strong>HTTPS 與安全協定</strong>：部署到 GitHub Pages 後是強制 HTTPS 的，此時若前端嘗試 Fetch 一個地端 HTTP API（例如 `http://127.0.0.1:8000`），會因為瀏覽器的「混合內容安全機制 (Mixed Content)」而被阻擋。此時必須配合 ngrok 提供 HTTPS 穿透。
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 5 -->
+        <section class="card">
+            <div class="section-num">Part 05</div>
+            <h2>地端 Server 架設實務 (Python API Bridge)</h2>
+            <p class="intro">利用 Python 內建的 `http.server` 模組，幾行代碼即可在本地跑起一個 API Server，允許網頁前端 Fetch 來執行作業系統指令：</p>
+
+            <div class="code-container">
+                <div class="code-header">
+                    <span>local_server.py</span>
+                    <button class="btn-copy" id="btn-copy-py" onclick="copyToClipboard('btn-copy-py', 'code-py')">複製 Python 代碼</button>
+                </div>
+                <pre id="code-py">import http.server
+import json
+import subprocess
+
+class LocalCommandHandler(http.server.BaseHTTPRequestHandler):
+    def end_headers(self):
+        # 允許跨域請求 (CORS)，讓本地網頁端 fetch 能正常運作
+        self.send_header('Access-Control-Allow-Origin', '*')
+        self.send_header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
+        self.send_header('Access-Control-Allow-Headers', 'Content-Type')
+        super().end_headers()
+
+    def do_OPTIONS(self):
+        self.send_response(200)
+        self.end_headers()
+
+    def do_POST(self):
+        if self.path == '/run-command':
+            content_length = int(self.headers['Content-Length'])
+            post_data = self.rfile.read(content_length)
+            data = json.loads(post_data.decode('utf-8'))
+            
+            command = data.get('command', '')
+            print(f"[Executing] {command}")
+            
+            try:
+                # 執行本機指令並捕獲輸出
+                result = subprocess.run(command, shell=True, capture_output=True, text=True, timeout=10)
+                response = {
+                    "status": "success",
+                    "stdout": result.stdout,
+                    "stderr": result.stderr,
+                    "returncode": result.returncode
+                }
+            except Exception as e:
+                response = {"status": "error", "message": str(e)}
+                
+            self.send_response(200)
+            self.send_header('Content-Type', 'application/json')
+            self.end_headers()
+            self.wfile.write(json.dumps(response).encode('utf-8'))
+
+if __name__ == '__main__':
+    server_address = ('127.0.0.1', 8000)
+    httpd = http.server.HTTPServer(server_address, LocalCommandHandler)
+    print("Local command server running on http://127.0.0.1:8000")
+    httpd.serve_forever()</pre>
+            </div>
+        </section>
+
+        <!-- Section 6 -->
+        <section class="card">
+            <div class="section-num">Part 06</div>
+            <h2>Apps Script (GAS) 雲端對接實務</h2>
+            <p class="intro">不需要架設複雜的 Node.js/Java 後端，僅用 Google Apps Script 即可完成寫入 Google 試算表並透過 Gmail 發送確認信：</p>
+
+            <div class="code-container">
+                <div class="code-header">
+                    <span>Code.gs (Google Apps Script)</span>
+                    <button class="btn-copy" id="btn-copy-gas" onclick="copyToClipboard('btn-copy-gas', 'code-gas')">複製 GAS 代碼</button>
+                </div>
+                <pre id="code-gas">function doPost(e) {
+  var headers = {
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Methods": "POST, OPTIONS",
+    "Access-Control-Allow-Headers": "Content-Type"
+  };
+  
+  try {
+    var jsonString = e.postData.contents;
+    var data = JSON.parse(jsonString);
+    
+    // 1. 寫入活動試算表的第一個工作表
+    var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+    sheet.appendRow([
+      new Date(), 
+      data.studentName || "未提供姓名", 
+      data.email || "未提供 Email", 
+      data.feedback || "無內容"
+    ]);
+    
+    // 2. 自動發送 Gmail 通知信
+    if (data.email) {
+      MailApp.sendEmail({
+        to: data.email,
+        subject: "【銀河 ERP 內訓】我們已收到您的課後回饋",
+        htmlBody: "親愛的 " + data.studentName + " 您好：&lt;br&gt;&lt;br&gt;系統已成功記錄您的回饋內容：&lt;br&gt;「" + data.feedback + "」&lt;br&gt;&lt;br&gt;祝學習愉快！"
+      });
+    }
+    
+    var response = { status: "success", message: "資料已成功儲存並發送確認信！" };
+    return ContentService.createTextOutput(JSON.stringify(response))
+      .setMimeType(ContentService.MimeType.JSON);
+      
+  } catch(error) {
+    var errResponse = { status: "error", message: error.toString() };
+    return ContentService.createTextOutput(JSON.stringify(errResponse))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+}</pre>
+            </div>
+        </section>
+
+        <!-- Navigation back -->
+        <a href="index.html" class="btn-back">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+            返回課程首頁
+        </a>
+    </main>
+
+    <footer>
+        <p>銀河 ERP 內訓課程 Class 03 實戰精華 &copy; 2026 | 設計符合 AI (Markdown) 與人類 (Premium HTML) 雙重閱讀標準</p>
+        <p style="margin-top: 0.5rem;">
+            <a href="index.html">返回課程首頁</a> |
+            <a href="class03_3hr_core.md">檢視 AI 專用 Markdown 大綱</a> |
+            <a href="../../../../logs.md">檢視 FALO 軌跡日誌</a>
+        </p>
+    </footer>
+
+    <script>
+        function copyToClipboard(buttonId, codeId) {
+            const codeText = document.getElementById(codeId).textContent;
+            navigator.clipboard.writeText(codeText).then(() => {
+                const button = document.getElementById(buttonId);
+                const originalText = button.textContent;
+                button.textContent = '已複製！';
+                button.style.background = 'var(--accent)';
+                button.style.borderColor = 'var(--accent)';
+                button.style.color = '#000000';
+                setTimeout(() => {
+                    button.textContent = originalText;
+                    button.style.background = '';
+                    button.style.borderColor = '';
+                    button.style.color = '';
+                }, 1500);
+            }).catch(err => {
+                console.error("複製失敗：", err);
+            });
+        }
+    </script>
+</body>
+</html>

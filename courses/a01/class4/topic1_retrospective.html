@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>主題一：前三堂課程交流與補充 | Class 04 AI App Studio 工作坊</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&family=Noto+Sans+TC:wght@400;500;700;900&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-gradient: radial-gradient(circle at 50% 50%, #0b071e 0%, #020108 100%);
+            --text-main: #f3f4f6;
+            --text-muted: #9ca3af;
+            --card-bg: rgba(25, 18, 50, 0.45);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --card-hover-border: rgba(192, 132, 252, 0.45);
+            --primary: #8b5cf6;
+            --primary-glow: rgba(139, 92, 246, 0.15);
+            --accent: #c084fc;
+            --sidebar-bg: rgba(15, 10, 35, 0.85);
+            --sidebar-border: rgba(255, 255, 255, 0.08);
+            --toggle-bg: rgba(255, 255, 255, 0.05);
+            --toggle-border: rgba(255, 255, 255, 0.1);
+            --toggle-color: #f3f4f6;
+            --btn-bg: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+            --btn-shadow: rgba(139, 92, 246, 0.25);
+            --badge-bg: rgba(192, 132, 252, 0.12);
+            --badge-color: #d8b4fe;
+            --badge-border: rgba(192, 132, 252, 0.25);
+            --h1-gradient: linear-gradient(135deg, #ffffff 40%, #c084fc 100%);
+            --code-bg: #0d091e;
+            --topic-green: #4ade80;
+            --sidebar-blue: #38bdf8;
+        }
+
+        body.theme-light {
+            --bg-gradient: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 50%, #e2e8f0 100%);
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --card-bg: rgba(255, 255, 255, 0.75);
+            --card-border: rgba(99, 102, 241, 0.12);
+            --card-hover-border: rgba(99, 102, 241, 0.45);
+            --primary: #4f46e5;
+            --primary-glow: rgba(79, 70, 229, 0.1);
+            --accent: #0891b2;
+            --sidebar-bg: rgba(255, 255, 255, 0.9);
+            --sidebar-border: rgba(99, 102, 241, 0.15);
+            --toggle-bg: rgba(0, 0, 0, 0.05);
+            --toggle-border: rgba(0, 0, 0, 0.08);
+            --toggle-color: #4f46e5;
+            --btn-bg: linear-gradient(135deg, #4f46e5 0%, #3b82f6 100%);
+            --sidebar-blue: #0284c7;
+            --btn-shadow: rgba(79, 70, 229, 0.2);
+            --badge-bg: rgba(8, 145, 178, 0.08);
+            --badge-color: #0891b2;
+            --badge-border: rgba(8, 145, 178, 0.15);
+            --h1-gradient: linear-gradient(135deg, #1e293b 30%, #4f46e5 100%);
+            --code-bg: #f8fafc;
+            --topic-green: #16a34a;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: var(--bg-gradient);
+            color: var(--text-main);
+            font-family: 'Outfit', 'Noto Sans TC', sans-serif;
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            transition: background 0.4s ease, color 0.3s ease;
+        }
+
+        body.zoom-large { font-size: 1.15rem; }
+        body.zoom-large h1 { font-size: 2.5rem; }
+        body.zoom-large h2 { font-size: 1.8rem; }
+        
+        .layout-wrapper {
+            display: flex;
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+            position: relative;
+            transition: max-width 0.3s ease;
+        }
+        
+        body.width-wide .layout-wrapper {
+            max-width: 1600px;
+        }
+
+        /* Sidebar Navigation */
+        aside {
+            width: 300px;
+            flex-shrink: 0;
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            background: var(--sidebar-bg);
+            border-right: 1px solid var(--sidebar-border);
+            padding: 2.5rem 1.5rem;
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            display: flex;
+            flex-direction: column;
+            z-index: 100;
+            transition: background 0.4s ease, border-color 0.4s ease;
+        }
+
+        .brand h2 {
+            font-size: 1.35rem;
+            font-weight: 900;
+            color: var(--sidebar-blue);
+            margin-bottom: 0.25rem;
+        }
+
+        .brand .eyebrow {
+            font-size: 0.75rem;
+            font-weight: 800;
+            color: var(--sidebar-blue);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 0.5rem;
+        }
+
+        .brand .sub-brand {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+            border-bottom: 1px solid var(--sidebar-border);
+            padding-bottom: 0.75rem;
+        }
+
+        .toc {
+            list-style: none;
+            flex-grow: 1;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+        }
+
+        .toc-title {
+            font-size: 0.75rem;
+            font-weight: 800;
+            color: var(--sidebar-blue);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-top: 1rem;
+            margin-bottom: 0.4rem;
+            padding-left: 0.8rem;
+        }
+
+        /* 💡 Five topics highlighted in blue and white */
+        .toc-title a.toc-link {
+            color: var(--sidebar-blue) !important;
+            font-size: 0.82rem !important;
+            text-transform: none !important;
+            letter-spacing: normal !important;
+        }
+        .toc-title a.toc-link:hover {
+            color: var(--sidebar-blue) !important;
+            background: rgba(56, 189, 248, 0.05) !important;
+            padding-left: 1rem !important;
+        }
+        .toc-title a.toc-link.active {
+            color: var(--sidebar-blue) !important;
+            background: rgba(56, 189, 248, 0.08) !important;
+            border-left: 3px solid var(--sidebar-blue) !important;
+            border-radius: 8px !important;
+        }
+
+        .toc-link {
+            display: block;
+            padding: 0.6rem 0.8rem;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .toc-link:hover {
+            color: var(--sidebar-blue);
+            background: rgba(56, 189, 248, 0.04);
+            padding-left: 1.2rem;
+        }
+
+        .toc-link.active {
+            color: var(--sidebar-blue);
+            background: rgba(56, 189, 248, 0.08);
+            border-left: 3px solid var(--sidebar-blue);
+            border-radius: 8px;
+            padding-left: 1.2rem;
+        }
+
+        /* Yellow and Green highlights for cases & projects */
+        a[href*="topic7_real_cases.html"] {
+            color: #fbbf24 !important;
+        }
+        a[href*="topic7_real_cases.html"]:hover, a[href*="topic7_real_cases.html"].active {
+            background: rgba(251, 191, 36, 0.08) !important;
+            border-left: 3px solid #fbbf24 !important;
+            color: #fbbf24 !important;
+        }
+
+        a[href*="topic8_commercial_projects.html"] {
+            color: #34d399 !important;
+        }
+        a[href*="topic8_commercial_projects.html"]:hover, a[href*="topic8_commercial_projects.html"].active {
+            background: rgba(52, 211, 153, 0.08) !important;
+            border-left: 3px solid #34d399 !important;
+            color: #34d399 !important;
+        }
+
+        .sidebar-footer {
+            border-top: 1px solid var(--sidebar-border);
+            padding-top: 1.5rem;
+            margin-top: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .sidebar-btn {
+            display: block;
+            text-align: center;
+            padding: 0.6rem 0.8rem;
+            background: var(--toggle-bg);
+            border: 1px solid var(--toggle-border);
+            color: var(--text-main);
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 600;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .sidebar-btn:hover {
+            background: var(--primary-glow);
+            border-color: var(--primary);
+        }
+
+        /* Main Content Area */
+        main {
+            flex-grow: 1;
+            margin-left: 300px;
+            padding: 3.5rem 3rem;
+            max-width: 900px;
+            width: calc(100% - 300px);
+            transition: max-width 0.3s ease;
+        }
+
+        body.width-wide main {
+            max-width: 1300px;
+        }
+
+        header {
+            margin-bottom: 3rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding-bottom: 2rem;
+        }
+
+        header h1 {
+            font-size: 2.25rem;
+            font-weight: 900;
+            letter-spacing: -1px;
+            background: var(--h1-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+            line-height: 1.25;
+        }
+
+        header .subtitle {
+            font-size: 1.15rem;
+            color: var(--accent);
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 2.2rem;
+            margin-bottom: 2.2rem;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+        }
+
+        .card:hover {
+            border-color: var(--card-hover-border);
+            box-shadow: 0 15px 40px rgba(139, 92, 246, 0.1);
+            transform: translateY(-2px);
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            color: var(--topic-green);
+            border-left: 4px solid var(--primary);
+            padding-left: 12px;
+        }
+
+        h3 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+            color: var(--accent);
+        }
+
+        h4 {
+            font-size: 1.08rem;
+            font-weight: 700;
+            margin-top: 1.5rem;
+            margin-bottom: 0.8rem;
+            color: var(--text-main);
+        }
+
+        p {
+            margin-bottom: 1.2rem;
+            color: var(--text-muted);
+            font-size: 1rem;
+            line-height: 1.7;
+        }
+
+        body.theme-light p {
+            color: #334155;
+        }
+
+        /* Code Block Container */
+        .code-container {
+            position: relative;
+            background: var(--code-bg);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            margin: 1.5rem 0;
+            overflow: hidden;
+        }
+
+        .code-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 1.25rem;
+            background: rgba(0, 0, 0, 0.3);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            font-family: 'Fira Code', monospace;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .btn-copy {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-main);
+            padding: 0.35rem 0.75rem;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-copy:hover {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: #ffffff;
+        }
+
+        pre {
+            padding: 1.25rem;
+            overflow-x: auto;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.85rem;
+            color: var(--text-main);
+            line-height: 1.5;
+        }
+
+        /* Comparison Table */
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            font-size: 0.9rem;
+            text-align: left;
+        }
+
+        .comparison-table th, .comparison-table td {
+            padding: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        body.theme-light .comparison-table th, 
+        body.theme-light .comparison-table td {
+            border-bottom-color: rgba(0,0,0,0.05);
+        }
+
+        .comparison-table th {
+            background: rgba(255, 255, 255, 0.02);
+            color: var(--text-main);
+            font-weight: 600;
+        }
+
+        .comparison-table td {
+            color: var(--text-muted);
+        }
+
+        .comparison-table tr:hover {
+            background: rgba(255, 255, 255, 0.01);
+        }
+
+        /* Floating Accessibility Toolbar */
+        .accessibility-toolbar {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: rgba(15, 10, 35, 0.85);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 30px;
+            padding: 0.5rem 1rem;
+            display: flex;
+            gap: 0.75rem;
+            align-items: center;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            z-index: 999;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        body.theme-light .accessibility-toolbar {
+            background: rgba(255, 255, 255, 0.9);
+            border-color: rgba(99, 102, 241, 0.15);
+        }
+
+        .toolbar-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-main);
+            font-size: 0.9rem;
+            font-weight: 700;
+            cursor: pointer;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+
+        .toolbar-btn:hover {
+            background: var(--primary-glow);
+            color: var(--accent);
+        }
+
+        .divider {
+            width: 1px;
+            height: 18px;
+            background: var(--card-border);
+        }
+
+        .resources-details[open] summary span:last-child {
+            transform: rotate(180deg);
+        }
+
+        @media (max-width: 992px) {
+            aside {
+                display: none;
+            }
+            main {
+                margin-left: 0;
+                width: 100%;
+                padding: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="accessibility-toolbar">
+        <button class="toolbar-btn" onclick="toggleLocalTheme()" title="切換配色">💡</button>
+        <div class="divider"></div>
+        <button class="toolbar-btn" onclick="adjustZoom(true)" title="放大字體">A+</button>
+        <button class="toolbar-btn" onclick="adjustZoom(false)" title="縮小字體">A-</button>
+        <div class="divider"></div>
+        <button class="toolbar-btn" onclick="adjustWidth(true)" title="寬版版面">W+</button>
+        <button class="toolbar-btn" onclick="adjustWidth(false)" title="窄版版面">W-</button>
+    </div>
+
+    <div class="layout-wrapper">
+        <aside>
+            <div class="brand">
+                <div class="eyebrow">銀河 ERP 內訓</div>
+                <h2>Class 04</h2>
+                <div class="sub-brand">銀河軟體 台西分公司</div>
+            </div>
+            
+            <ul class="toc">
+                <!-- 本次課程說明 -->
+                <div class="toc-title"><a class="toc-link " href="index.html" style="padding: 0.4rem 0.8rem; display: block; font-weight: bold; border-radius: 8px;">📋 本次課程說明</a></div>
+
+                <!-- 主題一：前三堂課程交流與補充 -->
+                <div class="toc-title"><a class="toc-link active" href="topic1_retrospective.html" style="padding: 0.4rem 0.8rem; display: block; font-weight: bold; border-radius: 8px;">💬 1. 前三堂課程交流與補充</a></div>
+                <ul style="list-style: none; padding-left: 1rem; margin-bottom: 0.75rem; display: flex; flex-direction: column; gap: 0.2rem;">
+                    <li><a class="toc-link" href="topic1_retrospective.html#guidelines">📌 1. 常見提醒與交付規範</a></li>
+                    <li><a class="toc-link" href="topic1_retrospective.html#double-track">📄 2. 雙軌文件策略 (md+html)</a></li>
+                    <li><a class="toc-link" href="topic1_retrospective.html#ai-native">🧠 3. AI-Native 思維</a></li>
+                    <li><a class="toc-link" href="topic1_retrospective.html#project-evaluation">⚖️ 4. 專案評估 (診斷指標)</a></li>
+                    <li><a class="toc-link" href="topic1_retrospective.html#agent-skills">🔌 5. 怎麼善用 Agent Skills</a></li>
+                </ul>
+
+                <!-- 主題二：AI App 專案腦力激盪 -->
+                <div class="toc-title"><a class="toc-link " href="topic5_brainstorming.html" style="padding: 0.4rem 0.8rem; display: block; font-weight: bold; border-radius: 8px;">🎯 2. AI App 專案腦力激盪</a></div>
+                <ul style="list-style: none; padding-left: 1rem; margin-bottom: 0.75rem; display: none; flex-direction: column; gap: 0.2rem;">
+                    <li><a class="toc-link" href="topic5_brainstorming.html">🎯 AI APP Studio 實作套件</a></li>
+                    <li style="padding-left: 0.8rem;"><a class="toc-link" href="topic5_brainstorming.html#direction-a" style="font-size: 0.85rem; padding: 0.3rem 0.6rem;">👉 方向 A：AI KM 知識庫</a></li>
+                    <li style="padding-left: 0.8rem;"><a class="toc-link" href="topic5_brainstorming.html#direction-b" style="font-size: 0.85rem; padding: 0.3rem 0.6rem;">👉 方向 B：銀河 ERP SaaS 增強</a></li>
+                    <li style="padding-left: 0.8rem;"><a class="toc-link" href="topic5_brainstorming.html#direction-c" style="font-size: 0.85rem; padding: 0.3rem 0.6rem;">👉 方向 C：SME 日常效率倍增器</a></li>
+                    <li><a class="toc-link" href="topic5_brainstorming.html#evaluation-metrics">🗺️ AI App 關鍵注意事項</a></li>
+                    <li><a class="toc-link" href="topic5_brainstorming.html#firewall-test">🛡️ 客戶環境測試（網絡防火牆）</a></li>
+                </ul>
+
+                <!-- 主題三：ETL 實務概念與小元件教學 -->
+                <div class="toc-title"><a class="toc-link " href="topic3_etl_cases.html" style="padding: 0.4rem 0.8rem; display: block; font-weight: bold; border-radius: 8px;">⚡ 3. ETL 實務概念與小元件教學</a></div>
+                <ul style="list-style: none; padding-left: 1rem; margin-bottom: 0.75rem; display: none; flex-direction: column; gap: 0.2rem;">
+                    <li><a class="toc-link" href="topic3_etl_cases.html#etl-e">📥 E (Extract) - 取得資料</a></li>
+                    <li><a class="toc-link" href="topic3_etl_cases.html#etl-t">⚡ T (Transform) - 整理 / 轉換</a></li>
+                    <li><a class="toc-link" href="topic3_etl_cases.html#etl-l">📤 L (Load) - 輸出 / 應用</a></li>
+                    <li><a class="toc-link" href="topic3_etl_cases.html#ai-war-room">🖥️ 雙軌戰情中心元件解構</a></li>
+                </ul>
+
+                <!-- 主題四：KM 建置與應用思維 -->
+                <div class="toc-title"><a class="toc-link " href="topic4_km_rag.html" style="padding: 0.4rem 0.8rem; display: block; font-weight: bold; border-radius: 8px;">📂 4. KM 建置與應用思維</a></div>
+                <ul style="list-style: none; padding-left: 1rem; margin-bottom: 0.75rem; display: none; flex-direction: column; gap: 0.2rem;">
+                    <li><a class="toc-link" href="topic4_km_rag.html#ai-km">📂 AI KM 建置範例</a></li>
+                    <li><a class="toc-link" href="topic4_km_rag.html#imitation-coding">🎯 實戰模仿開發</a></li>
+                    <li><a class="toc-link" href="topic4_km_rag.html#notebooklm">📓 NotebookLM 整合運用</a></li>
+                </ul>
+
+                <!-- 主題五：AI API 呼叫三大模式實戰 -->
+                <div class="toc-title"><a class="toc-link " href="topic6_ai_api.html" style="padding: 0.4rem 0.8rem; display: block; font-weight: bold; border-radius: 8px;">🛠️ 5. AI API 呼叫三大模式實戰</a></div>
+                <ul style="list-style: none; padding-left: 1rem; margin-bottom: 0.75rem; display: none; flex-direction: column; gap: 0.2rem;">
+                    <li><a class="toc-link" href="topic6_ai_api.html#hardware-detection">🖥️ 互動式硬體檢測選型</a></li>
+                    <li><a class="toc-link" href="topic6_ai_api.html#cloud-gemini">☁️ 雲端 Gemini API 申請與呼叫</a></li>
+                    <li><a class="toc-link" href="topic6_ai_api.html#local-ollama">🏠 地端 Ollama 本地服務呼叫</a></li>
+                    <li><a class="toc-link" href="topic6_ai_api.html#chrome-nano">🌐 Chrome Nano 瀏覽器原生 AI</a></li>
+                </ul>
+
+                <!-- 主題六：核心實戰案例展示 -->
+                <div class="toc-title"><a class="toc-link " href="topic7_real_cases.html" style="padding: 0.4rem 0.8rem; display: block; font-weight: bold; border-radius: 8px;">🚀 6. 核心實戰案例展示</a></div>
+
+                <!-- 主題七：商業型整合專案 -->
+                <div class="toc-title"><a class="toc-link " href="topic8_commercial_projects.html" style="padding: 0.4rem 0.8rem; display: block; font-weight: bold; border-radius: 8px;">💼 7. 商業型整合專案</a></div>
+
+                <!-- 📚 延伸精選閱讀 -->
+                <div class="toc-title">📚 延伸精選閱讀</div>
+                <ul style="list-style: none; padding-left: 1rem; margin-bottom: 0.75rem; display: flex; flex-direction: column; gap: 0.2rem;">
+                    <li><a class="toc-link" href="article_ai_efficiency.html" style="font-size: 0.85rem; padding: 0.3rem 0.6rem;">📝 企業 AI 轉型思維</a></li>
+                    <li><a class="toc-link" href="article_ornith_agent.html" style="font-size: 0.85rem; padding: 0.3rem 0.6rem;">🐦 Ornith-1.0 程式模型</a></li>
+                </ul>
+
+            </ul>
+
+
+        </aside>
+
+        <main>
+            <header>
+                <span class="badge">Class 04 AI App Studio 實作藍圖套件</span>
+                <h1 style="margin-top: 0.75rem;">主題一：前三堂課程交流與補充</h1>
+                <div class="subtitle">從創意到 AI 產品的完整實作藍圖與工作坊套件</div>
+            </header>
+
+            <article class="card">
+                <h1>主題一：前三堂課程交流與補充</h1>
+<br>
+<div class="card" style="border-left: 4px solid var(--accent); background: rgba(192, 132, 252, 0.03); padding: 1.5rem; margin: 1.5rem 0;">
+<strong style="color: var(--accent); display: block; margin-bottom: 0.5rem;">💡 NOTE / 說明</strong>
+<p style="margin: 0; font-size: 0.95rem;">📂 <strong>前三堂課程簡報 PDF 下載與存取說明</strong><br>• <strong>Class 1 課程簡報</strong>：<a href="javascript:void(0);" onclick="verifyPdfPassword('https://drive.google.com/file/d/1lcTQQ4ceWf8-I-qxifTIbkTq8gwW0Pp7/view')" style="color: var(--accent); font-weight: bold; text-decoration: underline;">🌐 Google Drive 下載連結</a><br>• <strong>Class 2 課程簡報</strong>：<a href="javascript:void(0);" onclick="verifyPdfPassword('https://drive.google.com/file/d/1FV_SEjwf68vgd_CH28ScJSjz1FiwxxTw/view')" style="color: var(--accent); font-weight: bold; text-decoration: underline;">🌐 Google Drive 下載連結</a><br>• <strong>Class 3 課程簡報</strong>：<a href="javascript:void(0);" onclick="verifyPdfPassword('https://drive.google.com/file/d/1XDK6z2988pxJ0mIHCvgQmjFEHVCc2UeM/view?usp=sharing')" style="color: var(--accent); font-weight: bold; text-decoration: underline;">🌐 Google Drive 下載連結</a><br>• 🔑 <strong>PDF 檔案密碼提示</strong>：公司英文縮寫。</p></div>
+<br>
+<script>
+function verifyPdfPassword(url) {
+    var password = prompt("請輸入密碼以開啟下載連結：\n（提示：公司英文縮寫）");
+    if (password) {
+        if (password.toLowerCase() === "attn") {
+            window.open(url, "_blank");
+        } else {
+            alert("密碼錯誤！提示：公司英文縮寫");
+        }
+    }
+}
+</script>
+<br>
+<p>本單元旨在對前三週的學習重點進行深度沉澱與補充，並以 AI App Studio 的核心原則為基礎，規範專案開發、雙軌文件、AI 理解與指標評估。</p>
+<br>
+<p><img src="images/ai_app_studio_four_principles.png" alt="AI App Studio 專案開發四大原則" style="max-width: 100%; height: auto; border-radius: 12px; border: 1px solid var(--card-border); box-shadow: 0 10px 30px rgba(0,0,0,0.4); margin: 1.5rem 0; display: block;"></p>
+<br>
+<p>---</p>
+<br>
+<h2 id="guidelines">📌 主題一：常見提醒與交付規範 (台灣時間 UTC+8)</h2>
+<br>
+<div class="card" style="border-left: 4px solid var(--primary); background: rgba(139, 92, 246, 0.05); padding: 1.5rem; margin: 1.5rem 0;">
+<strong style="color: var(--primary); display: block; margin-bottom: 0.5rem;">⚠️ IMPORTANT / 重要</strong>
+<p style="margin: 0; font-size: 0.95rem;"></p></div>
+<blockquote style="border-left: 4px solid var(--card-border); padding-left: 1rem; color: var(--text-muted); margin: 1.2rem 0; font-style: italic;">本課程與專案之所有宣告、作業交付截止日期等時間，皆<strong>統一宣告並以台灣時間 (UTC+8) 為唯一準則</strong>。</blockquote>
+<br>
+<ul style="margin-left: 24px; margin-bottom: 16px; color: var(--text-muted);">
+<li style="margin-bottom: 8px;"><span style="color: #fb923c; font-weight: bold;">🕒 時間統一標準</span>：所有宣告、作業交付截止日期等時間，皆以台灣時間 (UTC+8) 為唯一準則。</li>
+<li style="margin-bottom: 8px;"><span style="color: #fb923c; font-weight: bold;">📄 雙軌標準規範 (md + html)</span>：所有提問集、作業及大綱，必須同時提交 <strong>Markdown (.md)</strong> 檔與 <strong>HTML (.html)</strong> 網頁檔，落實人機雙軌並行。</li>
+<li style="margin-bottom: 8px;"><strong>Markdown 檔</strong>：供 AI / LLM 結構理解，利於上下文控制與代碼生成。</li>
+<li style="margin-bottom: 8px;"><strong>HTML 網頁檔</strong>：供人類清晰閱讀，方便直觀展示與簡報。</li>
+<li style="margin-bottom: 8px;"><span style="color: #fb923c; font-weight: bold;">📦 壓縮包命名習慣 (ZIP 檔案)</span>：凡提交程式碼或專案資源壓縮包時，請遵循 <strong>「[時間戳記]_[重要更新事項].zip」</strong> 命名規範（例如：<code style="font-family: 'Fira Code', monospace; background: rgba(0,0,0,0.3); padding: 0.2rem 0.4rem; border-radius: 4px; color: var(--accent); font-size: 0.9em;">20260630_class04_project.zip</code>）。</li>
+</ul>
+<br>
+<p>---</p>
+<br>
+<h2 id="double-track">📌 主題二：雙軌文件策略 (md + html)</h2>
+<br>
+<p>在 AI-Native 開發模式下，文件兼顧人機雙軌並行，達成「一份內容，AI 讀得懂，人也看得懂」：</p>
+<br>
+<ul style="margin-left: 24px; margin-bottom: 16px; color: var(--text-muted);">
+<li style="margin-bottom: 8px;"><span style="color: #fb923c; font-weight: bold;">📝 Markdown (.md)</span>：語意結構清晰，便於 LLM 語意理解，利於 RAG 檢索，方便代碼生成與上下文控制。</li>
+<li style="margin-bottom: 8px;"><span style="color: #fb923c; font-weight: bold;">🌐 HTML (.html)</span>：視覺樣式豐富，具備互動效果，方便團隊成員閱讀，以及管理層與客戶直觀理解。</li>
+</ul>
+<br>
+<h3>🚀 案例研究：Superpowers 的 HTML 本地化與雙軌優勢</h3>
+<p>在 AI-Native 開發中，我們以知名 AI 技能庫 <a href="https://github.com/obra/superpowers" target="_blank" rel="noopener noreferrer" style="color: var(--accent); font-weight: bold; text-decoration: underline;">Superpowers</a> 為例，展示同一個技能檔在不同表達載體上的雙軌輸出與優勢。詳細的「HTML 本地化優勢與功能展示」已收錄於我們的 <a href="https://falo-taiwan.github.io/superpowers/" target="_blank" rel="noopener noreferrer" style="color: var(--accent); font-weight: bold; text-decoration: underline;">FALO 雙軌教材介紹網頁</a> 中。</p>
+<br>
+<p>本教材包中提供以下三種檔案版本，供您對照學習其結構與轉譯效果：</p>
+<ul style="margin-left: 24px; margin-bottom: 16px; color: var(--text-muted);">
+<li style="margin-bottom: 8px;">🌐 <a href="superpowers_skill_official.md" target="_blank">官方原始 Markdown 技能檔 (superpowers_skill_official.md)</a>：最純粹的官方英文邏輯，適合配置給 AI 工具。</li>
+<li style="margin-bottom: 8px;">📝 <a href="superpowers_skill.md" target="_blank">FALO 專案 Markdown 技能檔 (superpowers_skill.md)</a>：本機英文代碼版，嵌入了 CSS/HTML 互動組件。</li>
+<li style="margin-bottom: 8px;">📖 <a href="superpowers_skill.html" style="color: #fb923c; font-weight: bold; text-decoration: underline;">FALO HTML 雙語互動好讀版</a>：透過編譯注入中文導讀、互動平台 Tabs 與視覺化 Timeline 的最強學習版本。</li>
+</ul>
+<br>
+<h3>🎨 實務視覺強化戰術：人機協作繪圖</h3>
+<br>
+<p>為了讓 HTML 網頁具備「Wow」的視覺效果，我們在撰寫 HTML 文件時常使用以下兩種戰術來繪製高質感的示意圖：</p>
+<br>
+<ul style="margin-left: 24px; margin-bottom: 16px; color: var(--text-muted);">
+<li style="margin-bottom: 8px;"><span style="color: #fb923c; font-weight: bold;">⚡ 使用行內 SVG (Inline SVG) 繪製輕量示意圖</span></li>
+</ul>
+<p>  HTML 支援直接嵌入 SVG 向量代碼。你可以直接命令 AI 生成簡潔、無損放大的 SVG 結構圖或流程圖解（例如我們在教材中使用的架構圖）。這類圖表加載速度極快，且完美適應響應式排版，是人機共讀的首選。</p>
+<ul style="margin-left: 24px; margin-bottom: 16px; color: var(--text-muted);">
+<li style="margin-bottom: 8px;"><span style="color: #fb923c; font-weight: bold;">🤖 藉由 AI 生圖工具進行視覺強化</span></li>
+</ul>
+<p>  當內建的 SVG 示意圖精緻度不夠，或需要更具象的產品概念圖與插畫時，我們可以借助已全面升級的頂尖 AI 工具協作生圖，再將圖片下載放入網頁中：</p>
+<ul style="margin-left: 24px; margin-bottom: 16px; color: var(--text-muted);">
+<li style="margin-bottom: 8px;"><strong>ChatGPT Image 2</strong>：適合快速產生富有創意的概念插圖、系統運作擬人化圖解或 UI 介面 Mockups。</li>
+<li style="margin-bottom: 8px;"><strong>Gemini Banana 2</strong>：擅長生成清晰俐落的向量風格插圖、寫實工作場景與精確的示意資產（如我們專案中使用的 Ornith 吉祥物）。</li>
+<li style="margin-bottom: 8px;"><strong>NotebookLM（資訊圖表與簡報）</strong>：適合將複雜長文或專案背景直接丟入，讓 AI 快速提煉核心邏輯，直接生成最適合簡報或網頁呈現的「資訊圖表」大綱與視覺排版結構，省去大量人工整理的時間。</li>
+</ul>
+<br>
+<p>---</p>
+<br>
+<h2 id="ai-native">📌 主題三：AI-Native 思維</h2>
+<br>
+<h3>1. AI-Native 開發流程：從「人出嘴」到「AI 自動執行」</h3>
+<p>在 AI-Native 的開發模式下，人類不再需要親自動手寫每一行程式碼，而是透過<strong>一份結構化的雙軌文件</strong>來直接指揮 AI。整個流轉路徑如下：</p>
+<br>
+<p><strong>👤 人類（提出需求）</strong> ➔ <strong>📄 雙軌文件（人讀 HTML，AI 讀 MD）</strong> ➔ <strong>🤖 AI 引擎（理解規則與邏輯）</strong> ➔ <strong>💻 產生代碼（自動編寫）</strong> ➔ <strong>⚙️ AI Agent（自動測試執行）</strong></p>
+<br>
+<h3>2. 核心戰術：模仿與重構 (Mimicry & Refactoring)</h3>
+<p>在 AI-Native 的時代，寫程式碼的門檻已經降到極低，語法與基礎實作不再是難事。<strong>工程師與開發者真正的核心價值，已經轉移到「設計架構 (Architecture)」與「撰寫精準的規格書 (Spec)」。</strong></p>
+<br>
+<p>為了讓 AI 產出最高品質的程式碼，我們必須掌握<strong>「向經典學習，讓 AI 模仿重構」</strong>的戰術：</p>
+<br>
+<p><img src="images/ai_native_mimicry_refactoring.png" alt="核心戰術：模仿與重構" style="max-width: 100%; height: auto; border-radius: 12px; border: 1px solid var(--card-border); box-shadow: 0 10px 30px rgba(0,0,0,0.4); margin: 1.5rem 0; display: block;"></p>
+<br>
+<ul style="margin-left: 24px; margin-bottom: 16px; color: var(--text-muted);">
+<li style="margin-bottom: 8px;"><span style="color: #fb923c; font-weight: bold;">💡 寫程式不難，定義規格與架構才重要</span></li>
+</ul>
+<p>  AI 可以一瞬間寫出上千行代碼，但如果人類給的「規格書 (Spec)」邏輯混亂、架構模糊，AI 也只會以極快的速度產出「垃圾程式碼」。人類的角色必須提升為「架構師」，專注於理清業務邊界與系統規則。</p>
+<ul style="margin-left: 24px; margin-bottom: 16px; color: var(--text-muted);">
+<li style="margin-bottom: 8px;"><span style="color: #fb923c; font-weight: bold;">📚 向經典學習 (Learn from the Classics) 的四大實踐路徑</span></li>
+</ul>
+<p>  我們無須閉門造車、憑空發明架構輪子，而是要去挖掘世界上的「優秀經典」作為 AI 模仿的對象。以下是獲取經典的四個核心方法：</p>
+<p>  1. <strong>🎯 追蹤並學習高手思維</strong>：關注業界頂尖專家、資深架構師與先進開發社群，觀察他們如何向 AI 拆解任務、如何劃分 Module 與設計 Prompt，吸收他們的思維模型。</p>
+<p>  2. <strong>🐙 挖掘 GitHub 等優質資源站</strong>：在 GitHub 上尋找熱門的 Boilerplate（腳手架模板）、經典的開源專案與設計模式庫，直接將其成熟、通過驗證的架構作為 AI 仿效的藍本。</p>
+<p>  3. <strong>🤖 善用 AI 定期搜尋（最懶但最有效）</strong>：讓 AI 當作你的情報特工，定期幫你搜尋、整理並摘要業界最新的開發最佳實踐 (Best Practices)、新框架設計與優秀程式碼規範。</p>
+<p>  4. <strong>🔄 模仿既有產品並進行優化</strong>：解構市場上已成功且通過商用驗證的產品，剖析其流程、介面與功能架構，讓 AI 在模仿其長處的基礎上，進行客製化重構與優化。</p>
+<ul style="margin-left: 24px; margin-bottom: 16px; color: var(--text-muted);">
+<li style="margin-bottom: 8px;"><span style="color: #fb923c; font-weight: bold;">🛠️ 模仿與重構 (Mimicry & Refactoring) 的執行方式</span></li>
+</ul>
+<p>  將我們的草稿或舊系統提供給 AI，並附上上述途徑取得的經典範本，命令 AI：「*以此範本為標準，模仿其架構來重構我的系統*」。AI 會利用強大的語意類比與映射能力，將新的業務邏輯無縫嵌入經典架構中，瞬間將代碼品質提升至資深架構師的水準。</p>
+<br>
+<h3>3. AI-Native 人機協作四部曲：高效協作的核心機制</h3>
+<p>在 AI-Native 的工作流中，人與 AI 的協作不再是傳統指令式的對話，而是圍繞著「文件與知識」展開的閉環流轉：</p>
+<br>
+<p><img src="images/ai_native_collaboration_four_steps.jpg" alt="AI-Native 人機協作四部曲" style="max-width: 100%; height: auto; border-radius: 12px; border: 1px solid var(--card-border); box-shadow: 0 10px 30px rgba(0,0,0,0.4); margin: 1.5rem 0; display: block;"></p>
+<br>
+<ul style="margin-left: 24px; margin-bottom: 16px; color: var(--text-muted);">
+<li style="margin-bottom: 8px;"><span style="color: #fb923c; font-weight: bold;">📄 一份知識真相，多份呈現 (One Source of Truth, Multiple Presentations)</span></li>
+</ul>
+<p>  所有的業務規格與行為約束只寫在同一個檔案中。但這個檔案會有多種呈現形式：給 AI 讀取的是結構化、語意清晰的 Markdown 全文；給人類看的是視覺精美、具備互動效果與時間軸的 HTML 網頁。</p>
+<ul style="margin-left: 24px; margin-bottom: 16px; color: var(--text-muted);">
+<li style="margin-bottom: 8px;"><span style="color: #fb923c; font-weight: bold;">👥 每個角色選擇他看得懂的版本，用他看得懂的方式回饋</span></li>
+</ul>
+<p>  不同角色各司其職：商務端、管理層或客戶瀏覽 HTML 視覺網頁，並用自然語言提出回饋與修正建議；工程師審查代碼與技術架構；AI 則直接載入並嚴格遵循 Markdown 規則。每個人都用自己最舒服、最有效率的載體進行溝通與回饋。</p>
+<ul style="margin-left: 24px; margin-bottom: 16px; color: var(--text-muted);">
+<li style="margin-bottom: 8px;"><span style="color: #fb923c; font-weight: bold;">🤖 AI 幫忙分析解釋 (AI-Assisted Analysis & Translation)</span></li>
+</ul>
+<p>  在協作過程中，AI 會主動扮演「催化劑」與「編譯器」角色：自動翻譯多國語言、分析代碼邊界、檢查邏輯衝突、產出紅線警示與視覺化流程圖，幫助人類跨越技術鴻溝，快速看懂代碼或複雜規則的實質影響。</p>
+<ul style="margin-left: 24px; margin-bottom: 16px; color: var(--text-muted);">
+<li style="margin-bottom: 8px;"><span style="color: #fb923c; font-weight: bold;">👤 人類確認 (Human Verification & Control)</span></li>
+</ul>
+<p>  不論 AI 的生成與編譯能力再強，最終的決策與把關權永遠在「人」的手中。由人類在 HTML 互動介面上核對最終效果，進行實機測試，並做出 GO / NO GO 的決策，確保專案的安全落地與品質保障。</p>
+<br>
+<h3>4. 導入 AI-Native 思維的四大顯著優勢</h3>
+<p>當我們轉向以「設計架構與規格，讓 AI 模仿重構」為核心的 AI-Native 模式時，將獲得以下顯著優勢：</p>
+<br>
+<ul style="margin-left: 24px; margin-bottom: 16px; color: var(--text-muted);">
+<li style="margin-bottom: 8px;"><span style="color: #fb923c; font-weight: bold;">🎯 規格即代碼，消除架構與實作的脫節</span></li>
+</ul>
+<p>  在傳統開發中，規格書與實際代碼經常脫節（Out of Sync）。而在 AI-Native 模式下，<strong>規格文件就是 AI 的程式指令</strong>。當人類架構師更新了經典模板或規格公約後，AI 便會立即在後續對話或重構中嚴格執行，實現「規格即程式」，消滅資訊不對稱。</p>
+<ul style="margin-left: 24px; margin-bottom: 16px; color: var(--text-muted);">
+<li style="margin-bottom: 8px;"><span style="color: #fb923c; font-weight: bold;">⚡ 消除繁瑣的手工轉譯 (Specification to Code)</span></li>
+</ul>
+<p>  以往工程師需要花費大量時間把設計文件或 PM 的規格「翻譯」成程式代碼。現在，人類專注於設計出高水準的規格架構，AI 則直接讀懂規格文件並自動完成手工代碼的撰寫與轉換，大幅降低人工轉譯的出錯率。</p>
+<ul style="margin-left: 24px; margin-bottom: 16px; color: var(--text-muted);">
+<li style="margin-bottom: 8px;"><span style="color: #fb923c; font-weight: bold;">🔄 極速架構實驗與自動化閉環</span></li>
+</ul>
+<p>  有了「模仿重構」的戰術，當我們想嘗試新的系統架構時，只需替換 AI 參照的「黃金範本」即可。AI 能在幾分鐘內自動完成整個系統的代碼替換、單元測試、編譯與發布，讓架構實驗與驗收呈指數級加速。</p>
+<ul style="margin-left: 24px; margin-bottom: 16px; color: var(--text-muted);">
+<li style="margin-bottom: 8px;"><span style="color: #fb923c; font-weight: bold;">🗣️ 極低溝通成本與高度敏捷性</span></li>
+</ul>
+<p>  當業務邏輯或系統規範有變動時，無須召開繁瑣的跨部門重構會議或代碼審查會議，只需更新該單元之 Markdown 規格。AI Agent 載入後便會自動更新其行為模式，讓開發流程達到真正的敏捷（Agile）。</p>
+<br>
+<p>---</p>
+<br>
+<h2 id="project-evaluation">📌 主題四：專案評估 (診斷核心指標)</h2>
+<br>
+<p>在啟動 AI 專案或導入工具前，必須通過以下四項核心指標的 GO / NO GO 診斷評估：</p>
+<br>
+<p>1. <span style="color: #fb923c; font-weight: bold;">❤️ 痛點真實性</span>：該業務流程是否為每日重複、耗費高昂人工工時的痛點？</p>
+<p>2. <span style="color: #fb923c; font-weight: bold;">🧠 AI 必要性</span>：是否必須使用 LLM 進行語意理解與複雜決策？還是傳統的 Rule-based (規則/公式) 或 Regex (正規表示式) 就能解決？</p>
+<p>3. <span style="color: #fb923c; font-weight: bold;">📁 資料可得性</span>：專案是否有足夠且合規的真實樣本數據，以供 AI 學習、對照與測試？</p>
+<p>4. <span style="color: #fb923c; font-weight: bold;">💰 落地經濟性</span>：Token 的消耗、API 呼叫與運行維護成本，在商業上是否可控且具備投資報酬率？</p>
+<br>
+<p>綜合評估後，確認專案是否值得投入（GO / NO GO）。</p>
+<br>
+<p>---</p>
+<br>
+<h2 id="agent-skills">📌 主題五：怎麼善用 Agent Skills</h2>
+<br>
+<p>善用 AI 技能 (Skills) 與團隊知識管理是提升人機協作效率的關鍵，以下透過三張核心圖表進行深度解析：</p>
+<br>
+<h3>1. 能力 (Skills) 與知識 (Knowledge) 的定位差異</h3>
+<br>
+<p><img src="images/personal_vs_team_ai_knowledge.png" alt="個人 AI 與 團隊 AI 的知識管理方式" style="max-width: 100%; height: auto; border-radius: 12px; border: 1px solid var(--card-border); box-shadow: 0 10px 30px rgba(0,0,0,0.4); margin: 1.5rem 0; display: block;"></p>
+<br>
+<ul style="margin-left: 24px; margin-bottom: 16px; color: var(--text-muted);">
+<li style="margin-bottom: 8px;"><span style="color: #fb923c; font-weight: bold;">個人使用 (Personal AI) ➔ 管理「能力 (Skill)」</span></li>
+</ul>
+<p>  透過 <code style="font-family: 'Fira Code', monospace; background: rgba(0,0,0,0.3); padding: 0.2rem 0.4rem; border-radius: 4px; color: var(--accent); font-size: 0.9em;">Skill.md</code> 定義 AI 助理的行為準則與工具調用流程，注入 AI 執行階段 (AI Runtime)，讓 <strong>AI 自己變強</strong>。</p>
+<ul style="margin-left: 24px; margin-bottom: 16px; color: var(--text-muted);">
+<li style="margin-bottom: 8px;"><span style="color: #fb923c; font-weight: bold;">團隊使用 (Team AI) ➔ 管理「知識 (Markdown + HTML)」</span></li>
+</ul>
+<p>  建立專案共享文件目錄（如 <code style="font-family: 'Fira Code', monospace; background: rgba(0,0,0,0.3); padding: 0.2rem 0.4rem; border-radius: 4px; color: var(--accent); font-size: 0.9em;">README</code>、<code style="font-family: 'Fira Code', monospace; background: rgba(0,0,0,0.3); padding: 0.2rem 0.4rem; border-radius: 4px; color: var(--accent); font-size: 0.9em;">PROJECT_RULE</code>、<code style="font-family: 'Fira Code', monospace; background: rgba(0,0,0,0.3); padding: 0.2rem 0.4rem; border-radius: 4px; color: var(--accent); font-size: 0.9em;">WORKFLOW</code>），落實雙軌並行，讓 <strong>大家使用同一份知識與規範</strong>。</p>
+<br>
+<p>---</p>
+<br>
+<h3>2. Context 與 Token 的資源優化策略</h3>
+<br>
+<p><img src="images/context_token_optimization_old.png" alt="常駐外掛與專案資料庫的 Context 成本對照" style="max-width: 100%; height: auto; border-radius: 12px; border: 1px solid var(--card-border); box-shadow: 0 10px 30px rgba(0,0,0,0.4); margin: 1.5rem 0; display: block;"></p>
+<br>
+<ul style="margin-left: 24px; margin-bottom: 16px; color: var(--text-muted);">
+<li style="margin-bottom: 8px;"><span style="color: #fb923c; font-weight: bold;">Skill 模式（常駐外掛 🔌）</span>：每次啟動對話時，AI 都會自動載入該 Skill 的 Markdown 全文（Always Loaded）。雖然反應即時，但會固定且持續佔用 Context 空間，並消耗重複的 Input Token。</li>
+<li style="margin-bottom: 8px;"><span style="color: #fb923c; font-weight: bold;">Team Knowledge 模式（專案資料庫 🗄️）</span>：平時檔案安靜存放在目錄中，AI 僅在需要時才經由搜尋或讀取工具載入特定檔案（On Demand）。不佔用啟動時的 Context，使資源利用率最大化。</li>
+</ul>
+<br>
+<p>---</p>
+<br>
+<h3>3. 哪些 Skill 值得放在「每次都自動載入」？</h3>
+<br>
+<p><img src="images/context_token_optimization.png" alt="哪些 Skill 值得放每次自動載入" style="max-width: 100%; height: auto; border-radius: 12px; border: 1px solid var(--card-border); box-shadow: 0 10px 30px rgba(0,0,0,0.4); margin: 1.5rem 0; display: block;"></p>
+<br>
+<ul style="margin-left: 24px; margin-bottom: 16px; color: var(--text-muted);">
+<li style="margin-bottom: 8px;"><span style="color: #fb923c; font-weight: bold;">原則</span>：放「每次對話都應該遵守或常用的能力」。</li>
+<li style="margin-bottom: 8px;"><span style="color: #fb923c; font-weight: bold;">公約型 Skill (Global Convention)</span>：每次都要遵守的通用規則與行為準則。</li>
+<li style="margin-bottom: 8px;">*包含*：語言與格式公約、資訊安全公約、程式開發公約、時間與單位公約、工作流程公約、協作與溝通公約、檔案與命名公約、品質與驗收公約。</li>
+<li style="margin-bottom: 8px;"><span style="color: #fb923c; font-weight: bold;">技能型 Skill (Capability / Tool)</span>：AI 能夠立即執行的常用能力與工具。</li>
+<li style="margin-bottom: 8px;">*包含*：數據分析、資料處理、報表產出、研究與調查、程式開發、文件撰寫、翻譯與摘要、創意與策略。</li>
+<li style="margin-bottom: 8px;"><span style="color: #fb923c; font-weight: bold;">不建議放在 Skill（改放團隊知識包）</span>：專案背景 (<code style="font-family: 'Fira Code', monospace; background: rgba(0,0,0,0.3); padding: 0.2rem 0.4rem; border-radius: 4px; color: var(--accent); font-size: 0.9em;">ai_app_readme.md</code>)、業務流程 (<code style="font-family: 'Fira Code', monospace; background: rgba(0,0,0,0.3); padding: 0.2rem 0.4rem; border-radius: 4px; color: var(--accent); font-size: 0.9em;">WORKFLOW.md</code>)、規格文件 (<code style="font-family: 'Fira Code', monospace; background: rgba(0,0,0,0.3); padding: 0.2rem 0.4rem; border-radius: 4px; color: var(--accent); font-size: 0.9em;">REFERENCE.md</code>)、驗收標準 (<code style="font-family: 'Fira Code', monospace; background: rgba(0,0,0,0.3); padding: 0.2rem 0.4rem; border-radius: 4px; color: var(--accent); font-size: 0.9em;">CHECKLIST.md</code>)、大量真實案例數據。</li>
+<li style="margin-bottom: 8px;"><span style="color: #fb923c; font-weight: bold;">AI Context 載入順序</span>：</li>
+</ul>
+<p>  <strong>1. Skill（每次自動載入）</strong> ➔ <strong>2. 專案知識包（按需載入）</strong> ➔ <strong>3. 當前對話任務（Working Context）</strong></p>
+<br>
+<blockquote style="border-left: 4px solid var(--card-border); padding-left: 1rem; color: var(--text-muted); margin: 1.2rem 0; font-style: italic;"><strong>好的 Skill 設計 = 固定公約 + 常用能力，讓 AI 每次對話都在最佳狀態！</strong></blockquote>
+<br>
+            </article>
+        </main>
+    </div>
+
+    <script>
+        function toggleLocalTheme() {
+            document.body.classList.toggle('theme-light');
+            localStorage.setItem('class04-theme', document.body.classList.contains('theme-light') ? 'light' : 'dark');
+        }
+        if (localStorage.getItem('class04-theme') === 'light') document.body.classList.add('theme-light');
+
+        function adjustZoom(enlarge) {
+            if (enlarge) {
+                document.body.classList.add('zoom-large');
+                localStorage.setItem('class04-zoom', 'large');
+            } else {
+                document.body.classList.remove('zoom-large');
+                localStorage.setItem('class04-zoom', 'normal');
+            }
+        }
+        if (localStorage.getItem('class04-zoom') === 'large') document.body.classList.add('zoom-large');
+
+        function adjustWidth(wide) {
+            if (wide) {
+                document.body.classList.add('width-wide');
+                localStorage.setItem('class04-width', 'wide');
+            } else {
+                document.body.classList.remove('width-wide');
+                localStorage.setItem('class04-width', 'normal');
+            }
+        }
+        if (localStorage.getItem('class04-width') === 'wide') document.body.classList.add('width-wide');
+
+        function copyCode(btn) {
+            const code = btn.parentElement.nextElementSibling.querySelector('code').innerText;
+            navigator.clipboard.writeText(code).then(() => {
+                const origText = btn.innerText;
+                btn.innerText = "已複製！";
+                setTimeout(() => btn.innerText = origText, 2000);
+            });
+        }
+    </script>
+</body>
+</html>

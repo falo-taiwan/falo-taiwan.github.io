@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 400" width="500" height="400">
+  <defs>
+    <linearGradient id="cardGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#180f35" stop-opacity="0.9" />
+      <stop offset="100%" stop-color="#080314" stop-opacity="0.9" />
+    </linearGradient>
+    <linearGradient id="greenGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#4ade80" />
+      <stop offset="100%" stop-color="#16a34a" />
+    </linearGradient>
+    <filter id="glowGreen" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="4" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <!-- Background Card -->
+  <rect width="500" height="400" fill="#020108" rx="12" stroke="#25174d" stroke-width="1.5" />
+  <rect width="496" height="396" x="2" y="2" rx="10" fill="url(#cardGrad)" />
+
+  <text x="24" y="36" fill="#ffffff" font-family="system-ui, sans-serif" font-size="16" font-weight="800">RAG Feedback &amp; Quality / 滿意度與回答質量</text>
+
+  <!-- Gauge (Center 250, 185) -->
+  <path d="M 130 200 A 120 120 0 0 1 370 200" fill="none" stroke="#1c113b" stroke-width="26" stroke-linecap="round" />
+  <circle cx="250" cy="200" r="120" fill="none" stroke="url(#greenGrad)" stroke-width="26" 
+          stroke-dasharray="377" stroke-dashoffset="40.7" transform="rotate(-180 250 200)" stroke-linecap="round" filter="url(#glowGreen)" />
+          
+  <text x="250" y="160" text-anchor="middle" fill="#ffffff" font-family="system-ui, sans-serif" font-size="12" font-weight="600">實時查詢好評率</text>
+  <text x="250" y="195" text-anchor="middle" fill="#4ade80" font-family="system-ui, sans-serif" font-size="30" font-weight="900" filter="url(#glowGreen)">89.2%</text>
+
+  <!-- Thumbs Stats -->
+  <g transform="translate(60, 235)" font-family="system-ui, sans-serif" font-size="11" font-weight="600">
+    <text x="0" y="15" fill="#4ade80">👍 Thumbs-up / 實用解答：1,113 次 (89.2%)</text>
+    <text x="0" y="32" fill="#ef4444">👎 Thumbs-down / 答非所問：135 次 (10.8%)</text>
+    <text x="0" y="49" fill="#f59e0b">⚠️ No-Match / 觸發安全防禦降級：56 次 (4.5%)</text>
+  </g>
+  
+  <line x1="24" y1="325" x2="476" y2="325" stroke="#25174d" stroke-width="1" />
+  <text x="24" y="352" fill="#6b7280" font-family="system-ui, sans-serif" font-size="11" font-weight="500">好評率大於 85% 代表 RAG 向量切片檢索召回精度合格</text>
+</svg>

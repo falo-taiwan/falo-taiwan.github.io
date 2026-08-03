@@ -1,0 +1,424 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000" width="1600" height="1000">
+  <defs>
+    <!-- Background Gradient -->
+    <radialGradient id="bgGrad" cx="50%" cy="50%" r="70%">
+      <stop offset="0%" stop-color="#0c0721" />
+      <stop offset="100%" stop-color="#020108" />
+    </radialGradient>
+    
+    <!-- Card Gradients -->
+    <linearGradient id="cardGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#180f35" stop-opacity="0.8" />
+      <stop offset="100%" stop-color="#080314" stop-opacity="0.8" />
+    </linearGradient>
+    
+    <!-- Glow Filters -->
+    <filter id="glowBlue" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="6" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+    <filter id="glowPurple" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="6" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+    <filter id="glowGreen" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="6" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+    <filter id="glowOrange" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="6" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+    
+    <!-- Accent Gradients -->
+    <linearGradient id="blueGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#38bdf8" />
+      <stop offset="100%" stop-color="#0284c7" />
+    </linearGradient>
+    <linearGradient id="purpleGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#c084fc" />
+      <stop offset="100%" stop-color="#8b5cf6" />
+    </linearGradient>
+    <linearGradient id="greenGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#4ade80" />
+      <stop offset="100%" stop-color="#16a34a" />
+    </linearGradient>
+    <linearGradient id="orangeGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#f59e0b" />
+      <stop offset="100%" stop-color="#d97706" />
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1600" height="1000" fill="url(#bgGrad)" />
+  <rect width="1598" height="998" x="1" y="1" rx="16" fill="none" stroke="#25174d" stroke-width="2" stroke-opacity="0.6" />
+
+  <!-- ================= HEADER ================= -->
+  <g transform="translate(40, 35)">
+    <text x="0" y="24" fill="#ffffff" font-family="system-ui, sans-serif" font-size="28" font-weight="900" letter-spacing="1.5">企業級 AI 知識管理與 Agent 統一戰情中心 (Enterprise AI Command Center)</text>
+    <text x="0" y="48" fill="#9ca3af" font-family="system-ui, sans-serif" font-size="14" font-weight="500">統一決策大屏 ─ 實現多維數據聯動、ETL 管道健康度、實時成本控制與多 Agent 協同監控</text>
+    <text x="1330" y="24" fill="#38bdf8" font-family="system-ui, sans-serif" font-size="13" font-weight="800" letter-spacing="1">Falo × Force Cheng</text>
+    <text x="1460" y="24" fill="#6b7280" font-family="system-ui, sans-serif" font-size="13" font-weight="500">2026/06/25</text>
+    <line x1="0" y1="65" x2="1520" y2="65" stroke="#2d1d5f" stroke-width="1.5" stroke-opacity="0.8" />
+  </g>
+
+  <!-- ================= TOP ROW: 5 KPI CARDS ================= -->
+  <!-- Card 1: Total Tools -->
+  <g transform="translate(40, 120)">
+    <rect width="280" height="90" rx="12" fill="url(#cardGrad)" stroke="#38bdf8" stroke-width="1.5" stroke-opacity="0.3" />
+    <text x="20" y="28" fill="#9ca3af" font-family="system-ui, sans-serif" font-size="11" font-weight="700" letter-spacing="0.5">TOTAL AI TOOLS / 方案總數</text>
+    <text x="20" y="68" fill="#38bdf8" font-family="system-ui, sans-serif" font-size="36" font-weight="900" filter="url(#glowBlue)">244 <tspan font-size="16" font-weight="700" fill="#9ca3af"> 筆</tspan></text>
+    <rect x="220" y="15" width="40" height="40" rx="8" fill="rgba(56, 189, 248, 0.08)" />
+    <path d="M228 25h6v2h10v-2h6v16h-28z" fill="#38bdf8" />
+  </g>
+
+  <!-- Card 2: Active Providers -->
+  <g transform="translate(350, 120)">
+    <rect width="280" height="90" rx="12" fill="url(#cardGrad)" stroke="#c084fc" stroke-width="1.5" stroke-opacity="0.3" />
+    <text x="20" y="28" fill="#9ca3af" font-family="system-ui, sans-serif" font-size="11" font-weight="700" letter-spacing="0.5">ACTIVE PROVIDERS / 活躍廠商</text>
+    <text x="20" y="68" fill="#c084fc" font-family="system-ui, sans-serif" font-size="36" font-weight="900" filter="url(#glowPurple)">128 <tspan font-size="16" font-weight="700" fill="#9ca3af"> 家</tspan></text>
+    <rect x="220" y="15" width="40" height="40" rx="8" fill="rgba(192, 132, 252, 0.08)" />
+    <path d="M232 23h16v24h-16zm4 6h3v3h-3zm5 0h3v3h-3zm-5 6h3v3h-3zm5 0h3v3h-3zm-5 6h3v3h-3zm5 0h3v3h-3z" fill="#c084fc" />
+  </g>
+
+  <!-- Card 3: Median Budget -->
+  <g transform="translate(660, 120)">
+    <rect width="280" height="90" rx="12" fill="url(#cardGrad)" stroke="#4ade80" stroke-width="1.5" stroke-opacity="0.3" />
+    <text x="20" y="28" fill="#9ca3af" font-family="system-ui, sans-serif" font-size="11" font-weight="700" letter-spacing="0.5">MEDIAN BUDGET / 預算中位數</text>
+    <text x="20" y="66" fill="#4ade80" font-family="system-ui, sans-serif" font-size="28" font-weight="900" filter="url(#glowGreen)">NT$ 65,000 <tspan font-size="13" font-weight="700" fill="#9ca3af">/起</tspan></text>
+    <rect x="220" y="15" width="40" height="40" rx="8" fill="rgba(74, 222, 128, 0.08)" />
+    <path d="M240 21h-4v4h-4v2h4v12h4v-12h4v-2h-4zm-1 6a3 3 0 0 1 0 6 3 3 0 0 1 0-6zm0 4a1 1 0 0 0 0 2 1 1 0 0 0 0-2z" fill="#4ade80" />
+  </g>
+
+  <!-- Card 4: Daily LLM API Calls -->
+  <g transform="translate(970, 120)">
+    <rect width="280" height="90" rx="12" fill="url(#cardGrad)" stroke="#f59e0b" stroke-width="1.5" stroke-opacity="0.3" />
+    <text x="20" y="28" fill="#9ca3af" font-family="system-ui, sans-serif" font-size="11" font-weight="700" letter-spacing="0.5">DAILY API CALLS / 今日 LLM 呼叫</text>
+    <text x="20" y="68" fill="#f59e0b" font-family="system-ui, sans-serif" font-size="36" font-weight="900" filter="url(#glowOrange)">15.4K <tspan font-size="16" font-weight="700" fill="#9ca3af"> 次</tspan></text>
+    <rect x="220" y="15" width="40" height="40" rx="8" fill="rgba(245, 158, 11, 0.08)" />
+    <!-- Pulse Line Icon -->
+    <path d="M225 35h8l4-10l5 20l4-15l4 5h10" fill="none" stroke="#f59e0b" stroke-width="2.5" stroke-linecap="round" />
+  </g>
+
+  <!-- Card 5: Avg Response Time -->
+  <g transform="translate(1280, 120)">
+    <rect width="280" height="90" rx="12" fill="url(#cardGrad)" stroke="#14b8a6" stroke-width="1.5" stroke-opacity="0.3" />
+    <text x="20" y="28" fill="#9ca3af" font-family="system-ui, sans-serif" font-size="11" font-weight="700" letter-spacing="0.5">AVG RESPONSE TIME / 平均響應</text>
+    <text x="20" y="68" fill="#14b8a6" font-family="system-ui, sans-serif" font-size="36" font-weight="900">1.24 <tspan font-size="16" font-weight="700" fill="#9ca3af"> 秒</tspan></text>
+    <rect x="220" y="15" width="40" height="40" rx="8" fill="rgba(20, 184, 166, 0.08)" />
+    <!-- Clock Icon -->
+    <circle cx="240" cy="35" r="10" fill="none" stroke="#14b8a6" stroke-width="2.5" />
+    <path d="M240 28v7l5 3" fill="none" stroke="#14b8a6" stroke-width="2.5" stroke-linecap="round" />
+  </g>
+
+  <!-- ================= MIDDLE ROW: 3 MAIN ANALYTICS MODULES ================= -->
+  <!-- Middle Left: SaaS Category Split -->
+  <g transform="translate(40, 235)">
+    <rect width="490" height="370" rx="12" fill="url(#cardGrad)" stroke="#2d1d5f" stroke-width="1.5" stroke-opacity="0.6" />
+    <text x="24" y="34" fill="#ffffff" font-family="system-ui, sans-serif" font-size="16" font-weight="800">SaaS Category Split / AI 標準化分類佔比</text>
+    
+    <!-- Donut Circle (Center 160, 185) -->
+    <circle cx="160" cy="185" r="80" fill="none" stroke="#1f1440" stroke-width="26" />
+    
+    <!-- Slice 1: Human Resources / KM (40%) -->
+    <circle cx="160" cy="185" r="80" fill="none" stroke="url(#purpleGrad)" stroke-width="26" 
+            stroke-dasharray="502.6" stroke-dashoffset="201.0" transform="rotate(-90 160 185)" stroke-linecap="round" />
+            
+    <!-- Slice 2: Customer Service (25%) -->
+    <circle cx="160" cy="185" r="80" fill="none" stroke="url(#blueGrad)" stroke-width="26" 
+            stroke-dasharray="502.6" stroke-dashoffset="376.9" transform="rotate(54 160 185)" stroke-linecap="round" />
+
+    <!-- Slice 3: Marketing & Sales (20%) -->
+    <circle cx="160" cy="185" r="80" fill="none" stroke="url(#greenGrad)" stroke-width="26" 
+            stroke-dasharray="502.6" stroke-dashoffset="402.0" transform="rotate(144 160 185)" stroke-linecap="round" />
+
+    <!-- Slice 4: Operations (15%) -->
+    <circle cx="160" cy="185" r="80" fill="none" stroke="url(#orangeGrad)" stroke-width="26" 
+            stroke-dasharray="502.6" stroke-dashoffset="427.2" transform="rotate(216 160 185)" stroke-linecap="round" />
+
+    <text x="160" y="178" text-anchor="middle" fill="#ffffff" font-family="system-ui, sans-serif" font-size="12" font-weight="600">雙來源分類</text>
+    <text x="160" y="200" text-anchor="middle" fill="#38bdf8" font-family="system-ui, sans-serif" font-size="16" font-weight="900">4大維度</text>
+
+    <!-- Legend -->
+    <g transform="translate(285, 95)" font-family="system-ui, sans-serif" font-size="11" font-weight="600">
+      <rect x="0" y="0" width="12" height="12" rx="3" fill="#c084fc" />
+      <text x="20" y="11" fill="#9ca3af">人資與知識管理 (40%)</text>
+      
+      <rect x="0" y="32" width="12" height="12" rx="3" fill="#38bdf8" />
+      <text x="20" y="43" fill="#9ca3af">客戶服務與溝通 (25%)</text>
+
+      <rect x="0" y="64" width="12" height="12" rx="3" fill="#4ade80" />
+      <text x="20" y="75" fill="#9ca3af">行銷與銷售加值 (20%)</text>
+
+      <rect x="0" y="96" width="12" height="12" rx="3" fill="#f59e0b" />
+      <text x="20" y="107" fill="#9ca3af">生產與運營管理 (15%)</text>
+    </g>
+    
+    <line x1="24" y1="310" x2="466" y2="310" stroke="#25174d" stroke-width="1" />
+    <text x="24" y="338" fill="#6b7280" font-family="system-ui, sans-serif" font-size="11" font-weight="500">數據源自 Tcloud 及經濟部工業館 244 筆方案庫</text>
+  </g>
+
+  <!-- Middle Center: Target Industry Heatmap -->
+  <g transform="translate(555, 235)">
+    <rect width="490" height="370" rx="12" fill="url(#cardGrad)" stroke="#2d1d5f" stroke-width="1.5" stroke-opacity="0.6" />
+    <text x="24" y="34" fill="#ffffff" font-family="system-ui, sans-serif" font-size="16" font-weight="800">Target Industry Heatmap / 適用產業熱力矩陣</text>
+    
+    <g transform="translate(24, 70)" font-family="system-ui, sans-serif" font-size="10" font-weight="700">
+      <!-- Column Labels -->
+      <text x="90" y="0" text-anchor="middle" fill="#6b7280">資訊科技</text>
+      <text x="175" y="0" text-anchor="middle" fill="#6b7280">智慧製造</text>
+      <text x="260" y="0" text-anchor="middle" fill="#6b7280">批發零售</text>
+      <text x="345" y="0" text-anchor="middle" fill="#6b7280">生技醫療</text>
+      <text x="430" y="0" text-anchor="middle" fill="#6b7280">金融科技</text>
+      
+      <!-- Row 1 -->
+      <text x="0" y="38" fill="#9ca3af" font-size="11" text-anchor="start">人資知識</text>
+      <rect x="60" y="20" width="65" height="30" rx="4" fill="#8b5cf6" fill-opacity="0.6" stroke="#c084fc" stroke-width="1" />
+      <rect x="145" y="20" width="65" height="30" rx="4" fill="#8b5cf6" fill-opacity="0.9" stroke="#c084fc" stroke-width="1.5" />
+      <rect x="230" y="20" width="65" height="30" rx="4" fill="#8b5cf6" fill-opacity="0.8" stroke="#c084fc" stroke-width="1" />
+      <rect x="315" y="20" width="65" height="30" rx="4" fill="#8b5cf6" fill-opacity="0.4" stroke="#c084fc" stroke-width="1" />
+      <rect x="400" y="20" width="65" height="30" rx="4" fill="#8b5cf6" fill-opacity="0.3" stroke="#c084fc" stroke-width="1" />
+      
+      <!-- Row 2 -->
+      <text x="0" y="88" fill="#9ca3af" font-size="11" text-anchor="start">客服溝通</text>
+      <rect x="60" y="70" width="65" height="30" rx="4" fill="#0284c7" fill-opacity="0.5" stroke="#38bdf8" stroke-width="1" />
+      <rect x="145" y="70" width="65" height="30" rx="4" fill="#0284c7" fill-opacity="0.6" stroke="#38bdf8" stroke-width="1" />
+      <rect x="230" y="70" width="65" height="30" rx="4" fill="#0284c7" fill-opacity="0.9" stroke="#38bdf8" stroke-width="1.5" />
+      <rect x="315" y="70" width="65" height="30" rx="4" fill="#0284c7" fill-opacity="0.5" stroke="#38bdf8" stroke-width="1" />
+      <rect x="400" y="70" width="65" height="30" rx="4" fill="#0284c7" fill-opacity="0.4" stroke="#38bdf8" stroke-width="1" />
+
+      <!-- Row 3 -->
+      <text x="0" y="138" fill="#9ca3af" font-size="11" text-anchor="start">行銷銷售</text>
+      <rect x="60" y="120" width="65" height="30" rx="4" fill="#16a34a" fill-opacity="0.4" stroke="#4ade80" stroke-width="1" />
+      <rect x="145" y="120" width="65" height="30" rx="4" fill="#16a34a" fill-opacity="0.5" stroke="#4ade80" stroke-width="1" />
+      <rect x="230" y="120" width="65" height="30" rx="4" fill="#16a34a" fill-opacity="0.9" stroke="#4ade80" stroke-width="1.5" />
+      <rect x="315" y="120" width="65" height="30" rx="4" fill="#16a34a" fill-opacity="0.3" stroke="#4ade80" stroke-width="1" />
+      <rect x="400" y="120" width="65" height="30" rx="4" fill="#16a34a" fill-opacity="0.3" stroke="#4ade80" stroke-width="1" />
+
+      <!-- Row 4 -->
+      <text x="0" y="188" fill="#9ca3af" font-size="11" text-anchor="start">生產工安</text>
+      <rect x="60" y="170" width="65" height="30" rx="4" fill="#d97706" fill-opacity="0.3" stroke="#f59e0b" stroke-width="1" />
+      <rect x="145" y="170" width="65" height="30" rx="4" fill="#d97706" fill-opacity="0.9" stroke="#f59e0b" stroke-width="1.5" />
+      <rect x="230" y="170" width="65" height="30" rx="4" fill="#d97706" fill-opacity="0.3" stroke="#f59e0b" stroke-width="1" />
+      <rect x="315" y="170" width="65" height="30" rx="4" fill="#d97706" fill-opacity="0.4" stroke="#f59e0b" stroke-width="1" />
+      <rect x="400" y="170" width="65" height="30" rx="4" fill="#d97706" fill-opacity="0.1" stroke="#f59e0b" stroke-width="0.5" />
+      
+      <!-- Values on top of high intensity cells -->
+      <text x="177" y="38" fill="#ffffff" font-size="9" text-anchor="middle">極高熱度</text>
+      <text x="262" y="88" fill="#ffffff" font-size="9" text-anchor="middle">極高熱度</text>
+      <text x="262" y="138" fill="#ffffff" font-size="9" text-anchor="middle">極高熱度</text>
+      <text x="177" y="188" fill="#ffffff" font-size="9" text-anchor="middle">極高熱度</text>
+    </g>
+
+    <!-- Legend for Intensity -->
+    <g transform="translate(24, 290)" font-family="system-ui, sans-serif" font-size="11" font-weight="600">
+      <text x="0" y="12" fill="#9ca3af">熱度分級：</text>
+      <rect x="75" y="0" width="16" height="16" rx="3" fill="#8b5cf6" fill-opacity="0.2" />
+      <rect x="96" y="0" width="16" height="16" rx="3" fill="#8b5cf6" fill-opacity="0.5" />
+      <rect x="117" y="0" width="16" height="16" rx="3" fill="#8b5cf6" fill-opacity="0.8" />
+      <rect x="138" y="0" width="16" height="16" rx="3" fill="#8b5cf6" stroke="#c084fc" stroke-width="1" />
+      <text x="165" y="12" fill="#6b7280">低熱度 ➔ 高熱度分佈</text>
+    </g>
+    
+    <line x1="24" y1="325" x2="466" y2="325" stroke="#25174d" stroke-width="1" />
+    <text x="24" y="350" fill="#6b7280" font-family="system-ui, sans-serif" font-size="11" font-weight="500">此模組為決策中心核心，支援點擊產業與類別進行全局過濾</text>
+  </g>
+
+  <!-- Middle Right: Value Matrix (Quadrant Map) -->
+  <g transform="translate(1070, 235)">
+    <rect width="490" height="370" rx="12" fill="url(#cardGrad)" stroke="#2d1d5f" stroke-width="1.5" stroke-opacity="0.6" />
+    <text x="24" y="34" fill="#ffffff" font-family="system-ui, sans-serif" font-size="16" font-weight="800">Value Matrix / 預算期程性價比象限圖</text>
+    
+    <g transform="translate(30, 65)" font-family="system-ui, sans-serif" font-size="9" font-weight="600" fill="#6b7280">
+      <!-- Axis Lines -->
+      <line x1="45" y1="20" x2="45" y2="210" stroke="#25174d" stroke-width="1.5" />
+      <line x1="45" y1="210" x2="400" y2="210" stroke="#25174d" stroke-width="1.5" />
+      
+      <!-- Axis Arrow Heads -->
+      <path d="M45 15 l-3 6 h6 z" fill="#25174d" />
+      <path d="M405 210 l-6-3 v6 z" fill="#25174d" />
+      
+      <!-- Y Axis Label -->
+      <text x="15" y="24" text-anchor="middle" transform="rotate(-90 15 24)">預算金額 (NT$)</text>
+      <!-- X Axis Label -->
+      <text x="380" y="226" text-anchor="end">期程 (月)</text>
+      
+      <!-- Thresholds (Median) -->
+      <line x1="45" y1="110" x2="400" y2="110" stroke="#2a1b5c" stroke-width="1.5" stroke-dasharray="4 4" />
+      <line x1="220" y1="20" x2="220" y2="210" stroke="#2a1b5c" stroke-width="1.5" stroke-dasharray="4 4" />
+      
+      <!-- Quadrant Labels -->
+      <text x="130" y="35" text-anchor="middle" fill="#6b7280" font-size="8" fill-opacity="0.5">I. 客製 PoC 驗證</text>
+      <text x="310" y="35" text-anchor="middle" fill="#6b7280" font-size="8" fill-opacity="0.5">II. 重型客製化專案</text>
+      <text x="130" y="195" text-anchor="middle" fill="#6b7280" font-size="8" fill-opacity="0.5">III. 輕量嘗鮮區</text>
+      <text x="310" y="195" text-anchor="middle" fill="#6b7280" font-size="8" fill-opacity="0.5">IV. 高性價比 SaaS 首選</text>
+
+      <!-- Bubbles -->
+      <!-- Heavy (Purple) -->
+      <circle cx="320" cy="55" r="9" fill="#c084fc" fill-opacity="0.8" stroke="#ffffff" stroke-width="1.2" filter="url(#glowPurple)" />
+      <text x="320" y="50" fill="#ffffff" font-size="8" text-anchor="middle">工安辨識</text>
+      
+      <!-- PoC (Orange) -->
+      <circle cx="120" cy="70" r="8" fill="#f59e0b" fill-opacity="0.8" stroke="#ffffff" stroke-width="1.2" />
+      <text x="120" y="65" fill="#ffffff" font-size="8" text-anchor="middle">AI顧問</text>
+      
+      <!-- High Value SaaS (Blue) -->
+      <circle cx="300" cy="150" r="11" fill="#38bdf8" fill-opacity="0.8" stroke="#ffffff" stroke-width="1.5" filter="url(#glowBlue)" />
+      <text x="300" y="145" fill="#ffffff" font-size="8" text-anchor="middle">Vital KM+</text>
+      
+      <!-- Light (Green) -->
+      <circle cx="110" cy="160" r="7" fill="#4ade80" fill-opacity="0.8" stroke="#ffffff" stroke-width="1" />
+      <text x="110" y="155" fill="#ffffff" font-size="8" text-anchor="middle">會議記錄</text>
+
+      <!-- Other Dots -->
+      <circle cx="340" cy="170" r="8" fill="#38bdf8" fill-opacity="0.6" stroke="#ffffff" stroke-width="1" />
+      <circle cx="280" cy="80" r="10" fill="#c084fc" fill-opacity="0.7" stroke="#ffffff" stroke-width="1" />
+    </g>
+
+    <!-- Quadrant Insights -->
+    <g transform="translate(24, 290)" font-family="system-ui, sans-serif" font-size="11" font-weight="600" fill="#9ca3af">
+      <text x="0" y="12" fill="#ffffff">📊 象限決策引導：</text>
+      <text x="110" y="12">• 優先尋求 <tspan fill="#38bdf8">IV. 高性價比 SaaS</tspan> 做為中小企業轉型主力</text>
+      <text x="110" y="30">• 導入大型系統前，於 <tspan fill="#f59e0b">I. PoC 區</tspan> 進行快速敏捷試錯</text>
+    </g>
+    
+    <line x1="24" y1="335" x2="466" y2="335" stroke="#25174d" stroke-width="1" />
+    <text x="24" y="354" fill="#6b7280" font-family="system-ui, sans-serif" font-size="11" font-weight="500">以 6 個月與 NT$ 65,000 元作為黃金分割中位數指標</text>
+  </g>
+
+  <!-- ================= BOTTOM ROW: 3 OPERATIONS & ENGINEERING MODULES ================= -->
+  <!-- Bottom Left: ETL Data Pipeline Health -->
+  <g transform="translate(40, 625)">
+    <rect width="490" height="330" rx="12" fill="url(#cardGrad)" stroke="#2d1d5f" stroke-width="1.5" stroke-opacity="0.6" />
+    <text x="24" y="34" fill="#ffffff" font-family="system-ui, sans-serif" font-size="16" font-weight="800">ETL Pipeline Health / 知識庫清洗管道監控</text>
+    
+    <g transform="translate(24, 65)" font-family="system-ui, sans-serif" font-size="12" font-weight="600">
+      <!-- Progress 1 -->
+      <text x="0" y="15" fill="#9ca3af">政府 PDF / API 數據注入率 (Data Ingestion Rate)</text>
+      <text x="400" y="15" fill="#4ade80" font-weight="800">98.5%</text>
+      <rect x="0" y="24" width="440" height="8" rx="4" fill="#1f1440" />
+      <rect x="0" y="24" width="433.4" height="8" rx="4" fill="url(#greenGrad)" />
+      
+      <!-- Progress 2 -->
+      <text x="0" y="65" fill="#9ca3af">知識切片向量化進度 (Embedding Vectorization)</text>
+      <text x="400" y="65" fill="#38bdf8" font-weight="800">100%</text>
+      <rect x="0" y="74" width="440" height="8" rx="4" fill="#1f1440" />
+      <rect x="0" y="74" width="440" height="8" rx="4" fill="url(#blueGrad)" filter="url(#glowBlue)" />
+
+      <!-- Progress 3 -->
+      <text x="0" y="115" fill="#9ca3af">垃圾雜訊與無效字元過濾率 (Noise Filtering Rate)</text>
+      <text x="400" y="115" fill="#c084fc" font-weight="800">92.4%</text>
+      <rect x="0" y="124" width="440" height="8" rx="4" fill="#1f1440" />
+      <rect x="0" y="124" width="406.5" height="8" rx="4" fill="url(#purpleGrad)" />
+
+      <!-- Vector DB Auto-Sync Status -->
+      <g transform="translate(0, 160)">
+        <rect width="440" height="50" rx="8" fill="rgba(255,255,255,0.02)" stroke="#25174d" stroke-width="1" />
+        <text x="16" y="30" fill="#ffffff" font-size="12">向量資料庫排程自動同步 (Vector DB Auto-Sync)</text>
+        <circle cx="375" cy="25" r="5" fill="#4ade80" filter="url(#glowGreen)" />
+        <text x="390" y="30" fill="#4ade80" font-size="12" font-weight="800">ACTIVE</text>
+      </g>
+    </g>
+    
+    <line x1="24" y1="290" x2="466" y2="290" stroke="#25174d" stroke-width="1" />
+    <text x="24" y="312" fill="#6b7280" font-family="system-ui, sans-serif" font-size="11" font-weight="500">本機 ETL 引擎每 6 小時自動對比政府工業館與 Tcloud 最新發布</text>
+  </g>
+
+  <!-- Bottom Center: LLM Token & Cost Trend -->
+  <g transform="translate(555, 625)">
+    <rect width="490" height="330" rx="12" fill="url(#cardGrad)" stroke="#2d1d5f" stroke-width="1.5" stroke-opacity="0.6" />
+    <text x="24" y="34" fill="#ffffff" font-family="system-ui, sans-serif" font-size="16" font-weight="800">Token &amp; Cost Trend / 預算與 Token 消耗實時監控</text>
+    
+    <!-- Line Chart (Width 400, Height 170, origin x=40, y=210) -->
+    <g transform="translate(30, 55)" font-family="system-ui, sans-serif" font-size="9" font-weight="600" fill="#6b7280">
+      <!-- Grid lines -->
+      <line x1="40" y1="30" x2="420" y2="30" stroke="#1c113b" stroke-width="1" />
+      <line x1="40" y1="70" x2="420" y2="70" stroke="#1c113b" stroke-width="1" />
+      <line x1="40" y1="110" x2="420" y2="110" stroke="#1c113b" stroke-width="1" />
+      <line x1="40" y1="150" x2="420" y2="150" stroke="#1c113b" stroke-width="1" />
+      <line x1="40" y1="190" x2="420" y2="190" stroke="#25174d" stroke-width="1.5" />
+      <line x1="40" y1="30" x2="40" y2="190" stroke="#25174d" stroke-width="1.5" />
+
+      <!-- Y Axis Labels -->
+      <text x="30" y="33" text-anchor="end">1,000K</text>
+      <text x="30" y="73" text-anchor="end">750K</text>
+      <text x="30" y="113" text-anchor="end">500K</text>
+      <text x="30" y="153" text-anchor="end">250K</text>
+      <text x="30" y="193" text-anchor="end">0</text>
+
+      <!-- X Axis Labels -->
+      <text x="40" y="205" text-anchor="middle">09:00</text>
+      <text x="135" y="205" text-anchor="middle">11:00</text>
+      <text x="230" y="205" text-anchor="middle">13:00</text>
+      <text x="325" y="205" text-anchor="middle">15:00</text>
+      <text x="420" y="205" text-anchor="middle">17:00</text>
+
+      <!-- Curve 1: Without Caching (v1) - Orange (Steep Climb) -->
+      <path d="M40 190 Q 135 150, 230 90 T 325 50 T 420 35" fill="none" stroke="#f59e0b" stroke-width="2" stroke-dasharray="3 3" />
+      <circle cx="420" cy="35" r="4" fill="#f59e0b" />
+      <text x="420" y="25" fill="#f59e0b" font-size="8" text-anchor="end">未啟用快取 (無 Context Caching)</text>
+
+      <!-- Curve 2: With Caching (v2) - Blue (Flattens out) -->
+      <!-- Fast initial climb then flat due to caching -->
+      <path d="M40 190 Q 135 175, 230 165 T 325 160 T 420 158" fill="none" stroke="#38bdf8" stroke-width="3" filter="url(#glowBlue)" />
+      <circle cx="420" cy="158" r="4" fill="#38bdf8" />
+      <text x="420" y="148" fill="#38bdf8" font-size="8" text-anchor="end">優化版 v2 (已節省 90% 成本)</text>
+    </g>
+
+    <!-- Legend & Caching Info -->
+    <g transform="translate(24, 275)" font-family="system-ui, sans-serif" font-size="11" font-weight="600">
+      <text x="0" y="12" fill="#ffffff">💡 數據洞察：</text>
+      <text x="75" y="12" fill="#4ade80">透過 Gemini Context Caching 機制，長對話 Token 重複查詢成本大降 90.4%！</text>
+    </g>
+    
+    <line x1="24" y1="295" x2="466" y2="295" stroke="#25174d" stroke-width="1" />
+    <text x="24" y="314" fill="#6b7280" font-family="system-ui, sans-serif" font-size="11" font-weight="500">每日實時 Token 消耗以 KB 為單位，反映企業內部多角色使用之負載</text>
+  </g>
+
+  <!-- Bottom Right: Multi-Agent Collaboration Queue -->
+  <g transform="translate(1070, 625)">
+    <rect width="490" height="330" rx="12" fill="url(#cardGrad)" stroke="#2d1d5f" stroke-width="1.5" stroke-opacity="0.6" />
+    <text x="24" y="34" fill="#ffffff" font-family="system-ui, sans-serif" font-size="16" font-weight="800">Multi-Agent Queue / 多智能體自治協同佇列</text>
+    
+    <g transform="translate(24, 65)" font-family="system-ui, sans-serif" font-size="11" font-weight="700">
+      <!-- Agent 1 -->
+      <g transform="translate(0, 0)">
+        <rect width="440" height="42" rx="6" fill="rgba(255,255,255,0.01)" stroke="#1f1440" stroke-width="1" />
+        <circle cx="24" cy="21" r="5" fill="#4ade80" filter="url(#glowGreen)" />
+        <text x="40" y="25" fill="#ffffff" font-size="12">ETL-Data-Cleaner-Agent (資料清洗去重)</text>
+        <rect x="360" y="11" width="65" height="20" rx="4" fill="rgba(74, 222, 128, 0.1)" />
+        <text x="392" y="25" fill="#4ade80" text-anchor="middle">🟢 IDLE</text>
+      </g>
+
+      <!-- Agent 2 -->
+      <g transform="translate(0, 52)">
+        <rect width="440" height="42" rx="6" fill="rgba(255,255,255,0.01)" stroke="#1f1440" stroke-width="1" />
+        <circle cx="24" cy="21" r="5" fill="#38bdf8" filter="url(#glowBlue)" />
+        <text x="40" y="25" fill="#ffffff" font-size="12">RAG-Semantic-Search-Agent (語意檢索)</text>
+        <rect x="360" y="11" width="65" height="20" rx="4" fill="rgba(56, 189, 248, 0.15)" />
+        <text x="392" y="25" fill="#38bdf8" text-anchor="middle">🔵 RUNNING</text>
+      </g>
+
+      <!-- Agent 3 -->
+      <g transform="translate(0, 104)">
+        <rect width="440" height="42" rx="6" fill="rgba(255,255,255,0.01)" stroke="#1f1440" stroke-width="1" />
+        <circle cx="24" cy="21" r="5" fill="#4ade80" filter="url(#glowGreen)" />
+        <text x="40" y="25" fill="#ffffff" font-size="12">Report-Generator-Agent (一鍵診斷報告)</text>
+        <rect x="360" y="11" width="65" height="20" rx="4" fill="rgba(74, 222, 128, 0.1)" />
+        <text x="392" y="25" fill="#4ade80" text-anchor="middle">🟢 IDLE</text>
+      </g>
+
+      <!-- Agent 4 -->
+      <g transform="translate(0, 156)">
+        <rect width="440" height="42" rx="6" fill="rgba(255,255,255,0.01)" stroke="#1f1440" stroke-width="1" />
+        <circle cx="24" cy="21" r="5" fill="#38bdf8" filter="url(#glowBlue)" />
+        <text x="40" y="25" fill="#ffffff" font-size="12">Audit-Logger-Agent (操作安全與歷程稽核)</text>
+        <rect x="360" y="11" width="65" height="20" rx="4" fill="rgba(56, 189, 248, 0.15)" />
+        <text x="392" y="25" fill="#38bdf8" text-anchor="middle">🔵 RUNNING</text>
+      </g>
+    </g>
+    
+    <line x1="24" y1="290" x2="466" y2="290" stroke="#25174d" stroke-width="1" />
+    <text x="24" y="312" fill="#6b7280" font-family="system-ui, sans-serif" font-size="11" font-weight="500">協同佇列反映後台 Micro-Agents 工作流之即時運行狀態</text>
+  </g>
+</svg>

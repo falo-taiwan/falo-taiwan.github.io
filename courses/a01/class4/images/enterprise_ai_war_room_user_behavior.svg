@@ -1,0 +1,309 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000" width="1600" height="1000">
+  <defs>
+    <!-- Background Gradient -->
+    <radialGradient id="bgGrad" cx="50%" cy="50%" r="70%">
+      <stop offset="0%" stop-color="#090518" />
+      <stop offset="100%" stop-color="#020108" />
+    </radialGradient>
+    
+    <!-- Card Gradients -->
+    <linearGradient id="cardGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#150a2e" stop-opacity="0.8" />
+      <stop offset="100%" stop-color="#06020c" stop-opacity="0.8" />
+    </linearGradient>
+    
+    <!-- Glow Filters -->
+    <filter id="glowBlue" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="6" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+    <filter id="glowGreen" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="6" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+    <filter id="glowRed" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="6" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+    
+    <!-- Accent Gradients -->
+    <linearGradient id="blueGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#38bdf8" />
+      <stop offset="100%" stop-color="#0284c7" />
+    </linearGradient>
+    <linearGradient id="purpleGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#c084fc" />
+      <stop offset="100%" stop-color="#8b5cf6" />
+    </linearGradient>
+    <linearGradient id="greenGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#4ade80" />
+      <stop offset="100%" stop-color="#16a34a" />
+    </linearGradient>
+    <linearGradient id="orangeGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#f59e0b" />
+      <stop offset="100%" stop-color="#d97706" />
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1600" height="1000" fill="url(#bgGrad)" />
+  <rect width="1598" height="998" x="1" y="1" rx="16" fill="none" stroke="#2a1b5c" stroke-width="2" stroke-opacity="0.5" />
+
+  <!-- ================= HEADER ================= -->
+  <g transform="translate(40, 35)">
+    <text x="0" y="24" fill="#ffffff" font-family="system-ui, sans-serif" font-size="28" font-weight="900" letter-spacing="1.5">企業級 AI 用戶行為與運維審計系統 (User Behavior &amp; Operations Audit)</text>
+    <text x="0" y="48" fill="#9ca3af" font-family="system-ui, sans-serif" font-size="14" font-weight="500">ETL 閉環之 Load (L) 階段實踐 ─ 用戶查詢日誌、RAG 回答滿意度、實時 Token 成本與資安防禦指揮大屏</text>
+    <text x="1330" y="24" fill="#38bdf8" font-family="system-ui, sans-serif" font-size="13" font-weight="800" letter-spacing="1">Falo × Force Cheng</text>
+    <text x="1460" y="24" fill="#6b7280" font-family="system-ui, sans-serif" font-size="13" font-weight="500">2026/06/25</text>
+    <line x1="0" y1="65" x2="1520" y2="65" stroke="#2d1d5f" stroke-width="1.5" stroke-opacity="0.8" />
+  </g>
+
+  <!-- ================= TOP ROW: 5 KPI CARDS ================= -->
+  <!-- Card 1: Total Queries -->
+  <g transform="translate(40, 120)">
+    <rect width="280" height="90" rx="12" fill="url(#cardGrad)" stroke="#38bdf8" stroke-width="1.5" stroke-opacity="0.3" />
+    <text x="20" y="28" fill="#9ca3af" font-family="system-ui, sans-serif" font-size="11" font-weight="700" letter-spacing="0.5">TOTAL QUERIES / 今日總查詢</text>
+    <text x="20" y="68" fill="#38bdf8" font-family="system-ui, sans-serif" font-size="36" font-weight="900" filter="url(#glowBlue)">1,248 <tspan font-size="16" font-weight="700" fill="#9ca3af"> 次</tspan></text>
+    <rect x="220" y="15" width="40" height="40" rx="8" fill="rgba(56, 189, 248, 0.08)" />
+    <!-- Chat Icon -->
+    <path d="M228 35h12v-10h-20v14l4-4h4z" fill="#38bdf8" />
+  </g>
+
+  <!-- Card 2: Thumbs-up Rate -->
+  <g transform="translate(350, 120)">
+    <rect width="280" height="90" rx="12" fill="url(#cardGrad)" stroke="#4ade80" stroke-width="1.5" stroke-opacity="0.3" />
+    <text x="20" y="28" fill="#9ca3af" font-family="system-ui, sans-serif" font-size="11" font-weight="700" letter-spacing="0.5">THUMBS-UP RATE / 當日好評率</text>
+    <text x="20" y="68" fill="#4ade80" font-family="system-ui, sans-serif" font-size="36" font-weight="900" filter="url(#glowGreen)">89.2% <tspan font-size="16" font-weight="700" fill="#9ca3af"> 👍</tspan></text>
+    <rect x="220" y="15" width="40" height="40" rx="8" fill="rgba(74, 222, 128, 0.08)" />
+    <!-- Thumbs up Icon -->
+    <path d="M228 35a3 3 0 0 0 3 3h6v-8l-2-4h-2l-1 4h-4v5z" fill="#4ade80" />
+  </g>
+
+  <!-- Card 3: Security Alerts -->
+  <g transform="translate(660, 120)">
+    <rect width="280" height="90" rx="12" fill="url(#cardGrad)" stroke="#ef4444" stroke-width="1.5" stroke-opacity="0.3" />
+    <text x="20" y="28" fill="#9ca3af" font-family="system-ui, sans-serif" font-size="11" font-weight="700" letter-spacing="0.5">SECURITY ALERTS / 攻擊攔截</text>
+    <text x="20" y="68" fill="#ef4444" font-family="system-ui, sans-serif" font-size="36" font-weight="900" filter="url(#glowRed)">8 <tspan font-size="16" font-weight="700" fill="#9ca3af"> 次攔截</tspan></text>
+    <rect x="220" y="15" width="40" height="40" rx="8" fill="rgba(239, 68, 68, 0.08)" />
+    <!-- Shield Alert Icon -->
+    <path d="M240 23l-10 4v10a10 10 0 0 0 10 10 10 10 0 0 0 10-10v-10zm-1 6h2v10h-2zm0 12h2v2h-2z" fill="#ef4444" />
+  </g>
+
+  <!-- Card 4: Daily Token Save -->
+  <g transform="translate(970, 120)">
+    <rect width="280" height="90" rx="12" fill="url(#cardGrad)" stroke="#e9d5ff" stroke-width="1.5" stroke-opacity="0.3" />
+    <text x="20" y="28" fill="#9ca3af" font-family="system-ui, sans-serif" font-size="11" font-weight="700" letter-spacing="0.5">TOKEN SAVED / 快取節省 Token</text>
+    <text x="20" y="68" fill="#c084fc" font-family="system-ui, sans-serif" font-size="36" font-weight="900">90.4% <tspan font-size="16" font-weight="700" fill="#9ca3af"> 節能</tspan></text>
+    <rect x="220" y="15" width="40" height="40" rx="8" fill="rgba(192, 132, 252, 0.08)" />
+    <!-- Save Icon -->
+    <path d="M230 25h10v6h-10zm0 10h10v10h-10zm-5-15h20v30h-20z" fill="#c084fc" />
+  </g>
+
+  <!-- Card 5: API Status -->
+  <g transform="translate(1280, 120)">
+    <rect width="280" height="90" rx="12" fill="url(#cardGrad)" stroke="#14b8a6" stroke-width="1.5" stroke-opacity="0.3" />
+    <text x="20" y="28" fill="#9ca3af" font-family="system-ui, sans-serif" font-size="11" font-weight="700" letter-spacing="0.5">API STATUS / 雲端連線狀態</text>
+    <text x="20" y="68" fill="#14b8a6" font-family="system-ui, sans-serif" font-size="32" font-weight="900">ACTIVE <tspan font-size="16" font-weight="700" fill="#9ca3af"> / 安全</tspan></text>
+    <rect x="220" y="15" width="40" height="40" rx="8" fill="rgba(20, 184, 166, 0.08)" />
+    <!-- Server Icon -->
+    <rect x="228" y="25" width="24" height="6" rx="1" fill="#14b8a6" />
+    <rect x="228" y="35" width="24" height="6" rx="1" fill="#14b8a6" />
+    <rect x="228" y="45" width="24" height="6" rx="1" fill="#14b8a6" />
+  </g>
+
+  <!-- ================= BOTTOM ROW (4 MODULES) ================= -->
+  <!-- Bottom Left: Top Queries Bar Chart -->
+  <g transform="translate(40, 235)">
+    <rect width="490" height="360" rx="12" fill="url(#cardGrad)" stroke="#2d1d5f" stroke-width="1.5" stroke-opacity="0.6" />
+    <text x="24" y="34" fill="#ffffff" font-family="system-ui, sans-serif" font-size="15" font-weight="800">Top Queries &amp; Knowledge Gap / 熱門搜尋與知識缺口</text>
+    
+    <g transform="translate(24, 60)" font-family="system-ui, sans-serif" font-size="11" font-weight="600" fill="#9ca3af">
+      <!-- Item 1 -->
+      <text x="0" y="20" font-size="12" fill="#ffffff">1. 資安成熟度補助 (Security Grant)</text>
+      <rect x="0" y="30" width="440" height="12" rx="4" fill="#1c113b" />
+      <rect x="0" y="30" width="380" height="12" rx="4" fill="url(#purpleGrad)" />
+      <text x="390" y="22" fill="#c084fc" font-weight="800">48次</text>
+
+      <!-- Item 2 -->
+      <text x="0" y="70" font-size="12" fill="#ffffff">2. 研發經費自籌比例 (R&amp;D Co-funding)</text>
+      <rect x="0" y="80" width="440" height="12" rx="4" fill="#1c113b" />
+      <rect x="0" y="80" width="300" height="12" rx="4" fill="url(#blueGrad)" />
+      <text x="310" y="72" fill="#38bdf8" font-weight="800">36次</text>
+
+      <!-- Item 3 -->
+      <text x="0" y="120" font-size="12" fill="#ffffff">3. 智慧製造升級專案 (Smart Manufacturing)</text>
+      <rect x="0" y="130" width="440" height="12" rx="4" fill="#1c113b" />
+      <rect x="0" y="130" width="240" height="12" rx="4" fill="url(#greenGrad)" />
+      <text x="250" y="122" fill="#4ade80" font-weight="800">28次</text>
+
+      <!-- Item 4 -->
+      <text x="0" y="170" font-size="12" fill="#ffffff">4. 人資訓練補助條件 (HR Training)</text>
+      <rect x="0" y="180" width="440" height="12" rx="4" fill="#1c113b" />
+      <rect x="0" y="180" width="180" height="12" rx="4" fill="url(#orangeGrad)" />
+      <text x="190" y="172" fill="#f59e0b" font-weight="800">22次</text>
+
+      <!-- Item 5 -->
+      <text x="0" y="220" font-size="12" fill="#ffffff">5. 碳盤查與減碳補助 (Carbon Audit)</text>
+      <rect x="0" y="230" width="440" height="12" rx="4" fill="#1c113b" />
+      <rect x="0" y="230" width="120" height="12" rx="4" fill="#1c113b" stroke="#6b7280" stroke-width="0.5" />
+      <rect x="0" y="230" width="120" height="12" rx="4" fill="#6b7280" />
+      <text x="130" y="222" fill="#9ca3af" font-weight="800">15次</text>
+    </g>
+    
+    <line x1="24" y1="310" x2="466" y2="310" stroke="#25174d" stroke-width="1" />
+    <text x="24" y="334" fill="#6b7280" font-family="system-ui, sans-serif" font-size="11" font-weight="500">高頻率查詢但低滿意度字詞，代表需要增量 ETL 清洗的知識缺口</text>
+  </g>
+
+  <!-- Bottom Center-Left: Radial Satisfaction Gauge -->
+  <g transform="translate(555, 235)">
+    <rect width="490" height="360" rx="12" fill="url(#cardGrad)" stroke="#2d1d5f" stroke-width="1.5" stroke-opacity="0.6" />
+    <text x="24" y="34" fill="#ffffff" font-family="system-ui, sans-serif" font-size="15" font-weight="800">RAG Feedback &amp; Quality / 滿意度與回答質量評估</text>
+    
+    <!-- Gauge (Center 245, 175) -->
+    <path d="M 125 190 A 120 120 0 0 1 365 190" fill="none" stroke="#1c113b" stroke-width="26" stroke-linecap="round" />
+    <!-- 89.2% path (Arc from left to right, angle = 89.2% of 180 = 160.5 degrees) -->
+    <!-- dasharray calculation: semi-perimeter = pi * r = 3.14159 * 120 = 377. Let's use dasharray and dashoffset -->
+    <circle cx="245" cy="190" r="120" fill="none" stroke="url(#greenGrad)" stroke-width="26" 
+            stroke-dasharray="377" stroke-dashoffset="40.7" transform="rotate(-180 245 190)" stroke-linecap="round" filter="url(#glowGreen)" />
+            
+    <text x="245" y="150" text-anchor="middle" fill="#ffffff" font-family="system-ui, sans-serif" font-size="13" font-weight="600">實時查詢好評率</text>
+    <text x="245" y="185" text-anchor="middle" fill="#4ade80" font-family="system-ui, sans-serif" font-size="32" font-weight="900" filter="url(#glowGreen)">89.2%</text>
+
+    <!-- Thumbs Stats -->
+    <g transform="translate(60, 225)" font-family="system-ui, sans-serif" font-size="12" font-weight="600">
+      <text x="0" y="15" fill="#4ade80">👍 Thumbs-up / 實用解答：1,113 次 (89.2%)</text>
+      <text x="0" y="35" fill="#ef4444">👎 Thumbs-down / 答非所問：135 次 (10.8%)</text>
+      <text x="0" y="55" fill="#f59e0b">⚠️ No-Match / 觸發安全防禦降級：56 次 (4.5%)</text>
+    </g>
+    
+    <line x1="24" y1="310" x2="466" y2="310" stroke="#25174d" stroke-width="1" />
+    <text x="24" y="334" fill="#6b7280" font-family="system-ui, sans-serif" font-size="11" font-weight="500">好評率大於 85% 代表 RAG 向量切片檢索召回精度合格</text>
+  </g>
+
+  <!-- Bottom Center-Right: Cache Trend Line Chart -->
+  <g transform="translate(40, 610)">
+    <rect width="720" height="350" rx="12" fill="url(#cardGrad)" stroke="#2d1d5f" stroke-width="1.5" stroke-opacity="0.6" />
+    <text x="30" y="38" fill="#ffffff" font-family="system-ui, sans-serif" font-size="15" font-weight="800">Token &amp; Budget Savings Trend / 預算與 Token 快取節費走勢</text>
+    
+    <!-- Line Chart (Width 600, Height 180, origin x=60, y=210) -->
+    <g transform="translate(30, 60)" font-family="system-ui, sans-serif" font-size="10" font-weight="600" fill="#6b7280">
+      <!-- Grid lines -->
+      <line x1="60" y1="30" x2="630" y2="30" stroke="#1c113b" stroke-width="1" />
+      <line x1="60" y1="70" x2="630" y2="70" stroke="#1c113b" stroke-width="1" />
+      <line x1="60" y1="110" x2="630" y2="110" stroke="#1c113b" stroke-width="1" />
+      <line x1="60" y1="150" x2="630" y2="150" stroke="#1c113b" stroke-width="1" />
+      <line x1="60" y1="190" x2="630" y2="190" stroke="#25174d" stroke-width="1.5" />
+      <line x1="60" y1="30" x2="60" y2="190" stroke="#25174d" stroke-width="1.5" />
+
+      <!-- Y Axis Labels -->
+      <text x="50" y="33" text-anchor="end">1,000K</text>
+      <text x="50" y="73" text-anchor="end">750K</text>
+      <text x="50" y="113" text-anchor="end">500K</text>
+      <text x="50" y="153" text-anchor="end">250K</text>
+      <text x="50" y="193" text-anchor="end">0</text>
+
+      <!-- X Axis Labels -->
+      <text x="60" y="205" text-anchor="middle">09:00</text>
+      <text x="202" y="205" text-anchor="middle">11:00</text>
+      <text x="345" y="205" text-anchor="middle">13:00</text>
+      <text x="487" y="205" text-anchor="middle">15:00</text>
+      <text x="630" y="205" text-anchor="middle">17:00</text>
+
+      <!-- Curve 1: Without Caching - Orange -->
+      <path d="M60 190 Q 202 150, 345 90 T 487 50 T 630 35" fill="none" stroke="#f59e0b" stroke-width="2" stroke-dasharray="3 3" />
+      <circle cx="630" cy="35" r="4" fill="#f59e0b" />
+      <text x="620" y="23" fill="#f59e0b" font-size="8" text-anchor="end">未啟用快取 (無 Context Caching)</text>
+
+      <!-- Curve 2: With Caching - Blue -->
+      <path d="M60 190 Q 202 175, 345 165 T 487 160 T 630 158" fill="none" stroke="#38bdf8" stroke-width="3" filter="url(#glowBlue)" />
+      <circle cx="630" cy="158" r="4" fill="#38bdf8" />
+      <text x="620" y="146" fill="#38bdf8" font-size="8" text-anchor="end">優化版 v2 (已啟用快取大省 90% 成本)</text>
+    </g>
+
+    <!-- Insights -->
+    <g transform="translate(30, 290)" font-family="system-ui, sans-serif" font-size="12" font-weight="600">
+      <text x="0" y="12" fill="#ffffff">💡 落地經濟學數據：</text>
+      <text x="130" y="12" fill="#4ade80">當日累計查詢呼叫，快取為企業節省約合新台幣 NT$ 12,480 元 API Token 開銷！</text>
+    </g>
+  </g>
+
+  <!-- Bottom Right: Security Alarm & Agent Queue -->
+  <g transform="translate(800, 235)">
+    <!-- Main panel taking right half bottom row (combined with Agent queue and alarm) -->
+    <rect width="760" height="725" rx="12" fill="url(#cardGrad)" stroke="#2d1d5f" stroke-width="1.5" stroke-opacity="0.6" />
+    <text x="30" y="40" fill="#ffffff" font-family="system-ui, sans-serif" font-size="18" font-weight="800">Security Gatekeeper &amp; Agents / 智能安全與協作佇列</text>
+    
+    <!-- Security Alarm sub-panel -->
+    <g transform="translate(30, 80)">
+      <rect width="700" height="180" rx="8" fill="rgba(239, 68, 68, 0.02)" stroke="#ef4444" stroke-width="1.2" stroke-opacity="0.2" />
+      <text x="24" y="34" fill="#ffffff" font-family="system-ui, sans-serif" font-size="14" font-weight="800">🚨 實時合規與資安威脅警報 (Security Telemetry)</text>
+      
+      <!-- Alarm metric 1 -->
+      <g transform="translate(24, 60)">
+        <rect width="180" height="80" rx="6" fill="#180c12" stroke="#ef4444" stroke-width="1" stroke-opacity="0.5" />
+        <text x="16" y="24" fill="#9ca3af" font-family="system-ui, sans-serif" font-size="11" font-weight="700">PROMPT 注入攔截</text>
+        <text x="16" y="60" fill="#ef4444" font-family="system-ui, sans-serif" font-size="28" font-weight="900" filter="url(#glowRed)">8 <tspan font-size="14" fill="#9ca3af">次</tspan></text>
+      </g>
+      
+      <!-- Alarm metric 2 -->
+      <g transform="translate(228, 60)">
+        <rect width="180" height="80" rx="6" fill="#180c12" stroke="#ef4444" stroke-width="1" stroke-opacity="0.5" />
+        <text x="16" y="24" fill="#9ca3af" font-family="system-ui, sans-serif" font-size="11" font-weight="700">合規敏感詞警告</text>
+        <text x="16" y="60" fill="#f59e0b" font-family="system-ui, sans-serif" font-size="28" font-weight="900">0 <tspan font-size="14" fill="#9ca3af">次</tspan></text>
+      </g>
+
+      <!-- Alarm metric 3 -->
+      <g transform="translate(432, 60)">
+        <rect width="244" height="80" rx="6" fill="rgba(20, 184, 166, 0.03)" stroke="#14b8a6" stroke-width="1" stroke-opacity="0.3" />
+        <text x="16" y="24" fill="#9ca3af" font-family="system-ui, sans-serif" font-size="11" font-weight="700">CORS 跨域異常告警</text>
+        <text x="16" y="60" fill="#14b8a6" font-family="system-ui, sans-serif" font-size="28" font-weight="900">0 <tspan font-size="14" fill="#9ca3af">次 (內網安全)</tspan></text>
+      </g>
+    </g>
+
+    <!-- Multi-Agent Queue sub-panel -->
+    <g transform="translate(30, 290)">
+      <text x="0" y="30" fill="#ffffff" font-family="system-ui, sans-serif" font-size="15" font-weight="800">🤖 Micro-Agents Collaboration Queue / 智能體自治協同佇列</text>
+      
+      <g transform="translate(0, 50)" font-family="system-ui, sans-serif" font-size="12" font-weight="700">
+        <!-- Agent 1 -->
+        <g transform="translate(0, 0)">
+          <rect width="700" height="50" rx="6" fill="rgba(255,255,255,0.01)" stroke="#1c113b" stroke-width="1" />
+          <circle cx="24" cy="25" r="5" fill="#4ade80" filter="url(#glowGreen)" />
+          <text x="44" y="29" fill="#ffffff" font-size="12">ETL-Data-Cleaner-Agent (政府資料增量清洗去重)</text>
+          <rect x="610" y="13" width="70" height="24" rx="4" fill="rgba(74, 222, 128, 0.1)" />
+          <text x="645" y="29" fill="#4ade80" text-anchor="middle" font-size="11">🟢 IDLE</text>
+        </g>
+
+        <!-- Agent 2 -->
+        <g transform="translate(0, 62)">
+          <rect width="700" height="50" rx="6" fill="rgba(255,255,255,0.01)" stroke="#1c113b" stroke-width="1" />
+          <circle cx="24" cy="25" r="5" fill="#38bdf8" filter="url(#glowBlue)" />
+          <text x="44" y="29" fill="#ffffff" font-size="12">RAG-Semantic-Search-Agent (Cosine 向量相似度檢索)</text>
+          <rect x="610" y="13" width="70" height="24" rx="4" fill="rgba(56, 189, 248, 0.15)" />
+          <text x="645" y="29" fill="#38bdf8" text-anchor="middle" font-size="11">🔵 RUNNING</text>
+        </g>
+
+        <!-- Agent 3 -->
+        <g transform="translate(0, 124)">
+          <rect width="700" height="50" rx="6" fill="rgba(255,255,255,0.01)" stroke="#1c113b" stroke-width="1" />
+          <circle cx="24" cy="25" r="5" fill="#4ade80" filter="url(#glowGreen)" />
+          <text x="44" y="29" fill="#ffffff" font-size="12">Report-Generator-Agent (Notion 建議書結構化 JSON 生成)</text>
+          <rect x="610" y="13" width="70" height="24" rx="4" fill="rgba(74, 222, 128, 0.1)" />
+          <text x="645" y="29" fill="#4ade80" text-anchor="middle" font-size="11">🟢 IDLE</text>
+        </g>
+
+        <!-- Agent 4 -->
+        <g transform="translate(0, 186)">
+          <rect width="700" height="50" rx="6" fill="rgba(255,255,255,0.01)" stroke="#1c113b" stroke-width="1" />
+          <circle cx="24" cy="25" r="5" fill="#38bdf8" filter="url(#glowBlue)" />
+          <text x="44" y="29" fill="#ffffff" font-size="12">Audit-Logger-Agent (API 呼叫歷程與操作安全稽核日誌)</text>
+          <rect x="610" y="13" width="70" height="24" rx="4" fill="rgba(56, 189, 248, 0.15)" />
+          <text x="645" y="29" fill="#38bdf8" text-anchor="middle" font-size="11">🔵 RUNNING</text>
+        </g>
+      </g>
+    </g>
+    
+    <line x1="30" y1="655" x2="730" y2="655" stroke="#25174d" stroke-width="1" />
+    <text x="30" y="682" fill="#6b7280" font-family="system-ui, sans-serif" font-size="12" font-weight="500">此模組為運維人員指揮中樞，確保 RAG 架構在內網/外網環境的安全合規運行</text>
+  </g>
+</svg>

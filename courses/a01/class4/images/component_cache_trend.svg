@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 400" width="500" height="400">
+  <defs>
+    <linearGradient id="cardGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#180f35" stop-opacity="0.9" />
+      <stop offset="100%" stop-color="#080314" stop-opacity="0.9" />
+    </linearGradient>
+    <filter id="glowBlue" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="4" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <!-- Background Card -->
+  <rect width="500" height="400" fill="#020108" rx="12" stroke="#25174d" stroke-width="1.5" />
+  <rect width="496" height="396" x="2" y="2" rx="10" fill="url(#cardGrad)" />
+
+  <text x="24" y="36" fill="#ffffff" font-family="system-ui, sans-serif" font-size="16" font-weight="800">Token &amp; Budget Savings / 預算與 Token 快取節費</text>
+
+  <!-- Line Chart (Width 400, Height 170, origin x=50, y=190 in local space) -->
+  <g transform="translate(20, 60)" font-family="system-ui, sans-serif" font-size="9" font-weight="600" fill="#6b7280">
+    <!-- Grid lines -->
+    <line x1="50" y1="30" x2="430" y2="30" stroke="#1c113b" stroke-width="1" />
+    <line x1="50" y1="70" x2="430" y2="70" stroke="#1c113b" stroke-width="1" />
+    <line x1="50" y1="110" x2="430" y2="110" stroke="#1c113b" stroke-width="1" />
+    <line x1="50" y1="150" x2="430" y2="150" stroke="#1c113b" stroke-width="1" />
+    <line x1="50" y1="190" x2="430" y2="190" stroke="#25174d" stroke-width="1.5" />
+    <line x1="50" y1="30" x2="50" y2="190" stroke="#25174d" stroke-width="1.5" />
+
+    <!-- Y Axis Labels -->
+    <text x="40" y="33" text-anchor="end">1,000K</text>
+    <text x="40" y="73" text-anchor="end">750K</text>
+    <text x="40" y="113" text-anchor="end">500K</text>
+    <text x="40" y="153" text-anchor="end">250K</text>
+    <text x="40" y="193" text-anchor="end">0</text>
+
+    <!-- X Axis Labels -->
+    <text x="50" y="205" text-anchor="middle">09:00</text>
+    <text x="145" y="205" text-anchor="middle">11:00</text>
+    <text x="240" y="205" text-anchor="middle">13:00</text>
+    <text x="335" y="205" text-anchor="middle">15:00</text>
+    <text x="430" y="205" text-anchor="middle">17:00</text>
+
+    <!-- Curve 1: Without Caching - Orange -->
+    <path d="M50 190 Q 145 150, 240 90 T 335 50 T 430 35" fill="none" stroke="#f59e0b" stroke-width="2" stroke-dasharray="3 3" />
+    <circle cx="430" cy="35" r="4" fill="#f59e0b" />
+    <text x="420" y="23" fill="#f59e0b" font-size="8" text-anchor="end">未啟用快取 (無 Context Caching)</text>
+
+    <!-- Curve 2: With Caching - Blue -->
+    <path d="M50 190 Q 145 175, 240 165 T 335 160 T 430 158" fill="none" stroke="#38bdf8" stroke-width="3" filter="url(#glowBlue)" />
+    <circle cx="430" cy="158" r="4" fill="#38bdf8" />
+    <text x="420" y="146" fill="#38bdf8" font-size="8" text-anchor="end">優化版 v2 (已啟用快取大省 90% 成本)</text>
+  </g>
+
+  <!-- Insights -->
+  <g transform="translate(24, 285)" font-family="system-ui, sans-serif" font-size="11" font-weight="600">
+    <text x="0" y="12" fill="#ffffff">💡 落地經濟學數據：</text>
+    <text x="115" y="12" fill="#4ade80">當日快取已為企業節省約合 NT$ 12,480 元 API 開銷</text>
+  </g>
+  
+  <line x1="24" y1="320" x2="476" y2="320" stroke="#25174d" stroke-width="1" />
+  <text x="24" y="348" fill="#6b7280" font-family="system-ui, sans-serif" font-size="11" font-weight="500">每日實時 Token 消耗以 KB 為單位，反映系統的呼叫負載與成本走勢</text>
+</svg>

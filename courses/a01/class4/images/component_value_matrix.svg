@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 400" width="500" height="400">
+  <defs>
+    <linearGradient id="cardGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#180f35" stop-opacity="0.9" />
+      <stop offset="100%" stop-color="#080314" stop-opacity="0.9" />
+    </linearGradient>
+    <filter id="glowBlue" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="4" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+    <filter id="glowPurple" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="4" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <!-- Background Card -->
+  <rect width="500" height="400" fill="#020108" rx="12" stroke="#25174d" stroke-width="1.5" />
+  <rect width="496" height="396" x="2" y="2" rx="10" fill="url(#cardGrad)" />
+
+  <text x="24" y="36" fill="#ffffff" font-family="system-ui, sans-serif" font-size="16" font-weight="800">Value Matrix / 預算期程性價比象限圖</text>
+
+  <g transform="translate(24, 65)" font-family="system-ui, sans-serif" font-size="9" font-weight="600" fill="#6b7280">
+    <!-- Axis Lines -->
+    <line x1="45" y1="20" x2="45" y2="210" stroke="#25174d" stroke-width="1.5" />
+    <line x1="45" y1="210" x2="420" y2="210" stroke="#25174d" stroke-width="1.5" />
+    
+    <!-- Axis Arrow Heads -->
+    <path d="M45 15 l-3 6 h6 z" fill="#25174d" />
+    <path d="M425 210 l-6-3 v6 z" fill="#25174d" />
+    
+    <!-- Y Axis Label -->
+    <text x="15" y="24" text-anchor="middle" transform="rotate(-90 15 24)">預算金額 (NT$)</text>
+    <!-- X Axis Label -->
+    <text x="400" y="226" text-anchor="end">期程 (月)</text>
+    
+    <!-- Thresholds (Median) -->
+    <line x1="45" y1="110" x2="420" y2="110" stroke="#2a1b5c" stroke-width="1.5" stroke-dasharray="4 4" />
+    <line x1="225" y1="20" x2="225" y2="210" stroke="#2a1b5c" stroke-width="1.5" stroke-dasharray="4 4" />
+    
+    <!-- Quadrant Labels -->
+    <text x="135" y="35" text-anchor="middle" fill="#6b7280" font-size="8" fill-opacity="0.5">I. 客製 PoC 驗證</text>
+    <text x="325" y="35" text-anchor="middle" fill="#6b7280" font-size="8" fill-opacity="0.5">II. 重型客製化專案</text>
+    <text x="135" y="195" text-anchor="middle" fill="#6b7280" font-size="8" fill-opacity="0.5">III. 輕量嘗鮮區</text>
+    <text x="325" y="195" text-anchor="middle" fill="#6b7280" font-size="8" fill-opacity="0.5">IV. 高性價比 SaaS 首選</text>
+
+    <!-- Bubbles -->
+    <!-- Heavy (Purple) -->
+    <circle cx="320" cy="55" r="9" fill="#c084fc" fill-opacity="0.8" stroke="#ffffff" stroke-width="1.2" filter="url(#glowPurple)" />
+    <text x="320" y="50" fill="#ffffff" font-size="8" text-anchor="middle">工安辨識</text>
+    
+    <!-- PoC (Orange) -->
+    <circle cx="120" cy="70" r="8" fill="#f59e0b" fill-opacity="0.8" stroke="#ffffff" stroke-width="1.2" />
+    <text x="120" y="65" fill="#ffffff" font-size="8" text-anchor="middle">AI顧問</text>
+    
+    <!-- High Value SaaS (Blue) -->
+    <circle cx="300" cy="150" r="11" fill="#38bdf8" fill-opacity="0.8" stroke="#ffffff" stroke-width="1.5" filter="url(#glowBlue)" />
+    <text x="300" y="145" fill="#ffffff" font-size="8" text-anchor="middle">Vital KM+</text>
+    
+    <!-- Light (Green) -->
+    <circle cx="110" cy="160" r="7" fill="#4ade80" fill-opacity="0.8" stroke="#ffffff" stroke-width="1" />
+    <text x="110" y="155" fill="#ffffff" font-size="8" text-anchor="middle">會議記錄</text>
+
+    <!-- Other Dots -->
+    <circle cx="350" cy="165" r="8" fill="#38bdf8" fill-opacity="0.6" stroke="#ffffff" stroke-width="1" />
+    <circle cx="280" cy="80" r="10" fill="#c084fc" fill-opacity="0.7" stroke="#ffffff" stroke-width="1" />
+  </g>
+
+  <!-- Quadrant Insights -->
+  <g transform="translate(24, 290)" font-family="system-ui, sans-serif" font-size="11" font-weight="600" fill="#9ca3af">
+    <text x="0" y="12" fill="#ffffff">📊 象限決策引導：</text>
+    <text x="110" y="12">• 優先尋求 <tspan fill="#38bdf8">IV. 高性價比 SaaS</tspan> 做為轉型首選</text>
+    <text x="110" y="30">• 導入長期大型系統前，先於 <tspan fill="#f59e0b">I. PoC 區</tspan> 進行快速驗證</text>
+  </g>
+  
+  <line x1="24" y1="335" x2="476" y2="335" stroke="#25174d" stroke-width="1" />
+  <text x="24" y="358" fill="#6b7280" font-family="system-ui, sans-serif" font-size="11" font-weight="500">本圖表以 Bubble 泡泡圖表徵各方案在決策象限之分佈</text>
+</svg>
